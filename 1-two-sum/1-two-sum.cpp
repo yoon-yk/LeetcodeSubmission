@@ -8,6 +8,7 @@ public:
                 if(des==nums[j]){
                     result.push_back(i);
                     result.push_back(j);
+                    return result;
                 }
             }
         }
