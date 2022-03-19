@@ -17,8 +17,7 @@ public:
 
         int start = left; // beginning of sorted array
         left = 0; right = nums.size()-1; 
-        if (target == nums[left]) return left;
-        else if (target <= nums[right] && target >= nums[start]) left = start;
+        if (target <= nums[right] && target >= nums[start]) left = start;
         else right = start-1;
         
         while (left <= right) { // left <= right!!!!!!!!
