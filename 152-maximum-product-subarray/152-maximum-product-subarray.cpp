@@ -9,7 +9,6 @@ public:
             curMax = max(tmpMin, max(curMax*nums[i], nums[i]));
             curMin = min(tmpMax, min(curMin*nums[i], nums[i]));
             globalMax = max(globalMax, curMax);
-            printf("curMin : %d / curMax : %d / globalMax : %d\n", curMin, curMax, globalMax);
         }
         return globalMax;
     }
