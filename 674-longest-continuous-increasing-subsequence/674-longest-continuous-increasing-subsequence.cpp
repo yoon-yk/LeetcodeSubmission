@@ -9,7 +9,6 @@ public:
             while ((i< nums.size()) && (nums[i-1] < nums[i])) {
                 count++; i++;
             }
-            printf("i=%d\n", i);
             ret = max(ret, count);
             i++;
         }
