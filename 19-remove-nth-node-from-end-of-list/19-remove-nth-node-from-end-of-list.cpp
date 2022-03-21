@@ -14,9 +14,7 @@ public:
         if (head == nullptr) return nullptr;
         
         int count = 0;
-        ListNode* first = head;
-        ListNode* second = head;
-        ListNode* third = head;
+        ListNode* first = head, *second = head, *third = head;
         
         while (count < n) {
             first = first->next;
