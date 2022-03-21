@@ -37,8 +37,7 @@ public:
         } 
                 
         third->next = second->next;
-        second->next = nullptr;
-        
+        delete second;
         
         return head;
     }
