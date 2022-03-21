@@ -26,6 +26,7 @@ public:
         if (!first) { // size == linked list size
             second = head;
             head = head->next;
+            delete second;
             return head;
         }
         
@@ -34,11 +35,10 @@ public:
             first = first->next;
             second = second->next;
         } 
-        
-        printf("second = %d\n third = %d\n", second->val, third->val);
-        
+                
         third->next = second->next;
         second->next = nullptr;
+        
         
         return head;
     }
