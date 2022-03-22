@@ -7,11 +7,7 @@ public:
              [](vector<int> a, vector<int> b)->bool{
                  return a[0] < b[0];
              });
-        
-        for (auto i:intervals)
-            printf("[%d, %d] ", i[0], i[1]);
-        printf("\n");
-        
+
         // [1,3], [2,6], [5,9], [8,10]
         vector<vector<int>> res;
         int i=0, j=0, start=i, end=j;
