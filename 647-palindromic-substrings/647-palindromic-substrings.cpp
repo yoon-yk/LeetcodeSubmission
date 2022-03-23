@@ -22,12 +22,9 @@ public:
         if (start < 0 || end >= s.length ()) {
             return 0;
         }
-        
-        printf("start : [%c], end : [%c]\n", s[start], s[end]);
-        
+                
         while (start >= 0 && end < s.length() && s[start] == s[end]) {
             paN += 1;
-            printf("[%c]-[%c]\n", s[start], s[end]);
             start--; end++;
         }
         
