@@ -23,8 +23,6 @@ public:
         int inorderIdx = left;
         while (inorder[inorderIdx] != preorder[rootIdx]) inorderIdx++;
         
-        printf("left = %d, right = %d, rootIdx = %d, inorderIdx = %d\n", rootIdx, inorderIdx);
-
         TreeNode* header = new TreeNode(inorder[inorderIdx]);
         rootIdx ++;
         header->left = build(preorder, inorder, rootIdx, left, inorderIdx-1);
