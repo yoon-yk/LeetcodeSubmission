@@ -21,7 +21,6 @@ public:
             while (j < rowN && beamsN[i] == 0) {i++; j++;}
             while (j < rowN && beamsN[j] == 0) j++;
             if (i >= rowN || j >= rowN) break;
-            cout << "i : " << i << " / j : " << j << endl;
             ret += beamsN[i] * beamsN[j];
             i=j; j++;
         }
