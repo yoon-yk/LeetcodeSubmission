@@ -2,29 +2,26 @@ class Solution {
 public:
     vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {
         
-        int dis;
-        unordered_map<int, vector<vector<int>>> rank;
-        priority_queue <int, vector<int>, greater<int> > min_heap;
+        priority_queue <vector<int>, vector<vector<int>>, compare > min_heap;
         vector<vector<int>> ret;
 
-        for (vector<int>& pair:points) {
-            dis = pow(pair[0], 2) + pow(pair[1], 2);
-            min_heap.push(dis);
-            rank[dis].push_back(pair);
-        }
+        for (vector<int>& pair:points)
+            min_heap.push(pair);
         
         int cnt = 0;
         
         while(cnt < k && !min_heap.empty()) {
-            int curDis = min_heap.top();
+            ret.push_back(min_heap.top());
             min_heap.pop();
-            for (auto elm : rank[curDis]) {
-                if (cnt >= k) break;
-                ret.push_back(elm);
-                cnt++;
-            }
+            cnt++;
         }
         
         return ret;
     }
+    
+    struct compare {
+        bool operator()(vector<int>&p, vector<int>&q) {
+            return p[0] * p[0] + p[1] * p[1] > q[0] * q[0] + q[1] * q[1];
+        }
+    };
 };
