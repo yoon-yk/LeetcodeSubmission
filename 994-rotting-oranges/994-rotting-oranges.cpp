@@ -5,12 +5,11 @@ public:
         typedef struct pair<int, pair<int, int>> pos;
         queue<pos> q;
         int rowSize = grid.size(), colSize = grid[0].size();
-        int rottenN = 0, freshN = 0;
+        int freshN = 0;
         for (int i=0; i<rowSize; i++) {
             for (int j=0; j<colSize; j++) {
                 if (grid[i][j] == 2) {
                     q.push({0, {i, j}});
-                    rottenN++;
                 }else if (grid[i][j] == 1) {
                     freshN++;
                 }
