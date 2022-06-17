@@ -7,13 +7,12 @@ public:
         int first = 1, end = n;
         int mid = first + (end-first)/2;
         
-        while (first <= end) {
+        while (first < end) {
             mid = first + (end-first)/2;            
-            if (isBadVersion(mid) && !isBadVersion(mid-1)) return mid;
-            if (isBadVersion(mid)) end = mid - 1;
+            if (isBadVersion(mid)) end = mid;
             else first = mid + 1;
         }
         
-        return mid;
+        return first;
     }
 };
