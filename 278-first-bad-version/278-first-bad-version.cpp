@@ -8,9 +8,7 @@ public:
         int mid = first + (end-first)/2;
         
         while (first <= end) {
-            mid = first + (end-first)/2;
-            printf("first : %d, end : %d, mid : %d\n", first, end, mid);
-            
+            mid = first + (end-first)/2;            
             if (isBadVersion(mid) && !isBadVersion(mid-1)) return mid;
             if (isBadVersion(mid)) end = mid - 1;
             else first = mid + 1;
