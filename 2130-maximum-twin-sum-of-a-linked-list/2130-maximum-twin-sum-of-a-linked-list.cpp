@@ -12,20 +12,14 @@ class Solution {
 public:
     int pairSum(ListNode* head) {
         
-        // if (head == NULL) return 0;
-        // if (head->next == NULL) return head->val;
-        
+        stack<int> st;
         ListNode *fast = head, *middle = head, *prev = head;
         
         while (fast!=NULL && fast->next!=NULL) {
             fast = fast->next->next;
             middle = middle->next;
         }
-        
-        cout << middle->val << endl;
-        
-        stack<int> st;
-        
+                
         while (prev!= middle) {
             st.push(prev->val);
             prev = prev->next;
