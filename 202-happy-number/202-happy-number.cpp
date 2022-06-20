@@ -1,28 +1,26 @@
 class Solution {
 public:
-    bool isHappy(int n) {
-        
+    
+    int getNext(int n) {
         int sum = 0, digit;
-        unordered_map<int, int> hashM;
-        
-        while (1) {
-            
-            sum = 0;
-            while (n > 0) {
-                digit = (n % 10);
-                sum += digit*digit;
-                n = n/10;
-            }
-            if (sum == 1) return true;
-            if (hashM.find(sum) != hashM.end()) {
-                return false;
-            }
-            else {
-                hashM[sum] += 1;
-                n = sum;
-            }
-            
+        while (n > 0) {
+            digit = (n % 10);
+            sum += digit*digit;
+            n = n/10;
         }
-        return false;
+        return sum;
+    }
+    
+    bool isHappy(int n) {
+        int slowRunner = n;
+        int fastRunner = getNext(n);
+        
+        while(fastRunner != 1 && slowRunner != fastRunner) {
+            slowRunner = getNext(slowRunner);
+            fastRunner = getNext(getNext(fastRunner));
+        }
+        
+        return fastRunner == 1;
+            
     }
 };
