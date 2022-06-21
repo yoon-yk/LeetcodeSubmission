@@ -3,18 +3,29 @@ public:
     vector<int> findBall(vector<vector<int>>& grid) {
         int m = grid.size(), n = grid[0].size();
         vector<int> res;
-        for (int i=0; i<n; ++i) {
-            int i1 = i, i2;
-            for (int j=0; j<m; ++j) {
-                i2 = i1 + grid[j][i1];
-                if (i2 < 0 || i2 >= n || grid[j][i2] != grid[j][i1]) {
-                    i1 = -1;
-                    break;
-                }
-                i1 = i2;
-            }
-            res.push_back(i1);
-        }
+        
+        for(int c=0; c<n; c++)
+            res.push_back(DFS(0, c, m, n, grid));
+        
         return res;
+    }
+    
+    bool valid(int row, int col, int m, int n, vector<vector<int>>& grid) {
+        if (col<0 || col>=n ||
+            (col == 0) && (grid[row][col] == -1) ||
+            (col == n-1) && (grid[row][col] == 1) ||
+            (grid[row][col] == 1) && (grid[row][col] != grid[row][col+1]) ||
+            (grid[row][col] == -1) && (grid[row][col] != grid[row][col-1])
+           )
+        return false;
+        return true;
+    }
+    
+    int DFS(int row, int col, int m, int n, vector<vector<int>>& grid) {
+        if (row == m) return col;
+        if (!valid(row, col, m, n, grid)){
+            return -1;
+        }
+        return DFS(row+1, col+grid[row][col], m, n, grid);
     }
 };
