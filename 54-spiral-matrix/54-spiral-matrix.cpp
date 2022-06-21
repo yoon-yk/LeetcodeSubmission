@@ -7,7 +7,6 @@ public:
         int startC = 0, endC = matrix[0].size()-1;
         
         while (startR<=endR && startC<=endC){
-            if (res.size()==matrix.size()) break;
             
             for (i=startC; i<=endC; i++)
                 res.push_back(matrix[startR][i]);
