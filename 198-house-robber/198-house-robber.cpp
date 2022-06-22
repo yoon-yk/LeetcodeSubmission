@@ -4,7 +4,7 @@ public:
         if (nums.size()==0) return 0;
         if (nums.size()==1) return nums[0];
         if (nums.size()==2) return max(nums[0], nums[1]);
-        if (nums.size()==2) return max(nums[0]+nums[2], nums[1]);
+        if (nums.size()==3) return max(nums[0]+nums[2], nums[1]);
         
         int *dp = new int[nums.size()];
         dp[0] = nums[0], dp[1] = nums[1], dp[2] = nums[0]+nums[2];
