@@ -34,7 +34,6 @@ public:
         int stTop;
         while (!st.empty() || middle!=NULL){
             stTop = st.top();
-            cout << stTop << "&&" << middle->val << endl;
             if (stTop!= middle->val) return false;
             st.pop();
             middle = middle->next;
