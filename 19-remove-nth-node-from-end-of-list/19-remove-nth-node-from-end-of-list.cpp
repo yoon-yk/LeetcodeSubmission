@@ -18,7 +18,7 @@ public:
         for (int i=0; i<n; i++)
             lead = lead->next;
         
-        if (lead==NULL) {
+        if (lead==NULL) { // 맨 첫번째 노드 제거하는 경우 
             head = head->next;
             return head;
         }
