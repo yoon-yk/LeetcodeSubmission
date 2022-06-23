@@ -12,25 +12,59 @@ class Solution {
 public:
     ListNode* sortList(ListNode* head) {
         
-        if(head==NULL||head->next==NULL) return head;
+        if(!head||!head->next) return head;
+        ListNode* mid = getMid(head);
+        ListNode* left = sortList(head);
+        ListNode* right = sortList(mid);
         
-        priority_queue<int, vector<int>, greater<int> > pq;
+        return merge(left, right);
+    }
+    
+    ListNode* merge(ListNode* left, ListNode* right){
         
-        ListNode* ptr = head;
+        ListNode* lptr = left, *rptr = right;
+        ListNode* dhead = NULL, *dptr = dhead;
         
-        while (ptr) {
-            pq.push(ptr->val);
-            ptr = ptr->next;
-        };
-        
-        ptr = head;
-        while (ptr) {
-            ptr->val = pq.top();
-            pq.pop();
-            ptr = ptr->next;
+        while (lptr && rptr){
+            if (lptr->val < rptr->val){
+                if (dhead == NULL) {
+                    dhead = dptr = lptr;
+                } else {
+                    dptr->next = lptr;
+                    dptr = dptr->next;
+                }
+                lptr = lptr->next;
+            }
+            else {
+                if (dhead == NULL) {
+                    dhead = dptr = rptr;
+                } else {
+                    dptr->next = rptr;
+                    dptr = dptr->next;
+                }
+                rptr = rptr->next;
+            }
         }
         
-        return head;
-
+        if(lptr)
+            dptr->next = lptr;
+        else if (rptr)
+            dptr->next = rptr;
+        
+        return dhead;
     }
+    
+    ListNode* getMid(ListNode* head) {
+        ListNode* mid = head;
+        ListNode* midpv = head; 
+        while(head&&head->next){
+            head = head->next->next;
+            midpv = mid;
+            mid = mid->next;
+        }
+        midpv->next = NULL;
+        return mid;
+    }
+    
+    
 };
