@@ -22,8 +22,7 @@ public:
         while (ptr){
             if (cnt%2 == 1) { // odd num
                 if (oddhead == NULL) {
-                    oddhead = ptr;
-                    oddptr = ptr;
+                    oddhead = oddptr = ptr;
                 }
                 else {
                     oddptr->next = ptr;
@@ -31,8 +30,7 @@ public:
                 }
             } else { // even num
                 if (evenhead == NULL) {
-                    evenhead = ptr;
-                    evenptr = ptr;
+                    evenhead = evenptr = ptr;
                 }
                 else {
                     evenptr->next = ptr;
