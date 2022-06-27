@@ -44,8 +44,10 @@ public:
                      && M[target] > 0) {
                 
                 commMax = min(M[target], w.second);
+                cout << commMax << endl;
                 maxLen += commMax*4;
-                M[w.first] = M[target] = 0;
+                M[w.first] = 0;
+                M[target] = 0;
             }
         }
         
