@@ -5,8 +5,6 @@ public:
         unordered_map<string, int> M;
         unordered_map<string, int> pM;
         
-        string lstSgW = "";
-        int maxLstSgW = 0;
             
         // 1. 모두 집어넣기
         for (auto w : words) {
