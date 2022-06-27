@@ -16,7 +16,7 @@ public:
         
         int lHeight = calHeight(root->left, 1);
         int rHeight = calHeight(root->right, 1);
-        int diff = abs(calHeight(root->left, 1) - calHeight(root->right, 1));
+        int diff = abs(lHeight-rHeight);
         
         return (diff <= 1) && isBalanced(root->left) && isBalanced(root->right);
     }
