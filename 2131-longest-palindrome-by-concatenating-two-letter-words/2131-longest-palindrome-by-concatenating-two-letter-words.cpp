@@ -48,11 +48,8 @@ public:
                 commMax = min(M[target], w.second);
                 cout << commMax << endl;
                 maxLen += commMax*4;
-                cout << "maxLen : " << maxLen << endl;
                 M[w.first] = 0;
                 M[target] = 0;
-                // hashM.erase(w.first);
-                // hashM.erase(target);
             }
         }
         
