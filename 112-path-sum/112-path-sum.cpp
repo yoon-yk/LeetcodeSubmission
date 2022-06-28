@@ -14,7 +14,7 @@ public:
     bool found = false;
     
     bool hasPathSum(TreeNode* root, int targetSum) {
-        if(root==NULL) return 0;
+        if (root==NULL) return 0;
         calSum(root, targetSum, 0);
         return found;
     }
