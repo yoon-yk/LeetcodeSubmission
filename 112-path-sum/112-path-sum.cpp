@@ -14,21 +14,10 @@ public:
     bool found = false;
     
     bool hasPathSum(TreeNode* root, int targetSum) {
-        if (root==NULL) return 0;
-        calSum(root, targetSum, 0);
-        return found;
+        if (root==NULL) return false;
+        if (!root->left&&!root->right) return root->val == targetSum;
+        return hasPathSum(root->left, targetSum - root->val) ||
+            hasPathSum(root->right, targetSum - root->val);
     }
     
-    void calSum(TreeNode* root, int targetSum, int sum) {
-        if (root==NULL) return;
-        sum = sum+root->val;
-        
-        if (!root->left && !root->right && sum == targetSum) {
-            found=true;
-            return;
-        }
-        
-        calSum(root->left, targetSum, sum);
-        calSum(root->right, targetSum, sum);
-    }
 };
