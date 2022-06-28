@@ -13,27 +13,24 @@ class Solution {
 public:
     vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
         vector<vector<int>> ans;
-        
-        if(root==NULL) return ans;
         vector<int> curTrack;
         
         pathSum(root, targetSum, curTrack, ans);
-        
         return ans;
     }
     
-    void pathSum(TreeNode* root, int targetSum, vector<int> &curTrack, vector<vector<int>> &ans) {
+    void pathSum(TreeNode* root, int targetSum, vector<int>& curTrack, vector<vector<int>>& ans){
         if (root==NULL) return;
         
-        curTrack.push_back(root->val);
-        
-        if (!root->left && !root->right && targetSum == root->val) {
+       curTrack.push_back(root->val);
+
+        if (!root->left && !root->right && root->val == targetSum)
             ans.push_back(curTrack);
-            // return;
-        }
         
         pathSum(root->left, targetSum-root->val, curTrack, ans);
         pathSum(root->right, targetSum-root->val, curTrack, ans);
-        curTrack.pop_back();
+        
+        curTrack.pop_back(); // 나 말고 children 이 내 관련 노드 모두 뺀 curTrack 가질 수 있게 
+        
     }
 };
