@@ -10,9 +10,7 @@
  * };
  */
 class Solution {
-public:
-    bool found = false;
-    
+public:    
     bool hasPathSum(TreeNode* root, int targetSum) {
         if (root==NULL) return false;
         
@@ -20,7 +18,7 @@ public:
         st.push(root);
         
         TreeNode* cur;
-        while(!st.empty()) {
+        while (!st.empty()) {
             cur = st.top();
             st.pop();
             
