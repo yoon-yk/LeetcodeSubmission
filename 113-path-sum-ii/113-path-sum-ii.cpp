@@ -15,23 +15,25 @@ public:
         vector<vector<int>> ans;
         
         if(root==NULL) return ans;
+        vector<int> curTrack;
         
-        pathSum(root, targetSum, {}, ans);
+        pathSum(root, targetSum, curTrack, ans);
         
         return ans;
     }
     
-    void pathSum(TreeNode* root, int targetSum, vector<int> curTrack, vector<vector<int>> &ans) {
+    void pathSum(TreeNode* root, int targetSum, vector<int> &curTrack, vector<vector<int>> &ans) {
         if (root==NULL) return;
         
         curTrack.push_back(root->val);
         
         if (!root->left && !root->right && targetSum == root->val) {
             ans.push_back(curTrack);
-            return;
+            // return;
         }
         
         pathSum(root->left, targetSum-root->val, curTrack, ans);
         pathSum(root->right, targetSum-root->val, curTrack, ans);
+        curTrack.pop_back();
     }
 };
