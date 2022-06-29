@@ -14,7 +14,7 @@ typedef long long int lli;
 class Solution {
 public:
     
-    lli pathSum(TreeNode* root, long long int targetSum) {
+    lli pathSum(TreeNode* root, lli targetSum) {
         if (root == NULL) return 0;
         
         lli count = 0;
