@@ -9,27 +9,31 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+typedef long long int lli;
+
 class Solution {
 public:
     
-    long long int count = 0 ;
+    
     int pathSum(TreeNode* root, long long int targetSum) {
         if (root == NULL) return 0;
         
-        helper(root, targetSum);
-        pathSum(root->left, targetSum);
-        pathSum(root->right, targetSum);
+        lli count = 0;
+        
+        helper(root, targetSum, count);
 
-        return count;
+        return count + 
+            pathSum(root->left, targetSum) +
+            pathSum(root->right, targetSum);
     }
     
-    void helper(TreeNode* root, long long int targetSum) {
+    lli helper(TreeNode* root, lli targetSum, lli& count) {
                 
-        if (root == NULL) return;
+        if (root == NULL) return 0 ;
         if (root->val == targetSum) count++;
 
-        helper(root->left, targetSum-root->val);
-        helper(root->right, targetSum-root->val);
-        
+        return count + 
+            helper(root->left, targetSum-root->val, count) + 
+            helper(root->right, targetSum-root->val, count);
     }
 };
