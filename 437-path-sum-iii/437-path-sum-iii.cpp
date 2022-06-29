@@ -14,26 +14,26 @@ typedef long long int lli;
 class Solution {
 public:
     
-    
-    int pathSum(TreeNode* root, long long int targetSum) {
+    lli pathSum(TreeNode* root, long long int targetSum) {
         if (root == NULL) return 0;
         
         lli count = 0;
-        
-        helper(root, targetSum, count);
+        count += helper(root, targetSum);
 
         return count + 
             pathSum(root->left, targetSum) +
             pathSum(root->right, targetSum);
     }
     
-    lli helper(TreeNode* root, lli targetSum, lli& count) {
-                
-        if (root == NULL) return 0 ;
+    lli helper(TreeNode* root, lli targetSum) {
+        
+        lli count = 0;
+        if (root == NULL) return count;
         if (root->val == targetSum) count++;
 
-        return count + 
-            helper(root->left, targetSum-root->val, count) + 
-            helper(root->right, targetSum-root->val, count);
+        return count 
+            + helper(root->left, targetSum-root->val)
+            + helper(root->right, targetSum-root->val);
+
     }
 };
