@@ -4,17 +4,14 @@ public:
         
     int subsetXORSum(vector<int>& nums) {
         
-        vector<int> idxV;
-        for (int i=0; i<nums.size(); i++) idxV.push_back(i);
-        
-        backtrack(0, idxV);
+        backtrack(0, nums);
 
         int total = 0;
         
         for (vector<int> next : subsets) {
             int sum = 0;
             for (int n : next)
-                sum ^= nums[n];
+                sum ^= n;
             total += sum;
         }
 
