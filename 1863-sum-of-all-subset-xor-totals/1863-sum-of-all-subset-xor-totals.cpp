@@ -10,13 +10,6 @@ public:
         backtrack(0, idxV);
 
         int total = 0;
-    
-        // for (vector<int> next : subsets) {
-        //     int sum = 0;
-        //     for (int n : next)
-        //         cout << n << " ";
-        //     cout << endl;
-        // }
         
         for (vector<int> next : subsets) {
             int sum = 0;
