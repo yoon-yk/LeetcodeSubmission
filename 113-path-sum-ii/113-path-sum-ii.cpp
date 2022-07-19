@@ -11,27 +11,32 @@
  */
 class Solution {
 public:
+    vector<vector<int>> ans;
+    
     vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
-        vector<vector<int>> ans;
         
-        if(root==NULL) return ans;
-        
-        pathSum(root, targetSum, {}, ans);
-        
+        vector<int> path;
+        helper(root, targetSum, path);
         return ans;
     }
     
-    void pathSum(TreeNode* root, int targetSum, vector<int> curTrack, vector<vector<int>> &ans) {
-        if (root==NULL) return;
-        
-        curTrack.push_back(root->val);
-        
-        if (!root->left && !root->right && targetSum == root->val) {
-            ans.push_back(curTrack);
+    void helper(TreeNode* root, int targetSum, vector<int> &path) {
+        if (root == NULL) return;
+
+        // leaf 에 도착하면 terminate
+        if (root->left == NULL && root->right == NULL && targetSum == root->val) {
+            path.push_back(root->val);
+            ans.push_back(path);
+            path.pop_back();
             return;
         }
+            
+        path.push_back(root->val);
+        targetSum -= root->val;
         
-        pathSum(root->left, targetSum-root->val, curTrack, ans);
-        pathSum(root->right, targetSum-root->val, curTrack, ans);
+        // exploration
+        helper(root->left, targetSum, path);
+        helper(root->right, targetSum, path);
+        path.pop_back();
     }
 };
