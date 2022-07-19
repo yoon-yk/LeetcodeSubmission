@@ -23,15 +23,13 @@ public:
     void helper(TreeNode* root, int targetSum, vector<int> &path) {
         if (root == NULL) return;
 
+        path.push_back(root->val);
+
         // leaf 에 도착하면 terminate
         if (root->left == NULL && root->right == NULL && targetSum == root->val) {
-            path.push_back(root->val);
             ans.push_back(path);
-            path.pop_back();
-            return;
         }
             
-        path.push_back(root->val);
         targetSum -= root->val;
         
         // exploration
