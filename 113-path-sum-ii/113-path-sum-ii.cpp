@@ -31,8 +31,11 @@ public:
         }
         
         // exploration
-        helper(root->left, targetSum-root->val, path);
-        helper(root->right, targetSum-root->val, path);
+        else {
+            helper(root->left, targetSum-root->val, path);
+            helper(root->right, targetSum-root->val, path);
+        }
+
         path.pop_back();
     }
 };
