@@ -10,27 +10,26 @@
  * };
  */
 
-typedef long long int lli;
+typedef long long ll;
 
 class Solution {
 public:
-    
-    lli pathSum(TreeNode* root, lli targetSum) {
-        if (root == NULL) return 0;
-        lli path = 0;
-        helper(root, targetSum, 0, path);
-        path += pathSum(root->left, targetSum);
-        path += pathSum(root->right, targetSum);
-        return path;
+    ll cnt = 0;
+    ll pathSum(TreeNode* root, ll targetSum) {
+        if (!root) return cnt;
+        dfs(root, targetSum);
+        pathSum(root->left, targetSum);
+        pathSum(root->right, targetSum);
         
+        return cnt;
     }
     
-    void helper(TreeNode* root, lli targetSum, lli curSum, lli& path){
-        if (root == NULL) return;
+    void dfs(TreeNode* root, ll targetSum) {
+        if (!root) return;
         
-        if (curSum+root->val == targetSum) path++;
+        if (targetSum == root->val) cnt++;
         
-        helper(root->left, targetSum, curSum+root->val, path);
-        helper(root->right, targetSum, curSum+root->val, path);
+        dfs(root->left, targetSum-root->val);
+        dfs(root->right, targetSum-root->val);
     }
 };
