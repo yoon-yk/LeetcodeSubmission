@@ -29,12 +29,10 @@ public:
         if (root->left == NULL && root->right == NULL && targetSum == root->val) {
             ans.push_back(path);
         }
-            
-        targetSum -= root->val;
         
         // exploration
-        helper(root->left, targetSum, path);
-        helper(root->right, targetSum, path);
+        helper(root->left, targetSum-root->val, path);
+        helper(root->right, targetSum-root->val, path);
         path.pop_back();
     }
 };
