@@ -16,9 +16,7 @@ public:
         
         if (!root) return ans;
         
-        string rootStr = to_string(root->val);
-
-        dfs(root, rootStr);
+        dfs(root, to_string(root->val));
         
         return ans;
     }
