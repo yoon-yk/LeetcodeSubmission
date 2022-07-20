@@ -13,12 +13,17 @@ class Solution {
 public:
     bool isBalanced(TreeNode* root) {
         if (!root) return true;
-        if (abs(depth(root->left)-depth(root->right)) > 1) return false;
-        return isBalanced(root->left) && isBalanced(root->right);
+        dfsHeight(root);
+        return (root->val != -1);
     }
     
-    int depth(TreeNode* root) {
-        if (!root) return 0;
-        return max(depth(root->left), depth(root->right)) + 1;
+    void dfsHeight(TreeNode* root) {
+        if (!root) return;
+        dfsHeight(root->left);
+        dfsHeight(root->right);
+        int left = (root->left)? root->left->val : 0;
+        int right = (root->right)? root->right->val : 0;
+        root->val = (left == -1 || right == -1 || abs(left-right) > 1) ?
+            -1 : max(left, right)+1;
     }
 };
