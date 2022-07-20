@@ -11,23 +11,15 @@ class Solution {
 public:
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
         if (!root) return nullptr;
-        TreeNode *prev = root, *curr=root;
-        stack<TreeNode*> st;
-        st.push(root);
-        while (!st.empty()) {
-            curr = st.top(); st.pop();
-            if (isNodeFound(curr, p->val) && isNodeFound(curr, q->val)) {
-                prev = curr;
-                st.push(curr->left); st.push(curr->right);
-            }
-        }
-        return prev;
-    }
-    
-    bool isNodeFound(TreeNode* root, int target){
-        if (!root) return false;
-        if (root->val == target)
-            return true;        
-        return isNodeFound(root->left, target) || isNodeFound(root->right, target);
+        
+        if (root->val == p->val || root->val == q->val) 
+            return root;
+        
+        TreeNode* left = lowestCommonAncestor(root->left, p, q);
+        TreeNode* right = lowestCommonAncestor(root->right, p, q);
+        
+        if (!left) return right;
+        if (!right) return left;
+        return root;
     }
 };
