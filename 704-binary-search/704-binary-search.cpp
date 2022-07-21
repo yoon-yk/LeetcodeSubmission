@@ -4,7 +4,6 @@ public:
         int start = 0, end = nums.size()-1;
         while (start < end) {
             int mid = (start + end + 1) >> 1;
-            cout << mid << endl;
             if (nums[mid] == target) return mid;
             if (target < nums[mid] ) end = mid - 1;
             else start = mid;
