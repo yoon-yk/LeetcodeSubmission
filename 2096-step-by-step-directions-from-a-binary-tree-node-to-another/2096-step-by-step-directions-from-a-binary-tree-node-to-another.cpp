@@ -19,7 +19,7 @@ public:
         findPath(lcaRoot, startValue, true, finalSPath);
         findPath(lcaRoot, destValue, false, finalDPath);
 
-        return finalSPath+string(rbegin(finalDPath), rend(finalDPath));
+        return finalSPath+finalDPath;
     }
     
     bool findPath (TreeNode* root, int& target, bool isStart, string& path) {
@@ -28,19 +28,22 @@ public:
         if (root->val == target) return true;
         
         if (isStart){
-            if (root->left && findPath(root->left, target, isStart, path))
-                path+="U";
-            else if (root->right && findPath(root->right, target, isStart, path))
-                path+="U";
+            path+="U";
+            if ((root->left && findPath(root->left, target, isStart, path)) ||
+                (root->right && findPath(root->right, target, isStart, path))) return true;
+            path.pop_back();
         }
         else {
-            if (root->left && findPath(root->left, target, isStart, path))
-                path+="L";
-            else if (root->right && findPath(root->right, target, isStart, path))
-                path+="R";
+            path+="L";
+            if (root->left && findPath(root->left, target, isStart, path)) return true;
+            path.pop_back();
+            
+            path+="R";
+            if (root->right && findPath(root->right, target, isStart, path)) return true;
+            path.pop_back();
         }
         
-        return !path.empty();
+        return false;
 
     }
         
