@@ -4,15 +4,15 @@ public:
         if (nums.size() < 1) return -1;
         
         int start = 0, end = nums.size()-1, mid;
-        while (start <= end) {
-            mid = start + (end-start)/2;
+        while (start < end) {
+            mid = start + (end-start+1)/2;
             if (target == nums[mid]) return mid;
             
             if (target < nums[mid]) 
                 end = mid-1;
             else 
-                start = mid+1;
+                start = mid;
         }
-        return -1;
+        return nums[start]==target ? start : -1;
     }
 };
