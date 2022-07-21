@@ -31,7 +31,7 @@ public:
         
         if (root->val == target) return true;
         
-        if (root->left && findPath(root->left, target, path)) {
+        else if (root->left && findPath(root->left, target, path)) {
             path.push_back('L');
         }
         else if (root->right && findPath(root->right, target, path)) {
