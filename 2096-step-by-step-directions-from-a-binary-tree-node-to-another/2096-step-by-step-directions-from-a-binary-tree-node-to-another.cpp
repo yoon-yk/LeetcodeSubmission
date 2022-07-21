@@ -26,21 +26,18 @@ public:
         return ans;
     }
     
-    void findPath (TreeNode* root, int target, bool isStart, string &path) {
+    void findPath (TreeNode* root, int& target, bool isStart, string& path) {
         if (!root) return;
         
         if (root->val == target) {
-            if (isStart) {
+            if (isStart) 
                 ans = path + ans;
-            }
-            else {
+            else 
                 ans = ans + path;
-            }
             return;
         }
         
         if (isStart){
-            
             path+="U";
             findPath(root->left, target, isStart, path);
             findPath(root->right, target, isStart, path);
@@ -57,7 +54,7 @@ public:
 
     }
         
-    TreeNode* LCA(TreeNode* root, int startValue, int destValue) {
+    TreeNode* LCA(TreeNode* root, int& startValue, int& destValue) {
         if (!root) return root;
         if (root->val == startValue) return root;
         if (root->val == destValue) return root;
