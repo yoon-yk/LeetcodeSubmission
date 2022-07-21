@@ -27,6 +27,8 @@ public:
     
     bool findPath(TreeNode* root, int& target, string& path) {
         
+        if (!root) return false;
+        
         if (root->val == target) return true;
         
         if (root->left && findPath(root->left, target, path)) {
