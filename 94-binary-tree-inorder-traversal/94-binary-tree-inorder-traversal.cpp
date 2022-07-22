@@ -16,20 +16,20 @@ public:
         vector<int> ans;
         if (!root) return ans;
         
-        stack<TreeNode*> intST;
-        
+        stack<TreeNode*> tnST;
         TreeNode* curr = root;
         
-        while (curr || !intST.empty()) {
+        while(!tnST.empty() || curr) {
             
-            while (curr) {
-                intST.push(curr);
+            while(curr) { // explore left
+                tnST.push(curr);
                 curr = curr->left;
             }
             
-            curr = intST.top(); intST.pop();
+            curr = tnST.top(); tnST.pop(); // main node
             ans.push_back(curr->val);
-            curr = curr->right;
+            
+            curr = curr->right; // right child
         }
         
         return ans;
