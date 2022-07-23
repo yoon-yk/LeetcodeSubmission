@@ -19,7 +19,7 @@ public:
     
     TreeNode* helper(vector<int>&nums, int start, int end) {
  
-        if (start > end || start < 0 || end >= nums.size()) return NULL;
+        if (start > end) return NULL;
         
         int mid = (start+end+1) >> 1;
         TreeNode* tnRoot = new TreeNode(nums[mid]);
