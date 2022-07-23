@@ -17,8 +17,6 @@ public:
         if (!root) return ans;
         
         stack<TreeNode*> tnST;
-        stack<TreeNode*> tnWR;
-        int rNode = 0;
         TreeNode* curr = root;
         TreeNode* tmp = NULL;
         
