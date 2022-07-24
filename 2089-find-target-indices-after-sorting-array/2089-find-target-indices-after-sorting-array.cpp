@@ -1,38 +1,18 @@
 class Solution {
 public:
     vector<int> targetIndices(vector<int>& nums, int target) {
-        
-        vector<int> ans;
-        sort(nums.begin(), nums.end());
-        
-        // LB 
-        int start = 0, end = nums.size()-1, leftMid, rightMid;
-        while (start < end) {
-            leftMid = start + ((end-start)>>1);
-            if (nums[leftMid] < target)
-                start = leftMid + 1;
-            else 
-                end = leftMid;
-            
-        }
-                
-        if (nums[start]!=target) return ans;
-        
-        // RB
-        leftMid = start;
-        end = nums.size()-1;
-        while (start < end) {
-            rightMid = start + ((end-start+1)>>1);
-            if (target < nums[rightMid])
-                end = rightMid - 1;
-            else start = rightMid;
+        vector<int> ans;        
+        int lessCnt = 0, equalCnt = 0;
+        for(int i=0; i<nums.size(); i++) {
+            if (nums[i] < target) ++lessCnt;
+            else if(nums[i] == target) ++equalCnt;
         }
         
-        rightMid = start;
+        int startIdx = (lessCnt < 1)? 0 : lessCnt;
         
-        for(int i=leftMid; i<=rightMid; i++)
-            ans.push_back(i);
-        
+        for (int i=0; i<equalCnt; i++)
+            ans.push_back(startIdx++);
+    
         return ans;
     }
 };
