@@ -7,11 +7,9 @@ public:
             if (nums[i] < target) ++lessCnt;
             else if(nums[i] == target) ++equalCnt;
         }
-        
-        int startIdx = (lessCnt < 1)? 0 : lessCnt;
-        
+                
         for (int i=0; i<equalCnt; i++)
-            ans.push_back(startIdx++);
+            ans.push_back(lessCnt++);
     
         return ans;
     }
