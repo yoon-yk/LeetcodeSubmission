@@ -11,32 +11,29 @@
  */
 class Solution {
 public:
-    int ans = INT_MAX;
     int getMinimumDifference(TreeNode* root) {
-        map<int, int> M;
-        dfs(root, M);
-        
-        int prev = INT_MAX;
-        for (auto cur:M) {
-            if(cur.second > 1) {
-                ans = 0;
-                break;
-            }
-            ans = min(abs(cur.first - prev), ans);
-            prev = cur.first;
-        }
-        
-        return ans;
+        int prev = -1;
+        return inorderTraverse(root, prev);
     }
     
-    void dfs(TreeNode* root, map<int, int>& M) {
-        if (!root) return;
+    int inorderTraverse(TreeNode* root, int &prev) { // time - O(N), space - O(H) for stack recursion
         
-        if (M.find(root->val)==M.end())
-            M[root->val]++;
-        else M[root->val] = 1;
+        int minDiff = INT_MAX;
         
-        dfs(root->left, M);
-        dfs(root->right, M);
+        // left child
+        if (root->left)
+            minDiff = min(minDiff, inorderTraverse(root->left, prev));
+
+        // root
+        if (prev >= 0)
+            minDiff = min((root->val)-prev, minDiff);
+        prev = root->val;
+
+        // right child
+        if (root->right)
+            minDiff = min(minDiff, inorderTraverse(root->right, prev));
+
+        // return minimum difference
+        return minDiff;
     }
 };
