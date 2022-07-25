@@ -1,25 +1,27 @@
 class Solution {
 public:
     int findPairs(vector<int>& nums, int k) {
+        // Two pointers
         
-        // 1. Insert all elems; O(N)
-        unordered_map<int, int> hashM;
-        for (auto &next:nums) {
-            if (hashM.find(next)==hashM.end())
-                hashM[next] = 1;
-            else hashM[next]++;
-        }
+        // 1. sort 
+        sort(nums.begin(), nums.end());
         
-        // 2. Iterate to find the; O(N) + O(1) = O(N)
-        int ans = 0;
-        for (auto &num:hashM) {
-            if (k==0){
-                if (num.second > 1) ans ++;
+        int slow = 0, fast = 1, ans = 0;
+        
+        // 2. Two pointers
+        while (fast < nums.size() && slow < nums.size()) {
+
+            if (slow == fast || nums[fast]-nums[slow] < k)
+                fast ++;
+            else {
+                if (nums[fast]-nums[slow] == k) {
+                    ans ++; fast ++;
+                    while (fast < nums.size() && nums[fast]==nums[fast-1]) {fast++;}
+                }
+                slow ++;
+                while (slow < nums.size() && nums[slow]==nums[slow-1]) {slow++;}
+                }
             }
-            else 
-                // 2-1. Find in Hash Map; O(1)
-                if (hashM.find(num.first+k)!=hashM.end()) ans ++;
-        }
         
         return ans;
     }
