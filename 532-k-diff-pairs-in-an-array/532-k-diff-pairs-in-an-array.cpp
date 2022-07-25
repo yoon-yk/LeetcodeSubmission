@@ -4,7 +4,7 @@ public:
         
         // 1. Insert all elems; O(N)
         unordered_map<int, int> hashM;
-        for (auto next:nums) {
+        for (auto &next:nums) {
             if (hashM.find(next)==hashM.end())
                 hashM[next] = 1;
             else hashM[next]++;
@@ -12,7 +12,7 @@ public:
         
         // 2. Iterate to find the; O(N) + O(1) = O(N)
         int ans = 0;
-        for (auto num:hashM) {
+        for (auto &num:hashM) {
             if (k==0){
                 if (num.second > 1) ans ++;
             }
