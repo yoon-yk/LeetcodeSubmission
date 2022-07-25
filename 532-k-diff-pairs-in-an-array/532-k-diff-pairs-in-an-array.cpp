@@ -1,12 +1,6 @@
 class Solution {
 public:
     int findPairs(vector<int>& nums, int k) {
-        /*
-        
-        1 3 4 5
-        2 1 1 1
-        
-        */
         
         // 1. Insert all elems; O(N)
         unordered_map<int, int> hashM;
@@ -16,17 +10,15 @@ public:
             else hashM[next]++;
         }
         
-        // 2. Iterate to find the; O(N) + 
+        // 2. Iterate to find the; O(N) + O(1) = O(N)
         int ans = 0;
         for (auto num:hashM) {
             if (k==0){
-                if (num.second > 1)
-                    ans ++;
+                if (num.second > 1) ans ++;
             }
-            else {
-                if (hashM.find(num.first+k)!=hashM.end()) 
-                    ans ++;
-            }
+            else 
+                // 2-1. Find in Hash Map; O(1)
+                if (hashM.find(num.first+k)!=hashM.end()) ans ++;
         }
         
         return ans;
