@@ -36,29 +36,6 @@ public:
             ans.push_back(currSum);
         }
         
-        int i = 0;
-        
-        for (int i=0; i<memS.size(); i++) {
-            printf("%3d", i);
-        }
-        cout << endl;
-        
-        for (auto next:memS) {
-            printf("%3d", next);
-        }
-        cout << endl;
-        
-        i = 0;
-        for (auto next:memE) {
-            printf("%3d", next);
-        }
-        cout << endl;
-        
-//         i = 0;
-//         for (auto next:mem) {
-//             cout << i++ << "|" << next << endl;
-//         }
-        
         return ans;
         
         
