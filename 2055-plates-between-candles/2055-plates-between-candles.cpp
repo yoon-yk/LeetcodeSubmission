@@ -9,34 +9,24 @@ public:
         vector <int> memS (size);
         vector <int> memE (size);
 
-        int cntCandle = -1, idxS = 0, idxE = -1;
+        int cntCandle = -1, idxS = 0;
         int currPlate = 0;
         
         for (int i=0; i<size; i++) {
+            
             if (s[i] == '*'){ // encounter the plate
                 if (cntCandle >= 0)  //*** 여기서 등호 안써줘서 맨 처음에 '|'로 시작하는애 카운트 안해줌요 ㅠ 
                     currPlate ++; // 2. count the plates until the closing candle
                 // 1. discard all plates until the first candle
             }
             else if (s[i] == '|') { // encounter the candle
-                ++idxE; ++cntCandle;
+                ++cntCandle;
                 accumPlate[cntCandle] = currPlate; // 3. add up the plates when encountering the closing candle
             }
-            memS[i] = idxS; if (s[i] == '|') idxS++;
-            memE[i] = idxE;
+            memS[i] = idxS; if(s[i] == '|') idxS++;
+            memE[i] = cntCandle;
         }
         
-//         for (auto s:memS)
-//             printf("%3d", s);
-//         cout << endl;
-        
-//         for (auto e:memE)
-//             printf("%3d", e);
-//         cout << endl;   
-        
-//        for (auto e:accumPlate)
-//             printf("%3d", e);
-//         cout << endl;  
         
         for (vector<int>& query : queries) {
             int currSum = 0;
@@ -46,31 +36,44 @@ public:
             ans.push_back(currSum);
         }
         
-//         int i = 0;
-//         for (auto next:interval) {
-//             cout << i++ << "|" << "[" << next.first << "," << next.second << "]" << endl;
-//         }
+        int i = 0;
+        
+        for (int i=0; i<memS.size(); i++) {
+            printf("%3d", i);
+        }
+        cout << endl;
+        
+        for (auto next:memS) {
+            printf("%3d", next);
+        }
+        cout << endl;
+        
+        i = 0;
+        for (auto next:memE) {
+            printf("%3d", next);
+        }
+        cout << endl;
         
 //         i = 0;
-//         for (auto next:plate) {
+//         for (auto next:mem) {
 //             cout << i++ << "|" << next << endl;
 //         }
-        
-// //         i = 0;
-// //         for (auto next:mem) {
-// //             cout << i++ << "|" << next << endl;
-// //         }
         
         return ans;
         
         
         /*
+        
+          0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20 
+ 
+
+
          
          0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
          * * | * * | * * * |  *  *  *  *  *  |  *  |  *  |  *
-[memS]   0 0 0 1 1 1 2 2 2 3  3  3  3  3  3  4  4  5  5  6  6
-[memE]   - - 0 0 0 1 1 1 1 2  2  2  2  2  2  3  3  4  4  5  5  
-
+[memS]   0 0 0 1 1 1 2 2 2 2  3  3  3  3  3  3  4  4  5  5  6
+[memE]  -1-1 0 0 0 1 1 1 1 2  2  2  2  2  2  3  3  4  4  5  5
+  
 
 idxS = cntCandle (before adding up)
 
