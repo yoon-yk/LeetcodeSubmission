@@ -28,7 +28,8 @@ public:
                 if (cur->left) {
                     cur->left->next = cur->right;
                     if (cur->next) cur->right->next = cur->next->left; 
-                } 
+                }
+                else break;
             }
         }
         
