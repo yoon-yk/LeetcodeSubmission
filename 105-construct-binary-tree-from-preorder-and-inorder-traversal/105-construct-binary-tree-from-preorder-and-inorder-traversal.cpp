@@ -18,16 +18,15 @@ public:
     
     TreeNode* helper(int& preorderIdx, int inorderBeginIdx, int inorderEndIdx, vector<int>& preorder, vector<int>& inorder) {
                 
-        preorderIdx += 1;
-        int rootVal = preorder[preorderIdx];
-        TreeNode* root = new TreeNode(rootVal, nullptr, nullptr);
+        int rootVal = preorder[++preorderIdx];
+        TreeNode* root = new TreeNode(rootVal);
         int inorderRootIdx = find(inorder.begin(), inorder.end(), rootVal) - inorder.begin();
 
         if (inorderRootIdx > inorderBeginIdx) { // left child exists 
             root->left = helper(preorderIdx, inorderBeginIdx, inorderRootIdx-1, preorder, inorder);
         }
         
-        if (inorderRootIdx < inorderEndIdx) {
+        if (inorderRootIdx < inorderEndIdx) { // right child exists
             root->right = helper(preorderIdx, inorderRootIdx+1, inorderEndIdx, preorder, inorder);
         }
         
