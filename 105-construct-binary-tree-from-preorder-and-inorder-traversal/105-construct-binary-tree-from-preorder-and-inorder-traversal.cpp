@@ -20,7 +20,7 @@ public:
                 
         int rootVal = preorder[++preorderIdx];
         TreeNode* root = new TreeNode(rootVal);
-        int inorderRootIdx = find(inorder.begin(), inorder.end(), rootVal) - inorder.begin();
+        int inorderRootIdx = find(inorder.begin()+inorderBeginIdx, inorder.begin()+inorderEndIdx, rootVal) - inorder.begin();
 
         if (inorderRootIdx > inorderBeginIdx) { // left child exists 
             root->left = helper(preorderIdx, inorderBeginIdx, inorderRootIdx-1, preorder, inorder);
