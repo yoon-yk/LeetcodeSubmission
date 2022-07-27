@@ -31,16 +31,18 @@ public:
             
             while (curQsize--){
                 Node* curr = rootQ.front(); rootQ.pop();
-                if (curr->left) {
-                    if (prevN) prevN->next = curr->left;
-                    rootQ.push(curr->left);
-                    prevN = curr->left;
+                
+                Node* left = curr->left, *right = curr->right;
+                if (left) {
+                    if (prevN) prevN->next = left;
+                    prevN = left;
+                    rootQ.push(left);
                 }
                 
-                if (curr->right) {
-                    if (prevN) prevN->next = curr->right;
-                    rootQ.push(curr->right);
-                    prevN = curr->right;
+                if (right) {
+                    if (prevN) prevN->next = right;
+                    prevN = right;
+                    rootQ.push(right);
                 }                
             }
                 
