@@ -12,22 +12,25 @@
 class Solution {
 public:
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-        int rootIdx = 0;
-        return build(preorder, inorder, rootIdx, 0, inorder.size()-1);
+        int preorderIdx = -1;
+        return helper(preorderIdx, 0, inorder.size()-1, preorder, inorder);
     }
     
-    TreeNode* build(vector<int>& preorder, vector<int>& inorder, int &rootIdx, int left, int right) {
+    TreeNode* helper(int& preorderIdx, int inorderBeginIdx, int inorderEndIdx, vector<int>& preorder, vector<int>& inorder) {
+                
+        preorderIdx += 1;
+        int rootVal = preorder[preorderIdx];
+        TreeNode* root = new TreeNode(rootVal, nullptr, nullptr);
+        int inorderRootIdx = find(inorder.begin(), inorder.end(), rootVal) - inorder.begin();
+
+        if (inorderRootIdx > inorderBeginIdx) { // left child exists 
+            root->left = helper(preorderIdx, inorderBeginIdx, inorderRootIdx-1, preorder, inorder);
+        }
         
-        if (left > right) return NULL;
+        if (inorderRootIdx < inorderEndIdx) {
+            root->right = helper(preorderIdx, inorderRootIdx+1, inorderEndIdx, preorder, inorder);
+        }
         
-        int inorderIdx = left;
-        while (inorder[inorderIdx] != preorder[rootIdx]) inorderIdx++;
-        
-        TreeNode* header = new TreeNode(inorder[inorderIdx]);
-        rootIdx ++;
-        header->left = build(preorder, inorder, rootIdx, left, inorderIdx-1);
-        header->right = build(preorder, inorder, rootIdx, inorderIdx+1, right);
-        
-        return header;
+        return root;
     }
 };
