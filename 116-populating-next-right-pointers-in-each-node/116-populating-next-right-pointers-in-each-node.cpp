@@ -21,23 +21,17 @@ public:
     Node* connect(Node* root) {
         
         if (!root) return NULL;
-        queue<Node*> q;
-        q.push(root);
         
-        Node* curr;
-        
-        while (!q.empty()){    
-            curr = q.front(); q.pop();
-            
-            if (curr->left) { // means it has both children
-                curr->left->next = curr->right;
-                if (curr->next) curr->right->next = curr->next->left;
-                q.push(curr->left);
-                q.push(curr->right);
+        Node* head = root;
+        for(; root; root=root->left) { // traverse each level
+            for (auto cur = root; cur; cur = cur->next) {
+                if (cur->left) {
+                    cur->left->next = cur->right;
+                    if (cur->next) cur->right->next = cur->next->left; 
+                } 
             }
-            
         }
         
-        return root;
+        return head;
     }
 };
