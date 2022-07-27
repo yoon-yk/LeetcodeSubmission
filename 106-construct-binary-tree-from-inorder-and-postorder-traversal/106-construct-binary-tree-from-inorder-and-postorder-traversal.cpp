@@ -12,22 +12,26 @@
 class Solution {
 public:
     TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+        
+        unordered_map<int, int> map;
+        for (int i=0; i<inorder.size(); i++) map[inorder[i]] = i;
+        
         int postIdx = postorder.size();
-        return builder(postIdx, 0, inorder.size()-1, inorder, postorder);
+        return builder(postIdx, 0, inorder.size()-1, map, inorder, postorder);
     }
     
-    TreeNode* builder(int& postIdx, int inorderB, int inorderE, vector<int>& inorder, vector<int>& postorder) {
+    TreeNode* builder(int& postIdx, int inorderB, int inorderE, unordered_map<int, int>& map, vector<int>& inorder, vector<int>& postorder) {
         
         int rootV = postorder[--postIdx];
         TreeNode* root = new TreeNode(rootV);        
-        int inIdx = find(inorder.begin()+inorderB, inorder.begin()+inorderE, rootV) - inorder.begin();
+        int inIdx = map[rootV];
         
         if (inIdx < inorderE) { // right child
-            root->right = builder(postIdx, inIdx+1, inorderE, inorder, postorder);    
+            root->right = builder(postIdx, inIdx+1, inorderE, map, inorder, postorder);    
         }
         
         if (inIdx > inorderB) { // left child
-            root->left = builder(postIdx, inorderB, inIdx-1, inorder, postorder);
+            root->left = builder(postIdx, inorderB, inIdx-1, map, inorder, postorder);
         }
         
         return root;
