@@ -13,13 +13,14 @@ class Solution {
 public:
     vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
         
-        if (!root) return {};
-        
         vector<vector<int>> ans;
+
+        if (!root) return ans;
+        
+        int level = 1; // starting from level 1
         stack<TreeNode*> oddST;
         stack<TreeNode*> evenST;
         oddST.push(root);
-        int level = 1;
         
         int stackSize;
         TreeNode* curr;
@@ -27,7 +28,7 @@ public:
             
             vector<int> currVec;
             
-            if (level % 2){ // odd
+            if (level){ // odd
                 stackSize = oddST.size();
                 while (stackSize--) {
                     curr = oddST.top(); oddST.pop();
@@ -46,7 +47,7 @@ public:
             }
             
             ans.push_back(currVec);
-            level++;
+            level = !level;
         }
         
         return ans;
