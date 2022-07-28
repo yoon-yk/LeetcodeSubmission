@@ -9,61 +9,28 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-
-
-/*
-   3(3)
-1(1)   4(4)
- 2(2)
- 
-
-      5
-   1     7
-  0 3   6 8
-     4
-   
-inorder !!! left, root, right
-
-==>>> inorder in iterative way????? stack!!!
-
-[k == n]
-
-*/
-
-
 class Solution {
 public:
     int kthSmallest(TreeNode* root, int k) {
         
-        if (!root) return 0;
+        stack<TreeNode*> tnST;
+        TreeNode* curr = root;
+        int cnt = 0;
+        
+        while(!tnST.empty() || curr) {
             
-        int cnt = 0, ret = -1;
-        TreeNode *ptr = root, *head = root;
-        
-        stack<TreeNode*> s;
-        s.push(root);
-        TreeNode *cur = root->left;
-        
-        
-        while(cur || !s.empty()) {
-            
-            while (cur) {
-               s.push(cur);
-               cur=cur->left;
+            while (curr) {
+                tnST.push(curr);
+                curr = curr->left;
             }
             
-            cur = s.top();
-            s.pop();
-            // printf("%d\n", cur->val);
+            curr = tnST.top(); tnST.pop();
+            if(++cnt == k) break;
             
-            if (++cnt == k) {
-                ret = cur->val;
-                break;
-            }
-            cur = cur->right;
+            curr = curr->right;
+            
         }
         
-        return ret;
+        return curr->val;
     }
-
 };
