@@ -12,19 +12,20 @@
 class Solution {
 public:
     bool isValidBST(TreeNode* root) {
-        return helper(root, LLONG_MIN, LLONG_MAX);
+        long long prev = LLONG_MIN;
+        return inorderTraversal(root, prev);
     }
     
-    bool helper(TreeNode* root, long long lowerbound, long long upperbound){
+    bool inorderTraversal(TreeNode* root, long long& prev) {
         if (!root) return true;
         
-        bool left = !(root->left) || 
-                        (root->left && root->left->val < root->val 
-                        && helper(root->left, lowerbound, root->val));
-        bool right = !(root->right) || 
-                        (root->right && root->val < root->right->val 
-                        && helper(root->right, root->val, upperbound));
+        bool left = inorderTraversal(root->left, prev);
         
-        return lowerbound < root->val && root->val < upperbound && left && right;
+        if (root->val <= prev) return false;
+        prev = root->val;
+        
+        bool right = inorderTraversal(root->right, prev);
+        
+        return left && right;
     }
 };
