@@ -12,20 +12,24 @@
 class Solution {
 public:
     bool isValidBST(TreeNode* root) {
+        stack<TreeNode*> tnST;
+        TreeNode* curr = root;
         long long prev = LLONG_MIN;
-        return inorderTraversal(root, prev);
-    }
-    
-    bool inorderTraversal(TreeNode* root, long long& prev) {
-        if (!root) return true;
         
-        bool left = inorderTraversal(root->left, prev);
+        while (!tnST.empty() || curr) {
+            while (curr) { // left
+                tnST.push(curr);
+                curr = curr->left;
+            }
+            
+            curr = tnST.top(); tnST.pop(); // pop from the stack and 
+            if (curr->val <= prev) return false; // check the mid
+            prev = curr->val; 
+            
+            // update curr to curr->right
+            curr = curr->right;
+        }
         
-        if (root->val <= prev) return false;
-        prev = root->val;
-        
-        bool right = inorderTraversal(root->right, prev);
-        
-        return left && right;
+        return true;
     }
 };
