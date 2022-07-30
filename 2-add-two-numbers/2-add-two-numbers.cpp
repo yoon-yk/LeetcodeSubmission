@@ -14,20 +14,20 @@ public:
         if(!l1) return l2;
         if(!l2) return l1;
         
-        int currSum = 0, rest;
+        int currSum = 0, digit;
         bool prev_carry = false, curr_carry = false;
     
         ListNode *dummyHead = new ListNode();
         ListNode *ptr = dummyHead;
         
-        while (l1 && l2) {
-            currSum = l1->val + l2->val;
+        while (l1 && l2) { 
             prev_carry = curr_carry;
-            if (prev_carry) currSum += 1;
+            currSum = l1->val + l2->val + prev_carry;
             curr_carry = (currSum >= 10);
-            rest = (curr_carry)? currSum %= 10 : currSum;
+            digit = currSum %= 10;
             
-            ListNode *curr = new ListNode(rest);
+            ListNode *curr = new ListNode(digit);
+            
             ptr->next = curr;
             ptr = ptr->next;
             
@@ -39,21 +39,20 @@ public:
         if (!l2) restPtr = l1;
                 
         while (restPtr) {
-            currSum = restPtr->val;
             prev_carry = curr_carry;
-            if (prev_carry) currSum += 1;
+            currSum = restPtr->val + prev_carry;
             curr_carry = (currSum >= 10);
-            rest = (curr_carry)? currSum %= 10 : currSum;
+            digit = currSum %= 10;
             
-            ListNode *curr = new ListNode(rest);
+            ListNode *curr = new ListNode(digit);
+            
             ptr->next = curr;
             ptr = ptr->next;    
             restPtr = restPtr->next;
         }
         
-        if (curr_carry) {
+        if (curr_carry) 
             ptr->next = new ListNode(1);
-        }
         
         return dummyHead->next;
     }
