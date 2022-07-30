@@ -18,33 +18,47 @@ class Solution {
 public:
     Node* copyRandomList(Node* head) {
         
-        // 1. hash map 만들기
-        unordered_map<Node*, Node*> map;
-        
+        Node* curr = head, *next;
+
+        // First round: make copy of each node,
+        // and link them together side-by-side in a single list.
+        while (curr) {
+            next = curr->next;
+
+            Node* copy = new Node(curr->val);
+            curr->next = copy;
+            copy->next = next;
+
+            curr = next;
+        }
+
+        // Second round: assign random pointers for the copy nodes.
+        curr = head;
+        while (curr) {
+            if (curr->random) 
+                curr->next->random = curr->random->next; /* copied node's random = copied random node */
+            curr = curr->next->next;
+        }
+
+        // Third round: restore the original list, and extract the copy list.
+        curr = head;
         Node* dummyHead = new Node(0);
-        Node* prev = dummyHead;
-        
-        // 2. head 타고 가면서 노드 새로 만들고, hash map에 넣기
-        Node* origCurr = head, *copyCurr;
-        while (origCurr) {
-            copyCurr = new Node(origCurr->val);
-            map[origCurr] = copyCurr;
-            prev->next = copyCurr;
-            prev = prev->next;
-            origCurr = origCurr->next;
-        }   
-        
-        // 3. head 다시 타고 가면서, map에서 copy linked list에서 해당하는 노드 불러오기 
-        origCurr = head; 
-        copyCurr = dummyHead->next;
-        
-        while (origCurr) {
-            copyCurr->random = (map.count(origCurr->random))? map[origCurr->random] : NULL;
-            origCurr = origCurr->next;
-            copyCurr = copyCurr->next;
-        } 
-        
+        Node* copy, *copyIter = dummyHead;
+
+        while (curr) {
+            next = curr->next->next;
+
+            // extract the copy
+            copy = curr->next;
+            copyIter->next = copy;
+            copyIter = copy;
+
+            // restore the original list
+            curr->next = next;
+
+            curr = next;
+        }
+
         return dummyHead->next;
-        
     }
 };
