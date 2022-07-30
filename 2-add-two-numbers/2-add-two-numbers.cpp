@@ -27,7 +27,7 @@ public:
             
             currSum = l1val + l2val + carry;
             carry = (currSum >= 10);
-            digit = currSum %= 10;
+            digit = currSum % 10;
             
             ListNode *curr = new ListNode(digit);
             
@@ -38,7 +38,6 @@ public:
             if (l2) l2 = l2->next;
         }
 
-        
         return dummyHead->next;
     }
 };
