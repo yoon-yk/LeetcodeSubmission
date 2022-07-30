@@ -15,19 +15,18 @@ public:
         if(!l2) return l1;
         
         int currSum = 0, digit, l1val, l2val;
-        bool prev_carry = false, curr_carry = false;
+        bool carry = false;
     
         ListNode *dummyHead = new ListNode();
         ListNode *ptr = dummyHead;
         
-        while (l1 || l2 || curr_carry) { 
-            prev_carry = curr_carry;
+        while (l1 || l2 || carry) { 
             
             l1val = (l1)? l1->val : 0;
             l2val = (l2)? l2->val : 0;
             
-            currSum = l1val + l2val + prev_carry;
-            curr_carry = (currSum >= 10);
+            currSum = l1val + l2val + carry;
+            carry = (currSum >= 10);
             digit = currSum %= 10;
             
             ListNode *curr = new ListNode(digit);
