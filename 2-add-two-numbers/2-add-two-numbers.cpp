@@ -21,10 +21,11 @@ public:
         ListNode *ptr = dummyHead;
         
         while (l1 && l2) {
+            currSum = l1->val + l2->val;
             prev_carry = curr_carry;
-            currSum = l1->val + l2->val + prev_carry;
+            if (prev_carry) currSum += 1;
             curr_carry = (currSum >= 10);
-            rest = currSum %= 10;
+            rest = (curr_carry)? currSum %= 10 : currSum;
             
             ListNode *curr = new ListNode(rest);
             ptr->next = curr;
@@ -38,10 +39,11 @@ public:
         if (!l2) restPtr = l1;
                 
         while (restPtr) {
+            currSum = restPtr->val;
             prev_carry = curr_carry;
-            currSum = restPtr->val + prev_carry;
+            if (prev_carry) currSum += 1;
             curr_carry = (currSum >= 10);
-            rest = currSum %= 10;
+            rest = (curr_carry)? currSum %= 10 : currSum;
             
             ListNode *curr = new ListNode(rest);
             ptr->next = curr;
