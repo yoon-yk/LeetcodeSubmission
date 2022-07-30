@@ -10,38 +10,30 @@
  */
 class Solution {
 public:
-    
-    // edge case : even number, odd number, no node, one node
-    
     bool isPalindrome(ListNode* head) {
+        if (!head || !head->next) return true;
         
-        if (head==NULL || head->next==NULL) return true;
+        stack<ListNode*> stackNode;
         
-        stack<int> st;
-        
-        // 1. find middle + push nodes into stack
-        ListNode *lead = head, *middle = head;
-        while (lead!=NULL && lead->next!=NULL) {
-            st.push(middle->val);
-            lead = lead->next->next;
-            middle = middle->next;
+        ListNode* slow = head, *fast = head;
+        while (fast && fast->next) {
+            stackNode.push(slow);
+            slow = slow->next;
+            fast = fast->next->next;
         }
         
-        // 길이가 odd인 경우 lead는 마지막 노드에 가있음 !!! 
-        if (lead!=NULL) middle=middle->next;
+        // If odd  [a - b] - <c> - b - a
+        if (fast) {
+            slow = slow->next;
+        } 
         
-        // 2. middle->end + pop from stack with comparison
-        // 에러 핸들링 stack이 먼저 비는 경우, end에 먼저 닿는 경우! -> false 
-        int stTop;
-        while (!st.empty() || middle!=NULL){
-            stTop = st.top();
-            if (stTop!= middle->val) return false;
-            st.pop();
-            middle = middle->next;
+        ListNode* curr;
+        while(!stackNode.empty() && slow) {
+            curr = stackNode.top(); stackNode.pop();
+            if (curr->val != slow->val) break;
+            slow = slow->next;
         }
         
-        if (!st.empty() || middle!=NULL) return false;
-        return true;
-
+        return (stackNode.empty() && !slow);
     }
 };
