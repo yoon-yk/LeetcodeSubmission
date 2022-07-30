@@ -30,11 +30,9 @@ public:
             copyCurr = new Node(origCurr->val);
             map[origCurr] = copyCurr;
             prev->next = copyCurr;
-            prev = copyCurr;
+            prev = prev->next;
             origCurr = origCurr->next;
-        }
-        prev->next = NULL;
-   
+        }   
         
         // 3. head 다시 타고 가면서, map에서 copy linked list에서 해당하는 노드 불러오기 
         origCurr = head; 
