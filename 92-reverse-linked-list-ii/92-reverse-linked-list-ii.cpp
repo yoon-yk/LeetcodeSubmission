@@ -33,7 +33,7 @@ public:
             tail = curr;
             curr = lead;
             lead = lead->next;
-            rest = curr->next;
+            if (cnt == right) rest = curr->next;
             curr->next = tail;
             cnt++;
         }
