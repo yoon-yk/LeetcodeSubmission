@@ -11,39 +11,39 @@
 class Solution {
 public:
     ListNode* oddEvenList(ListNode* head) {
+        if (!head) return NULL;
         
-        if (head==NULL || head->next==NULL) return head;
+        // 1. create an even Head 
+        ListNode* evenHead = new ListNode();
+        ListNode* evenPtr = evenHead;
         
-        ListNode* ptr = head;
-        ListNode* oddhead = NULL, *oddptr = NULL;
-        ListNode* evenhead = NULL, *evenptr = NULL;
+        // 2. iterate over the list and take out the even indiced node and link to the new list
+        ListNode *ptr = head, *prev = head;
+        bool isEven = false;
         
-        int cnt = 0;
-        while (ptr){
-            if (cnt%2 == 1) { // odd num
-                if (oddhead == NULL) {
-                    oddhead = oddptr = ptr;
-                }
-                else {
-                    oddptr->next = ptr;
-                    oddptr = oddptr->next;
-                }
-            } else { // even num
-                if (evenhead == NULL) {
-                    evenhead = evenptr = ptr;
-                }
-                else {
-                    evenptr->next = ptr;
-                    evenptr = evenptr->next;
-                }
+        while (ptr) {
+            if (isEven) {
+                prev->next = ptr->next;
+                evenPtr->next = ptr;
+                ptr = ptr->next;
+
+                evenPtr = evenPtr->next;
+                evenPtr->next = NULL;
             }
-            ptr = ptr->next;
-            cnt++;
+            else {
+                prev = ptr;
+                ptr = ptr->next;
+            }
+            
+            isEven = !isEven;
         }
+
         
-        evenptr->next = oddhead;
-        oddptr->next = NULL;
+        // 3. link the odd head to the last node of the list when the iteration is over.
+        prev->next = evenHead->next;
         
-        return evenhead;
+        // return NULL;
+        return head;
     }
+    
 };
