@@ -13,13 +13,12 @@ public:
     ListNode* reverseBetween(ListNode* head, int left, int right) {
         if (!head) return NULL;
         
-        int cnt = 1;
-        
         ListNode* dummyHead = new ListNode();
         dummyHead->next = head;
         
         ListNode* ptr = head, *prev = dummyHead, *rest = NULL, *start = NULL;
         
+        int cnt = 1;
         while (ptr && cnt < left) {
             prev = ptr;
             ptr = ptr->next;
@@ -27,23 +26,22 @@ public:
         }
         start = ptr; // Save the starting pointer to modify the next link at line 32.
 
-        prev->next = helper(ptr, rest, cnt, right);
+        // Reverse
+        
+        ListNode* lead = ptr, *curr, *tail;        
+        while (lead && cnt <= right) {
+            tail = curr;
+            curr = lead;
+            lead = lead->next;
+            rest = curr->next;
+            curr->next = tail;
+            cnt++;
+        }
+        
+        prev->next = curr;
         start->next = rest; // Link the rest nodes;
 
         return dummyHead->next;
     }
-    
-    
-    ListNode* helper(ListNode* ptr, ListNode*& rest, int &cnt, int right) {
-        if (!ptr) return NULL;
-        if (cnt == right) {
-            rest = ptr->next;
-            return ptr;
-        }
-        cnt ++;
-        ListNode* node = helper(ptr->next, rest, cnt, right);
-        ptr->next->next = ptr;
-        ptr->next = NULL;
-        return node;
-    }
+
 };
