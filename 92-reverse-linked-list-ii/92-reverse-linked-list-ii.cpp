@@ -14,7 +14,11 @@ public:
         if (!head) return NULL;
         
         int cnt = 1;
-        ListNode* ptr = head, *prev = NULL, *rest = NULL, *start = NULL;
+        
+        ListNode* dummyHead = new ListNode();
+        dummyHead->next = head;
+        
+        ListNode* ptr = head, *prev = dummyHead, *rest = NULL, *start = NULL;
         
         while (ptr && cnt < left) {
             prev = ptr;
@@ -23,12 +27,10 @@ public:
         }
         start = ptr; // Save the starting pointer to modify the next link at line 32.
 
-        if (prev) prev->next = helper(ptr, rest, cnt, right);
-        else head = helper(ptr, rest, cnt, right);
-        
+        prev->next = helper(ptr, rest, cnt, right);
         start->next = rest; // Link the rest nodes;
 
-        return head;
+        return dummyHead->next;
     }
     
     
