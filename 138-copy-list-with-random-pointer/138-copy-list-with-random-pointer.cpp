@@ -26,19 +26,17 @@ public:
         
         // 2. head 타고 가면서 노드 새로 만들고, hash map에 넣기
         Node* origCurr = head, *copyCurr;
-        int idx = 0;
         while (origCurr) {
             copyCurr = new Node(origCurr->val);
             map[origCurr] = copyCurr;
             prev->next = copyCurr;
             prev = copyCurr;
             origCurr = origCurr->next;
-            idx++;
         }
         prev->next = NULL;
    
         
-        // 3. head 다시 타고 가면서, orgNodeMap에서 idx 찾아주고, copyIdxMap에서 해당 Idx에 해당하는 노드 불러오기 
+        // 3. head 다시 타고 가면서, map에서 copy linked list에서 해당하는 노드 불러오기 
         origCurr = head; 
         copyCurr = dummyHead->next;
         
