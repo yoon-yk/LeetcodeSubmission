@@ -19,8 +19,7 @@ public:
     Node* copyRandomList(Node* head) {
         
         // 1. hash map 만들기
-        unordered_map<Node*, int> origNodeMap;
-        unordered_map<int, Node*> copyIdxMap;
+        unordered_map<Node*, Node*> map;
         
         Node* dummyHead = new Node(0);
         Node* prev = dummyHead;
@@ -30,9 +29,7 @@ public:
         int idx = 0;
         while (origCurr) {
             copyCurr = new Node(origCurr->val);
-            origNodeMap[origCurr] = idx;
-            copyIdxMap[idx] = copyCurr;
-            
+            map[origCurr] = copyCurr;
             prev->next = copyCurr;
             prev = copyCurr;
             origCurr = origCurr->next;
@@ -46,7 +43,7 @@ public:
         copyCurr = dummyHead->next;
         
         while (origCurr) {
-            copyCurr->random = (origNodeMap.count(origCurr->random))? copyIdxMap[origNodeMap[origCurr->random]] : NULL;
+            copyCurr->random = (map.count(origCurr->random))? map[origCurr->random] : NULL;
             origCurr = origCurr->next;
             copyCurr = copyCurr->next;
         } 
