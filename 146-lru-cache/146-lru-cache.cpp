@@ -1,32 +1,32 @@
 class LRUCache {
-    int m_capacity;
-    unordered_map<int, list<pair<int, int>>::iterator> m_map; //m_map_iter->first: key, m_map_iter->second: list iterator;
-    list<pair<int, int>> m_list; // m_list_iter->first: key, m_list_iter->second: value;
 public:
-    LRUCache(int capacity) : m_capacity{capacity} {}
+    int cap;
+    unordered_map <int, list<pair<int, int>>::iterator> iterMap; 
+    list<pair<int, int>> cacheList;
+        
+    LRUCache(int capacity) : cap{capacity} {}
     
     int get(int key) {
-        if (m_map.find(key) == m_map.end()) // key doesn't exist
-            return -1;
-        m_list.splice(m_list.begin(), m_list, m_map[key]); // move the node corresponding to key to front
-        return m_map[key]->second; // return value of the node
+        if (!iterMap.count(key)) return -1;
+        cacheList.splice(cacheList.begin(), cacheList, iterMap[key]); // Move to the front
+        return iterMap[key]->second; // Return the value of the key
     }
     
     void put(int key, int value) {
-        if (m_map.find(key) != m_map.end()) // key exists
+        if (iterMap.count(key)) // if exists
         {
-            m_list.splice(m_list.begin(), m_list, m_map[key]); // move the node corresponding to key to front
-            m_map[key]->second = value;
-            return;
+            cacheList.splice(cacheList.begin(), cacheList, iterMap[key]); // Move to the front
+            iterMap[key]->second = value; // Update the value of the key 
         }
-        if (m_map.size() == m_capacity) // reached capacity
-        {
-            int key_to_del = m_list.back().first;
-            m_list.pop_back(); // remove node in list;
-            m_map.erase(key_to_del);
+        else {
+            if (cacheList.size() >= cap) { // if the size exceeds the capacity
+                int keyLRU = cacheList.back().first;
+                cacheList.pop_back();
+                iterMap.erase(keyLRU);
+            }
+            cacheList.emplace_front(key, value); // Move to the front
+            iterMap[key] = cacheList.begin();
         }
-        m_list.emplace_front(key, value); // create new node in list
-        m_map[key] = m_list.begin(); // create correspondence between key and node
     }
 };
 
