@@ -6,13 +6,14 @@ public:
         while (right < nums.size()) {
             if (nums[right-1] == nums[right]) {
                 if (++occur <= 2) 
-                    nums[left++] = nums[right];   
+                    nums[left++] = nums[right++];
+                else while (right < nums.size() && nums[right-1] == nums[right]) right++;
             }
             else {
                 occur = 1;
-                nums[left++] = nums[right];
+                nums[left++] = nums[right++];
             }
-            right++;
+            // right++;
         }
         return left;
     }
