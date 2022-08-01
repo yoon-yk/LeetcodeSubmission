@@ -11,13 +11,11 @@ public:
                 nums[idx++] = nums[start];
                 end ++;
             }
+            else if (nums[end-1] == nums[end]) {
+                end++;
+            }
             else {
-                if (nums[end-1] == nums[end]) {
-                    end++;
-                }
-                else {
-                    start = end;                    
-                }
+                start = end;                    
             }
         }
         return idx;
