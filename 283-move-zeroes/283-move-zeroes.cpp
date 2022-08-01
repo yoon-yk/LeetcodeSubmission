@@ -8,7 +8,7 @@ public:
             }
             else { // If zeroIdx points to zero
                 if (nums[ptr] == 0) { // Adjust ptr to the non-zero cell
-                    ptr++;
+                    ++ptr;
                 }
                 else { // Swap elems if ptr points to non-zero and zeroIdx points to zero
                     swap(nums[zeroIdx], nums[ptr]);
