@@ -4,10 +4,7 @@ public:
         int left = 0, right = 0;
         while (right < nums.size()) {
             nums[left++] = nums[right++];
-            if (right < nums.size() && nums[right-1] == nums[right]) { // Duplicate
-                while (right < nums.size() && nums[right-1] == nums[right]) right++;
-            }
-            
+            while (right < nums.size() && nums[right-1] == nums[right]) right++;
         }
         return left;
     }
