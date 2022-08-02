@@ -1,23 +1,14 @@
 class Solution {
 public:
-    int removeDuplicates(vector<int>& nums) {
-        if (nums.size() == 0) return 0;
-        
-        int start = 0, end = 0;
-        int idx = 0;
-        
-        while (end < nums.size()) {
-            if (start == end) {
-                nums[idx++] = nums[start];
-                end ++;
+  int removeDuplicates(vector<int>& nums) {
+        int left = 0, right = 0;
+        while (right < nums.size()) {
+            nums[left++] = nums[right++];
+            if (right < nums.size() && nums[right-1] == nums[right]) { // Duplicate
+                while (right < nums.size() && nums[right-1] == nums[right]) right++;
             }
-            else if (nums[end-1] == nums[end]) {
-                end++;
-            }
-            else {
-                start = end;                    
-            }
+            
         }
-        return idx;
+        return left;
     }
 };
