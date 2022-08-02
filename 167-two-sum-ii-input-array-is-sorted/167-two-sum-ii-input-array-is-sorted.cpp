@@ -1,18 +1,20 @@
 class Solution {
 public:
     vector<int> twoSum(vector<int>& numbers, int target) {
-        unordered_map<int, int> hashM;
-        int cand;
-        
-        for (int i=0; i<numbers.size(); i++) 
-            hashM[numbers[i]] = i+1;
-        
-        for (int i=0; i<numbers.size(); i++) {
-            cand = target - numbers[i];
-            if(hashM.find(cand)!=hashM.end()) 
-                return {i+1, hashM[cand]};
+        int left = 0, right = numbers.size()-1;
+        int curSum;
+        while (left < right) {
+            curSum = numbers[left] + numbers[right];
+            if (curSum == target) {
+                return {left+1, right+1};
+            }
+            
+            if (curSum < target) {
+                left ++;
+            } else {
+                right--;
+            }
         }
-        
-        return {};
+        return {left+1, right+1};
     }
 };
