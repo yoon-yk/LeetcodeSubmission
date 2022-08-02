@@ -8,7 +8,7 @@ public:
         
         while (right < len) {
             if (subStrM.count(s[right])) { // if exists
-                while (left < subStrM[s[right]] + 1) { // erase all the letters in range [left, s[right]] 
+                while (left < subStrM[s[right]] + 1) { // move left pointer forward until it passes last s[right]
                     subStrM.erase(s[left++]);
                 }
             }
