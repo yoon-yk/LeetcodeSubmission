@@ -3,48 +3,32 @@ public:
     vector<int> findAnagrams(string s, string p) {
         
         vector<int> ans;
-        int left = 0, right = 0, slen = s.length(), plen = p.length();
         
-        unordered_map<char, int> pdict;
+        vector<int> currWindow(26, 0);
+        vector<int> pWindow(26, 0);
         
-        for (int i=0; i<plen; i++) {
-            if (pdict.count(p[i]))
-                pdict[p[i]]++;
-            else pdict[p[i]] = 1;
+        int s_len = s.length(), p_len = p.length();
+        if (s_len < p_len) return ans;
+        
+        for (int i=0; i<p_len; i++) {
+            currWindow[s[i]-'a']++;
+            pWindow[p[i]-'a']++;
         }
         
-        int charN = pdict.size();
-            
-        while ( right < slen ) {
+        int left = 0, right = p_len-1;
+        
+        while (right < s_len) {
                         
-            // 1. Check if s[right] exists in string p
-            if (pdict.find(s[right])!=pdict.end()) { 
-                --pdict[s[right]];
-                
-                if (pdict[s[right]] == 0)
-                    --charN;
-            } 
-
-            // 2. If the window size is equal to plen
-            if (right-left+1 == plen) { 
-
-                // If every characters are consumed 
-                if (charN == 0) {
-                    ans.push_back(left);
-                }
-                
-                // Restore left one if it's from the dict
-                if (pdict.find(s[left])!=pdict.end()) { 
-                    if (pdict[s[left]] == 0)
-                        ++charN; 
-                    ++pdict[s[left]]; 
-                }
-
-                // Move left
-                ++left;
+            if (currWindow == pWindow) {
+                ans.push_back(left);
             }
+
+            if (++right < s_len) {
+                ++currWindow[s[right]-'a'];
+            };
             
-            ++right;
+            --currWindow[s[left]-'a'];
+            ++left;
         }
         
         return ans;
