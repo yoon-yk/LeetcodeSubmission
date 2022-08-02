@@ -8,12 +8,11 @@ public:
         
         while (right < len) {
             if (subStrM.count(s[right])) { // if exists
-                while (left < subStrM[s[right]] + 1) {
+                while (left < subStrM[s[right]] + 1) { // erase all the letters in range [left, s[right]] 
                     subStrM.erase(s[left++]);
                 }
-            } else { // if not exist
-                maxLen = max(maxLen, right-left+1);
             }
+            maxLen = max(maxLen, right-left+1);
             subStrM[s[right]] = right;
             right ++;
         }
