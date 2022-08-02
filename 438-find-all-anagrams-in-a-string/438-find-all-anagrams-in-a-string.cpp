@@ -1,35 +1,52 @@
 class Solution {
 public:
     vector<int> findAnagrams(string s, string p) {
-        if (s.size()==0 || p.size()==0 || p.size() > s.size()) return {};
         
-        vector<int> res;
+        vector<int> ans;
+        int left = 0, right = 0, slen = s.length(), plen = p.length();
         
-        // 1. put every chars of p into a hashMap 
-        unordered_map<char, int> hashM;
-        for(auto ch:p) hashM[ch]+=1;
+        unordered_map<char, int> pdict;
         
-        // 2. sliding window 
-        int start=0, end=0, cnt=hashM.size();
-        while (end<=s.size()) {
-            if (hashM.find(s[end])!=hashM.end()) {
-                hashM[s[end]] --;
-                if (hashM[s[end]] == 0) cnt--;
-            }
-            
-            if (end-start+1 < p.size()){
-                end++;
-            } else if (end-start+1 == p.size()) {
-                if (cnt == 0) res.push_back(start);
-                if (hashM.find(s[start])!=hashM.end()) {
-                    hashM[s[start]] ++;
-                    if (hashM[s[start]] == 1) cnt++;
-                }
-                start++; end++;
-            }
-            
+        for (int i=0; i<plen; i++) {
+            if (pdict.count(p[i]))
+                pdict[p[i]]++;
+            else pdict[p[i]] = 1;
         }
         
-        return res;
+        int charN = pdict.size();
+            
+        while ( right < slen ) {
+                        
+            // 1. Check if s[right] exists in string p
+            if (pdict.find(s[right])!=pdict.end()) { 
+                --pdict[s[right]];
+                
+                if (pdict[s[right]] == 0)
+                    --charN;
+            } 
+
+            // 2. If the window size is equal to plen
+            if (right-left+1 == plen) { 
+
+                // If every characters are consumed 
+                if (charN == 0) {
+                    ans.push_back(left);
+                }
+                
+                // Restore left one if it's from the dict
+                if (pdict.find(s[left])!=pdict.end()) { 
+                    if (pdict[s[left]] == 0)
+                        ++charN; 
+                    ++pdict[s[left]]; 
+                }
+
+                // Move left
+                ++left;
+            }
+            
+            ++right;
+        }
+        
+        return ans;
     }
 };
