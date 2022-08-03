@@ -8,8 +8,10 @@ public:
         
         while (end < s.size()) {
             
-            if (--map[s[end]] >= 0)
-                -- counter;
+            
+            map[s[end]]--;
+            if (map[s[end]] >= 0)
+                counter--;
             
             while (!counter) {
                 if (end-begin+1 < minLen) {
@@ -17,12 +19,11 @@ public:
                     minLeft = begin;
                 }
                 if (map[s[begin]] == 0)
-                    ++ counter;
-                ++ map[s[begin]];
-                ++ begin;
+                    counter++;
+                map[s[begin]]++;
+                begin++;
             }
-            
-            ++end;
+            end++;
         }
         return (minLen == INT_MAX)? "" : s.substr(minLeft, minLen);
     }
