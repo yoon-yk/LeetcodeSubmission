@@ -34,16 +34,13 @@ public:
                
                 while (!q.empty() && q.front() <= left) q.pop();
 
-            
-               cout << "before::"<< left << "::" << right << endl;
-               
+                           
                while (!q.empty() && hashM[s[left]] < 0) {
                    if (hashM[s[left]] == 0)
                         ++tCnt;
                     ++hashM[s[left]];
                    left = q.front(); q.pop();
                }
-               cout << "after::"<< left << "::" << right << endl;
 
                    
                if (right-left+1 < minSubLen){
@@ -52,8 +49,6 @@ public:
                     minSubLen = right-left+1;
 
                }
-               cout << "min::" << minLeft << "::" << minRight << endl;
-
 
 
                if (!q.empty()) {
