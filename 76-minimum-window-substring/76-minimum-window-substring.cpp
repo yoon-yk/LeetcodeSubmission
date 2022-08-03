@@ -36,8 +36,6 @@ public:
 
                            
                while (!q.empty() && hashM[s[left]] < 0) { 
-                   if (hashM[s[left]] == 0)
-                        ++tCnt;
                     ++hashM[s[left]];
                    left = q.front(); q.pop();
                }
