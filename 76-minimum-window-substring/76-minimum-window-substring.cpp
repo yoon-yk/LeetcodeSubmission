@@ -22,7 +22,7 @@ public:
             }
             
             if (hashM.find(s[right])!=hashM.end()) {
-                q.push(right);
+                if(left!=right) q.push(right);
                 --hashM[s[right]];
                 
                 if (hashM[s[right]] == 0)
@@ -32,7 +32,7 @@ public:
                 
            if (tCnt == 0) {
                
-               while (!q.empty() && q.front() <= left) q.pop();
+               // while (!q.empty() && q.front() <= left) q.pop();
 
                            
                while (!q.empty() && hashM[s[left]] < 0) { 
@@ -47,7 +47,6 @@ public:
                     minLeft = left;
                     minRight = right;
                     minSubLen = right-left+1;
-
                }
 
 
