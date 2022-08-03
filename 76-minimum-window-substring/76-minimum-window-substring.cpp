@@ -1,30 +1,61 @@
 class Solution {
 public:
     string minWindow(string s, string t) {
-        vector<int> map(128, 0);
-        for (auto c:t) map[c]++;
-        int counter = t.size(), begin = 0, end = 0;
-        int minLen = INT_MAX, minLeft = -1;
+        int left = 0, right = 0, s_len = s.length(), t_len = t.length();
+        if (s_len < t_len) return "";
+        if (s == t) return t;
         
-        while (end < s.size()) {
+        unordered_map<char, int> hashM;
+        queue<int> q;
+        
+        for (int i=0; i<t_len; i++) 
+            hashM[t[i]]++;
+        int tCnt = hashM.size();
+        int minLeft=-1, minSubLen = INT_MAX;
+        
+        while (right < s_len) {
             
-            
-            map[s[end]]--;
-            if (map[s[end]] >= 0)
-                counter--;
-            
-            while (!counter) {
-                if (end-begin+1 < minLen) {
-                    minLen = end-begin+1;
-                    minLeft = begin;
-                }
-                if (map[s[begin]] == 0)
-                    counter++;
-                map[s[begin]]++;
-                begin++;
+            if (left == right && !hashM.count(s[left])) { 
+                while (right < s_len && !hashM.count(s[left])) 
+                    right = ++left;
+                continue;
             }
-            end++;
+            
+            if (hashM.find(s[right])!=hashM.end()) {
+                if (left < right) q.push(right);
+                --hashM[s[right]];
+                
+                if (hashM[s[right]] == 0)
+                    --tCnt;
+            }
+            
+                
+           if (tCnt == 0) {
+                           
+               while (!q.empty() && hashM[s[left]] < 0) { 
+                    ++hashM[s[left]];
+                   left = q.front(); q.pop();
+               }
+
+                   
+               if (right-left+1 < minSubLen){
+                    minLeft = left;
+                    minSubLen = right-left+1;
+               }
+
+
+               if (!q.empty()) {
+                   if (hashM[s[left]] == 0)
+                        ++tCnt;
+                    ++hashM[s[left]];
+                   left = q.front(); q.pop();
+                }
+           }
+            
+            
+            ++ right;
         }
-        return (minLen == INT_MAX)? "" : s.substr(minLeft, minLen);
+        
+        return (minLeft == -1) ? "" : s.substr(minLeft, minSubLen);
     }
 };
