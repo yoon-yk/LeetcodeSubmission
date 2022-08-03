@@ -15,7 +15,7 @@ public:
         
         while (right < s_len) {
             
-            if (left == right && !hashM.count(s[left])) {
+            if (left == right && !hashM.count(s[left])) { 
                 while (right < s_len && !hashM.count(s[left])) 
                     right = ++left;
                 continue;
@@ -32,10 +32,10 @@ public:
                 
            if (tCnt == 0) {
                
-                while (!q.empty() && q.front() <= left) q.pop();
+               while (!q.empty() && q.front() <= left) q.pop();
 
                            
-               while (!q.empty() && hashM[s[left]] < 0) {
+               while (!q.empty() && hashM[s[left]] < 0) { 
                    if (hashM[s[left]] == 0)
                         ++tCnt;
                     ++hashM[s[left]];
@@ -52,16 +52,10 @@ public:
 
 
                if (!q.empty()) {
-                   int next = q.front(); q.pop();
-
-                   while (left < next) {
-                        if (hashM.find(s[left])!=hashM.end()) {
-                            if (hashM[s[left]] == 0)
-                                ++tCnt;
-                            ++hashM[s[left]];
-                        }
-                       ++left;
-                    }
+                   if (hashM[s[left]] == 0)
+                        ++tCnt;
+                    ++hashM[s[left]];
+                   left = q.front(); q.pop();
                 }
            }
             
