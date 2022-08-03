@@ -8,21 +8,16 @@ public:
         
         while (end < s.size()) {
             
-            -- map[s[end]];
-            
-            if (map[s[end]] >= 0) {    
+            if (--map[s[end]] >= 0)
                 -- counter;
-            }
             
             while (!counter) {
                 if (end-begin+1 < minLen) {
                     minLen = end-begin+1;
                     minLeft = begin;
                 }
-                
-                if (map[s[begin]] == 0) {
+                if (map[s[begin]] == 0)
                     ++ counter;
-                }
                 ++ map[s[begin]];
                 ++ begin;
             }
