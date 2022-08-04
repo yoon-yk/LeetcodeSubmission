@@ -5,11 +5,16 @@ public:
         // prefix + sliding window
         
         arr.push_back(0);
-        for (int i=arr.size()-1; i > 0; i--)
-            arr[i] = arr[i-1]; 
+        
+        int prev = arr[0];
+        int curr;
         arr[0] = 0;        
-        for (int i=1; i<arr.size(); i++)
-            arr[i] += arr[i-1]; // don't need extra space 
+        for (int i=1; i<arr.size(); i++) {
+            curr = arr[i];
+            arr[i] = prev + arr[i-1]; // don't need extra space
+            prev = curr;
+        }
+
         
         // 1, 5, 7, 12, 15 
         int sum = 0; 
