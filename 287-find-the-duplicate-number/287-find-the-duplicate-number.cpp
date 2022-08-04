@@ -7,19 +7,17 @@ public:
         int slow = start, fast = start;
         
         // find the intersection 
-        while (1) {
+        do {
             slow = nums[slow];
             fast = nums[nums[fast]];
-            if (slow == fast) break;
-        }
+        } while (slow != fast);
         
         // find the cycle starting point
         slow = start;
-        while (1) {
+        do {
             slow = nums[slow];
             fast = nums[fast];
-            if (slow == fast) break;  
-        }
+        } while (slow != fast);
 
         return slow;
     }
