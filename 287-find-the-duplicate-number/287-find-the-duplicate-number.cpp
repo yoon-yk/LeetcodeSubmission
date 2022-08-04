@@ -3,7 +3,7 @@ public:
     int findDuplicate(vector<int>& nums) {
         if (nums.size() == 0) return 0;
         
-        int start = 0;
+        int start = nums[0];
         int slow = start, fast = start;
         
         // find the intersection 
@@ -14,10 +14,10 @@ public:
         
         // find the cycle starting point
         slow = start;
-        do {
+        while (slow != fast) {
             slow = nums[slow];
             fast = nums[fast];
-        } while (slow != fast);
+        }
 
         return slow;
     }
