@@ -9,10 +9,7 @@ public:
         // 2. Make piles of cards
         for (int i=0, j; i<nums.size(); i++) {
             int currCard = nums[i];
-            for (j = 0; j < currStackN; j++) {
-                if (topOfStack[j] >= currCard) break;
-            }
-            int stackToPut = j;
+            int stackToPut = lower_bound(topOfStack.begin(), topOfStack.begin()+currStackN, currCard) - topOfStack.begin();
             if (stackToPut >= currStackN) currStackN++;
             topOfStack[stackToPut] = currCard;
         }
