@@ -1,26 +1,25 @@
 class Solution {
 public:
     vector<vector<int>> permute(vector<int>& nums) {
-        vector<int> cur;
+        vector<int> cur = nums;
         vector<vector<int>> ans;
         
-        backtrack(nums, ans, cur);
+        backtrack(0, nums, ans);
         
         return ans;
     }
     
-    void backtrack(vector<int>& nums, vector<vector<int>>& ans, vector<int>& cur) {
+    void backtrack(int idx, vector<int>& nums, vector<vector<int>>& ans) {
                 
-        if (cur.size() == nums.size()) {
-            ans.push_back(cur);
+        if (idx == nums.size()) {
+            ans.push_back(nums);
             return;
         }
         else {
-            for (int i=0; i < nums.size(); i++) {
-                if (find(cur.begin(), cur.end(), nums[i])!=cur.end()) continue; // element already exists, skip
-                cur.push_back(nums[i]);
-                backtrack(nums, ans, cur);
-                cur.pop_back();
+            for (int j=idx; j < nums.size(); j++) {
+                swap(nums[idx], nums[j]);
+                backtrack(idx+1, nums, ans);
+                swap(nums[idx], nums[j]);
             }
         }
 
