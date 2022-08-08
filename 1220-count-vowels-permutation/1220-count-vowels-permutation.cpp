@@ -1,29 +1,49 @@
 class Solution {
 public:
-    int countVowelPermutation(int n) {
-        long dp[2][5]; // row = len; col = char;
-        // a=0, e=1, i=2, o=3, u=4;
-        int MOD = 1e9 + 7;
+    int MOD = 1e9 + 7;
+
+    int cal(vector<vector<long>>& dp, int n, int i) {
         
-        int prev = 0, curr = 1;
-        for (int i=0; i<5; i++) {
-            dp[prev][i] = 0;
-            dp[curr][i] = 1;
+        if (n == 1) return dp[n][i] = 1;
+        if (dp[n][i]!= -1) return dp[n][i];
+        
+        int ans = 0;
+        
+        switch (i) {
+            case 0 : // a 
+                ans += cal(dp, n-1, 1), ans %= MOD;
+                ans += cal(dp, n-1, 2), ans %= MOD;
+                ans += cal(dp, n-1, 4), ans %= MOD;
+                break;
+            case 1 : // e 
+                ans += cal(dp, n-1, 0), ans %= MOD;
+                ans += cal(dp, n-1, 2), ans %= MOD;
+                break;
+            case 2 : // i
+                ans += cal(dp, n-1, 1), ans %= MOD;
+                ans += cal(dp, n-1, 3), ans %= MOD;
+                break;
+            case 3 : // o
+                ans += cal(dp, n-1, 2), ans %= MOD;
+                break;
+            case 4 : // u
+                ans += cal(dp, n-1, 2), ans %= MOD;
+                ans += cal(dp, n-1, 3), ans %= MOD;
+                break;   
         }
-                
-        for (int i=2; i<=n; i++) {
-            curr = !curr;
-            prev = !prev;
-            dp[curr][0] = (dp[prev][1] + dp[prev][2] + dp[prev][4]) % MOD ; // 'a' is following after 'e', 'i', 'u'
-            dp[curr][1] = (dp[prev][0] + dp[prev][2]) % MOD; // 'e' is following after 'a', 'i'
-            dp[curr][2] = (dp[prev][1] + dp[prev][3]) % MOD; // 'i' is following after 'e', 'o'
-            dp[curr][3] = (dp[prev][2]); // 'o' is following after 'i'
-            dp[curr][4] = (dp[prev][3] + dp[prev][2]) % MOD; // 'u' is following after 'o', 'i'
-        }
+        
+        return dp[n][i] = ans;
+    }
+    
+    
+    int countVowelPermutation(int n) {
+        vector<vector<long>> dp(n+1, vector<long> (5, -1)); // row = len; col = char;
         
         int cnt = 0;
-        for(int i = 0; i < 5; i++)
-            cnt = (cnt + dp[curr][i]) % MOD; 
+        for(int i = 0; i < 5; i++) {
+            cnt += cal(dp, n, i);
+            cnt %= MOD;
+        }
         
         return cnt;
     }
