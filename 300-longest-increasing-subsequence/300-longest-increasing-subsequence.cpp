@@ -1,30 +1,22 @@
 class Solution {
 public:
     int lengthOfLIS(vector<int>& nums) {
-        /*
-         dp
-         
-         10 |  9 |  2 |  5 |  3 |  7 | 101 |  18 
-          1    1    1    2    2    3     4     4
-          
-        dp[i] = max(dp[c] + 1, 1) (c < i, dp[c] < dp[i])
-          
-        */
         
-        int size = nums.size();
-        vector<int> dp(size, 1);
-        int maxCnt = 1;
+        // Initialize stack
+        vector<int> topOfStack(nums.size(), INT_MAX);
+        int currStackN = 0;
         
-        for (int i=0; i<size; i++) {
-            for (int j=i+1; j<size; j++) {
-                if (nums[j] > nums[i]) {
-                    dp[j] = max(dp[j], dp[i]+1);
-                    maxCnt = max(maxCnt, dp[j]);
-                }
+        // 2. Make piles of cards
+        for (int i=0, j; i<nums.size(); i++) {
+            int currCard = nums[i];
+            for (j = 0; j < currStackN; j++) {
+                if (topOfStack[j] >= currCard) break;
             }
+            int stackToPut = j;
+            if (stackToPut >= currStackN) currStackN++;
+            topOfStack[stackToPut] = currCard;
         }
         
-        return maxCnt;
-        
+        return currStackN;
     }
 };
