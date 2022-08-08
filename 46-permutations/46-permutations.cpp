@@ -10,9 +10,7 @@ public:
     }
     
     void backtrack(int idx, vector<int>& nums, vector<vector<int>>& ans, vector<int>& cur) {
-        
-        cout << idx << endl;
-        
+                
         if (cur.size() == nums.size()) {
             ans.push_back(cur);
             return;
