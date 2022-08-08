@@ -12,18 +12,17 @@ public:
     
     void backtrack(vector<int>& candidates, int idx, int curSum, vector<int>& cur, vector<vector<int>>& ans) {
         
-        if (idx > candidates.size() || curSum < 0)
+        if (idx == candidates.size() || curSum < 0)
             return;
         else if (curSum == 0) {
             ans.push_back(cur);
             return;
         }
         else {
-            for (int i=idx; i<candidates.size(); i++) {
-            cur.push_back(candidates[i]);
-            backtrack(candidates, i, curSum-candidates[i], cur, ans);
+            backtrack(candidates, idx+1, curSum, cur, ans); // exculde
+            cur.push_back(candidates[idx]);
+            backtrack(candidates, idx, curSum-candidates[idx], cur, ans); // include 
             cur.pop_back();
-            }
         }
     }
     
