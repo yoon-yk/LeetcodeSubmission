@@ -14,18 +14,17 @@ public:
         
         if (idx > candidates.size() || curSum < 0)
             return;
-        
-        if (curSum == 0) {
+        else if (curSum == 0) {
             ans.push_back(cur);
             return;
         }
-        
-        for (int i=idx; i<candidates.size(); i++) {
+        else {
+            for (int i=idx; i<candidates.size(); i++) {
             cur.push_back(candidates[i]);
             backtrack(candidates, i, curSum-candidates[i], cur, ans);
             cur.pop_back();
+            }
         }
-        
     }
     
 };
