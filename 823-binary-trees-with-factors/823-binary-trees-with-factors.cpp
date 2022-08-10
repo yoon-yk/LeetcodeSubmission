@@ -11,10 +11,12 @@ public:
             hashM[n]++;
         
         for (int rootI=0; rootI<arr.size(); rootI++) {
-            for (int leftI=0; leftI<rootI; leftI++) {
+            double sqrtRoot = sqrt(arr[rootI]);
+            for (int leftI=0; arr[leftI]<=sqrtRoot; leftI++) {
+                if (arr[rootI] % arr[leftI]) continue;
                 int right = arr[rootI] / arr[leftI]; // right는 root보다 작은 값
-                if (arr[rootI] % arr[leftI] == 0 && hashM.count(right)) { // 완전히 나누어 떨어지는 값이어야 함. 
-                    hashM[arr[rootI]] += (hashM[arr[leftI]] * hashM[right]);
+                if (hashM.count(right)) { // 완전히 나누어 떨어지는 값이어야 함. 
+                    hashM[arr[rootI]] += (hashM[arr[leftI]] * hashM[right]) * ((arr[leftI] == right)? 1 : 2);
                     hashM[arr[rootI]] %= MOD;
                 }
             }
