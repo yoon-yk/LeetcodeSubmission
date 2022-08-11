@@ -19,9 +19,7 @@ public:
             int bIdx = aIdx+1, cIdx = nums.size()-1;
             
             while (bIdx < cIdx) {
-                
                 int sum = nums[aIdx]+nums[bIdx]+nums[cIdx];
-
                 if (sum==0) {
                     ans.push_back({nums[aIdx], nums[bIdx], nums[cIdx]});
                     bIdx++;
@@ -30,10 +28,13 @@ public:
                 }
                 else if (sum < 0) {
                     bIdx++;
+                    while (bIdx < nums.size() && nums[bIdx-1] == nums[bIdx]) bIdx++;
                 }
                 else {
                     cIdx--;
-                }   
+                    // while (cIdx > 0 && nums[cIdx-1] == nums[cIdx]) cIdx--;
+                }
+                
             }
             
             aIdx++;
