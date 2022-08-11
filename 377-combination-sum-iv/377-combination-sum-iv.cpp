@@ -3,6 +3,7 @@ public:
     
     int combinationSum4(vector<int>& nums, int target) {
         vector<int> dp(target+1, -1);
+        sort(nums.begin(), nums.end());
         return helper(nums, dp, target);
     }
     
@@ -16,7 +17,7 @@ public:
         
         int ans = 0;
         for (int i=0; i<nums.size(); i++) {
-            if (target-nums[i] < 0) continue;
+            if (target-nums[i] < 0) break;
             ans += helper(nums, dp, target-nums[i]);
         }
         return dp[target] = ans;
