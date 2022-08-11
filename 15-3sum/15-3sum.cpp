@@ -20,7 +20,6 @@ public:
             
             while (bIdx < cIdx) {
                 int sum = nums[aIdx]+nums[bIdx]+nums[cIdx];
-                // cout << "sum : " << sum << " a : " << nums[aIdx] << " b : " << nums[bIdx] << " c : " << nums[cIdx] << endl;
                 if (sum==0) {
                     ans.push_back({nums[aIdx], nums[bIdx], nums[cIdx]});
                     bIdx = upper_bound(nums.begin(), nums.end(), nums[bIdx]) - nums.begin();
@@ -28,10 +27,9 @@ public:
                     cIdx--;
                 }
                 else if (sum < 0) {
-                    bIdx = upper_bound(nums.begin(), nums.end(), nums[bIdx]) - nums.begin();
+                    bIdx++;
                 }
                 else {
-                    cIdx = lower_bound(nums.begin(), nums.end(), nums[cIdx]) - nums.begin();
                     cIdx--;
                 }
                 
