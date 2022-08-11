@@ -12,7 +12,7 @@ public:
             m[target]--;
             
             for (auto l:m) {
-                if (l.first > target) continue;
+                if (l.first > target) break;
                 int left = l.first;
                 if (m[left] == 0) continue;
                 m[left]--;
