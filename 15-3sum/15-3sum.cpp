@@ -23,24 +23,20 @@ public:
                 // cout << "sum : " << sum << " a : " << nums[aIdx] << " b : " << nums[bIdx] << " c : " << nums[cIdx] << endl;
                 if (sum==0) {
                     ans.push_back({nums[aIdx], nums[bIdx], nums[cIdx]});
-                    while (bIdx < nums.size()-1 && nums[bIdx] == nums[bIdx+1]) bIdx++;
-                    while (cIdx > 0 && nums[cIdx] == nums[cIdx-1]) cIdx--;
-                    bIdx++; cIdx--;
+                    bIdx = upper_bound(nums.begin(), nums.end(), nums[bIdx]) - nums.begin();
+                    cIdx = lower_bound(nums.begin(), nums.end(), nums[cIdx]) - nums.begin();
+                    cIdx--;
                 }
                 else if (sum < 0) {
-                    while (bIdx < nums.size()-1 && nums[bIdx] == nums[bIdx+1]) bIdx++;
-                    bIdx++;
+                    bIdx = upper_bound(nums.begin(), nums.end(), nums[bIdx]) - nums.begin();
                 }
                 else {
-                    while (cIdx > 0 && nums[cIdx-1] == nums[cIdx]) cIdx--;
+                    cIdx = lower_bound(nums.begin(), nums.end(), nums[cIdx]) - nums.begin();
                     cIdx--;
                 }
                 
             }
-            
-            aIdx++;
-            while (aIdx > 0 && aIdx < nums.size() && nums[aIdx-1] == nums[aIdx]) aIdx++;
-
+            aIdx = upper_bound(nums.begin(), nums.end(), nums[aIdx]) - nums.begin();
         }
         
         return ans;
