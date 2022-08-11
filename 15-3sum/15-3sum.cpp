@@ -20,19 +20,20 @@ public:
             
             while (bIdx < cIdx) {
                 int sum = nums[aIdx]+nums[bIdx]+nums[cIdx];
+                // cout << "sum : " << sum << " a : " << nums[aIdx] << " b : " << nums[bIdx] << " c : " << nums[cIdx] << endl;
                 if (sum==0) {
                     ans.push_back({nums[aIdx], nums[bIdx], nums[cIdx]});
-                    bIdx++;
-                    while (bIdx < nums.size() && nums[bIdx-1] == nums[bIdx]) bIdx++;
-                    while (cIdx > 0 && nums[cIdx-1] == nums[cIdx]) cIdx--;
+                    while (bIdx < nums.size()-1 && nums[bIdx] == nums[bIdx+1]) bIdx++;
+                    while (cIdx > 0 && nums[cIdx] == nums[cIdx-1]) cIdx--;
+                    bIdx++; cIdx--;
                 }
                 else if (sum < 0) {
+                    while (bIdx < nums.size()-1 && nums[bIdx] == nums[bIdx+1]) bIdx++;
                     bIdx++;
-                    while (bIdx < nums.size() && nums[bIdx-1] == nums[bIdx]) bIdx++;
                 }
                 else {
+                    while (cIdx > 0 && nums[cIdx-1] == nums[cIdx]) cIdx--;
                     cIdx--;
-                    // while (cIdx > 0 && nums[cIdx-1] == nums[cIdx]) cIdx--;
                 }
                 
             }
