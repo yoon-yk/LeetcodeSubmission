@@ -3,7 +3,7 @@ public:
     vector<vector<int>> threeSum(vector<int>& nums) {
         
         vector<vector<int>> ans;
-        map <int, int> m;
+        unordered_map <int, int> m;
         for (int n : nums)
             m[n]++;
         
@@ -12,7 +12,7 @@ public:
             m[target]--;
             
             for (auto l:m) {
-                if (l.first > target) break;
+                if (l.first > target) continue;
                 int left = l.first;
                 if (m[left] == 0) continue;
                 m[left]--;
