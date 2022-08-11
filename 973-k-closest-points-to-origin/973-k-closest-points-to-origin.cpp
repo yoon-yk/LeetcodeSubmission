@@ -1,30 +1,37 @@
 class Solution {
 public:
+    
+    struct Point {
+        int x;
+        int y;
+        int dist;
+        Point(int _x, int _y) : x(_x), y(_y), dist((x*x) + (y*y)) {}
+    };
+    
     vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {
         
-        priority_queue <vector<int>, vector<vector<int>>, compare > max_heap;
-        vector<vector<int>> ret;
+        auto compare = [](Point* a, Point* b) {
+            return a->dist > b->dist; // use > for min heap, < for max heap
+        };
+        
+        vector<vector<int>> ans;
+        priority_queue <Point*, vector<Point*>, decltype(compare)> pq(compare);
 
-        for (vector<int>& pair:points){
-            max_heap.push(pair);
-            if (max_heap.size() > k) {
-                max_heap.pop();
-            }
+        
+        Point* newPoint;
+        for (const vector<int>& p : points) {
+            newPoint = new Point(p[0], p[1]);
+            pq.push(newPoint);
         }
         
         int cnt = 0;
+        Point* curPoint;
         
-        while(!max_heap.empty()) {
-            ret.push_back(max_heap.top());
-            max_heap.pop();
+        while (cnt++ < k) {
+            curPoint = pq.top(); pq.pop();
+            ans.push_back({curPoint->x, curPoint->y});
         }
         
-        return ret;
+        return ans;
     }
-    
-    struct compare {
-        bool operator()(vector<int>&p, vector<int>&q) {
-            return p[0] * p[0] + p[1] * p[1] < q[0] * q[0] + q[1] * q[1];
-        }
-    };
 };
