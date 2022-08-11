@@ -13,8 +13,11 @@ public:
             
             for (auto l:m) {
                 int left = l.first;
+                if (left > target || m[left] == 0) continue; 
+                
                 int right = -1 * (target+left);
-                if (left > target || m[left] == 0 || right > left) continue; 
+                if (right > left) continue;
+                
                 m[left]--;
                 if (m.count(right) && m[right] > 0)
                     ans.push_back({target, left, right});
