@@ -3,6 +3,8 @@ public:
     vector<vector<int>> threeSum(vector<int>& nums) {
         
         vector<vector<int>> ans;
+        if (nums.size() < 3) return ans;
+        
         unordered_map <int, int> m;
         for (int n : nums)
             m[n]++;
