@@ -12,24 +12,16 @@
 class Solution {
 public:
     bool isValidBST(TreeNode* root) {
-        stack<TreeNode*> tnST;
-        TreeNode* curr = root;
-        long long prev = LLONG_MIN;
+        return helper(root, (long)INT_MIN-1, (long)INT_MAX+1);
+    }
+    
+    bool helper(TreeNode* root, long minV, long maxV) {
+        if (!root) return true;
         
-        while (!tnST.empty() || curr) {
-            while (curr) { // left
-                tnST.push(curr);
-                curr = curr->left;
-            }
-            
-            curr = tnST.top(); tnST.pop(); // pop from the stack and 
-            if (curr->val <= prev) return false; // check the mid
-            prev = curr->val; 
-            
-            // update curr to curr->right
-            curr = curr->right;
-        }
+        bool isRootValid = (root->val < maxV) && (minV < root->val);
+        bool isLeftValid = helper(root->left, minV, root->val);
+        bool isRightValid = helper(root->right, root->val, maxV);
         
-        return true;
+        return isRootValid && isLeftValid && isRightValid;
     }
 };
