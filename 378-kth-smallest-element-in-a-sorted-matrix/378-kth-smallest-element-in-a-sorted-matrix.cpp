@@ -1,48 +1,36 @@
-class Element {
-    public :
-        int value;
-        int column;
-        int row;
-    Element(int v, int r, int c) {
-        value = v;
-        column = c;
-        row = r;
-    }
-};
-
-class Comparator {
-    public:
-    bool operator() (const Element* a, const Element* b) {
-        return a->value > b->value;
-    }
-};
-
 class Solution {
 public:
+    
+    struct Point {
+        int x;
+        int y;
+        int val;
+        Point (int _x, int _y, int _val) : x(_x), y(_y), val(_val) {};
+    };
+    
     int kthSmallest(vector<vector<int>>& matrix, int k) {
-        // min heap 만들어주기
-        priority_queue<Element*, vector<Element*>, Comparator> pq;
         
-        int m_row = matrix.size(), m_col = matrix[0].size();
-
-        // 첫번째 row 다 넣어주기
-        for (int c=0; c < min(m_col, k); ++c) {
-            Element* ptr = new Element(matrix[0][c], 0, c);
-            pq.push(ptr);
-        } 
+        auto compare=[] (Point*& a, Point*& b) {
+            return a->val > b->val;
+        };
         
-        // k만큼 min heap에서 하나씩 빼면서 top아래 애도 넣어주기
+        priority_queue<Point*, vector<Point*>, decltype(compare)> pq(compare);
         
-        int r, c, val;
-        for (int i=0; i < k; i++) {
-            Element* curr = pq.top(); pq.pop();
-            val = curr->value, r = curr->row, c = curr->column;
-            if (r+1 < m_row) {
-                Element* ptr = new Element(matrix[r+1][c], r+1, c);
-                pq.push(ptr);
+        for (int i=0; i<min(k, (int)matrix.size()); i++){
+            pq.push(new Point(i,0,matrix[i][0]));
+        }
+        
+        int minV;
+        Point* curPoint;
+        for (int i=0; i<k; i++) {
+            curPoint = pq.top(); pq.pop();
+            minV = curPoint->val;
+            if (curPoint->y + 1 < matrix[0].size()) {
+                pq.push(new Point(curPoint->x, curPoint->y+1, matrix[curPoint->x][curPoint->y+1]));
             }
         }
         
-        return val;
+        return minV;
+        
     }
 };
