@@ -2,6 +2,11 @@ class Solution {
 public:
     int findKthLargest(vector<int>& nums, int k) {
         int left = 0, right = nums.size() - 1, kth;
+        
+        for (int i=0; i<k/2; i++) {
+            swap(nums[i], nums[right-i]);    
+        }
+        
         while (true) {
             int idx = partition(nums, left, right);
             if (idx == k - 1) {
