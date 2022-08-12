@@ -1,16 +1,15 @@
 class Solution {
 public:
     string reorganizeString(string s) {
-        string ans = "";
-        
-        unordered_map<char, int> hashM; 
         
         auto compare = [] (pair<char, int> a, pair<char, int> b) {
             return a.second < b.second;
         };
         
-        
+        string ans = "";
         int maxCnt = INT_MIN;
+        unordered_map<char, int> hashM; 
+        
         for (const char& c:s) {
             hashM[c]++;
             maxCnt = max(hashM[c], maxCnt);
@@ -23,9 +22,6 @@ public:
         for (auto h : hashM) {
             pq.push({h.first, h.second});
         }        
-        
-        char firstCh, secondCh;
-        int firstCnt = 0, secondCnt = 0;
         
         while (pq.size() > 1) {
             auto firstCh = pq.top(); pq.pop();
@@ -48,7 +44,6 @@ public:
             if (lastCh.second > 1) return "";
             ans += lastCh.first;
         }
-        
         
         return ans;
     }
