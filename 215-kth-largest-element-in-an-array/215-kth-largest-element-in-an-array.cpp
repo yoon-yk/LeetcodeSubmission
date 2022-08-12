@@ -3,7 +3,7 @@ public:
     int findKthLargest(vector<int>& nums, int k) {
         int left = 0, right = nums.size() - 1, kth;
         
-        for (int i=0; i<k/2; i++) {
+        for (int i=0; i<k; i++) {
             swap(nums[i], nums[right-i]);    
         }
         
