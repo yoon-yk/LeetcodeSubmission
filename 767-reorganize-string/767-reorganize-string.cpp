@@ -15,7 +15,7 @@ public:
             maxCnt = max(hashM[c], maxCnt);
         }
         
-        // if (s.size() - maxCnt < maxCnt - 1) return ans;
+        if (s.size() - maxCnt < maxCnt - 1) return ans;
         
         priority_queue<pair<char, int>, vector<pair<char, int>>, decltype(compare)> pq(compare);
 
@@ -41,7 +41,7 @@ public:
         
         if (!pq.empty()) {
             auto lastCh = pq.top(); pq.pop();
-            if (lastCh.second > 1) return "";
+            // if (lastCh.second > 1) return "";
             ans += lastCh.first;
         }
         
