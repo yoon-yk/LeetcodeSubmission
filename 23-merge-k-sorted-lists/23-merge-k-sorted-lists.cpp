@@ -11,24 +11,24 @@
 class Solution {
 public:
     ListNode* mergeKLists(vector<ListNode*>& lists) {
-        if (lists.empty()) return nullptr;
-        priority_queue<int, vector<int>, greater<int>> minHeap;
         
-        // Insert every node into minHeap 
-        for (auto head : lists){
-            while(head){
-                minHeap.push(head->val);
-                head=head->next;
+        priority_queue<int, vector<int>, greater<int>> pq;
+        for (ListNode* cur : lists) {
+            while (cur){
+                pq.push(cur->val);
+                cur = cur->next;
             }
+
         }
         
-        // Pop every node in increasing order
-        ListNode *head = new ListNode();
-        ListNode *cur = head;
-        while(!minHeap.empty()){
-            cur->next = new ListNode(minHeap.top());
-            minHeap.pop();
-            cur = cur->next;
+        int curN;
+        ListNode* head = new ListNode();
+        ListNode* curP = head;
+        while (!pq.empty()) {
+            curN = pq.top(); 
+            pq.pop();
+            curP->next = new ListNode(curN);
+            curP = curP->next;
         }
         
         return head->next;
