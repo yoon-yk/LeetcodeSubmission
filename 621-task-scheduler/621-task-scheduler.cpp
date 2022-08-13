@@ -1,26 +1,22 @@
 class Solution {
 public:
     int leastInterval(vector<char>& tasks, int n) {
-        int lenTasks = tasks.size();        
-        if (lenTasks==0) return 0;
-        if (n==0) return lenTasks;
-
-        unordered_map<int, int> dict;
         
-        int maxN = 0, maxL;
-        for (int i=0; i<lenTasks; i++) {
-            dict[tasks[i]] += 1;
-            maxN = max (dict[tasks[i]], maxN);
+        vector<int> chars(26, 0);
+        int maxCnt = INT_MIN;
+        for (const char& ch : tasks) {
+            chars[ch-'A']++;
+            maxCnt = max(maxCnt, chars[ch-'A']);
         }
         
-        maxL = (maxN-1)*(n+1);
-        
-        for (auto c:dict){
-            if(c.second == maxN) maxL++;
+        int maxChNum = 0;
+        for (int i=0; i<26; i++) {
+            if (chars[i] == maxCnt)
+                maxChNum ++;
         }
         
-
-        return max(maxL, lenTasks);
+        int minRequired = maxCnt + (n * (maxCnt-1)) + (maxChNum-1);
         
+        return max((int) tasks.size(), minRequired);
     }
 };
