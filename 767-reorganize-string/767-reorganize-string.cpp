@@ -15,7 +15,9 @@ public:
             maxCnt = max(chars[c-'a'], maxCnt);
         }
         
-        if (s.size() - maxCnt < maxCnt - 1) return ans;
+        // if (s.size() - maxCnt < maxCnt - 1) return ans;
+        
+        if ((s.size() + 1) >> 1 < maxCnt) return ans;
         
         priority_queue<pair<int, int>, vector<pair<int, int>>, decltype(compare)> pq(compare);
 
