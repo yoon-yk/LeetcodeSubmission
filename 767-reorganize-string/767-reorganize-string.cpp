@@ -2,49 +2,42 @@ class Solution {
 public:
     string reorganizeString(string s) {
         
-        auto compare = [] (pair<int, int> a, pair<int, int> b) {
-            return a.second < b.second;
-        };
-        
         string ans = "";
+        int topCommonCh;
         int maxCnt = INT_MIN;
         vector<int> chars(26, 0);
         
         for (const char& c:s) {
             chars[c-'a']++;
-            maxCnt = max(chars[c-'a'], maxCnt);
+            if (chars[c-'a'] > maxCnt) {
+                maxCnt = chars[c-'a'];
+                topCommonCh = c-'a';
+            }
         }
-        
-        // if (s.size() - maxCnt < maxCnt - 1) return ans;
-        
+                
         if ((s.size() + 1) >> 1 < maxCnt) return ans;
         
-        priority_queue<pair<int, int>, vector<pair<int, int>>, decltype(compare)> pq(compare);
-
+        int idx = 0;
+        vector<char> ret(s.length());
+        while (chars[topCommonCh] > 0) {
+            ret[idx] = topCommonCh + 'a';
+            chars[topCommonCh]--;
+            idx += 2;
+        }
+        
         for (int i=0; i<26; i++) {
-            if (chars[i] > 0)
-                pq.push({i, chars[i]});
-        }        
-        
-        while (pq.size() > 1) {
-            auto firstCh = pq.top(); pq.pop();
-            auto secondCh = pq.top(); pq.pop();
-            
-            ans += firstCh.first + 'a';
-            ans += secondCh.first + 'a';
-
-            if (--firstCh.second > 0) 
-                pq.push({firstCh.first, firstCh.second});
-            if (--secondCh.second > 0) 
-                pq.push({secondCh.first, secondCh.second});
+            if (chars[i] <= 0) continue;
+            while (chars[i] > 0) {
+                if (idx >= s.length()) 
+                    idx = 1;
+                ret[idx] = i + 'a';
+                chars[i]--;
+                idx += 2;   
+            }
         }
         
-        if (!pq.empty()) {
-            auto lastCh = pq.top(); pq.pop();
-            // if (lastCh.second > 1) return "";
-            ans += lastCh.first + 'a';
-        }
-        
+        for (char ch:ret)
+            ans += ch;
         return ans;
     }
 };
