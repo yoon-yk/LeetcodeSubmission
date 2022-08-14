@@ -2,20 +2,22 @@ class Solution {
 public:
     int nthUglyNumber(int n) {
         
-        int idx = 0;
-        vector<int> dp(n+1);
-        dp[++idx] = 1;
-        
-        int next, p2 = 1, p3 = 1, p5 = 1;
+        priority_queue<long, vector<long>, greater<long>> minHeap;
+        minHeap.push(1);
 
-        while (idx < n) { 
-            next = min (dp[p2]*2, min(dp[p3]*3, dp[p5]*5));
-            if (next == dp[p2]*2) p2++;
-            if (next == dp[p3]*3) p3++;
-            if (next == dp[p5]*5) p5++;
-            dp[++idx] = next;
+        long curUglyN = 1, cnt = 0;
+
+        while (!minHeap.empty() && cnt < n) {
+            curUglyN = minHeap.top(); minHeap.pop();
+            while (!minHeap.empty() && curUglyN == minHeap.top())
+                minHeap.pop();
+            
+            minHeap.push(curUglyN * 2);
+            minHeap.push(curUglyN * 3);
+            minHeap.push(curUglyN * 5);
+            cnt++;
         }
         
-        return dp[n];
+        return curUglyN;
     }
 };
