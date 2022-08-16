@@ -10,20 +10,19 @@ public:
             graph[e[1]].push_back(e[0]);
         }
         
-        queue<int> q;
-        q.push(src);
-        visited[src] = true;
+        stack<int> st;
+        st.push(src);
         
         int cur;
-        while (!q.empty()) {
-            cur = q.front(); q.pop();
+        while (!st.empty()) {
+            cur = st.top(); st.pop();
             if (cur == des)
                 return true;
+            visited[cur] = true;
             
             for (int& next : graph[cur]) {
                 if (!visited[next]) {
-                    visited[cur] = true;
-                    q.push(next);
+                    st.push(next);
                 }
             }
         }
