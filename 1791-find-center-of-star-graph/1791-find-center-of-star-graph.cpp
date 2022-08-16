@@ -5,7 +5,7 @@ public:
         int n = edges.size();
         vector<int> v(n+2, 0);
         
-        for (const auto &e : edges) {
+        for (auto e : edges) {
             if (v[e[0]]++ > 0) return e[0];
             if (v[e[1]]++ > 0) return e[1];
         }
