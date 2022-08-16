@@ -1,32 +1,32 @@
 class Solution {
 public:
+    
+    vector<int> parent; 
+    
+    int findParent (int src) {
+        if (src != parent[src])
+            return parent[src] = findParent(parent[src]);
+        return parent[src];
+    }
+    
+    void makeSameGroup(int u , int v) {
+        int pu = findParent(u) ; 
+        int pv = findParent(v);
+        parent[pu] = pv; 
+    }
+
     bool validPath(int n, vector<vector<int>>& edges, int src, int des) {
         
-        vector<vector<int>> graph(n);
-        vector<bool> visited(n, false);
+        parent.resize(n);
         
-        for (const auto& e : edges){
-            graph[e[0]].push_back(e[1]);
-            graph[e[1]].push_back(e[0]);
+        for (int i=0; i<n; i++){
+            parent[i] = i;
+        }
+
+        for (const auto& e : edges) {
+            makeSameGroup(e[0],e[1]);
         }
         
-        stack<int> st;
-        st.push(src);
-        
-        int cur;
-        while (!st.empty()) {
-            cur = st.top(); st.pop();
-            if (cur == des)
-                return true;
-            visited[cur] = true;
-            
-            for (int& next : graph[cur]) {
-                if (!visited[next]) {
-                    st.push(next);
-                }
-            }
-        }
-        
-        return false;
+        return (findParent(src) == findParent(des));
     }
 };
