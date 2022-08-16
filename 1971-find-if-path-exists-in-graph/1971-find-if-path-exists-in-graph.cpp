@@ -12,16 +12,17 @@ public:
         
         queue<int> q;
         q.push(src);
+        visited[src] = true;
         
         int cur;
         while (!q.empty()) {
             cur = q.front(); q.pop();
             if (cur == des)
                 return true;
-            visited[cur] = true;
             
             for (int& next : graph[cur]) {
                 if (!visited[next]) {
+                    visited[cur] = true;
                     q.push(next);
                 }
             }
