@@ -1,11 +1,12 @@
 class Solution {
 public:
-    vector<vector<int>> dir = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+    vector<int> dir = {-1, 0, 1, 0, -1};
     
     void solve(vector<vector<char>>& board) {
         
         int rowSize = board.size(), colSize = board[0].size();
-                
+        
+        
         for (int r=0; r<rowSize; r++) {
             if (board[r][0] == 'O') 
                 dfs(r, 0, board);
@@ -39,8 +40,8 @@ public:
         
         board[r][c] = 'C';
         
-        for (vector<int>& d : dir)
-            dfs(r+d[0], c+d[1], board);
+        for (int i=0; i < dir.size()-1; i++)
+            dfs(r+dir[i], c+dir[i+1], board);
     }
     
 };
