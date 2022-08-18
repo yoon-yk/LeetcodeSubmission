@@ -6,19 +6,18 @@ public:
         
         int rowSize = board.size(), colSize = board[0].size();
         
-        
         for (int r=0; r<rowSize; r++) {
-            if (board[r][0] == 'O') 
+            // if (board[r][0] == 'O') 
                 dfs(r, 0, board);
-            if (board[r][colSize-1] == 'O')
+            // if (board[r][colSize-1] == 'O')
                 dfs(r, colSize-1, board);
         }
 
         
         for (int c=1; c<colSize-1; c++) {
-            if (board[0][c] == 'O') 
+            // if (board[0][c] == 'O') 
                 dfs(0, c, board);
-            if (board[rowSize-1][c] == 'O') 
+            // if (board[rowSize-1][c] == 'O') 
                 dfs(rowSize-1, c, board);
         }
  
