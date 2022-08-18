@@ -5,9 +5,7 @@ public:
     void solve(vector<vector<char>>& board) {
         
         int rowSize = board.size(), colSize = board[0].size();
-        
-        vector<vector<bool>> bluePrint(rowSize, vector<bool>(colSize, true));
-        
+                
         for (int r=0; r<rowSize; r++) {
             if (board[r][0] == 'O') 
                 dfs(r, 0, board);
