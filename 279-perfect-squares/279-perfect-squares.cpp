@@ -1,15 +1,22 @@
-class Solution {
+class Solution 
+{
 public:
-    int numSquares(int n) {
-        
-        vector<int> dp(n+1, 10001); 
-        dp[0] = 0;
-        
-        for (int i=1; i<=n; i++) 
-            for (int j=1; j<=floor(sqrt(i)); j++) 
-                if (i-(j*j) >= 0) 
-                    dp[i] = min(dp[i], dp[i-(j*j)] + 1);
+    int numSquares(int n) 
+    {
+        if (n <= 0)
+            return 0;
 
-        return dp[n];
+        static vector<int> cntPerfectSquares({0});
+        
+        while (cntPerfectSquares.size() <= n)
+        {
+            int m = cntPerfectSquares.size();
+            int cntSquares = INT_MAX;
+            for (int i = 1; i <= sqrt(m); i++)
+                cntSquares = min(cntSquares, cntPerfectSquares[m - i*i] + 1);
+            cntPerfectSquares.push_back(cntSquares);
+        }
+        
+        return cntPerfectSquares[n];
     }
 };
