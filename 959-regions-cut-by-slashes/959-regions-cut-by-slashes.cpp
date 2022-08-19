@@ -7,7 +7,6 @@ public:
         int n = grid.size();
         newGridSize = n*3;
         vector<vector<bool>> newGrid(newGridSize, vector<bool>(newGridSize, 1));
-        vector<vector<bool>> visited(newGridSize, vector<bool>(newGridSize, 0));
         
         for (int i=0; i<n; i++) {
             for (int j=0; j<n; j++) {
@@ -28,7 +27,7 @@ public:
         for (int i=0; i<newGridSize; i++) {
             for (int j=0; j<newGridSize; j++) {
                 if (newGrid[i][j] == 1)
-                    ans += dfs(newGrid, visited, i, j);
+                    ans += dfs(newGrid, i, j);
             }
         }
         
@@ -36,15 +35,15 @@ public:
     }
     
     
-    int dfs(vector<vector<bool>>& grid, vector<vector<bool>>& visited, int i, int j) {
+    int dfs(vector<vector<bool>>& grid, int i, int j) {
         
-        if (i < 0 || i >= newGridSize || j < 0 || j >= newGridSize || grid[i][j] == 0 || visited[i][j]) 
+        if (i < 0 || i >= newGridSize || j < 0 || j >= newGridSize || grid[i][j] == 0) 
             return 0;
         
-        visited[i][j] = true;
+        grid[i][j] = 0;
         
         for (int n=0; n< 4; n++) {
-            dfs(grid, visited, i+dir[n], j+dir[n+1]);
+            dfs(grid, i+dir[n], j+dir[n+1]);
         }
         
         return 1;
