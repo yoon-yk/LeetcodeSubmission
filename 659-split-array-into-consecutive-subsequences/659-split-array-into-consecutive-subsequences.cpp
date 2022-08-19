@@ -1,25 +1,25 @@
 class Solution {
 public:
     bool isPossible(vector<int>& nums) {
-        unordered_map<int, int> startsWith;
-        unordered_map<int, int> endsWith;
+        unordered_map<int, int> head;
+        unordered_map<int, int> tail;
         
         for (int& n:nums) {
-            startsWith[n]++;
+            head[n]++;
         }
         
         for (int& n:nums) {
-            if (startsWith[n] <= 0) continue;
-            startsWith[n]--;
+            if (head[n] <= 0) continue;
+            head[n]--;
             
-            if (endsWith[n-1] > 0) {
-                endsWith[n-1]--;
-                endsWith[n]++;
+            if (tail[n-1] > 0) {
+                tail[n-1]--;
+                tail[n]++;
             }
-            else if (startsWith[n+1] > 0 && startsWith[n+2] > 0) {
-                startsWith[n+1]--;
-                startsWith[n+2]--;
-                endsWith[n+2]++;
+            else if (head[n+1] > 0 && head[n+2] > 0) {
+                head[n+1]--;
+                head[n+2]--;
+                tail[n+2]++;
             } 
             else return false;
         }
