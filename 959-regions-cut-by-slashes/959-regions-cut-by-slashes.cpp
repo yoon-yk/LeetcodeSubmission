@@ -1,51 +1,43 @@
 class Solution {
 public:
-    vector<int> dir = {-1, 0, 1, 0, -1};
-    int newGridSize;
-    
-    int regionsBySlashes(vector<string>& grid) {
-        int n = grid.size();
-        newGridSize = n*3;
-        vector<vector<bool>> newGrid(newGridSize, vector<bool>(newGridSize, 1));
-        
-        for (int i=0; i<n; i++) {
-            for (int j=0; j<n; j++) {
-                if (grid[i][j] == '/') {
-                    newGrid[i*3][j*3+2] = 0;
-                    newGrid[i*3+1][j*3+1] = 0;
-                    newGrid[i*3+2][j*3] = 0;
-                    
-                } else if (grid[i][j] == '\\') {
-                    newGrid[i*3][j*3] = 0;
-                    newGrid[i*3+1][j*3+1] = 0;
-                    newGrid[i*3+2][j*3+2] = 0;
+   int count, n;
+   vector<int> f;
+   int regionsBySlashes(vector<string>& grid) {
+        n = grid.size();
+        count = n * n * 4;
+        for (int i = 0; i < count; ++i)
+            f.push_back(i);
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (i > 0) uni(g(i - 1, j, 2), g(i, j, 0));
+                if (j > 0) uni(g(i , j - 1, 1), g(i , j, 3));
+                if (grid[i][j] != '/') {
+                    uni(g(i , j, 0), g(i , j,  1));
+                    uni(g(i , j, 2), g(i , j,  3));
+                }
+                if (grid[i][j] != '\\') {
+                    uni(g(i , j, 0), g(i , j,  3));
+                    uni(g(i , j, 2), g(i , j,  1));
                 }
             }
         }
-        
-        int ans = 0;
-        for (int i=0; i<newGridSize; i++) {
-            for (int j=0; j<newGridSize; j++) {
-                if (newGrid[i][j] == 1)
-                    ans += dfs(newGrid, i, j);
-            }
-        }
-        
-        return ans;
+        return count;
     }
-    
-    
-    int dfs(vector<vector<bool>>& grid, int i, int j) {
-        
-        if (i < 0 || i >= newGridSize || j < 0 || j >= newGridSize || grid[i][j] == 0) 
-            return 0;
-        
-        grid[i][j] = 0;
-        
-        for (int n=0; n< 4; n++) {
-            dfs(grid, i+dir[n], j+dir[n+1]);
+
+    int find(int x) {
+        if (x != f[x]) {
+            f[x] = find(f[x]);
         }
-        
-        return 1;
+        return f[x];
+    }
+    void uni(int x, int y) {
+        x = find(x); y = find(y);
+        if (x != y) {
+            f[x] = y;
+            count--;
+        }
+    }
+    int g(int i, int j, int k) {
+        return (i * n + j) * 4 + k;
     }
 };
