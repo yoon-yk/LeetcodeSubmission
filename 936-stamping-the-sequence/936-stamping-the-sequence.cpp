@@ -8,11 +8,11 @@ public:
     }
     
     int replace(string &s, string &t , int pos){
-        int replace = 0;
+        int cnt = 0;
         for (int i=0;i<s.size();i++)
             if (t[i+pos]!='?')
-                t[i+pos]='?', replace++;
-        return replace;
+                t[i+pos]='?', cnt++;
+        return cnt;
     }
     
     vector<int> movesToStamp(string s, string t) {
@@ -21,16 +21,16 @@ public:
         int cnt=0;
         
         while (cnt < t.size()){
-            bool replaceable = false;
+            bool replaced = false;
             for (int i=0; i<=t.size()-s.size(); i++)
                 if (!vis[i] && can_replace(s,t,i)){
                     cnt += replace(s,t,i);
                     vis[i]=true;
-                    replaceable=true;
+                    replaced=true;
                     res.push_back(i);
                 }
             
-            if (!replaceable)
+            if (!replaced)
                 return {};
         }
         reverse(res.begin(), res.end());
