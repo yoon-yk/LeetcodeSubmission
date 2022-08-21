@@ -1,19 +1,13 @@
 class Solution {
 public:
     int majorityElement(vector<int>& nums) {
-        return majority(nums, 0, nums.size() - 1);
-    }
-    
-private:
-    int majority(vector<int>& nums, int l, int r) {
-        if (l == r) {
-            return nums[l];
+        int cnt = 0, cand = -1;
+        for (int n:nums) {
+            if (cnt == 0)
+                cand = n;
+            if (cand == n) cnt ++;
+            else cnt--;
         }
-        int m = l + ((r - l) >> 1);
-        int lm = majority(nums, l, m), rm = majority(nums, m + 1, r);
-        if (lm == rm) {
-            return lm;
-        }
-        return count(nums.begin() + l, nums.begin() + r + 1, lm) > count(nums.begin() + l, nums.begin() + r + 1, rm) ? lm : rm;
+        return cand;
     }
-}; 
+};
