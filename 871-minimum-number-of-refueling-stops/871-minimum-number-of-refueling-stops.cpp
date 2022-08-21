@@ -15,11 +15,11 @@ public:
             
             //I can use all i fuelStops, or (i-1), or (i-2) ... till 0 to find which gave me best result
             //So. j goes from j = i to j = 0
-            for(int j = i-1; j>=0; j--) {
+            for(int j = i; j > 0; j--) {
                 //But first, I need to check If I can even reach curr station or not to use it
-                if(t[j] >= stations[i-1][0]) {
+                if(t[j-1] >= stations[i-1][0]) {
                     //So, we can use this fuelStop and now we are using (j+1) fuelStops
-                    t[j+1] = max(t[j+1], t[j] + stations[i-1][1]);
+                    t[j] = max(t[j], t[j-1] + stations[i-1][1]);
                 }
             }
         }
