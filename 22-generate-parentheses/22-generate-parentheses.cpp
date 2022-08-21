@@ -2,9 +2,9 @@ class Solution {
 public:
     vector<string> generateParenthesis(int n) {
         
-        string cur = "(";
+        string cur = "";
         vector<string> ans;
-        dfs(1, n-1, cur, ans);
+        dfs(0, n, cur, ans);
         
         return ans;
     }
