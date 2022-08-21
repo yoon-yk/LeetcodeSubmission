@@ -1,41 +1,20 @@
-//Approach-2 : O(n^2)dp
 class Solution {
 public:
-    int minRefuelStops(int target, int startFuel, vector<vector<int>>& stations) {
-        int n = stations.size();
+    int minRefuelStops(int target, int startFuel, vector<vector<int>>& s) {
+        priority_queue<int> pq;
         
-        vector<long long> t(n+1, 0);
-        //t[j] = max distance that I can reach using j fuelStops
+        int curLoc = startFuel;
+        int cnt = 0;        
+        int i=0;
         
-        //When I don't use any fuelStop, I can travel as much as I had startFuel in the beginning
-        t[0] = startFuel;
-        
-        int curStLoc, curStFuel;
-        
-        //traverse on all fuel stops
-        for(int i = 1; i<n+1; i++) {
-            
-            curStLoc = stations[i-1][0];
-            curStFuel = stations[i-1][1];
-            
-            //I can use all i fuelStops, or (i-1), or (i-2) ... till 0 to find which gave me best result
-            //So. j goes from j = i to j = 0
-            for(int j = i; j > 0; j--) {
-                //But first, I need to check If I can even reach curr station or not to use it
-                if(curStLoc <= t[j-1]) {
-                    //So, we can use this fuelStop and now we are using (j+1) fuelStops
-                    t[j] = max(t[j], t[j-1] + curStFuel);
-                }
-            }
+        while (curLoc < target) {
+            while (i<s.size() && s[i][0] <= curLoc)
+                pq.push(s[i++][1]);
+            if (pq.empty()) return -1;
+            curLoc += pq.top(); pq.pop();
+            cnt++;
         }
         
-        //After you end up with all stations, check which was best for reaching target
-        //Best means, minimum j used by you to reach target
-        
-        for(int j = 0; j<n+1; j++) 
-            if(t[j] >= target)
-                return j;
-        
-        return -1;
+        return cnt;
     }
 };
