@@ -13,6 +13,7 @@ public:
         
         if (opened == 0 && remained == 0) {
             ans.push_back(cur);
+            return;
         }
         
         if (opened > 0) { // 열린거 하나 닫아주기
