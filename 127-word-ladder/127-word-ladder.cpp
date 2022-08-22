@@ -3,16 +3,13 @@ public:
     int wordLen;
 
     int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
-        unordered_map<string, int> hashM;
+        unordered_set<string> wordSet(wordList.begin(), wordList.end());
         queue<string> Q;
         
-        if (find(wordList.begin(), wordList.end(), endWord) == wordList.end())
+        if (wordSet.find(endWord) == wordSet.end())
             return 0;
         
-        wordLen = beginWord.length();
-        for (int i=0; i<wordList.size(); i++) {
-            hashM[wordList[i]]++; 
-        }
+        wordLen = beginWord.length(); 
         Q.push(beginWord);
         
         string curWord, nextWord;
@@ -25,13 +22,13 @@ public:
                 curWord = Q.front(); Q.pop();
                 if (curWord == endWord) 
                     return curPath;
-                hashM.erase(curWord);
+                wordSet.erase(curWord);
                 
                 nextWord = curWord;
                 for (int i=0; i<wordLen; i++) {
                     for (int k=0; k<26; k++) {
                         nextWord[i] = k + 'a';
-                        if (hashM.count(nextWord))
+                        if (wordSet.find(nextWord)!=wordSet.end())
                             Q.push(nextWord);
                         nextWord[i] = curWord[i];
                     }
