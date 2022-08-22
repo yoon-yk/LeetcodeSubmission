@@ -1,7 +1,5 @@
 class Solution {
 public:
-    int wordLen;
-
     int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
         unordered_set<string> wordSet(wordList.begin(), wordList.end());
         queue<string> Q;
@@ -9,7 +7,7 @@ public:
         if (wordSet.find(endWord) == wordSet.end())
             return 0;
         
-        wordLen = beginWord.length(); 
+        int wordLen = beginWord.length(); 
         Q.push(beginWord);
         
         string curWord, nextWord;
