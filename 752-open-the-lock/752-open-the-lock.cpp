@@ -3,12 +3,11 @@ public:
     int openLock(vector<string>& deadends, string target) {
         
         unordered_map<string, int> deadEnds;
-        unordered_map<string, int> visited;
         queue<string> Q;
         
-        for (auto & d : deadends) {
+        for (auto & d : deadends) 
             deadEnds[d]++;
-        }
+
         if (deadEnds.count("0000")) return -1;
         Q.push("0000");
         
@@ -27,13 +26,13 @@ public:
                     inc[i] = (cur[i] == '9')? '0' : (cur[i] + 1);
                     dec[i] = (cur[i] == '0')? '9' : (cur[i] - 1);
 
-                    if (!deadEnds.count(inc) && !visited.count(inc)) {
+                    if (!deadEnds.count(inc)) {
                         Q.push(inc);
-                        visited[inc]++;
+                        deadEnds[inc]++;
                     }
-                    if (!deadEnds.count(dec) && !visited.count(dec)) {
+                    if (!deadEnds.count(dec)) {
                         Q.push(dec);
-                        visited[dec]++;
+                        deadEnds[dec]++;
                     }
                     inc[i] = cur[i];
                     dec[i] = cur[i];
