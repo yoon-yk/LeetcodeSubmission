@@ -22,14 +22,15 @@ public:
                 curWord = Q.front(); Q.pop();
                 if (curWord == endWord) 
                     return curPath;
-                wordSet.erase(curWord);
                 
                 nextWord = curWord;
                 for (int i=0; i<wordLen; i++) {
                     for (int k=0; k<26; k++) {
                         nextWord[i] = k + 'a';
-                        if (wordSet.find(nextWord)!=wordSet.end())
+                        if (wordSet.find(nextWord)!=wordSet.end()) {
                             Q.push(nextWord);
+                            wordSet.erase(nextWord);
+                        }
                         nextWord[i] = curWord[i];
                     }
                 }
