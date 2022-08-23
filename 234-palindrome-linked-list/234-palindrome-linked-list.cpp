@@ -11,29 +11,26 @@
 class Solution {
 public:
     bool isPalindrome(ListNode* head) {
-        if (!head || !head->next) return true;
         
-        stack<ListNode*> stackNode;
+        ListNode* fast = head, *slow = head, *tail = NULL, *body = NULL;
         
-        ListNode* slow = head, *fast = head;
+        
         while (fast && fast->next) {
-            stackNode.push(slow);
-            slow = slow->next;
             fast = fast->next->next;
+            tail = body;
+            body = slow;
+            slow = slow->next;
+            body->next = tail;
         }
         
-        // If odd  [a - b] - <c> - b - a
-        if (fast) {
-            slow = slow->next;
-        } 
+        if (fast) slow = slow->next;
         
-        ListNode* curr;
-        while(!stackNode.empty() && slow) {
-            curr = stackNode.top(); stackNode.pop();
-            if (curr->val != slow->val) break;
+        while (body && slow) {
+            if (slow->val != body->val) return false;
+            body = body->next;
             slow = slow->next;
         }
         
-        return (stackNode.empty() && !slow);
+        return true;
     }
 };
