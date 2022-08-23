@@ -26,10 +26,6 @@ public:
         return newArray;
     }
     
-    inline int getIdx(int r, int c) {
-        return (r*3) + c;
-    }
-    
     inline int visHashing(vector<int> arr) {
         int ret = 0;
         for (int i=0; i<6; i++) 
