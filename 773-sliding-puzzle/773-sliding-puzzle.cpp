@@ -1,14 +1,14 @@
 class Solution {
 public:
     
-    bool check (vector<int>& target, vector<int>& board) {
+    inline bool check (vector<int>& target, vector<int>& board) {
         for (int i=0; i<6; i++) 
             if (target[i]!=board[i])
                     return false;
         return true;
     }
     
-    int findZeroPos (vector<int>& board) {
+    inline int findZeroPos (vector<int>& board) {
         int i = 0;
         for (i=0; i<6; i++) {
             if (board[i] == 0)
@@ -17,7 +17,7 @@ public:
         return i;
     }
     
-    vector<int> matrixToArray (vector<vector<int>>& board) {
+    inline vector<int> matrixToArray (vector<vector<int>>& board) {
         vector<int> newArray;
         for (int i=0; i<2; i++)
             for (int j=0; j<3; j++)
@@ -31,9 +31,8 @@ public:
     
     inline int visHashing(vector<int> arr) {
         int ret = 0;
-        for (int i=0; i<6; i++) {
+        for (int i=0; i<6; i++) 
             ret += ((i*arr[i]+777) << arr[i]*2) + (i<<arr[i]);
-        }
         return ret;
     }
     
@@ -67,22 +66,17 @@ public:
                 for (int d = 0; d < 4; d++) {
                     if (r+dir[d] < 0 || r+dir[d] > 1 || c+dir[d+1] < 0 || c+dir[d+1] > 2) continue;
                     nextIdx = getIdx(r+dir[d],c+dir[d+1]);
-
                     swap(cur[zeroPos], cur[nextIdx]);
-                    
                     curHashed = visHashing(cur);
+                    
                     if (visited.find(curHashed)!=visited.end()) {
                         swap(cur[zeroPos], cur[nextIdx]);
                         continue;
                     }
 
-
                     Q.push(cur);
-
-                    
                     visited.insert(curHashed);
                     swap(cur[zeroPos], cur[nextIdx]);
-                    
                 }
                 
             }
