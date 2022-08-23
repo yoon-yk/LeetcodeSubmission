@@ -1,6 +1,7 @@
 class Solution {
 public:
-    
+    vector<vector<int>> dir = {{1,3},{0,2,4},{1,5},{0,4},{1,3,5},{2,4}};
+
     inline bool check (vector<int>& target, vector<int>& board) {
         for (int i=0; i<6; i++) 
             if (target[i]!=board[i])
@@ -39,7 +40,6 @@ public:
     int slidingPuzzle(vector<vector<int>>& board) {
         
         vector<int> target = {1,2,3,4,5,0};
-        vector<int> dir = {-1, 0, 1, 0, -1};
         vector<int> curBoard = matrixToArray(board);
         if (check(target, curBoard)) return 0;
         
@@ -61,11 +61,9 @@ public:
                 
                 int zeroPos = findZeroPos (cur);
                 int nextIdx, curHashed;
-                int r = zeroPos/3, c = zeroPos % 3;
 
-                for (int d = 0; d < 4; d++) {
-                    if (r+dir[d] < 0 || r+dir[d] > 1 || c+dir[d+1] < 0 || c+dir[d+1] > 2) continue;
-                    nextIdx = getIdx(r+dir[d],c+dir[d+1]);
+                for (int d = 0; d < dir[zeroPos].size(); d++) {
+                    nextIdx = dir[zeroPos][d];
                     swap(cur[zeroPos], cur[nextIdx]);
                     curHashed = visHashing(cur);
                     
