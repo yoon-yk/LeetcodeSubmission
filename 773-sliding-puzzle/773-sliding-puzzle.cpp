@@ -34,7 +34,6 @@ public:
         for (int i=0; i<6; i++) {
             ret += ((i*arr[i]+777) << arr[i]*2) + (i<<arr[i]);
         }
-        // cout << "ret : " << ret << endl;
         return ret;
     }
     
@@ -54,25 +53,16 @@ public:
         int moveCnt = 0;
         while(!Q.empty()) {
             int sizeQ = Q.size();
-            cout << "***" << moveCnt << "***" << endl;
 
             while (sizeQ--) {
                 auto cur = Q.front(); Q.pop();
-                
-                for (int i=0; i<6; i++) {
-                    cout << cur[i] << " ";
-                }
-                cout << endl;
-             
-                
+
                 if (check(target, cur))
                     return moveCnt;
                 
                 int zeroPos = findZeroPos (cur);
                 int nextIdx, curHashed;
                 int r = zeroPos/3, c = zeroPos % 3;
-                // cout << "r : " << r << "|c : " << c << endl; 
-                cout << "children" << endl;
 
                 for (int d = 0; d < 4; d++) {
                     if (r+dir[d] < 0 || r+dir[d] > 1 || c+dir[d+1] < 0 || c+dir[d+1] > 2) continue;
@@ -86,19 +76,14 @@ public:
                         continue;
                     }
 
-                    cout << r+dir[d] << "/" << c+dir[d+1] << "/" << nextIdx << endl;
 
                     Q.push(cur);
-                    for (int i=0; i<6; i++) {
-                    cout << cur[i] << " ";
-                    }
-                    cout << endl;
+
                     
                     visited.insert(curHashed);
                     swap(cur[zeroPos], cur[nextIdx]);
                     
                 }
-                cout << "-------" << endl;
                 
             }
             moveCnt++;
