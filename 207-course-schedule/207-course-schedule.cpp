@@ -1,40 +1,38 @@
 class Solution {
 public:
-    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-        if (prerequisites.empty()) return true;
+    bool canFinish(int numCourses, vector<vector<int>>& pre) {
         
-        vector<bool> visited(numCourses, false);
-        vector<int> indegrees(numCourses, 0);
-        vector<vector<int>> adjList(numCourses);
-        queue<int> Q;
+        if (pre.empty()) return true;
         
-        for (auto &pre : prerequisites) {
-            adjList[pre[0]].push_back(pre[1]);
-            indegrees[pre[1]]++;
+        vector<vector<int>> adjList (numCourses);
+        vector<int> visited(numCourses, 0); // 0 (unvisited), 1 (visiting), 2 (visited)
+        
+        for (auto& p : pre) {
+            adjList[p[0]].push_back(p[1]);    
         }
         
         for (int i=0; i<numCourses; i++){
-            if (indegrees[i] == 0) {
-                Q.push(i);
-                visited[i] = true;
-            }
+            if (!dfs(i, adjList, visited))
+                return false;
+        }
+
+        return true;
+    }
+    
+    bool dfs(int cur, vector<vector<int>>& adjList, vector<int>& visited) {
+        
+        if (visited[cur] == 1) return false;
+        if (visited[cur] == 2) return true; 
+        
+        visited[cur] = 1;
+        
+        for (auto & v : adjList[cur]){
+            if (!dfs(v, adjList, visited))
+                return false;
         }
         
-        int cur;
-        int cnt = numCourses;
-        while (!Q.empty()) {
-            cur = Q.front(); Q.pop();
-            numCourses--;
-            
-            for (int &i : adjList[cur]) {
-                if (!visited[i] && --indegrees[i] == 0) {
-                    visited[i] = true;
-                    Q.push(i);
-                }
-                
-            }
-        }
-            
-        return (numCourses == 0);
+        visited[cur] = 2;
+        
+        return true;        
     }
 };
