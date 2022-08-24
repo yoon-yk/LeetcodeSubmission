@@ -8,7 +8,7 @@ public:
         vector<vector<int>> adjList(numCourses);
         queue<int> Q;
         
-        for (auto pre : prerequisites) {
+        for (auto &pre : prerequisites) {
             adjList[pre[0]].push_back(pre[1]);
             indegrees[pre[1]]++;
         }
@@ -26,7 +26,7 @@ public:
             cur = Q.front(); Q.pop();
             numCourses--;
             
-            for (int i : adjList[cur]) {
+            for (int &i : adjList[cur]) {
                 if (!visited[i] && --indegrees[i] == 0) {
                     visited[i] = true;
                     Q.push(i);
