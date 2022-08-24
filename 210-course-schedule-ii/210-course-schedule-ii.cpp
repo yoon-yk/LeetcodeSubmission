@@ -13,12 +13,17 @@ public:
             indegree[p[0]]++;
         }
         
+        int cnt = 0;
+        bool isCycle = true;
         for (int i=0; i<numCourses; i++) {
             if (indegree[i] == 0) {
+                isCycle = false;
                 Q.push(i);
+                cnt++;
                 visited[i] = true;
             }
         }
+        if (isCycle) return {};
         
         int cur;
         while (!Q.empty()) {
@@ -29,12 +34,13 @@ public:
                 indegree[nei]--;
                 if (!visited[nei] && indegree[nei] == 0) {
                     Q.push(nei);
+                    cnt++;
                     visited[nei] = true;
                 }
             }
         }
         
-        vector<int> empty;
-        return (ans.size() == numCourses)? ans : empty;
+        if (cnt < numCourses) return {};
+        return ans;
     }
 };
