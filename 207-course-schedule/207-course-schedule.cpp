@@ -9,7 +9,6 @@ public:
         queue<int> Q;
         
         for (auto pre : prerequisites) {
-            adjList[pre[1]].push_back(pre[0]);
             adjList[pre[0]].push_back(pre[1]);
             indegrees[pre[1]]++;
         }
