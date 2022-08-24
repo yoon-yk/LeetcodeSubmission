@@ -11,33 +11,31 @@ public:
         }
         
         for (int i=0; i<numCourses; i++) 
-            dfs(i, adjList, visited, ans);
-        
-        if (ans.size()!= numCourses)
-            return {};
+            if (!dfs(i, adjList, visited, ans))
+                return {};
         
         reverse(ans.begin(), ans.end());
         return ans;
         
     }
     
-    void dfs(int cur, vector<vector<int>>& adjList, vector<int>& visited, vector<int>& ans) {
+    bool dfs(int cur, vector<vector<int>>& adjList, vector<int>& visited, vector<int>& ans) {
         
         if (visited[cur] == 2)
-            return;
+            return true;
         
-        if (visited[cur] == 1) {
-            ans.push_back(-1);
-            return;
-        }    
+        if (visited[cur] == 1)
+            return false;
         
         visited[cur] = 1;
         
         for (int v : adjList[cur]) {
-            dfs(v, adjList, visited, ans);
+            if (!dfs(v, adjList, visited, ans))
+                return false;
         }
         
         visited[cur] = 2;
         ans.push_back(cur);
+        return true;
     }
 };
