@@ -13,7 +13,7 @@ public:
             indegrees[pre[1]]++;
         }
         
-        for (int i=0; i<indegrees.size(); i++){
+        for (int i=0; i<numCourses; i++){
             if (indegrees[i] == 0) {
                 Q.push(i);
                 visited[i] = true;
