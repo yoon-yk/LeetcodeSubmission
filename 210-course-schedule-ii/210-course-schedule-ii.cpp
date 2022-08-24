@@ -29,7 +29,7 @@ public:
         
         visited[cur] = 1;
         
-        for (int v : adjList[cur]) {
+        for (int &v : adjList[cur]) {
             if (!dfs(v, adjList, visited, ans))
                 return false;
         }
