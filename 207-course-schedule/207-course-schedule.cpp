@@ -12,8 +12,10 @@ public:
         }
         
         for (int i=0; i<numCourses; i++){
-            if (!dfs(i, adjList, visited))
-                return false;
+            if (visited[i] == 0) {
+                if (!dfs(i, adjList, visited))
+                    return false;
+            }
         }
 
         return true;
