@@ -1,6 +1,8 @@
 class Solution {
 public:
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        if (prerequisites.empty()) return true;
+        
         vector<bool> visited(numCourses, false);
         vector<int> indegrees(numCourses, 0);
         vector<vector<int>> adjList(numCourses);
