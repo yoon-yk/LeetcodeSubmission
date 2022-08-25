@@ -22,7 +22,7 @@ public:
         
         vector<int> ans;
         int startIdx = -1, endIdx = -1;
-        for (auto i : intervals) {
+        for (auto &i : intervals) {
             if (startIdx == -1) {
                 startIdx = i.first;
                 endIdx = i.second;
