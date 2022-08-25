@@ -10,7 +10,7 @@ public:
         
         for (auto &p : pre) {
             adjList[p[0]].push_back(p[1]);
-            // isReachable[p[0]][p[1]] = true;
+            isReachable[p[0]][p[1]] = true;
             indegree[p[1]]++;
         }
         
@@ -25,7 +25,7 @@ public:
             for (int& c : adjList[cur]) {
                 isReachable[cur][c] = true;
                 for (int i=0; i<numCourses; i++) {
-                    if (isReachable[i][cur])
+                    if (isReachable[i][cur] && !isReachable[i][c])
                         isReachable[i][c] = true;
                 }
                 
