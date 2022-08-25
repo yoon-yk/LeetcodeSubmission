@@ -18,7 +18,7 @@ public:
             while(!Q.empty()) {
                 cur = Q.front(); Q.pop();
                 
-                for (int c : adjList[cur]) {
+                for (int& c : adjList[cur]) {
                     if (isReachable[i][c]) continue;
                     isReachable[i][c] = true;
                     Q.push(c);
