@@ -10,16 +10,15 @@ public:
             end[s[i]-'a'] = i;
         }
         
-        vector<pair<int, int>> intervals;
+        set<pair<int, int>> intervals;
 
         for (int i=0; i<26; i++) {
             if (begin[i] < 0) continue;
-            intervals.push_back({begin[i], end[i]});
+            intervals.insert({begin[i], end[i]});
         }
     
-        sort(intervals.begin(), intervals.end());
-        
-        
+        // sort(intervals.begin(), intervals.end());
+    
         vector<int> ans;
         int startIdx = -1, endIdx = -1;
         for (auto &i : intervals) {
