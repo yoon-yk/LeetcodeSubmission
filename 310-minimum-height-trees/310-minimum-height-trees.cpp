@@ -5,7 +5,6 @@ public:
         if (edges.empty()) return {0};
         
         vector<vector<int>> adjList (n);
-        vector<bool> visited(n);
         vector<int> degree(n);
         queue<int> Q;
         
@@ -20,10 +19,8 @@ public:
         for (int i=0; i<n; i++) {
             if (degree[i] == 1) {
                 Q.push(i);
-                visited[i] = true;
                 degree[i]--;
             }
-                
         }
         
         int cur, cnt = n, size;
@@ -35,9 +32,8 @@ public:
             
                 for (int& adj : adjList[cur]) {
                     degree[adj]--;
-                    if (degree[adj] == 1 && !visited[adj]){
+                    if (degree[adj] == 1){
                         Q.push(adj);
-                        visited[adj] = true;   
                     }
                 }
             }
