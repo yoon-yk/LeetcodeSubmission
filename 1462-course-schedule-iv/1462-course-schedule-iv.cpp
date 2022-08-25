@@ -23,7 +23,7 @@ public:
             cur = Q.front(); Q.pop();
                 
             for (int& c : adjList[cur]) {
-                isReachable[cur][c] = true;
+                // isReachable[cur][c] = true;
                 for (int i=0; i<numCourses; i++) {
                     if (isReachable[i][cur] && !isReachable[i][c])
                         isReachable[i][c] = true;
