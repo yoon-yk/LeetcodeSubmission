@@ -19,7 +19,7 @@ public:
         for (int i=0; i<n; i++) {
             if (degree[i] == 1) {
                 Q.push(i);
-                degree[i]--;
+                // degree[i]--;
             }
         }
         
