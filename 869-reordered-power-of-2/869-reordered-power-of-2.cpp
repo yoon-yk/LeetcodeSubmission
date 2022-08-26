@@ -6,8 +6,10 @@ public:
         int size = num.length();
         
         unordered_map<string, int> hashM;
-        for (int i=1; i<=pow(10, size); i<<=1) 
+        for (int i=1; i<=pow(10, size); i<<=1) {
+            if (pow(10, size-1)>i) continue;
             hashM[to_string(i)]++;
+        }
 
         return backtrack(0, size, num, hashM);
         
