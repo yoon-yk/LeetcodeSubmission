@@ -14,14 +14,13 @@ public:
     }
     
     bool backtrack(int idx, int size, string& curN, unordered_map<string, int>& hashM) {
-        
-        // cout << curN << endl;
-        
-        if (hashM.count(curN))
-            return true;
-        
-        if (idx == size)
+
+        if (idx == size) {
+            if (hashM.count(curN))
+                return true;
             return false;
+        }
+
         
         bool ans = false;
         for (int i=idx; i<size; i++) {
