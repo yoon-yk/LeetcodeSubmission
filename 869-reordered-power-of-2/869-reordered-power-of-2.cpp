@@ -1,16 +1,23 @@
 class Solution {
 public:
-    bool reorderedPowerOf2(int N) {
-        unordered_set<string> powerOfTwos;
-        for (int i = 0; i < 32; ++i) {
-            int n = 1 << i;
-            string s = to_string(n);
+    bool reorderedPowerOf2(int n) {
+        
+        string num = to_string(n);
+        int size = num.length();
+        
+        unordered_map<string, int> hashM;
+        string s;
+        for (int i=1; i<=pow(10, size); i<<=1) {
+            if (pow(10, size-1)>i) continue;
+            s = to_string(i);
             sort(s.begin(), s.end());
-            powerOfTwos.insert(s);
+            hashM[s]++;
         }
-        string s = to_string(N);
-        sort(s.begin(), s.end());
-        return powerOfTwos.count(s) > 0;
+        
+        sort(num.begin(), num.end());
+        
+        return hashM.count(num);
         
     }
+    
 };
