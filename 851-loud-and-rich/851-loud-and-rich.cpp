@@ -32,13 +32,14 @@ public:
     
     int dfs (int cur, vector<vector<int>>& adjList, vector<int>& quiet, vector<int>& ans) {
         
-        int minQ = ans[cur];
+        if (ans[cur] != cur)
+            return ans[cur];
+        
+        int minQ = cur;
         
         int neiQ;
         for (int &nei : adjList[cur]) {
-            if (ans[nei] != nei) neiQ = ans[nei];
-            else neiQ = dfs(nei, adjList, quiet, ans);
-            
+            neiQ = dfs(nei, adjList, quiet, ans);
             if (quiet[neiQ] < quiet[minQ])
                 minQ = neiQ;
         }
