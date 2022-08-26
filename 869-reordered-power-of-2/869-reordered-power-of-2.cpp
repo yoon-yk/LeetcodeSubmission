@@ -1,23 +1,21 @@
 class Solution {
 public:
-    bool reorderedPowerOf2(int n) {
-        
-        string num = to_string(n);
-        int size = num.length();
-        
-        unordered_map<string, int> hashM;
-        string s;
-        for (int i=1; i<=pow(10, size); i<<=1) {
-            if (pow(10, size-1)>i) continue;
-            s = to_string(i);
-            sort(s.begin(), s.end());
-            hashM[s]++;
-        }
-        
-        sort(num.begin(), num.end());
-        
-        return hashM.count(num);
-        
+   bool reorderedPowerOf2(int N) {
+        vector<int> A = count(N);
+        for (int i = 0; i < 31; ++i)
+            if (A == count(1 << i)) {
+                return true;
+            }
+       return false;
     }
+
     
+    vector<int> count(int N) {
+        vector<int> ans(10, 0);
+        while (N > 0) {
+            ans[N % 10]++;
+            N /= 10;
+        }
+        return ans;
+    }
 };
