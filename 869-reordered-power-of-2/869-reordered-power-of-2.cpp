@@ -8,7 +8,7 @@ public:
         
         for (int i=1; i<=pow(10, size); i<<=1) 
             hashM[to_string(i)]++;
-        
+
         return backtrack(0, size, num, hashM);
         
     }
@@ -23,13 +23,14 @@ public:
         if (idx == size)
             return false;
         
+        bool ans = false;
         for (int i=idx; i<size; i++) {
+            if (ans) break;
             swap(curN[i], curN[idx]);
-            if (backtrack(idx+1, size, curN, hashM))
-                return true;
+            ans = ans || (backtrack(idx+1, size, curN, hashM));
             swap(curN[i], curN[idx]);
         }
         
-        return false;
+        return ans;
     }
 };
