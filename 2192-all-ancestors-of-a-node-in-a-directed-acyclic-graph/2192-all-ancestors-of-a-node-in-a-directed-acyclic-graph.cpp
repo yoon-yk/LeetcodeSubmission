@@ -20,8 +20,8 @@ public:
         
         int size, cur;
         while (!Q.empty()) {
-            size = Q.size();
-            while (size-- > 0) {
+            // size = Q.size();
+            // while (size-- > 0) {
                 cur = Q.front(); Q.pop();
                 for (int& nei : adjList[cur]) {
                     indegree[nei]--;
@@ -33,7 +33,7 @@ public:
                         if (isAncestor[k][cur]) 
                             isAncestor[k][nei] = true; 
                 }
-            }
+            // }
         }
         
         for (int cur=0; cur<n; cur++) 
