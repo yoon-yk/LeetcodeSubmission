@@ -5,6 +5,7 @@ public:
         queue<int> Q;
         vector<int> indegree(n);
         vector<vector<int>> ans(n);
+
         vector<vector<int>> adjList(n);
         vector<vector<bool>> isAncestor(n, vector<bool>(n, false)); // i is an ancestor of j
 
@@ -22,15 +23,15 @@ public:
             cur = Q.front(); Q.pop();
             
             for (int k=0; k<n; k++) 
-                for (int& nei : adjList[cur])
-                    if (isAncestor[k][cur]) 
-                        isAncestor[k][nei] = true;
+                if (isAncestor[k][cur]) 
+                    for (int& nei : adjList[cur])
+                        isAncestor[k][nei] = true; 
             
             for (int& nei : adjList[cur]) {
-                isAncestor[cur][nei] = true;
                 indegree[nei]--;
                 if (indegree[nei] == 0)
                     Q.push(nei);
+                isAncestor[cur][nei] = true;
             }
         }
         
