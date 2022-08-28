@@ -36,8 +36,8 @@ public:
             }
         }
         
-        for (int j=0; j<n; j++) 
-            for (int cur=0; cur<n; cur++) 
+        for (int cur=0; cur<n; cur++) 
+            for (int j=0; j<n; j++) 
                 if (isAncestor[j][cur])
                     ans[cur].push_back(j);
         
