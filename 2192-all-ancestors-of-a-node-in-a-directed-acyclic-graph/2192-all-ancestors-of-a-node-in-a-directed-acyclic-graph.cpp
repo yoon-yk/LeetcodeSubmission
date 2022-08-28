@@ -21,39 +21,25 @@ public:
         int size, cur;
         while (!Q.empty()) {
             size = Q.size();
-            // cout << "size" << size << endl;
             while (size-- > 0) {
                 cur = Q.front(); Q.pop();
-                // cout << cur << endl;
                 for (int& nei : adjList[cur]) {
                     indegree[nei]--;
-                    // cout << "is" << isAncestor[cur][nei] << endl;
-                    if (indegree[nei] == 0){
+                    if (indegree[nei] == 0)
                         Q.push(nei);
-                        // cout << "inserted" << endl;
-                    }
                     isAncestor[cur][nei] = true;
                     
-                    for (int k=0; k<n; k++) {
-                        // cout << "test" << k << endl;
-
-                        if (isAncestor[k][cur]) {
-                            // cout << k << cur << endl;
+                    for (int k=0; k<n; k++) 
+                        if (isAncestor[k][cur]) 
                             isAncestor[k][nei] = true; 
-                        }
-                    }
                 }
             }
-            // cout << "Q" << Q.size() << endl;
         }
-
         
-        for (int j=0; j<n; j++) {
-            for (int cur=0; cur<n; cur++) {
+        for (int j=0; j<n; j++) 
+            for (int cur=0; cur<n; cur++) 
                 if (isAncestor[j][cur])
                     ans[cur].push_back(j);
-            }
-        }
         
         return ans;
         
