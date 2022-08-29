@@ -5,14 +5,12 @@ public:
         int i = 0, j = 0, sum = 0;
         while (i < n && j < n) {
             sum += mat[i][j];
-            cout << i << j << endl;
             i++, j++;
         }
         
         i = 0, j = n-1;
         while (i >= 0 && j >= 0) {
             sum += mat[i][j];
-            cout << i << j << endl;
             i++, j--;
         }
         
