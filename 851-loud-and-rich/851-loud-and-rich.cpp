@@ -12,19 +12,11 @@ public:
         
         for (auto &r : richer){
             adjList[r[1]].push_back(r[0]);
-            indeg[r[0]]++;
         }
-        
-        for (int i=0; i<n; i++) {
-            if (indeg[i] == 0)
-                Q.push(i);
-        }
-        
+
         int cur;
-        while (!Q.empty()) {
-            cur = Q.front(); Q.pop();
-            dfs(cur, adjList, quiet, ans);
-        }
+        for (int i=0; i<n; i++)
+            dfs(i, adjList, quiet, ans);
         
         return ans;
         
@@ -35,9 +27,8 @@ public:
         if (ans[cur] != cur)
             return ans[cur];
         
-        int minQ = cur;
+        int neiQ, minQ = cur;
         
-        int neiQ;
         for (int &nei : adjList[cur]) {
             neiQ = dfs(nei, adjList, quiet, ans);
             if (quiet[neiQ] < quiet[minQ])
