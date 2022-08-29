@@ -15,10 +15,10 @@ public:
     }
     
     void dfs(int root, int curr, vector<vector<int>>& ans, vector<vector<int>>& adjList) {
-        for (auto& nei : adjList[curr]) {
-            if (ans[nei].empty() || ans[nei].back()!=root) {
-                ans[nei].push_back(root);
-                dfs(root, nei, ans, adjList);
+        for (auto& ch : adjList[curr]) {
+            if (ans[ch].empty() || ans[ch].back()!=root) {
+                ans[ch].push_back(root);
+                dfs(root, ch, ans, adjList);
             }
         }
     }
