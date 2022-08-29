@@ -17,14 +17,15 @@ public:
                 check2[board[j][i]-'0'] = true;
             }
         
-            int curi, curj;
+            int basei, basej, curi, curj;
             vector<bool> check3(10, false);
-            curi = (i/3)*3;
-            curj = ((i%3)*3);
+            basei = (i/3)*3;
+            basej = ((i%3)*3);
             for (int j=0; j<9; j++) {
-                if (board[curi+j/3][curj+j%3] == '.') continue;
-                else if (check3[board[curi+j/3][curj+j%3]-'0']) return false;
-                check3[board[curi+j/3][curj+j%3]-'0'] = true;
+                curi = basei+j/3, curj = basej+j%3;
+                if (board[curi][curj] == '.') continue;
+                else if (check3[board[curi][curj]-'0']) return false;
+                check3[board[curi][curj]-'0'] = true;
             }   
         }
         
