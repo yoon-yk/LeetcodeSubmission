@@ -26,7 +26,7 @@ public:
             while (cnt--) {
                 // approach by level
                 cur = Q.front(); Q.pop();
-                curAver += (double) cur->val;
+                curAver += cur->val;
                 if (cur->left) Q.push(cur->left);
                 if (cur->right) Q.push(cur->right);
             }
