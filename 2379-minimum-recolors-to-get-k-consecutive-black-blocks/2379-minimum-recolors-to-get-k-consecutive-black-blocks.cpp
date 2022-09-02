@@ -2,18 +2,19 @@ class Solution {
 public:
     int minimumRecolors(string blocks, int k) {
         
-        int beginIdx = 0, endIdx = k-1;
+        int beginIdx = 0, endIdx = 0;
         int blackCnt = 0;
         
-        for (int i=0; i<k; i++)
-            if (blocks[i] == 'B') ++blackCnt;               
+        for (; endIdx<k; endIdx++)
+            if (blocks[endIdx] == 'B') ++blackCnt;               
 
         if (blackCnt == k) 
             return 0;
         
-        
         int len = blocks.length();
         int curMax = blackCnt;
+        endIdx--;
+        
         while (endIdx < len) {
             
             ++endIdx;
