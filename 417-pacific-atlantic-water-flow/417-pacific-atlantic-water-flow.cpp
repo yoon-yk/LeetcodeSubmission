@@ -1,7 +1,7 @@
 class Solution {
 public:
 
-    vector<int> dir = {-1, 0, 1, 0, -1};
+    // vector<int> dir = {-1, 0, 1, 0, -1};
 
     vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
         
