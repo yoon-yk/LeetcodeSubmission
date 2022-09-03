@@ -25,7 +25,7 @@ public:
     
     void dfs(int r, int c, int& rlim, int& clim, int prev, vector<vector<int>>& heights, vector<vector<char>>& vis, int mark, vector<vector<int>>& ans) {
         
-        if (r < 0 || r >= heights.size() || c < 0 || c >= heights[0].size() || (vis[r][c] & mark) == mark || heights[r][c] < prev)
+        if (r < 0 || r >= rlim || c < 0 || c >= clim || (vis[r][c] & mark) == mark || heights[r][c] < prev)
             return;
         
         vis[r][c] |= mark;
