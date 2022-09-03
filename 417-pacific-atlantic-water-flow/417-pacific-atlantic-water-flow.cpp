@@ -7,7 +7,7 @@ public:
     vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
         
         int rlim = heights.size(), clim = heights[0].size();
-        vector<vector<int>> vis(rlim, vector<int>(clim));
+        vector<vector<short>> vis(rlim, vector<short>(clim));
         
         for (int i=0; i<rlim; i++){
             dfs(i, 0, -1, heights, vis, 1);
@@ -23,7 +23,7 @@ public:
         return ans;
     }
     
-    void dfs(int r, int c, int prev, vector<vector<int>>& heights, vector<vector<int>>& vis, int mark) {
+    void dfs(int r, int c, int prev, vector<vector<int>>& heights, vector<vector<short>>& vis, int mark) {
         
         if (r < 0 || r >= heights.size() || c < 0 || c >= heights[0].size() || (vis[r][c] & mark) == mark || heights[r][c] < prev)
             return;
