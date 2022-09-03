@@ -3,45 +3,32 @@ public:
     vector<int> numsSameConsecDiff(int n, int k) {
 
         vector<int> ans;
-        queue<string> Q;
-        unordered_map<string, int> vis;
         
-        for (int i=1; i<=9; i++) {
-            Q.push(to_string(i));
-        }
-        
-        string curS;
-        while (!Q.empty()) {
-            
-            curS = Q.front(); Q.pop();
-            
-            if (curS.length() == n) {
-                ans.push_back(stoi(curS));
-                continue;
-            }
-        
-            int prev = curS.back() - '0';
-            if (prev + k < 10) {
-                curS += (prev + k) + '0';
-                if (vis[curS] == 0) {
-                    Q.push(curS);
-                    vis[curS]++;
-                }
-                curS.pop_back();
-            }
-
-            if (prev - k >= 0) {
-                curS += (prev - k) + '0';
-                if (vis[curS] == 0) {
-                    Q.push(curS);
-                    vis[curS]++;
-                }
-                curS.pop_back();        
-            }
-            
-        }
+        for (int i=1; i<=9; i++)
+            mutation (n-1, k, i, ans);
         
         return ans;
     }
     
+    void mutation (int n, int k, int& curN, vector<int>& ans) {
+        
+        if (n == 0) {
+            ans.push_back(curN);
+            return;
+        }
+        
+        int prev = curN % 10;
+        if (prev + k < 10) {
+            curN = curN * 10 + (prev + k);
+            mutation(n-1, k, curN, ans);
+            curN /= 10;
+        }
+
+        if (k!= 0 && (prev - k) >= 0) {
+            curN = curN * 10 + (prev - k);
+            mutation(n-1, k, curN, ans);
+            curN /= 10;
+        }
+        
+    }
 };
