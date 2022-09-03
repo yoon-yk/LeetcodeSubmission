@@ -1,7 +1,7 @@
 class Solution {
 public:
 
-    // vector<int> dir = {-1, 0, 1, 0, -1};
+    vector<int> dir = {-1, 0, 1, 0, -1};
 
     vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
         
@@ -32,14 +32,8 @@ public:
         if (vis[r][c] == 3)
             ans.push_back({r, c});
         
-        dfs(r+1, c, heights[r][c], heights, vis, mark, ans);
-        dfs(r-1, c, heights[r][c], heights, vis, mark, ans);
-        dfs(r, c+1, heights[r][c], heights, vis, mark, ans);
-        dfs(r, c-1, heights[r][c], heights, vis, mark, ans);
-
         
-        // for (int d = 0; d < 4; d++) {
-        //     dfs(r+dir[d], c+dir[d+1], heights[r][c], heights, vis, mark, ans);
-        // }
+        for (int d = 0; d < 4; d++)
+            dfs(r+dir[d], c+dir[d+1], heights[r][c], heights, vis, mark, ans);
     }
 };
