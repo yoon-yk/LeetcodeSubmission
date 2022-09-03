@@ -1,47 +1,40 @@
 class Solution {
 public:
     vector<int> numsSameConsecDiff(int n, int k) {
+
+        string curS;
+        vector<int> ans;
+        unordered_map<string, int> vis;
         
-        vector<int> ans, curV;
-        unordered_map<int, int> vis;
         for (int i=1; i<=9; i++) {
-            curV.push_back(i);
-            mutation (n, k, vis, curV, ans);
-            curV.pop_back();
+            curS = to_string(i);
+            mutation (n, k, vis, curS, ans);
         }
         
         return ans;
     }
     
-    void mutation (int n, int k, unordered_map<int, int>& vis, vector<int>& curV, vector<int>& ans) {
+    void mutation (int n, int k, unordered_map<string, int>& vis, string& curS, vector<int>& ans) {
         
-        if (curV.size() == n) {
-            int curN = 0;
-            for (int i=0; i<n; i++)
-                curN = curN*10 + curV[i];
-            
-            if (!vis.count(curN)) {
-                vis[curN]++;
-                ans.push_back(curN);
+        if (curS.length() == n) {
+            if (!vis.count(curS)) {
+                vis[curS]++;
+                ans.push_back(stoi(curS));
             }
-                
             return;
         }
         
-        
-        if (!curV.empty()) {
-            int prev = curV.back();
-            if (prev + k < 10) {
-                curV.push_back(prev + k);
-                mutation(n, k, vis, curV, ans);
-                curV.pop_back();
-            }
-                
-            if (prev - k >= 0) {
-                curV.push_back(prev - k);
-                mutation(n, k, vis, curV, ans);
-                curV.pop_back();        
-            }
+        int prev = curS.back() - '0';
+        if (prev + k < 10) {
+            curS += (prev + k) + '0';
+            mutation(n, k, vis, curS, ans);
+            curS.pop_back();
+        }
+
+        if (prev - k >= 0) {
+            curS += (prev - k) + '0';
+            mutation(n, k, vis, curS, ans);
+            curS.pop_back();        
         }
         
     }
