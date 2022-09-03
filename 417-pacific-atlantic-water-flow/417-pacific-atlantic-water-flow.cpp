@@ -32,8 +32,14 @@ public:
         if (vis[r][c] == 3)
             ans.push_back({r, c});
         
-        for (int d = 0; d < 4; d++) {
-            dfs(r+dir[d], c+dir[d+1], heights[r][c], heights, vis, mark, ans);
-        }
+        dfs(r+1, c, heights[r][c], heights, vis, mark, ans);
+        dfs(r-1, c, heights[r][c], heights, vis, mark, ans);
+        dfs(r, c+1, heights[r][c], heights, vis, mark, ans);
+        dfs(r, c-1, heights[r][c], heights, vis, mark, ans);
+
+        
+        // for (int d = 0; d < 4; d++) {
+        //     dfs(r+dir[d], c+dir[d+1], heights[r][c], heights, vis, mark, ans);
+        // }
     }
 };
