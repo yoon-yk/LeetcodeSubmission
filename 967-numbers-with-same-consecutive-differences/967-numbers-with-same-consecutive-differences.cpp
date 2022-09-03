@@ -10,7 +10,7 @@ public:
         return ans;
     }
     
-    void mutation (int n, int k, int& curN, vector<int>& ans) {
+    void mutation (int n, int k, int curN, vector<int>& ans) {
         
         if (n == 0) {
             ans.push_back(curN);
@@ -27,7 +27,7 @@ public:
         if (k!= 0 && (prev - k) >= 0) {
             curN = curN * 10 + (prev - k);
             mutation(n-1, k, curN, ans);
-            curN /= 10;
+            // curN /= 10;
         }
         
     }
