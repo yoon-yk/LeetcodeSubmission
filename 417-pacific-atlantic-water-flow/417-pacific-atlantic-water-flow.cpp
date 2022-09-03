@@ -7,7 +7,7 @@ public:
         
         int rlim = heights.size(), clim = heights[0].size();
         vector<vector<int>> ans;
-        vector<vector<short>> vis(rlim, vector<short>(clim));
+        vector<vector<char>> vis(rlim, vector<char>(clim));
         
         for (int i=0; i<rlim; i++){
             dfs(i, 0, rlim, clim, -1, heights, vis, 1, ans);
@@ -23,7 +23,7 @@ public:
         return ans;
     }
     
-    void dfs(int r, int c, int& rlim, int& clim, int prev, vector<vector<int>>& heights, vector<vector<short>>& vis, int mark, vector<vector<int>>& ans) {
+    void dfs(int r, int c, int& rlim, int& clim, int prev, vector<vector<int>>& heights, vector<vector<char>>& vis, int mark, vector<vector<int>>& ans) {
         
         if (r < 0 || r >= heights.size() || c < 0 || c >= heights[0].size() || (vis[r][c] & mark) == mark || heights[r][c] < prev)
             return;
