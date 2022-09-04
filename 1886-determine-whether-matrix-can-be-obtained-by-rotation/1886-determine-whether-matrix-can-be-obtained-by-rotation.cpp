@@ -2,10 +2,13 @@ class Solution {
 public:
     bool findRotation(vector<vector<int>>& mat, vector<vector<int>>& target) {
         int cnt = 0;
-        while (cnt++ < 4) {
+        if (mat == target) return true;
+
+        while (cnt++ < 3) {
             rotate90(mat);
             if (mat == target) return true;
         }
+        
         return false;
     }
     
