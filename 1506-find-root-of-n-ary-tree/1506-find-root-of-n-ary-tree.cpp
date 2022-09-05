@@ -25,7 +25,7 @@ public:
         
         Node* cur;
         for (auto& nd : tree) {
-            if (!nd) continue;
+            // if (!nd) continue;
             cur = nd;
             for (auto& ch : nd->children) {
                 parent[ch] = nd;
