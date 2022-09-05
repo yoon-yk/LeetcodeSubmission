@@ -24,22 +24,22 @@ public:
     
     void cleanRoom(Robot& robot) {
         unordered_map<int, int> m;
-        dfs(robot, 0, 0, 0, m);
+            
+        int curR = 0, curC = 0;
+        robot.clean();
+        m[0]++;
+        dfs(robot, curR, curC, 0, m);
     }
     
     void goBack(Robot& robot){
-        robot.turnLeft();
-        robot.turnLeft();
+        robot.turnRight();
+        robot.turnRight();
         robot.move();
-        robot.turnLeft();
-        robot.turnLeft();
+        robot.turnRight();
+        robot.turnRight();
     }
     
     void dfs(Robot& robot, int curR, int curC, int dir, unordered_map<int, int>& m) {
-        
-        robot.clean();
-        int curLoc = curR*10000 + curC;
-        m[curLoc]++;
         
         int newDir, newR, newC;
         int newLoc;
@@ -51,6 +51,8 @@ public:
             newLoc = newR*10000 + newC;
             
             if (!m.count(newLoc) && robot.move()) {
+                robot.clean();
+                m[newLoc]++;
                 dfs(robot, newR, newC, newDir, m);
                 goBack(robot);
             }
