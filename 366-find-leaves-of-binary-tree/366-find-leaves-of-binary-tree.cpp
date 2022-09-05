@@ -4,24 +4,28 @@ public:
     
         vector<vector<int>> ans(100);
         
-        int maxDep = -1;
-        dfs(root, ans, maxDep);
-        ans.resize(maxDep+1);
+        int maxHeight = -1;
+        dfs(root, ans, maxHeight);
+        ans.resize(maxHeight+1);
         
         return ans;
     }
     
-    int dfs(TreeNode* root, vector<vector<int>>& ans, int& maxDep) {
+    int dfs(TreeNode* root, vector<vector<int>>& ans, int& maxHeight) {
         
-        int dep, left = 0, right = 0; 
-        if (root->left)
-            left = dfs(root->left, ans, maxDep)+1;
-        if (root->right)
-            right = dfs(root->right, ans, maxDep)+1;
-        
-        dep = max(left, right);
-        maxDep = max(maxDep, dep);
-        ans[dep].push_back(root->val);
-        return dep;
+        int height, left = 0, right = 0; 
+        if (!root->left && !root->right) {
+            height = 0;
+        } else {
+            if (root->left)
+                left = dfs(root->left, ans, maxHeight)+1;
+            if (root->right)
+                right = dfs(root->right, ans, maxHeight)+1;
+            height = max(left, right);
+        }
+
+        maxHeight = max(maxHeight, height);
+        ans[height].push_back(root->val);
+        return height;
     }    
 };
