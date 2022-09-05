@@ -23,19 +23,14 @@ public:
     Node* findRoot(vector<Node*> tree) {
         unordered_map<Node*, Node*> parent;
         
-        Node* cur;
-        for (auto& nd : tree) {
-            // if (!nd) continue;
-            cur = nd;
-            for (auto& ch : nd->children) {
+        for (auto& nd : tree)
+            for (auto& ch : nd->children)
                 parent[ch] = nd;
-            }
-        }
+
         
-        
-        while (parent.count(cur)){
+        Node* cur = tree[0];
+        while (parent.count(cur))
             cur = parent[cur];
-        }
         
         return cur;
     }
