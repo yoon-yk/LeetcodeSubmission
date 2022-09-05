@@ -2,30 +2,26 @@ class Solution {
 public:
     vector<vector<int>> findLeaves(TreeNode* root) {
     
-        vector<vector<int>> ans;
-        unordered_map<int, vector<int>> m;
+        vector<vector<int>> ans(100);
         
-        dfs(root, m);
+        int maxDep = -1;
+        dfs(root, ans, maxDep);
+        ans.resize(maxDep+1);
         
-        for (int i=0; i<m.size(); i++)
-            ans.push_back(m[i]);
-
         return ans;
     }
     
-    int dfs(TreeNode* root, unordered_map<int, vector<int>>& m) {
+    int dfs(TreeNode* root, vector<vector<int>>& ans, int& maxDep) {
         
         int dep, left = 0, right = 0; 
         if (root->left)
-            left = dfs(root->left, m)+1;
+            left = dfs(root->left, ans, maxDep)+1;
         if (root->right)
-            right = dfs(root->right, m)+1;
+            right = dfs(root->right, ans, maxDep)+1;
         
         dep = max(left, right);
-        m[dep].push_back(root->val);
+        maxDep = max(maxDep, dep);
+        ans[dep].push_back(root->val);
         return dep;
-    }
-    
-    // children depth + 1 
-    
+    }    
 };
