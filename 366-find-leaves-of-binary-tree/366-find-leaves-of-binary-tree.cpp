@@ -4,7 +4,7 @@ public:
     
         vector<vector<int>> ans;
         dfs(root, ans);
-        
+            
         return ans;
     }
     
@@ -17,12 +17,15 @@ public:
         if (root->right)
             right = dfs(root->right, ans)+1;
         height = max(left, right);
-
-
+        
+        root->left = NULL;
+        root->right = NULL;
+        
         if ((int) ans.size() < height+1) 
             ans.push_back(vector<int>());
         ans[height].push_back(root->val);
         
         return height;
     }    
+    
 };
