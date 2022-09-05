@@ -7,10 +7,12 @@ public:
             for (int j=0; j<n; j++) {
                 if (board[i][j] == '.') continue;
                 int curN = board[i][j] - '0';
-                
-                if (visit.count(i*1000 + curN*100) || visit.count(j*100 + curN*10) || visit.count(((i/3)*3+j/3)*10 + curN))
+                int curR = i*1000 + curN*100;
+                int curC = j*100 + curN*10;
+                int curB = ((i/3)*3+j/3)*10 + curN;
+                if (visit.count(curR) || visit.count(curC) || visit.count(curB))
                     return false;
-                visit[i*1000 + curN*100]++, visit[j*100 + curN*10]++, visit[((i/3)*3+j/3)*10 + curN]++;
+                visit[curR]++, visit[curC]++, visit[curB]++;
             }
         }
         return true;
