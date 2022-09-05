@@ -1,46 +1,22 @@
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
 class Solution {
 public:
     int longestConsecutive(TreeNode* root) {
-        if (!root) return 0;
-        int maxLen = 0;
-        dfs(root, INT_MAX, 0, maxLen);
-        
-        return maxLen;
+        if(root == nullptr) return 0;
+        int l = longestConsecutive(root->left);
+        int r = longestConsecutive(root->right);
+        int lr = max(l,r);
+        int gval = g(root);
+        return max(gval, lr);
     }
-    
-    // dfs
-    
-    int dfs(TreeNode* root, int prev, int curLen, int& maxLen) {
-        // pass previous value, current seq len, (reference)max seq len, 
-        
-        // if current node value is consecutive, increase curr seq len and compare the max seq len + 
-        if (maxLen!= 0 && root->val == prev+1) 
-            curLen++;
-        else 
-        // if current node value is not consecutive, reset cur seq len to 1 and traverse ~ 
-            curLen = 1;
-        
-        maxLen = max(maxLen, curLen);
-
-        // traverse child node
-        int leftMax = 0, rightMax = 0;
-        if (root->left) leftMax = dfs(root->left, root->val, curLen, maxLen);
-        if (root->right) rightMax = dfs(root->right, root->val, curLen, maxLen);
-        
-        return maxLen = max(maxLen, max(leftMax, rightMax));
+private:
+    //the length of the longest consecutive sequence path starting from root
+    int g(TreeNode* root) {
+        if(root == nullptr) return 0;
+        int l = 0, r = 0;
+        if(root->left && root->val + 1 == root->left->val) 
+            l = g(root->left);
+        if(root->right && root->val + 1 == root->right->val) 
+            r = g(root->right);
+        return 1 + max(l,r);
     }
-
-    
-    
 };
