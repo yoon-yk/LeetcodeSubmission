@@ -33,7 +33,7 @@ public:
                 auto curNode = q.front(); q.pop();
                 curLv.push_back(curNode->val);
                 
-                for(auto ch : curNode->children)
+                for(auto& ch : curNode->children)
                     q.push(ch);
             }
             ans.push_back(curLv);
