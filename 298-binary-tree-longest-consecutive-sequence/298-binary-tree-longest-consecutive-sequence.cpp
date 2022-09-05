@@ -33,12 +33,9 @@ public:
         
         maxLen = max(maxLen, curLen);
 
-        // update prev value
-        prev = root->val;
-        
         // traverse child node
-        if (root->left) dfs(root->left, prev, curLen, maxLen);
-        if (root->right) dfs(root->right, prev, curLen, maxLen);
+        if (root->left) dfs(root->left, root->val, curLen, maxLen);
+        if (root->right) dfs(root->right, root->val, curLen, maxLen);
     }
 
     
