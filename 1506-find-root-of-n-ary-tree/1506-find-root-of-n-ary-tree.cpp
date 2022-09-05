@@ -25,9 +25,9 @@ public:
         
         int valueSum = 0;
         for (auto& nd : tree) {
-            valueSum += nd->val;
+            valueSum ^= nd->val;
             for (auto& ch : nd->children)
-                valueSum -= ch->val;
+                valueSum ^= ch->val;
         }
         
         for (auto& nd : tree) 
