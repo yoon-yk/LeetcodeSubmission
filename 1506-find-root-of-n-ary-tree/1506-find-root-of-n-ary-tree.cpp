@@ -23,15 +23,17 @@ public:
     Node* findRoot(vector<Node*> tree) {
         unordered_map<Node*, Node*> parent;
         
-        for (auto& nd : tree)
+        int valueSum = 0;
+        for (auto& nd : tree) {
+            valueSum += nd->val;
             for (auto& ch : nd->children)
-                parent[ch] = nd;
-
+                valueSum -= ch->val;
+        }
         
-        Node* cur = tree[0];
-        while (parent.count(cur))
-            cur = parent[cur];
+        for (auto& nd : tree) 
+            if (nd->val == valueSum)
+                return nd;
         
-        return cur;
+        return NULL;
     }
 };
