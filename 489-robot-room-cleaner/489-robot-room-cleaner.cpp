@@ -24,17 +24,15 @@ public:
     
     void cleanRoom(Robot& robot) {
         unordered_map<int, int> m;
-            
-        int curR = 0, curC = 0;
-        dfs(robot, curR, curC, 0, m);
+        dfs(robot, 0, 0, 0, m);
     }
     
     void goBack(Robot& robot){
-        robot.turnRight();
-        robot.turnRight();
+        robot.turnLeft();
+        robot.turnLeft();
         robot.move();
-        robot.turnRight();
-        robot.turnRight();
+        robot.turnLeft();
+        robot.turnLeft();
     }
     
     void dfs(Robot& robot, int curR, int curC, int dir, unordered_map<int, int>& m) {
