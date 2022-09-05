@@ -23,9 +23,6 @@ public:
     
     void dfs(TreeNode* root, int prev, int curLen, int& maxLen) {
         // pass previous value, current seq len, (reference)max seq len, 
-
-        // if no node
-        if (!root) return;
         
         // if current node value is consecutive, increase curr seq len and compare the max seq len + 
         if (maxLen!= 0 && root->val == prev+1) 
@@ -40,8 +37,8 @@ public:
         prev = root->val;
         
         // traverse child node
-        dfs(root->left, prev, curLen, maxLen);
-        dfs(root->right, prev, curLen, maxLen);
+        if (root->left) dfs(root->left, prev, curLen, maxLen);
+        if (root->right) dfs(root->right, prev, curLen, maxLen);
     }
 
     
