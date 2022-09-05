@@ -2,11 +2,10 @@ class Solution {
 public:
     vector<vector<int>> findLeaves(TreeNode* root) {
     
-        vector<vector<int>> ans(100);
+        vector<vector<int>> ans;
         
         int maxHeight = -1;
         dfs(root, ans, maxHeight);
-        ans.resize(maxHeight+1);
         
         return ans;
     }
@@ -25,6 +24,7 @@ public:
         }
 
         maxHeight = max(maxHeight, height);
+        if ((int) ans.size() < height+1) ans.push_back(vector<int>());
         ans[height].push_back(root->val);
         return height;
     }    
