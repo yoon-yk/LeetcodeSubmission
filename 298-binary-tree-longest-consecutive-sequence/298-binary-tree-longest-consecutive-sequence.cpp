@@ -1,22 +1,21 @@
 class Solution {
 public:
     int longestConsecutive(TreeNode* root) {
-        if(root == nullptr) return 0;
-        int l = longestConsecutive(root->left);
-        int r = longestConsecutive(root->right);
-        int lr = max(l,r);
-        int gval = g(root);
-        return max(gval, lr);
+        return helper(root, 1);
     }
-private:
-    //the length of the longest consecutive sequence path starting from root
-    int g(TreeNode* root) {
-        if(root == nullptr) return 0;
-        int l = 0, r = 0;
-        if(root->left && root->val + 1 == root->left->val) 
-            l = g(root->left);
-        if(root->right && root->val + 1 == root->right->val) 
-            r = g(root->right);
-        return 1 + max(l,r);
+    
+    int helper(TreeNode* node, int length) {
+        int best = length;
+        if (node->left && node->left->val == node->val + 1)
+            best = max(best, helper(node->left, length + 1));
+        else if (node->left)
+            best = max(best, helper(node->left, 1));
+        
+        if (node->right && node->right->val == node->val + 1)
+            best = max(best, helper(node->right, length + 1));
+        else if (node->right)
+            best = max(best, helper(node->right, 1));
+
+        return best;
     }
 };
