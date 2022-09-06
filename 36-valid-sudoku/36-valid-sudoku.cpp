@@ -2,9 +2,9 @@ class Solution {
 public:
     bool isValidSudoku(vector<vector<char>>& board) {
         int n = board.size();
-        unordered_map<int, unordered_map<int, int>> seenRow;
-        unordered_map<int, unordered_map<int, int>> seenCol;
-        unordered_map<int, unordered_map<int, int>> seenBlock;
+        unordered_map<int, unordered_set<int>> seenRow;
+        unordered_map<int, unordered_set<int>> seenCol;
+        unordered_map<int, unordered_set<int>> seenBlock;
 
         int curN, curR,curC, curB;
         for (int i=0; i<n; i++) {
@@ -14,7 +14,7 @@ public:
                 curB = ((i/3)*3+j/3)*10 + curN;
                 if (seenRow[i].count(curN) || seenCol[j].count(curN) || seenBlock[curB].count(curN))
                     return false;
-                seenRow[i][curN]++, seenCol[j][curN]++, seenBlock[curB][curN]++;
+                seenRow[i].insert(curN), seenCol[j].insert(curN), seenBlock[curB].insert(curN);
             }
         }
         return true;
