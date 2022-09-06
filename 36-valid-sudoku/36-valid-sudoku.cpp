@@ -11,7 +11,7 @@ public:
             for (int j=0; j<n; j++) {
                 if (board[i][j] == '.') continue;
                 curN = board[i][j] - '0';
-                curB = ((i/3)*3+j/3)*10 + curN;
+                curB = ((i/3)*3+j/3)*10;
                 if (seenRow[i].count(curN) || seenCol[j].count(curN) || seenBlock[curB].count(curN))
                     return false;
                 seenRow[i].insert(curN), seenCol[j].insert(curN), seenBlock[curB].insert(curN);
