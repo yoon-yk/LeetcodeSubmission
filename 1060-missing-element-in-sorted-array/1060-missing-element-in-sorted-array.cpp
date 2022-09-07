@@ -1,21 +1,19 @@
 class Solution {
 public:
-    int missingElement(vector<int>& nums, int k) {
-        
-        // brute force
-        int curN = nums[0], idx = 0, missing = 0;
-        while (idx < nums.size()) {
-            if (curN == nums[idx])
-                idx++;
-            else missing++;
-            if (missing == k)
-                break;
-            curN ++;
-        }
-        
-        for (missing++; missing<k; missing++)
-            curN ++;
     
-        return curN;
+    int missing (int idx, vector<int>& nums) {
+        return nums[idx] - nums[0] - idx;
+    }
+    
+    int missingElement(vector<int>& nums, int k) {
+        int n = nums.size();
+        
+        if (k > missing (n-1, nums))
+            return nums[n-1] + k - missing(n-1, nums);
+        
+        int idx = 1;
+        while (missing(idx, nums) < k) idx++;
+        
+        return nums[idx-1] + k - missing(idx-1, nums);
     }
 };
