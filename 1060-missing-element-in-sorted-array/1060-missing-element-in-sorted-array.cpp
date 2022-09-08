@@ -6,14 +6,20 @@ public:
     }
     
     int missingElement(vector<int>& nums, int k) {
+        
         int n = nums.size();
         
-        if (k > missing (n-1, nums))
-            return nums[n-1] + k - missing(n-1, nums);
+        if (k > missing(n-1, nums))
+            return nums[n-1] - missing(n-1, nums) + k;
         
-        int idx = 1;
-        while (missing(idx, nums) < k) idx++;
+        int left = 0, right = n-1, pivot;
         
-        return nums[idx-1] + k - missing(idx-1, nums);
+        while (left < right) {
+            pivot = left + ((right-left) >> 1);
+            if (missing (pivot, nums) < k) left = pivot + 1;
+            else right = pivot;
+        }
+        
+        return nums[left-1] - missing(left-1, nums) + k;
     }
 };
