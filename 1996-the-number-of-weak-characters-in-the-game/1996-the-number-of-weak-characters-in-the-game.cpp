@@ -1,36 +1,26 @@
 class Solution {
 public:
-    struct Node {
-        int attack;
-        int defense;
-        Node(int _attack, int _defense) : attack(_attack), defense(_defense) {};
-    };
-    
-    int numberOfWeakCharacters(vector<vector<int>>& prop) {
 
-        auto compare = [](Node* a, Node* b) {
-            return a->attack < b->attack;
-        };
+    int numberOfWeakCharacters(vector<vector<int>>& prop) {
         
-        priority_queue<Node*, vector<Node*>, decltype(compare)> pq(compare);
+        priority_queue<vector<int>> pq;
         
         for (auto v : prop) {
-            Node* newNode = new Node(v[0], v[1]);
-            pq.push(newNode);
+            pq.push({v[0], v[1]});
         }
         
-        int cur, curAttack, prevMaxDefense = -1, curDefense = -1, ans = 0;
+        int cur, curAttack, prevMaxDefense = -1, currMaxDefense = -1, ans = 0;
         
         while (!pq.empty()) {
             auto cur = pq.top(); 
+            currMaxDefense = cur[1];
             
-            while (!pq.empty() && pq.top()->attack == cur->attack) {
+            while (!pq.empty() && pq.top()[0] == cur[0]) {
                 auto c = pq.top(); pq.pop();
-                if (prevMaxDefense != -1 && c->defense < prevMaxDefense) ans++;
-                curDefense = max(curDefense, c->defense);            
+                if (prevMaxDefense != -1 && c[1] < prevMaxDefense) ans++;
             }
             
-            prevMaxDefense = max(prevMaxDefense, curDefense);
+            prevMaxDefense = max(prevMaxDefense, currMaxDefense);
         }
         
         return ans;
