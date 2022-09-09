@@ -1,38 +1,23 @@
 class Solution {
 public:
-    struct Node {
-        int attack;
-        int defense;
-        Node(int _attack, int _defense) : attack(_attack), defense(_defense) {};
-    };
+     //handling the edge case while sorting
+     static bool comp(vector<int> &a, vector<int> &b)
+     {
+          if (a[0] == b[0])
+               return a[1] < b[1];
+          return a[0] > b[0];
+     }
     
-    int numberOfWeakCharacters(vector<vector<int>>& prop) {
+     int numberOfWeakCharacters(vector<vector<int>> &prop)
+     {
+         sort(prop.begin(), prop.end(), comp); //sorting the array
+         int maxDefense = -1, ans = 0;
+         
+         for (int i= 0; i<prop.size(); i++) {
+             if (prop[i][1] < maxDefense) ans ++;
+             maxDefense = max(maxDefense, prop[i][1]);
+         }
 
-        auto compare = [](Node*& a, Node*& b) {
-            return a->attack < b->attack;
-        };
-        
-        priority_queue<Node*, vector<Node*>, decltype(compare)> pq(compare);
-        
-        for (auto &v : prop) {
-            pq.push(new Node(v[0], v[1]));
-        }
-        
-        int cur, curAttack, prevMaxDefense = -1, curDefense = -1, ans = 0;
-        
-        while (!pq.empty()) {
-            auto cur = pq.top();
-            curDefense = -1;
-            
-            while (!pq.empty() && pq.top()->attack == cur->attack) {
-                auto c = pq.top(); pq.pop();
-                if (c->defense < prevMaxDefense) ans++;
-                curDefense = max(curDefense, c->defense);
-            }
-            
-            prevMaxDefense = max(prevMaxDefense, curDefense);
-        }
-        
-        return ans;
+         return ans;
     }
 };
