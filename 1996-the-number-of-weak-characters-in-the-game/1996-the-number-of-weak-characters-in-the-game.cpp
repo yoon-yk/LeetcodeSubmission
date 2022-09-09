@@ -9,22 +9,28 @@ public:
     int numberOfWeakCharacters(vector<vector<int>>& prop) {
 
         auto compare = [](Node* a, Node* b) {
-          if (a->attack == b->attack)
-               return a->defense > b->defense;
-          return a->attack < b->attack;
+            return a->attack < b->attack;
         };
         
         priority_queue<Node*, vector<Node*>, decltype(compare)> pq(compare);
         
-        for (auto &v : prop)
-            pq.push(new Node(v[0], v[1]));
+        for (auto& v : prop) {
+            Node* newNode = new Node(v[0], v[1]);
+            pq.push(newNode);
+        }
         
-        int maxDefense = -1, ans = 0;
+        int cur, curAttack, prevMaxDefense = -1, curDefense = -1, ans = 0;
         
         while (!pq.empty()) {
-            auto cur = pq.top(); pq.pop();
-            if (cur->defense < maxDefense) ans++;
-            maxDefense = max(maxDefense, cur->defense);
+            auto cur = pq.top(); 
+            
+            while (!pq.empty() && pq.top()->attack == cur->attack) {
+                auto c = pq.top(); pq.pop();
+                if (prevMaxDefense != -1 && c->defense < prevMaxDefense) ans++;
+                curDefense = max(curDefense, c->defense);            
+            }
+            
+            prevMaxDefense = max(prevMaxDefense, curDefense);
         }
         
         return ans;
