@@ -14,7 +14,7 @@ public:
         
         priority_queue<Node*, vector<Node*>, decltype(compare)> pq(compare);
         
-        for (auto& v : prop) {
+        for (auto v : prop) {
             Node* newNode = new Node(v[0], v[1]);
             pq.push(newNode);
         }
