@@ -10,25 +10,21 @@ public:
 
         auto compare = [](Node* a, Node* b) {
           if (a->attack == b->attack)
-          {
                return a->defense > b->defense;
-          }
           return a->attack < b->attack;
         };
         
         priority_queue<Node*, vector<Node*>, decltype(compare)> pq(compare);
         
-        for (auto v : prop) {
-            Node* newNode = new Node(v[0], v[1]);
-            pq.push(newNode);
-        }
+        for (auto v : prop)
+            pq.push(new Node(v[0], v[1]));
         
-        int cur, curAttack, prevMaxDefense = -1, curDefense = -1, ans = 0;
+        int maxDefense = -1, ans = 0;
         
         while (!pq.empty()) {
             auto cur = pq.top(); pq.pop();
-            if (cur->defense < prevMaxDefense) ans++;
-            prevMaxDefense = max(prevMaxDefense, cur->defense);
+            if (cur->defense < maxDefense) ans++;
+            maxDefense = max(maxDefense, cur->defense);
         }
         
         return ans;
