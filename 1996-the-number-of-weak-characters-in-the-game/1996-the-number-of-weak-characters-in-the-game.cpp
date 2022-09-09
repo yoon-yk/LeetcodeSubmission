@@ -17,7 +17,6 @@ public:
         };
         
         priority_queue<Node*, vector<Node*>, decltype(compare)> pq(compare);
-        queue<Node*> subq;
         
         for (auto v : prop) {
             Node* newNode = new Node(v[0], v[1]);
@@ -28,17 +27,14 @@ public:
         
         while (!pq.empty()) {
             auto cur = pq.top(); pq.pop();
-            subq.push(cur);
+            if (prevMaxDefense != -1 && cur->defense < prevMaxDefense) ans++;
+            curDefense = max(curDefense, cur->defense);
+
             
             while (!pq.empty() && pq.top()->attack == cur->attack) {
-                auto dep = pq.top(); pq.pop();
-                subq.push(dep);
-            }
-            
-            while (!subq.empty()) {
-                auto c = subq.front(); subq.pop();
+                auto c = pq.top(); pq.pop();
                 if (prevMaxDefense != -1 && c->defense < prevMaxDefense) ans++;
-                curDefense = max(curDefense, c->defense);
+                curDefense = max(curDefense, c->defense);            
             }
             
             prevMaxDefense = max(prevMaxDefense, curDefense);
