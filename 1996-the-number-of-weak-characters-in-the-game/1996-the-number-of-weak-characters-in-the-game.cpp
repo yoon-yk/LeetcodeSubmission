@@ -16,7 +16,7 @@ public:
         
         priority_queue<Node*, vector<Node*>, decltype(compare)> pq(compare);
         
-        for (auto v : prop)
+        for (auto &v : prop)
             pq.push(new Node(v[0], v[1]));
         
         int maxDefense = -1, ans = 0;
