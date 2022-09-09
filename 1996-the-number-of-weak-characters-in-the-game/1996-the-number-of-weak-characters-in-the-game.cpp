@@ -1,16 +1,13 @@
 class Solution {
 public:
     int numberOfWeakCharacters(vector<vector<int>>& properties) {
-        int maxAttack = 0;
-        // Find the maximum atack value
-        for (vector<int>& property : properties) {
-            maxAttack = max(maxAttack, property[0]);
-        }
-        
-        vector<int> maxDefense(maxAttack + 2, 0);
+
+        int maxAttack = -1;
+        unordered_map<int, int> maxDefense;
         // Store the maximum defense for an attack value
         for (vector<int>& p : properties) {            
-            maxDefense[p[0]] = max(maxDefense[p[0]], p[1]);
+            maxDefense[p[0]] = (maxDefense.count(p[0]))? max(maxDefense[p[0]], p[1]) : p[1];
+            maxAttack = max(maxAttack, p[0]);
         }
 
         // Store the maximum defense for attack greater than or equal to a value
