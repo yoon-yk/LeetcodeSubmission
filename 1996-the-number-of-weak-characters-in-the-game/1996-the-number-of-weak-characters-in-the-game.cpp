@@ -1,38 +1,34 @@
 class Solution {
 public:
-    struct Node {
-        int attack;
-        int defense;
-        Node(int _attack, int _defense) : attack(_attack), defense(_defense) {};
-    };
-    
-    int numberOfWeakCharacters(vector<vector<int>>& prop) {
+    int numberOfWeakCharacters(vector<vector<int>>& properties) {
+        int maxAttack = 0;
+        // Find the maximum atack value
+        for (vector<int>& property : properties) {
+            maxAttack = max(maxAttack, property[0]);
+        }
+        
+        vector<int> maxDefense(maxAttack + 2, 0);
+        // Store the maximum defense for an attack value
+        for (vector<int>& p : properties) {            
+            maxDefense[p[0]] = max(maxDefense[p[0]], p[1]);
+        }
 
-        auto compare = [](Node*& a, Node*& b) {
-            return a->attack < b->attack;
-        };
-        
-        priority_queue<Node*, vector<Node*>, decltype(compare)> pq(compare);
-        
-        for (auto &v : prop) {
-            pq.push(new Node(v[0], v[1]));
+        // Store the maximum defense for attack greater than or equal to a value
+        for (int i = maxAttack - 1; i >= 0; i--) {
+            maxDefense[i] = max(maxDefense[i], maxDefense[i + 1]);
         }
         
-        int cur, curAttack, prevMaxDefense = -1, curDefense = -1, ans = 0;
-        
-        while (!pq.empty()) {
-            auto cur = pq.top();
-            curDefense = -1;
+        int weakCharacters = 0;
+        for (vector<int>& property : properties) {
+            int attack = property[0];
+            int defense = property[1];
             
-            while (!pq.empty() && pq.top()->attack == cur->attack) {
-                auto c = pq.top(); pq.pop();
-                if (c->defense < prevMaxDefense) ans++;
-                curDefense = max(curDefense, c->defense);
+            // If their is a greater defense for properties with greater attack
+            if (defense < maxDefense[attack + 1]) {
+                weakCharacters++;
             }
-            
-            prevMaxDefense = max(prevMaxDefense, curDefense);
         }
         
-        return ans;
+        return weakCharacters;
     }
 };
