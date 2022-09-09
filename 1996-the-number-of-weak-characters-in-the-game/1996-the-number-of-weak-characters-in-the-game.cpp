@@ -3,7 +3,7 @@ public:
     int numberOfWeakCharacters(vector<vector<int>>& properties) {
 
         int maxAttack = -1;
-        unordered_map<int, int> maxDefense;
+        vector<int> maxDefense (100002,0);
         // Store the maximum defense for an attack value
         for (auto & p : properties) {            
             maxDefense[p[0]] = max(maxDefense[p[0]], p[1]);
