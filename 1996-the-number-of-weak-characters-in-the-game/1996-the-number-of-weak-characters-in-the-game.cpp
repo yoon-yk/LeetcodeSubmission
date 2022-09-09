@@ -12,10 +12,6 @@ public:
             return a->attack < b->attack;
         };
         
-        auto min_compare = [](Node* a, Node* b) {
-            return a->defense > b->defense;
-        };
-        
         priority_queue<Node*, vector<Node*>, decltype(compare)> pq(compare);
         
         for (auto v : prop) {
