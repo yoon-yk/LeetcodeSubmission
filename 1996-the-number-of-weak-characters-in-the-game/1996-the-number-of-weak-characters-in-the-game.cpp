@@ -22,10 +22,7 @@ public:
         int cur, curAttack, prevMaxDefense = -1, curDefense = -1, ans = 0;
         
         while (!pq.empty()) {
-            auto cur = pq.top(); pq.pop();
-            if (prevMaxDefense != -1 && cur->defense < prevMaxDefense) ans++;
-            curDefense = max(curDefense, cur->defense);
-
+            auto cur = pq.top(); 
             
             while (!pq.empty() && pq.top()->attack == cur->attack) {
                 auto c = pq.top(); pq.pop();
