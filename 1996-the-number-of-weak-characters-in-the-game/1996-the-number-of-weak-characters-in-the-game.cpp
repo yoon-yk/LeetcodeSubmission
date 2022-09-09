@@ -18,9 +18,8 @@ public:
         int weakCharacters = 0;
         for (auto & p : properties) {
             // If their is a greater defense for properties with greater attack
-            if (p[1] < maxDefense[p[0] + 1]) {
+            if (p[1] < maxDefense[p[0] + 1])
                 weakCharacters++;
-            }
         }
         
         return weakCharacters;
