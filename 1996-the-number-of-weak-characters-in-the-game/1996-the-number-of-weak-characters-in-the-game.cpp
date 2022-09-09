@@ -1,28 +1,25 @@
 class Solution {
 public:
+     //handling the edge case while sorting
+     static bool comp(vector<int> &a, vector<int> &b)
+     {
+          if (a[0] == b[0])
+          {
+               return a[1] > b[1];
+          }
+          return a[0] < b[0];
+     }
+    
+     int numberOfWeakCharacters(vector<vector<int>> &prop)
+     {
+         sort(prop.begin(), prop.end(), comp); //sorting the array
+         int maxDefense = -1, ans = 0;
+         for (int i= prop.size()-1; i>=0 ;i--) {
+             if (prop[i][1] < maxDefense)
+                ans ++;  
+             maxDefense = max(maxDefense, prop[i][1]);
+         }
 
-    int numberOfWeakCharacters(vector<vector<int>>& prop) {
-        
-        priority_queue<vector<int>> pq;
-        
-        for (auto v : prop) {
-            pq.push({v[0], v[1]});
-        }
-        
-        int cur, curAttack, prevMaxDefense = -1, currMaxDefense = -1, ans = 0;
-        
-        while (!pq.empty()) {
-            auto cur = pq.top(); 
-            currMaxDefense = cur[1];
-            
-            while (!pq.empty() && pq.top()[0] == cur[0]) {
-                auto c = pq.top(); pq.pop();
-                if (prevMaxDefense != -1 && c[1] < prevMaxDefense) ans++;
-            }
-            
-            prevMaxDefense = max(prevMaxDefense, currMaxDefense);
-        }
-        
-        return ans;
+         return ans;
     }
 };
