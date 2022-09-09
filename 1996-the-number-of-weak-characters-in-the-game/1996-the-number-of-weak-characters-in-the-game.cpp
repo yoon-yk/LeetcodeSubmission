@@ -5,8 +5,8 @@ public:
         int maxAttack = -1;
         unordered_map<int, int> maxDefense;
         // Store the maximum defense for an attack value
-        for (vector<int>& p : properties) {            
-            maxDefense[p[0]] = (maxDefense.count(p[0]))? max(maxDefense[p[0]], p[1]) : p[1];
+        for (auto & p : properties) {            
+            maxDefense[p[0]] = max(maxDefense[p[0]], p[1]);
             maxAttack = max(maxAttack, p[0]);
         }
 
@@ -16,12 +16,9 @@ public:
         }
         
         int weakCharacters = 0;
-        for (vector<int>& property : properties) {
-            int attack = property[0];
-            int defense = property[1];
-            
+        for (auto & p : properties) {
             // If their is a greater defense for properties with greater attack
-            if (defense < maxDefense[attack + 1]) {
+            if (p[1] < maxDefense[p[0] + 1]) {
                 weakCharacters++;
             }
         }
