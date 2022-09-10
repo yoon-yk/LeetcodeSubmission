@@ -38,7 +38,7 @@ public:
         int n = words.size();
         this->k = k;
         
-        unordered_map<string, int> cnt;
+        map<string, int> cnt;
         for (string& word : words) cnt[word]++;
         vector<string> res;
         vector<TrieNode> bucket(n+1, TrieNode());
