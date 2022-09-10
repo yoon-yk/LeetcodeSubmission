@@ -17,7 +17,7 @@ public:
 
         for (int i=0; i<=9; i++) {
             cur*=10, cur+=i;
-            if (cur <= n) dfs(cur, n, ans);
+            dfs(cur, n, ans);
             cur-=i, cur/=10;
         }
     }
