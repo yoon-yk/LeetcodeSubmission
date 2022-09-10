@@ -16,8 +16,9 @@ public:
         ans.push_back(cur);
 
         for (int i=0; i<=9; i++) {
+            if (cur*10 + i > n) break;
             cur*=10, cur+=i;
-            if (cur <= n) dfs(cur, n, ans);
+            dfs(cur, n, ans);
             cur-=i, cur/=10;
         }
     }
