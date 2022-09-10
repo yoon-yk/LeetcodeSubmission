@@ -2,11 +2,10 @@ class Solution {
 public:
     int k;
     struct TrieNode{
-        bool isWord;
+        bool isWord = false;
         TrieNode* children[26];
         
         TrieNode() {
-            this->isWord = false;
             for (int i=0; i<26; i++)
                 this->children[i] = nullptr;
         }
@@ -60,7 +59,6 @@ public:
         string prefix = "";
         for (int freq=n; freq>=0; freq--)
             getWords(root[freq], prefix, ans);
-
         
         return ans;
         
