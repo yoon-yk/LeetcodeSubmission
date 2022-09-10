@@ -15,13 +15,10 @@ public:
         
         ans.push_back(cur);
 
-        int orig;
         for (int i=0; i<=9; i++) {
-            orig = cur;
-            cur*=10;
-            cur+=i;
+            cur*=10, cur+=i;
             dfs(cur, n, ans);
-            cur = orig;
+            cur-=i, cur/=10;
         }
     }
 };
