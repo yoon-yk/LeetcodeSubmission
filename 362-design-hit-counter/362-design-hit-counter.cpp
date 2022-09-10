@@ -15,6 +15,8 @@ public:
     }
     
     void hit(int timestamp) {
+        while (!q.empty() && timestamp- q.front() >= 300)
+            q.pop_front();
         q.push_back(timestamp);
     }
     
