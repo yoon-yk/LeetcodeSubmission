@@ -1,35 +1,53 @@
 class Solution {
 public:
+    int k;
+    struct TrieNode {
+        TrieNode* children[26];
+        bool isWord;
+        TrieNode() {
+            isWord = false;
+            for (int i=0; i<26; i++)
+                children[i] = nullptr;
+        }
+    };
+    
+    void addWord(TrieNode& root, const string& word) {
+        TrieNode* cur = &root;
+        for (auto &ch : word) {
+            int idx = ch-'a';
+            if (cur->children[idx] == nullptr)
+                cur->children[idx] = new TrieNode();
+            cur = cur->children[idx];
+        }
+        cur->isWord = true;
+    }
+    
+    void getWords(TrieNode& root, const string& prefix, vector<string>& res) {
+        if (k==0) return;
+        if (root.isWord) {
+            k--;
+            res.push_back(prefix);
+        }
+        for (int i=0; i<26; i++) {
+            if (root.children[i] != nullptr)
+                getWords(*root.children[i], prefix+(char)(i+'a'), res);
+        }
+    }
+    
     vector<string> topKFrequent(vector<string>& words, int k) {
+        int n = words.size();
+        this->k = k;
         
-        unordered_map<string, int> hashM;
+        unordered_map<string, int> cnt;
+        for (string& word : words) cnt[word]++;
+        vector<string> res;
+        vector<TrieNode> bucket(n+1, TrieNode());
+        for (auto &p : cnt)
+            addWord(bucket[p.second], p.first);
         
-        auto compare = [](pair<int, string> a, pair<int, string> b) {
-            if (a.first == b.first) 
-                return a.second > b.second;
-            
-            return a.first < b.first;
-        };
+        for (int i=n; i>0; i--)
+            getWords(bucket[i], "", res);
         
-        int maxFreq = -1;
-        for (auto & w : words) {
-            hashM[w]++;
-            maxFreq = max(maxFreq, hashM[w]);
-        }
-        
-        priority_queue<pair<int, string>, vector<pair<int, string>>, decltype(compare)> pq(compare);
-        
-        for (auto& cur : hashM)
-            pq.push({cur.second, cur.first});
-        
-        int cnt = 0;
-        vector<string> ans;
-        while (!pq.empty() && cnt < k){
-            auto cur = pq.top(); pq.pop();
-            ans.push_back(cur.second);
-            cnt ++;
-        }
-        
-        return ans;
+        return res;
     }
 };
