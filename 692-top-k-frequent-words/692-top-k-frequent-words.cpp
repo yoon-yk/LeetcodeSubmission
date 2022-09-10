@@ -3,12 +3,12 @@ public:
     int k;
     struct TrieNode{
         bool isWord;
-        vector<TrieNode*> children;
+        TrieNode* children[26];
         
         TrieNode() {
             this->isWord = false;
             for (int i=0; i<26; i++)
-                this->children.push_back(nullptr);
+                this->children[i] = nullptr;
         }
     };
     
@@ -24,7 +24,7 @@ public:
     }
     
     void getWords (TrieNode*& cur, string& prefix, vector<string>& ans) {
-        // cout << prefix << endl;
+
         if (k == 0)
             return;
         
@@ -54,22 +54,13 @@ public:
         for (int i=0; i<=n; i++)
             root[i] = new TrieNode();
         
-        for (auto & h : hashM) {
-            // cout << h.second << "/" << h.first << endl;
+        for (auto & h : hashM) 
             addWord (root[h.second], h.first);
-        }
-        
-        // cout << endl << endl;
         
         string prefix = "";
-        for (int freq=n; freq>=0; freq--) {
-            // cout << freq << endl;
-            // for (auto &a : ans)
-            //     cout << a << " ";
+        for (int freq=n; freq>=0; freq--)
             getWords(root[freq], prefix, ans);
 
-            // cout << endl;
-        }
         
         return ans;
         
