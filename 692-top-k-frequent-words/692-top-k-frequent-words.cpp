@@ -1,20 +1,21 @@
 class Solution {
 public:
     int k;
-    struct TrieNode {
-        TrieNode* children[26];
+    struct TrieNode{
         bool isWord;
+        vector<TrieNode*> children;
+        
         TrieNode() {
-            isWord = false;
+            this->isWord = false;
             for (int i=0; i<26; i++)
-                children[i] = nullptr;
+                this->children.push_back(nullptr);
         }
     };
     
-    void addWord(TrieNode& root, const string& word) {
-        TrieNode* cur = &root;
-        for (auto &ch : word) {
-            int idx = ch-'a';
+    void addWord (TrieNode* rt, const string& word) {
+        TrieNode* cur = rt;
+        for (auto & c : word) {
+            int idx = c - 'a';
             if (cur->children[idx] == nullptr)
                 cur->children[idx] = new TrieNode();
             cur = cur->children[idx];
@@ -22,32 +23,55 @@ public:
         cur->isWord = true;
     }
     
-    void getWords(TrieNode& root, const string& prefix, vector<string>& res) {
-        if (k==0) return;
-        if (root.isWord) {
+    void getWords (TrieNode*& cur, string& prefix, vector<string>& ans) {
+        // cout << prefix << endl;
+        if (k == 0)
+            return;
+        
+        if (cur->isWord) {
+            ans.push_back(prefix);
             k--;
-            res.push_back(prefix);
         }
+        
         for (int i=0; i<26; i++) {
-            if (root.children[i] != nullptr)
-                getWords(*root.children[i], prefix+(char)(i+'a'), res);
+            if (cur->children[i] != nullptr) {
+                prefix += i + 'a';
+                getWords(cur->children[i], prefix, ans);
+                prefix.pop_back();
+            }
         }
     }
     
     vector<string> topKFrequent(vector<string>& words, int k) {
+        
         int n = words.size();
         this->k = k;
+        unordered_map<string, int> hashM;
+        for (auto& w : words) hashM[w]++;
         
-        map<string, int> cnt;
-        for (string& word : words) cnt[word]++;
-        vector<string> res;
-        vector<TrieNode> bucket(n+1, TrieNode());
-        for (auto &p : cnt)
-            addWord(bucket[p.second], p.first);
+        vector<string> ans;
+        TrieNode* root[n+1];
+        for (int i=0; i<=n; i++)
+            root[i] = new TrieNode();
         
-        for (int i=n; i>0; i--)
-            getWords(bucket[i], "", res);
+        for (auto & h : hashM) {
+            // cout << h.second << "/" << h.first << endl;
+            addWord (root[h.second], h.first);
+        }
         
-        return res;
+        // cout << endl << endl;
+        
+        string prefix = "";
+        for (int freq=n; freq>=0; freq--) {
+            // cout << freq << endl;
+            // for (auto &a : ans)
+            //     cout << a << " ";
+            getWords(root[freq], prefix, ans);
+
+            // cout << endl;
+        }
+        
+        return ans;
+        
     }
 };
