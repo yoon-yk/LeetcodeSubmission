@@ -8,7 +8,7 @@ public:
         return ans;    
     }
     
-    void dfs (int &cur, int n, vector<int>& ans) {
+    void dfs (int cur, int n, vector<int>& ans) {
         
         if (cur > n)
             return;
@@ -16,9 +16,7 @@ public:
         ans.push_back(cur);
 
         for (int i=0; i<=9; i++) {
-            cur*=10, cur+=i;
-            dfs(cur, n, ans);
-            cur-=i, cur/=10;
+            dfs(cur*10 + i, n, ans);
         }
     }
 };
