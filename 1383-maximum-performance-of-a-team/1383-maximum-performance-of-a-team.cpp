@@ -1,25 +1,67 @@
 class Solution {
 public:
+    
+    struct Node {
+        int speed;
+        int efficiency;
+        Node(int _speed, int _efficiency) :
+            speed(_speed), efficiency(_efficiency) {};
+    };
+    
     int maxPerformance(int n, vector<int>& speed, vector<int>& efficiency, int k) {
         
-        vector<pair<int, int>> ens;
-        for(int i=0; i<n; i++) ens.emplace_back(efficiency[i], speed[i]);
+    int MOD = 1e9 + 7;
+    
+    auto compareSpeed = [] (Node*& a, Node*& b) {
+        return a->speed < b->speed;
+    };
         
-        sort(ens.begin(), ens.end(), greater<pair<int, int>>()); // Sort by efficiency
+    auto minEfficiency = [] (Node*& a, Node*& b) {
+        return a->efficiency > b->efficiency;
+    };
         
-        long res = 0, sum = 0;
-        priority_queue<int, vector<int>, greater<int>> speedQ; // Sort by increasing speed
+        priority_queue<Node*, vector<Node*>, decltype(compareSpeed)> speedMaxQ(compareSpeed);
+        priority_queue<Node*, vector<Node*>, decltype(minEfficiency)> effMinQ(minEfficiency);
         
-        for (auto& [e, s] : ens) {
-            speedQ.push(s);
-            sum += s;
-            if (speedQ.size() > k) {
-                sum -= speedQ.top();
-                speedQ.pop();
-            }
-            res = max(res, sum*e);
+        for (int i=0; i<n; i++) 
+            speedMaxQ.push(new Node(speed[i], efficiency[i]));
+        
+        int minEff;
+        long long maxPerformance = 0;
+        long long curSpeedSum = 0;
+        
+        for (int i=0; i<k; i++) {
+            auto cur = speedMaxQ.top(); speedMaxQ.pop();
+            effMinQ.push(cur);
+            curSpeedSum += cur->speed;
         }
         
-        return res % (long)(1e9+7);
+        minEff = effMinQ.top()->efficiency;
+        maxPerformance = max(maxPerformance, (curSpeedSum * minEff));
+        
+        while (!speedMaxQ.empty()) {
+            curSpeedSum -= effMinQ.top()->speed;
+            effMinQ.pop();
+
+            auto newMember = speedMaxQ.top(); speedMaxQ.pop();
+            curSpeedSum += newMember->speed;
+            effMinQ.push(newMember); 
+            
+            minEff = effMinQ.top()->efficiency;
+            maxPerformance = max(maxPerformance, (curSpeedSum * minEff));
+
+        }
+        
+        while (!effMinQ.empty()) {
+            curSpeedSum -= effMinQ.top()->speed;
+            effMinQ.pop();
+
+            minEff = effMinQ.top()->efficiency;
+            maxPerformance = max(maxPerformance, (curSpeedSum * minEff));
+        }
+        
+        return maxPerformance % MOD;
+        
+        
     }
 };
