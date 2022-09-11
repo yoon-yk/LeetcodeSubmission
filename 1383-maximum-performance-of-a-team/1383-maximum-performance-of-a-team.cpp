@@ -37,7 +37,7 @@ public:
         
         for (int i=0; i<k; i++) {
             auto cur = speedMaxQ.top(); speedMaxQ.pop();
-            cout << cur->speed << "||" << cur->efficiency << endl;
+            // cout << cur->speed << "||" << cur->efficiency << endl;
             effMinQ.push(cur);
             minEff = effMinQ.top()->efficiency;
             curSpeedSum += cur->speed;
@@ -66,7 +66,7 @@ public:
         while (!effMinQ.empty()) {
             curSpeedSum -= effMinQ.top()->speed;
             effMinQ.pop();
-            cout << "(pop)" << effMinQ.top()->speed << "||" << effMinQ.top()->efficiency << endl;
+            // cout << "(pop)" << effMinQ.top()->speed << "||" << effMinQ.top()->efficiency << endl;
 
             minEff = effMinQ.top()->efficiency;
             maxPerformance = max(maxPerformance, (curSpeedSum * minEff));
