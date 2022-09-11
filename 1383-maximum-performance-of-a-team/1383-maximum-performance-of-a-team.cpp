@@ -13,14 +13,14 @@ public:
     int MOD = 1e9 + 7;
     
     auto compareSpeed = [] (Node*& a, Node*& b) {
-      if (a->speed == b->speed) 
-          return a->efficiency < b->efficiency;
+      // if (a->speed == b->speed) 
+      //     return a->efficiency < b->efficiency;
         return a->speed < b->speed;
     };
         
     auto minEfficiency = [] (Node*& a, Node*& b) {
-      if (a->efficiency == b->efficiency) 
-          return a->speed > b->speed;
+      // if (a->efficiency == b->efficiency) 
+      //     return a->speed > b->speed;
         return a->efficiency > b->efficiency;
     };
         
