@@ -2,8 +2,8 @@ class Solution {
 public:
     
     struct Node {
-        long long speed;
-        long long efficiency;
+        int speed;
+        int efficiency;
         Node(long long _speed, long long _efficiency) :
             speed(_speed), efficiency(_efficiency) {};
     };
@@ -13,7 +13,7 @@ public:
     int MOD = 1e9 + 7;
     
     auto compareSpeed = [] (Node*& a, Node*& b) {
-      // if (a->speed == b->speed) 
+      // if (a->speed == b->speed) ㅎㅇㅎㅇ 윤여훈 천재
       //     return a->efficiency < b->efficiency;
         return a->speed < b->speed;
     };
