@@ -1,22 +1,29 @@
 class Solution {
 public:
     
+    int MOD = 1e9+7;
     int maxPerformance(int n, vector<int>& speed, vector<int>& efficiency, int k) {
-        vector<pair<int, int>> ess(n);
+        
+        vector<pair<int, int>> maxEffList(n);
         for (int i = 0; i < n; ++i)
-            ess[i] = {efficiency[i], speed[i]};
-        sort(rbegin(ess), rend(ess));
+            maxEffList[i] = {efficiency[i], speed[i]};
+        sort(rbegin(maxEffList), rend(maxEffList));
+        
         long sumS = 0, res = 0;
-        priority_queue <int, vector<int>, greater<int>> pq; //min heap
-        for(auto& [e, s]: ess){
+        priority_queue <int, vector<int>, greater<int>> pq; // speed min heap
+        
+        for(auto & [e, s]: maxEffList){
             pq.emplace(s);
             sumS += s;
+            
             if (pq.size() > k) {
                 sumS -= pq.top();
                 pq.pop();
             }
+            
             res = max(res, sumS * e);
         }
-        return res % (int)(1e9+7);
+        
+        return res % MOD;
     }
 };
