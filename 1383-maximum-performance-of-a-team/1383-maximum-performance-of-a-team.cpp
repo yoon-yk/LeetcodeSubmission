@@ -1,35 +1,21 @@
 class Solution {
 public:
-    const unsigned int M=1000000007;
     int maxPerformance(int n, vector<int>& speed, vector<int>& efficiency, int k) {
-        vector<pair<int,int>> arr(n);
-        for(int i=0;i<n;i++){
-            arr[i]={efficiency[i],speed[i]};
-        }
-        
-        sort(arr.begin(),arr.end(),greater<pair<int,int>>());
-        priority_queue<int,vector<int>,greater<int>> q;
-       long long int sum=0;
-       long long int ans=0;
-        for(int i=0;i<n;i++){
-            int curreffi=arr[i].first;
-            int currSpeed=arr[i].second;
-            if(q.size()==k){
-                int top=q.top();
-                if(top<currSpeed){
-                    
-                    q.pop();
-                    q.push(currSpeed);
-                    sum+=(currSpeed-top);
-                    
-                }
+        vector<pair<int, int>> ens;
+        for(int i=0; i<speed.size(); i++) ens.emplace_back(efficiency[i], speed[i]);
+        sort(ens.begin(), ens.end(), greater<pair<int, int>>());
+        long res = 0;
+        long sum = 0;
+        priority_queue<int, vector<int>, greater<int>> q;
+        for(int i=0; i<ens.size(); i++) {
+            q.push(ens[i].second);
+            sum += ens[i].second;
+            if(q.size() > k) {
+                sum -= q.top();
+                q.pop();
             }
-            else{
-                q.push(currSpeed);
-                sum+=currSpeed;
-            }
-            ans=max(ans,sum*curreffi);
+            res = max(res, sum*ens[i].first);
         }
-        return ans%M;
+        return res % (long)(1e9+7);
     }
 };
