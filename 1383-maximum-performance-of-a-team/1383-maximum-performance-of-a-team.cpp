@@ -3,7 +3,8 @@ public:
     int maxPerformance(int n, vector<int>& speed, vector<int>& efficiency, int k) {
         
         vector<pair<int, int>> ens;
-        for(int i=0; i<speed.size(); i++) ens.emplace_back(efficiency[i], speed[i]);
+        for(int i=0; i<n; i++) ens.emplace_back(efficiency[i], speed[i]);
+        
         sort(ens.begin(), ens.end(), greater<pair<int, int>>()); // Sort by efficiency
         
         long res = 0, sum = 0;
