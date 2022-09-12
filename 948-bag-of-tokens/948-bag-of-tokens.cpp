@@ -10,19 +10,13 @@ public:
         
         int score = 0;
         int curPwr = power;
-        bool isChanged = true;
         
         while (!dq.empty()) {
-            
-            if (!isChanged) // if unable to proceed
-                break; 
-            
-            isChanged = false;
+
             if (curPwr >= dq.front()) {
                 curPwr -= dq.front();
                 dq.pop_front();
                 score ++;
-                isChanged = true;
             }
             
             else {
@@ -30,9 +24,10 @@ public:
                     score--;
                     curPwr += dq.back();
                     dq.pop_back();
-                    isChanged = true;
                 }
-                
+                else {
+                    break;
+                }
             }
         }
         return score;
