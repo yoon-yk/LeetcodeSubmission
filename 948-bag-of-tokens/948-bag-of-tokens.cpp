@@ -14,15 +14,14 @@ public:
                 curPwr -= tokens[lo];
                 lo++;
                 score ++;
-                maxScore = max(maxScore, score);
             }
-            else if (score > 0) {
+            else if (score > 0 && hi-lo > 0) {
                 score--;
                 curPwr += tokens[hi];
                 hi--;
             } else break;
             
         }
-        return maxScore;
+        return score;
     }
 };
