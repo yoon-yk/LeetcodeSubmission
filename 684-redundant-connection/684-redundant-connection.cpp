@@ -2,22 +2,17 @@ class DSU {
     vector<int> par, rank;
 public:
     DSU(int n) : par(n), rank(n) {
-        iota(begin(par), end(par), 0);      // initializes each node's parent to be itself - fills as [0,1,2,3,...,n]
+        iota(begin(par), end(par), 0);
     }
     int find(int x) {
         if(x == par[x]) return x;           // x is itself the parent of this component
-        return find(par[x]);                // recurse for parent of x
+        return par[x] = find(par[x]);       // update parent of x before returning for each call
     }
     bool Union(int x, int y) {
         auto xp = find(x), yp = find(y);    // find parents of x and y, i.e, representatives of components that x and y belong to
         if(xp == yp) return false;          // x and y already belong to same component - not possible to union
         return par[xp] = yp;                // union x and y by making parent common
     }
-    // iterative implementation of find
-    // int find(int x) {  
-    //     while(x != par[x]) x = par[x];
-    //     return par[x];
-    // }
 };
 class Solution {
 public:
