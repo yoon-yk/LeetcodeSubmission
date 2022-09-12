@@ -10,13 +10,13 @@ public:
         
         while (lo <= hi && (curPwr >= tokens[lo] || score > 0)) {
 
-            while (lo <= hi && curPwr >= tokens[lo]) {
+            if (lo <= hi && curPwr >= tokens[lo]) {
                 curPwr -= tokens[lo];
                 lo++;
                 score ++;
+                maxScore = max(maxScore, score);
             }
-            maxScore = max(maxScore, score);
-            if (lo <= hi && score > 0) {
+            else if (score > 0) {
                 score--;
                 curPwr += tokens[hi];
                 hi--;
