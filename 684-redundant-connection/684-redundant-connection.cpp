@@ -5,7 +5,7 @@ public:
      * Find the subset a vertex belongs to.
      */
     int find(vector<int> &ss, int x) {
-        if (ss[x] == -1) return x;
+        if (ss[x] == x) return x;
         return ss[x] = find(ss, ss[x]);
     }
     
@@ -29,7 +29,7 @@ public:
          * vertex i.
          */
         vector<int> ss; ss.push_back(-1);
-        for (int i = 0; i < e.size(); i++) ss.push_back(-1);
+        for (int i = 0; i < e.size(); i++) ss.push_back(i+1);
         
         /*
          * We go through each edge one by one. We find the subset
