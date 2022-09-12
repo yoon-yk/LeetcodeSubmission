@@ -6,7 +6,6 @@ public:
         
         int lo = 0, hi = tokens.size()-1;
         int score = 0, curPwr = power;
-        int maxScore = 0;
         
         while (lo <= hi) {
 
