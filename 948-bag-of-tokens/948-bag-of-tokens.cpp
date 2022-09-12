@@ -4,30 +4,25 @@ public:
         
         sort(tokens.begin(), tokens.end());
         
-        deque<int> dq;
-        for (int & tk : tokens)
-            dq.push_back(tk);
+        int lo = 0, hi = tokens.size()-1;
+        int score = 0, curPwr = power;
+        int maxScore = 0;
         
-        int score = 0;
-        int curPwr = power;
-        
-        while (!dq.empty()) {
+        while (lo <= hi && (curPwr >= tokens[lo] || score > 0)) {
 
-            if (curPwr >= dq.front()) {
-                curPwr -= dq.front();
-                dq.pop_front();
+            while (lo <= hi && curPwr >= tokens[lo]) {
+                curPwr -= tokens[lo];
+                lo++;
                 score ++;
             }
-            
-            else {
-                if (score >= 1 && dq.size() > 1) {
-                    score--;
-                    curPwr += dq.back();
-                    dq.pop_back();
-                }
-                else break;
+            maxScore = max(maxScore, score);
+            if (lo <= hi && score > 0) {
+                score--;
+                curPwr += tokens[hi];
+                hi--;
             }
+            
         }
-        return score;
+        return maxScore;
     }
 };
