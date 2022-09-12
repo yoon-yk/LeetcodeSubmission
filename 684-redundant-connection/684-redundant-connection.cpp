@@ -6,7 +6,7 @@ public:
      */
     int find(vector<int> &ss, int x) {
         if (ss[x] == -1) return x;
-        return find(ss, ss[x]);
+        return ss[x] = find(ss, ss[x]);
     }
     
     /*
