@@ -28,8 +28,8 @@ public:
          * the subsets contain only one item - i.e ss[i] only contains
          * vertex i.
          */
-        vector<int> ss; ss.push_back(-1);
-        for (int i = 0; i < e.size(); i++) ss.push_back(i+1);
+        vector<int> ss;
+        for (int i = 0; i <= e.size(); i++) ss.push_back(i);
         
         /*
          * We go through each edge one by one. We find the subset
