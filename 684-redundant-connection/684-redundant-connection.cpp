@@ -1,39 +1,51 @@
+/* LeetCode: tktripathy */
 class Solution {
- public:
-  unordered_set<int> cycle;  // will store all nodes of cycle
-  int cycleStart = -1;       // used to mark start node of cycle
-  vector<int> findRedundantConnection(vector<vector<int>>& e) {
-    int n = size(e);
-    vector<vector<int>> graph(n + 1);
-    vector<bool> vis(n + 1);
-    // constructing the graph from the edges
-    for (auto& edge : e)
-      graph[edge[0]].push_back(edge[1]), graph[edge[1]].push_back(edge[0]);
-    dfs(graph, vis, 1);  // dfs traveral to detect cycle and fill the those
-                         // nodes in cycle set.
-    for (int i = n - 1; ~i; i--)
-      if (cycle.count(e[i][0]) && cycle.count(e[i][1]))
-        return e[i];  // last edge of input having both nodes in cycle
-    return {};        // un-reachable
-  }
-  void dfs(vector<vector<int>>& graph, vector<bool>& vis, int cur, int par = -1) {
-    if (vis[cur]) {
-      cycleStart = cur;
-      return;
-    }  // reached an visited node - mark it as start of cycle and return
-    vis[cur] = true;  // not visited earlier - mark it as visited
-    for (auto& child : graph[cur]) {  // iterate over child / adjacents of current node
-      if (child == par)
-        continue;  // dont visit parent again - avoids back-and-forth loop
-      if (cycle.empty())
-        dfs(graph, vis, child, cur);  // cycle not yet detected - explore graph further with dfs
-      if (cycleStart != -1)
-        cycle.insert(cur);  // cycle detected - keep pushing nodes till we reach
-                            // start of the cycle
-      if (cur == cycleStart) {
-        cycleStart = -1;
-        return;
-      }  // all nodes of cycle taken - now just return
+public:
+    /*
+     * Find the subset a vertex belongs to.
+     */
+    int find(vector<int> &ss, int x) {
+        if (ss[x] == -1) return x;
+        return find(ss, ss[x]);
     }
-  }
+    
+    /*
+     * Unionize two subsets. 
+     */
+    void _union(vector<int> &ss, int x, int y) {
+        int xp = find(ss, x);
+        int yp = find(ss, y);
+        if (xp != yp) ss[yp] = xp;
+    }
+    
+    /*
+     * We use disjoint set (or Union-Find) to detect a cycle in
+     * an undirected graph.
+     */
+    vector<int> findRedundantConnection(vector<vector<int> >& e/*dges*/) {
+        
+        /* Create parent subsets and initialize them to -1 - this means
+         * the subsets contain only one item - i.e ss[i] only contains
+         * vertex i.
+         */
+        vector<int> ss; ss.push_back(-1);
+        for (int i = 0; i < e.size(); i++) ss.push_back(-1);
+        
+        /*
+         * We go through each edge one by one. We find the subset
+         * that the vertices of an edge belongs to. If they belong
+         * to two different subsets, we merge them into one set 
+         * using Union. Now, if both vertices are in the same 
+         * subset, we got a cycle - we return it.
+         *
+         */
+        for (int i = 0; i < e.size(); ++i) {
+            int x = find(ss, e[i][0]), y = find(ss, e[i][1]);            
+            if (x == y) return { e[i][0], e[i][1] };
+            _union(ss, x, y);
+        }
+        
+        /* No redundant edge found */
+        return vector<int>();
+    }
 };
