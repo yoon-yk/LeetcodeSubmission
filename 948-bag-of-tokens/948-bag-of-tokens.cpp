@@ -10,7 +10,7 @@ public:
         
         while (lo <= hi && (curPwr >= tokens[lo] || score > 0)) {
 
-            if (lo <= hi && curPwr >= tokens[lo]) {
+            if (curPwr >= tokens[lo]) {
                 curPwr -= tokens[lo];
                 lo++;
                 score ++;
