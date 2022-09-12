@@ -8,7 +8,7 @@ public:
         int score = 0, curPwr = power;
         int maxScore = 0;
         
-        while (lo <= hi && (curPwr >= tokens[lo] || score > 0)) {
+        while (lo <= hi) {
 
             if (curPwr >= tokens[lo]) {
                 curPwr -= tokens[lo];
@@ -20,7 +20,7 @@ public:
                 score--;
                 curPwr += tokens[hi];
                 hi--;
-            }
+            } else break;
             
         }
         return maxScore;
