@@ -25,9 +25,7 @@ public:
                     curPwr += dq.back();
                     dq.pop_back();
                 }
-                else {
-                    break;
-                }
+                else break;
             }
         }
         return score;
