@@ -4,6 +4,7 @@ public:
         
         int cur = 0;
         bool pass = true;
+        
         while (cur < data.size()) {
 
             int count = 0;
@@ -15,13 +16,12 @@ public:
             
             cur++;
             
-            cout << count << endl;
             if (count == 0) continue;
             else if (count == 1 || count > 4) return false;
             
             count--;
+            
             for (; count > 0 && cur<data.size(); count--, cur++) {
-                cout << count << endl;
                 pass = false;
                 if ((data[cur] & 128) == 128) {
                     data[cur] <<= 1;
@@ -31,9 +31,7 @@ public:
                 }
                 if (!pass) return false;
             }
-            
-            cout << "pass" << endl;
-            cout << count << endl;
+
             if (count!= 0) return false;
             
         }        
