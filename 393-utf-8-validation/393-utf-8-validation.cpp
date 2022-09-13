@@ -10,12 +10,13 @@ public:
             while ((data[cur] & 128) == 128 && count < 8) {
                 count ++;
                 data[cur] <<= 1;
+                if (count > 4) return false;
             }
             
             cur++;
-            
-            if (count == 0) continue;
-            else if (count == 1 || count > 4) return false;
+        
+            if (count == 1) return false;
+            else if (!count) continue;
             
             count--;
             
@@ -24,8 +25,7 @@ public:
                     return false;
             }
 
-            if (count!= 0) return false;
-            
+            if (count) return false;
         }        
         
         return true;
