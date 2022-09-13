@@ -14,14 +14,11 @@ public:
             
             cur++;
             
-            cout << count << endl;
-
             if (count == 0) continue;
             else if (count == 1 || count > 4) return false;
             
             count--;
             
-            cout <<"here"<<endl;
             for (; count > 0 && cur<data.size(); count--, cur++) {
                 if (!(((data[cur] & 128) == 128) && (data[cur]<< 1 & 128) == 0))
                     return false;
