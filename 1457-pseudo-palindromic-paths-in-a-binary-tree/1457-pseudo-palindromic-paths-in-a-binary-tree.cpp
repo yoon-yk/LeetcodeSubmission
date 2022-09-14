@@ -34,7 +34,6 @@ public:
                 else nEven++;
             }
             
-            cout << nOdd << " " << nEven << endl;
             // 모두 짝수 || 하나만 홀수 
             // -> 홀수가 두개 이상이면 탈락
             if (nOdd > 1) return 0;
