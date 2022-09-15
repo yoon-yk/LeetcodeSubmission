@@ -29,7 +29,7 @@ public:
     */
     vector<int> findOriginalArray(vector<int>& changed) {
         
-        if (changed.size() % 2) return {};
+        // if (changed.size() % 2) return {};
         
         unordered_map<int, int> hashM;
         vector<int> ans;
@@ -40,7 +40,7 @@ public:
             if (n%2 == 0) evenCnt++;
             else oddCnt++;
         }
-        if (oddCnt > evenCnt) return {};   // if the number of odds < number of even : [1, 2, 2, 4]
+        // if (oddCnt > evenCnt) return {};   // if the number of odds < number of even : [1, 2, 2, 4]
 
         sort(changed.begin(), changed.end());
             
