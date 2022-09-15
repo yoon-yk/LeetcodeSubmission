@@ -58,13 +58,13 @@ public:
         int totalCnt = hashM.size();
         
         for (int i=0; i<n; i++) {
-            // check the current number is still valid 
-            if (hashM[changed[i]] < 1) continue;
-            
-            // if doubled number is in the hash Map and it is unmarked, 
             origN = changed[i], doubledN = origN << 1;
+
+            // check the current number is still valid 
+            if (hashM[origN] < 1) continue;
             if (!hashM.count(doubledN)) return {};
-            
+
+            // if doubled number is in the hash Map and it is unmarked, 
             if (origN == 0) { // (corner case : 0)
                 if (hashM[origN] > 1) {
                     hashM[origN] -= 2;
