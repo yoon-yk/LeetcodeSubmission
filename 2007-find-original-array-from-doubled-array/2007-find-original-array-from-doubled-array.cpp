@@ -62,31 +62,18 @@ public:
 
             // check the current number is still valid 
             if (hashM[origN] < 1) continue;
-            if (!hashM.count(doubledN)) return {};
+            
+            if (--hashM[origN] == 0)     
+                totalCnt--;
+            
+            if (!hashM.count(doubledN) || hashM[doubledN] < 1) return {};
 
-            // if doubled number is in the hash Map and it is unmarked, 
-            if (origN == 0) { // (corner case : 0)
-                if (hashM[origN] > 1) {
-                    hashM[origN] -= 2;
-                    if (hashM[origN] == 0) 
-                        totalCnt--;
-                    
-                    ans.push_back(origN);
-                }
-            }
-            else if (hashM.count(doubledN) && hashM[doubledN] > 0) {  
-                // then it's the doubled integer 
-                
-                // erase both number(orig + doubled)
-                if (--hashM[origN] == 0)
-                    totalCnt--;
-                
-                if (--hashM[doubledN] == 0)
-                    totalCnt--;
+            // it's the doubled integer 
+            if (--hashM[doubledN] == 0)
+                totalCnt--;
 
-                // put the original number into the answer 
-                ans.push_back(origN);
-            }
+            // put the original number into the answer 
+            ans.push_back(origN);
         }
         
         // if any left over ?? 
