@@ -63,7 +63,7 @@ public:
             
             // if doubled number is in the hash Map and it is unmarked, 
             origN = changed[i], doubledN = origN << 1;
-            if (!hashM.count(doubledN)) return {};
+            // if (!hashM.count(doubledN)) return {};
             
             if (origN == 0) { // (corner case : 0)
                 if (hashM[origN] > 1) {
