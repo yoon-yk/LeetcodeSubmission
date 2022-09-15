@@ -45,7 +45,6 @@ public:
         }
         if (oddCnt > evenCnt) return {};   // if the number of odds < number of even : [1, 2, 2, 4]
 
-        
         // sort the changed array to access the number by increasing order
         sort(changed.begin(), changed.end());
             
@@ -64,7 +63,8 @@ public:
             
             // if doubled number is in the hash Map and it is unmarked, 
             origN = changed[i], doubledN = origN << 1;
-
+            if (!hashM.count(doubledN)) return {};
+            
             if (origN == 0) { // (corner case : 0)
                 if (hashM[origN] > 1) {
                     hashM[origN] -= 2;
