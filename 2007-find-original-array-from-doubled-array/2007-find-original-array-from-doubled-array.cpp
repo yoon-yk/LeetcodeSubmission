@@ -31,12 +31,9 @@ public:
         
         if (changed.size() % 2) return {};
         
-        // put every number into hash M to mark if it is used before
         unordered_map<int, int> hashM;
         vector<int> ans;
-        
-        /*  (changed) [1, 2, 2, 4, 4, 8] */
-        
+                
         int evenCnt = 0, oddCnt = 0;
         for (int &n : changed) {
             hashM[n]++;
@@ -45,38 +42,27 @@ public:
         }
         if (oddCnt > evenCnt) return {};   // if the number of odds < number of even : [1, 2, 2, 4]
 
-        // sort the changed array to access the number by increasing order
         sort(changed.begin(), changed.end());
             
         int origN, doubledN, n = changed.size();
-
-        // (changed) [1, 1, 2, 2, 4, <4>, 8, 8]
-        // origN = 4, doubleN = 8
-        // (hashM) 1 : 0, 2 : 0, 4 : 0, 8 : 0
-        // (ans) 1, 1, 4, 4
-
         int totalCnt = hashM.size();
         
         for (int i=0; i<n; i++) {
             origN = changed[i], doubledN = origN << 1;
 
-            // check the current number is still valid 
             if (hashM[origN] < 1) continue;
             
             if (--hashM[origN] == 0)     
-                totalCnt--;
+                --totalCnt;
             
             if (!hashM.count(doubledN) || hashM[doubledN] < 1) return {};
 
-            // it's the doubled integer 
             if (--hashM[doubledN] == 0)
-                totalCnt--;
+                --totalCnt;
 
-            // put the original number into the answer 
             ans.push_back(origN);
         }
         
-        // if any left over ?? 
         if (totalCnt != 0) return {};
         
         return ans;
