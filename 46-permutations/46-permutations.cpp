@@ -24,15 +24,15 @@ public:
     void helper(int idx, vector<int>& nums, vector<int>& path, vector<vector<int>>& ans) {
         // condition
         if (idx == nums.size()) {
-            ans.push_back(path);
+            ans.push_back(nums);
             return;
         }
         
         for (int i=idx; i<nums.size(); i++) {
             swap(nums[idx], nums[i]);
-            path.emplace_back(nums[idx]);
+            // path.emplace_back(nums[idx]);
             helper(idx+1, nums, path, ans);
-            path.pop_back();
+            // path.pop_back();
             swap(nums[idx], nums[i]);
         }
         
