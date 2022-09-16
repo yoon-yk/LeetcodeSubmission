@@ -22,7 +22,7 @@ public:
             return;
         }
         
-        int minimum = nums[i-1];
+        int curHole = nums[i-1];
         sort(nums.begin() + i, nums.end());
         int nextDigitIdx = upper_bound(nums.begin()+i, nums.end(), nums[i-1]) - nums.begin();
         swap(nums[i-1], nums[nextDigitIdx]);
