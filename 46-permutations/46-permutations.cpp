@@ -5,18 +5,14 @@ public:
         1   2   3
        2 3 1 3 1 2
        3 2 3 1 2 1
-    
     */
-    
-    
     
     vector<vector<int>> permute(vector<int>& nums) {
         
-        vector<bool> visited(nums.size(), false);
         vector<int> path;
         vector<vector<int>> ans;
         
-        helper(nums, visited, path, ans);
+        helper(0, nums, path, ans);
         
         return ans;
     }
@@ -25,20 +21,19 @@ public:
     // Swap 하는 방법
     // visited 하는 방법
     
-    void helper(vector<int>& nums, vector<bool>& visited, vector<int>& path, vector<vector<int>>& ans) {
+    void helper(int idx, vector<int>& nums, vector<int>& path, vector<vector<int>>& ans) {
         // condition
-        if (path.size() == nums.size()) {
+        if (idx == nums.size()) {
             ans.push_back(path);
             return;
         }
         
-        for (int i=0; i<nums.size(); i++) {
-            if (visited[i]) continue;
-            visited[i] = true;
-            path.emplace_back(nums[i]);
-            helper(nums, visited, path, ans);
+        for (int i=idx; i<nums.size(); i++) {
+            swap(nums[idx], nums[i]);
+            path.emplace_back(nums[idx]);
+            helper(idx+1, nums, path, ans);
             path.pop_back();
-            visited[i] = false;
+            swap(nums[idx], nums[i]);
         }
         
         // 
