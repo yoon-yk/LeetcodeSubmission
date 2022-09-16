@@ -14,20 +14,16 @@ public:
     void nextPermutation(vector<int>& nums) {
         
         int i=nums.size()-1;
-        for (; i>0; i--){
+        for (; i>0; i--)
             if (nums[i-1] < nums[i]) break;
-        }
 
         if (i==0) {
             sort(nums.begin(), nums.end());
             return;
         }
         
-        int minimum = nums[i-1];
         sort(nums.begin() + i, nums.end());
-        
-        int nextDigitIdx = upper_bound(nums.begin()+i, nums.end(), minimum) - nums.begin();
+        int nextDigitIdx = upper_bound(nums.begin()+i, nums.end(), nums[i-1]) - nums.begin();
         swap(nums[i-1], nums[nextDigitIdx]);
-        
     }
 };
