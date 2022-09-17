@@ -7,7 +7,7 @@ struct TrieNode {
 class Solution {
 public:
     
-    void addToTrie(int wordIdx, string s, TrieNode*& node) {
+    void addToTrie(int wordIdx, string& s, TrieNode*& node) {
        for (int j = s.size()-1; j>=0; --j) {
            if (isPalindrome(s, 0, j)) 
                 node->palindromeIndexes.push_back(wordIdx);
@@ -22,7 +22,8 @@ public:
        node->palindromeIndexes.push_back(wordIdx);
     }
     
-    void getWord(int wordIdx, string s, TrieNode*& node, vector<vector<int>>& ans) {
+    void getWord(int wordIdx, string& s, TrieNode*& node, vector<vector<int>>& ans) {
+        
         for (int j=0; j<s.size() && node; j++) {
             // case 3
             if (node->index != -1 && node->index != wordIdx && isPalindrome(s, j, s.size()-1))
@@ -31,6 +32,7 @@ public:
         }
         if (!node) return;
 
+        // case 2
         for (int j : node->palindromeIndexes) 
             if (wordIdx!=j) ans.push_back({wordIdx, j});
     }
