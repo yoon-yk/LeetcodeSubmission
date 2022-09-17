@@ -1,71 +1,56 @@
+struct TrieNode {
+    TrieNode *next[26] = {};
+    int index = -1;
+    vector<int> palindromeIndexes;
+};
 
 class Solution {
 public:
-    bool check_palindrome(string &s) {
-        int left = 0;
-        int right = s.size() - 1;
-        
-        while (left < right) {
-            if (s[left] != s[right]) {
-                return false;
-            }
-            left++; right--;
+    TrieNode root;
+    
+    void addToTrie (string &s, int i) {
+       auto node = &root;
+       for (int j = s.size()-1; j>=0; --j) {
+           if (isPalindrome(s, 0, j)) {
+                node->palindromeIndexes.push_back(i);
+           }
+           int c = s[j] - 'a';
+            if (!node->next[c]) node->next[c] = new TrieNode();
+            node = node->next[c];
+       }
+       node->index = i;
+       node->palindromeIndexes.push_back(i);
+    }
+    
+    bool isPalindrome (string& s, int i, int j) {
+        while (i < j) {
+            if (s[i] != s[j]) return false;
+            i++, j--;
         }
-        
         return true;
     }
     
     vector<vector<int>> palindromePairs(vector<string>& words) {
-        unordered_map<string, int> rev;
-        string temp;
-        
         int n = words.size();
-        
-        for (int i = 0; i < n; i++) {
-            temp = words[i];
-            reverse(temp.begin(), temp.end());
-            
-            rev[temp] = i;
+        for (int i=0; i<n; i++) {
+            addToTrie(words[i], i);
         }
         
         vector<vector<int>> ans;
-        
-        if (rev.find("") != rev.end()) {
-            for (int i = 0; i < n; i++) {
-                if (rev[""] == i) {
-                    continue;
-                }
-                
-                if (check_palindrome(words[i])) {
-                    ans.push_back({i, rev[""]});
-                }
+        for (int i=0; i<n; i++) {
+            auto s = words[i];
+            auto node = &root;
+            for (int j=0; j<s.size() && node; j++) {
+                if (node->index != -1 && node->index != i && isPalindrome(s, j, s.size()-1))
+                    ans.push_back({i, node->index});
+                node = node->next[s[j] - 'a'];
+            }
+            if (!node) continue;
+            
+            for (int j : node->palindromeIndexes) {
+                if (i!=j) ans.push_back({i, j});
             }
         }
-        
-        string left, right, word;
-        
-        for (int i = 0; i < n; i++) {
-            word = words[i];
-            
-            left = "";
-            right = word;
-            
-            int sz = word.size();
-            
-            for (int j = 0; j < sz; j++) {
-                left.push_back(word[j]);
-                right.erase(0, 1);
-                
-                if (rev.find(left) != rev.end() && rev[left] != i && check_palindrome(right)) {
-                    ans.push_back({i, rev[left]});
-                }
-                
-                if (rev.find(right) != rev.end() && rev[right] != i && check_palindrome(left)) {
-                    ans.push_back({rev[right], i});
-                }
-            }
-        }   
-        
         return ans;
     }
-};
+};  
