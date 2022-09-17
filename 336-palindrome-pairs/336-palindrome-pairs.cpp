@@ -6,21 +6,35 @@ struct TrieNode {
 
 class Solution {
 public:
-    TrieNode root;
     
-    void addToTrie (string &s, int i) {
-       auto node = &root;
+    void addToTrie(int wordIdx, string s, TrieNode*& node) {
        for (int j = s.size()-1; j>=0; --j) {
-           if (isPalindrome(s, 0, j)) {
-                node->palindromeIndexes.push_back(i);
-           }
+           if (isPalindrome(s, 0, j)) 
+                node->palindromeIndexes.push_back(wordIdx);
+         
            int c = s[j] - 'a';
-            if (!node->next[c]) node->next[c] = new TrieNode();
-            node = node->next[c];
+           if (!node->next[c]) 
+               node->next[c] = new TrieNode();
+           node = node->next[c];
        }
-       node->index = i;
-       node->palindromeIndexes.push_back(i);
+    
+       node->index = wordIdx;
+       node->palindromeIndexes.push_back(wordIdx);
     }
+    
+    void getWord(int wordIdx, string s, TrieNode*& node, vector<vector<int>>& ans) {
+        for (int j=0; j<s.size() && node; j++) {
+            // case 3
+            if (node->index != -1 && node->index != wordIdx && isPalindrome(s, j, s.size()-1))
+                ans.push_back({wordIdx, node->index}); 
+            node = node->next[s[j] - 'a'];
+        }
+        if (!node) return;
+
+        for (int j : node->palindromeIndexes) 
+            if (wordIdx!=j) ans.push_back({wordIdx, j});
+    }
+
     
     bool isPalindrome (string& s, int i, int j) {
         while (i < j) {
@@ -32,24 +46,20 @@ public:
     
     vector<vector<int>> palindromePairs(vector<string>& words) {
         int n = words.size();
+        TrieNode* root = new TrieNode;
+
+        TrieNode* node;
         for (int i=0; i<n; i++) {
-            addToTrie(words[i], i);
+            auto s = words[i];
+            node = root;
+            addToTrie(i, s, node);
         }
         
         vector<vector<int>> ans;
         for (int i=0; i<n; i++) {
             auto s = words[i];
-            auto node = &root;
-            for (int j=0; j<s.size() && node; j++) {
-                if (node->index != -1 && node->index != i && isPalindrome(s, j, s.size()-1))
-                    ans.push_back({i, node->index});
-                node = node->next[s[j] - 'a'];
-            }
-            if (!node) continue;
-            
-            for (int j : node->palindromeIndexes) {
-                if (i!=j) ans.push_back({i, j});
-            }
+            node = root;
+            getWord(i, s, node, ans);
         }
         return ans;
     }
