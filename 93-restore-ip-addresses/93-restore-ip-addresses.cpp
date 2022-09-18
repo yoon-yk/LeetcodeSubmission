@@ -3,12 +3,12 @@ public:
     vector<string> restoreIpAddresses(string s) {
         vector<string> ans;
         string curStr = "";
-        backtrack(s, 0, 0, 0, curStr, 3, ans);
+        backtrack(s, 0, 0, 0, 3, curStr, ans);
         
         return ans;
     }
     
-    void backtrack(string &s, int globalIdx, int localIdx, int localNum, string& curStr, int totalWall, vector<string>& ans) {
+    void backtrack(string &s, int globalIdx, int localIdx, int localNum,  int totalWall, string& curStr, vector<string>& ans) {
         
         if (localNum > 255) return;
         
@@ -22,7 +22,7 @@ public:
         if (globalIdx > 0 && totalWall > 0) {
             curStr.push_back('.');
             curStr.push_back(s[globalIdx]);
-            backtrack(s, globalIdx+1, 1, s[globalIdx]-'0', curStr, totalWall-1, ans);
+            backtrack(s, globalIdx+1, 1, s[globalIdx]-'0', totalWall-1, curStr, ans);
             curStr.pop_back();            
             curStr.pop_back();  
         }
@@ -30,7 +30,7 @@ public:
         // exclude (keep going -- only if it can)
         if (localIdx < 3 && !(localIdx == 1 && s[globalIdx-1]== '0')) {
             curStr.push_back(s[globalIdx]);
-            backtrack(s, globalIdx+1, localIdx+1, localNum* 10 + (s[globalIdx]-'0'), curStr, totalWall, ans);
+            backtrack(s, globalIdx+1, localIdx+1, localNum* 10 + (s[globalIdx]-'0'), totalWall, curStr, ans);
             curStr.pop_back();      
         }
         
