@@ -3,8 +3,9 @@ public:
     int maxLen = 0;
     bool wordBreak(string s, vector<string>& wordDict) {
         
+        int len = s.size();
         unordered_set<string> dict;
-        unordered_map<int, unordered_map<int, bool>> visit;
+        vector<vector<int>> visit(len+1, vector<int>(len+1, -1));
         
         for (string& str : wordDict) {
             dict.insert(str);
@@ -12,12 +13,13 @@ public:
         }
         
         string curStr = "";
-        return backtrack(0, s, 0, curStr, dict, visit);
+        return backtrack(0, 0, s, curStr, dict, visit);
+        // return true;
     }
     
-    bool backtrack(int idx, string& s, int curStrBeg, string& curStr, unordered_set<string>& dict, unordered_map<int, unordered_map<int, bool>>& visit) {
+    bool backtrack(int curStrBeg, int idx, string& s, string& curStr, unordered_set<string>& dict, vector<vector<int>>& visit) {
         
-        if (visit[curStrBeg].count(idx)) 
+        if (visit[curStrBeg][idx] != -1)
             return visit[curStrBeg][idx];
         
         // cout << curStr << endl;
@@ -34,13 +36,13 @@ public:
         for (int i=idx; i<s.size(); i++) {
             
             curStr.push_back(s[idx]);
-            ans |= backtrack(idx+1, s, curStrBeg, curStr, dict, visit);
+            ans |= backtrack(curStrBeg, idx+1, s, curStr, dict, visit);
             curStr.pop_back();
             
             if (dict.count(curStr)) {
                 string newString;
                 newString.push_back(s[idx]);
-                ans |= backtrack(idx+1, s, idx, newString, dict, visit);
+                ans |= backtrack(idx, idx+1, s, newString, dict, visit);
                 newString.pop_back();
             } 
         
