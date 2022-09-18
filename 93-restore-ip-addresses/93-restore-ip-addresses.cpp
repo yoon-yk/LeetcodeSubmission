@@ -15,14 +15,14 @@ public:
         
         // base case
         if (globalIdx == s.size() && totalWall == 0) {
-            ans.push_back(curStr);
+            ans.emplace_back(curStr);
             return;
         }
 
         // include '.'
         if (globalIdx > 0 && totalWall > 0) {
-            curStr += '.';
-            curStr += s[globalIdx];
+            curStr.push_back('.');
+            curStr.push_back(s[globalIdx]);
             backtrack(s, globalIdx+1, 1, s[globalIdx]-'0', curStr, totalWall-1, ans);
             curStr.pop_back();            
             curStr.pop_back();  
@@ -30,7 +30,7 @@ public:
             
         // exclude (keep going -- only if it can)
         if (localIdx < 3 && !(localIdx == 1 && s[globalIdx-1]== '0')) {
-            curStr += s[globalIdx];
+            curStr.push_back(s[globalIdx]);
             backtrack(s, globalIdx+1, localIdx+1, localNum* 10 + (s[globalIdx]-'0'), curStr, totalWall, ans);
             curStr.pop_back();      
         }
