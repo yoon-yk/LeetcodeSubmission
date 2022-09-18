@@ -2,9 +2,8 @@ class Solution {
 public:
     vector<string> restoreIpAddresses(string s) {
         vector<string> ans;
-        int globalIdx = 0, localIdx = 0, localNum = 0, totalWall = 3;
         string curStr = "";
-        backtrack(s, globalIdx, localIdx, localNum, curStr, totalWall, ans);
+        backtrack(s, 0, 0, 0, curStr, 3, ans);
         
         return ans;
     }
