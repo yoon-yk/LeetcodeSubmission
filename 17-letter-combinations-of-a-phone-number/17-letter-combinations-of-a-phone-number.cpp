@@ -15,15 +15,15 @@ public:
     
     void solve(string& digits, int index, string& curString,vector<string>& ans, vector<string>& mapping){
         
-        if (index >= digits.length()){
-            ans.push_back(curString);
+        if (index == digits.length()){
+            ans.emplace_back(curString);
             return;
         }
         
         int number = digits[index] - '0';
         string value = mapping[number];
         for (int i=0;i<value.length();i++){
-            curString.push_back(value[i]);
+            curString+=value[i];
             solve(digits,index+1,curString,ans,mapping);
             curString.pop_back();
         }
