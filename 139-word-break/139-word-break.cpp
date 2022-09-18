@@ -26,9 +26,8 @@ public:
         
         // basecase
         // if all found 
-        if (idx == s.size()) {
+        if (idx == s.size()) 
             return visit[curStrBeg][idx] = dict.count(curStr);
-        }
         
         bool ans = false;
         
@@ -39,10 +38,10 @@ public:
             curStr.pop_back();
             
             if (dict.count(curStr)) {
-                string origStr = curStr;
-                curStr = s[idx];
-                ans |= backtrack(idx+1, s, idx, curStr, dict, visit);
-                curStr = origStr;
+                string newString;
+                newString.push_back(s[idx]);
+                ans |= backtrack(idx+1, s, idx, newString, dict, visit);
+                newString.pop_back();
             } 
         
         }
