@@ -7,7 +7,7 @@ public:
         unordered_set<string> dict;
         
         vector<int> startingDict(26, 0);
-        vector<vector<int>> visit(len+1, vector<int>(len+1, -1));
+        vector<int> visit(len+1, -1);
         
         for (string& str : wordDict) {
             dict.insert(str);
@@ -19,19 +19,16 @@ public:
         return backtrack(0, 0, s, curStr, startingDict, dict, visit);
     }
     
-    bool backtrack(int curStrBeg, int idx, string& s, string& curStr, vector<int>& startingDict, unordered_set<string>& dict, vector<vector<int>>& visit) {
+    bool backtrack(int curStrBeg, int idx, string& s, string& curStr, vector<int>& startingDict, unordered_set<string>& dict, vector<int>& visit) {
         
-        if (visit[curStrBeg][idx] != -1)
-            return visit[curStrBeg][idx];
+        if (visit[curStrBeg] != -1)
+            return visit[curStrBeg];
         
-        // cout << curStr << endl;
         if (curStr.size() > maxLen)
-            return visit[curStrBeg][idx] = false;
-        
-        // basecase
-        // if all found 
+            return visit[curStrBeg] = false;
+
         if (idx == s.size()) 
-            return visit[curStrBeg][idx] = dict.count(curStr);
+            return visit[curStrBeg] = dict.count(curStr);
         
         bool ans = false;
         
@@ -52,7 +49,7 @@ public:
         
         }
         
-        return visit[curStrBeg][idx] = ans;
+        return visit[curStrBeg] = ans;
         
         
     }
