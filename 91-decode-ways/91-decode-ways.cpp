@@ -11,7 +11,7 @@ public:
             
             if (i > 0 && s[i-1] != '0') {
                 string newStr = s.substr(i-1, 2);
-                if (stoi(newStr) > 0 && stoi(newStr) < 27) 
+                if (stoi(newStr) < 27) 
                     dp[i+1] += dp[i-1];
             }
                         
