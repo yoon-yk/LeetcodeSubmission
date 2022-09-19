@@ -1,7 +1,7 @@
 class Solution {
 public:
 
-    bool wordBreak(string s, vector<string>& wordDict) {
+    bool wordBreak(string &s, vector<string>& wordDict) {
         int n = s.size();
         vector<bool> dp(n + 1, false);
         unordered_set<string> st;
