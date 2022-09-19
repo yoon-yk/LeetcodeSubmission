@@ -9,7 +9,7 @@ public:
         
         for (int i=0; i<n; i++) {
             
-            if (i > 0 && s[i-1] != '0') {
+            if (i > 0 && (s[i-1] == '1' || s[i-1] == '2')) {
                 string newStr = s.substr(i-1, 2);
                 if (stoi(newStr) < 27) 
                     dp[i+1] += dp[i-1];
