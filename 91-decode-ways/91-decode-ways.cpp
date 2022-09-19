@@ -21,17 +21,16 @@ public:
     */
     
     int numDecodings(string s) {
-        
-        int numOfWays = 0;
-        
+                
         int n = s.length();
         vector<int> dp(n+1, 0);
         dp[0] = 1;
+        
         for (int i=0; i<n; i++) {
             
-            if (i > 0) {
+            if (i > 0 && s[i-1] != '0') {
                 string newStr = s.substr(i-1, 2);
-                if (s[i-1] != '0' && stoi(newStr) > 0 && stoi(newStr) < 27) 
+                if (stoi(newStr) > 0 && stoi(newStr) < 27) 
                     dp[i+1] += dp[i-1];
             }
                         
@@ -39,10 +38,6 @@ public:
                 dp[i+1] += dp[i];
             }
         }
-        
-//         for (auto d : dp)
-//             cout << d << " ";
-//         cout << endl;
         
         return dp[n]; // number of ways to decode the string 
     }
