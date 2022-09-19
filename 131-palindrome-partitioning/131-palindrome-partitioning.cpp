@@ -16,13 +16,15 @@ public:
     ...? 
     
     */
-    bool isPalindrome(string& s) {
+    bool isPalindrome(string& s, unordered_map<string, bool> &pDict) {
+        if (pDict.count(s)) return pDict[s];
+        
         int front = 0, back = s.length() -1;
         while(front < back) {
-            if (s[front] != s[back]) return false;
+            if (s[front] != s[back]) return pDict[s] = false;
             front++, back--;
         }
-        return true;
+        return pDict[s] = true;
     }
     
     vector<vector<string>> partition(string s) {
@@ -42,12 +44,13 @@ public:
         
         int n = s.length();
         vector<vector<string>> map(n+1);
-        
+        unordered_map<string, bool> pDict;
+
         for (int i=0; i<n; i++) {
             string str;
             for (int j=i; j>=0; j--) {
                 str = s[j] + str;
-                if (isPalindrome(str)) 
+                if (isPalindrome(str, pDict)) 
                     map[i+1].push_back(str);
             }
         }
