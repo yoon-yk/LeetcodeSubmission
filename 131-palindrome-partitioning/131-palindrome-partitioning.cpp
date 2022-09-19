@@ -1,90 +1,36 @@
 class Solution {
 public:
-    /*
-    a
-    a a b
-    aa b
-    
-    
-    aa bb aa
-    a a b b a a 
-    aa b b a a 
-    
-    - sliding window ? O(n^2)
-    길이가 1인경우
-    길이가 2인경우
-    ...? 
-    
-    */
-    bool isPalindrome(string& s, unordered_map<string, bool> &pDict) {
-        if (pDict.count(s)) return pDict[s];
+
+    bool isPalindrome(string& s, int front, int back) {
         
-        int front = 0, back = s.length() -1;
-        while(front < back) {
-            if (s[front] != s[back]) return pDict[s] = false;
+        while (front < back) {
+            if (s[front] != s[back]) return false;
             front++, back--;
         }
-        return pDict[s] = true;
+        return true;
     }
     
     vector<vector<string>> partition(string s) {
-        /*
-        idx  0 1 2
-        pal  a a b
-               aa
-               
-        a a b a a
-        a a b aa
-        a aba a
-        aa b a a
-        aa b aa
-        aabaa
-                
-        */
-        
-        int n = s.length();
-        vector<vector<string>> map(n+1);
-        unordered_map<string, bool> pDict;
 
-        for (int i=0; i<n; i++) {
-            string str;
-            for (int j=i; j>=0; j--) {
-                str = s[j] + str;
-                if (isPalindrome(str, pDict)) 
-                    map[i+1].push_back(str);
-            }
-        }
-        
-        // for (auto c : map) {
-        //     for (auto s : c)
-        //         cout << s << " ";  
-        //     cout << endl;
-        // }
-        
-        vector<string> path;
+        int n = s.length();
+        vector<string> curPath;
         vector<vector<string>> ans;
-        backtrack(s, n, map, path, ans);
+        
+        string newStr;
+        backtrack(ans, s, 0, curPath);
         return ans;
     }
     
-    void backtrack(string& s, int idx, vector<vector<string>>& map, vector<string>& path, vector<vector<string>>& ans) {
+    void backtrack(vector<vector<string>>& ans, string &s, int start, vector<string> &curPath) {
+        if (start >= s.length())
+            ans.emplace_back(curPath);
         
-        int n = s.length();
-        
-        if (idx == 0) {
-            
-            reverse(path.begin(), path.end());
-            ans.push_back(path);
-            reverse(path.begin(), path.end());
-
-            return;
-        }
-
-        
-        for (auto& c : map[idx]) {
-            path.push_back(c);
-            backtrack(s, idx-c.size(), map, path, ans);
-            path.pop_back();
+        for (int end = start; end < s.length(); end++) {
+            if (isPalindrome(s, start, end)) {
+                curPath.emplace_back(s.substr(start, end-start+1));
+                backtrack(ans, s, end+1, curPath);
+                curPath.pop_back();
+            }
         }
     }
     
