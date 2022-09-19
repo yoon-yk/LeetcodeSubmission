@@ -1,7 +1,6 @@
 class Solution {
 public:
     int maxLen = 0;
-    bool found = false;
     
     bool wordBreak(string s, vector<string>& wordDict) {
         
@@ -22,9 +21,6 @@ public:
     }
     
     bool backtrack(int curStrBeg, int idx, string& s, string& curStr, vector<int>& startingDict, unordered_set<string>& dict, vector<int>& visit) {
-        
-        if (found) 
-            return true;
         
         if (visit[curStrBeg] != -1)
             return visit[curStrBeg];
@@ -53,9 +49,8 @@ public:
             } 
         
         }
-        if (ans) found = true;
-        return visit[curStrBeg] = ans;
         
+        return visit[curStrBeg] = ans;
         
     }
 };
