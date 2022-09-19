@@ -5,7 +5,7 @@ public:
         int n = s.size();
         vector<bool> dp(n + 1, false);
         unordered_set<string> st;
-        for(auto i: wordDict)
+        for(auto &i: wordDict)
             st.insert(i);
         dp[0] = true;
         for (int i = 1; i < n + 1; i++){
