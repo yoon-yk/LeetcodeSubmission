@@ -10,7 +10,7 @@ public:
         return true;
     }
     
-    vector<vector<string>> partition(string s) {
+    vector<vector<string>> partition(string &s) {
 
         int n = s.length();
         vector<string> curPath;
