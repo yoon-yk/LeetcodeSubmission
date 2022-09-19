@@ -1,22 +1,23 @@
 class Solution {
 public:
-    bool wordBreak(string s, vector<string>& wordDict) {
-        unordered_set<string> wordSet(wordDict.begin(), wordDict.end());
-        vector<int> memo(s.size(), -1);
-        return check(s, wordSet, 0, memo);
-    }
-    bool check(string s, unordered_set<string>& wordSet, int start, vector<int>& memo) {
-        if (start >= s.size()) 
-            return true;
-        if (memo[start] != -1) 
-            return memo[start];
-        for (int i = start + 1; i <= s.size(); ++i) {
-            if (wordSet.count(s.substr(start, i - start)) && check(s, wordSet, i, memo)) {
-                memo[start] = 1;
-                return memo[start];
+    bool wordBreak(string s, vector<string>& wordDict) {     
+        int n = s.size();
+        vector<bool> dp(n + 1);
+        dp[n] = true;
+        
+        for (int i = n; i >= 0; i--)
+            for (string& word : wordDict) {
+                if (i + word.size() <= n) {
+                    for (int j = 0; j < word.size(); j++){
+                        if (s[i + j] != word[j])
+                            break;
+                        if (j == word.size() - 1)
+                            dp[i] = dp[i + word.size()];                            
+                    }
+                }
+                if (dp[i]) break;
             }
-        }
-        memo[start] = 0;
-        return memo[start];
+        
+        return dp[0];
     }
 };
