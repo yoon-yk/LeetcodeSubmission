@@ -22,7 +22,7 @@ public:
     }
     
     void backtrack(vector<vector<string>>& ans, string &s, int start, vector<string> &curPath) {
-        if (start >= s.length())
+        if (start == s.length())
             ans.emplace_back(curPath);
         
         for (int end = start; end < s.length(); end++) {
