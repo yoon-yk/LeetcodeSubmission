@@ -1,17 +1,19 @@
 class Solution {
 public:
-    int findLength(vector<int>& nums1, vector<int>& nums2) {
-        int ans = 0; 
-        vector<vector<int>> memo(nums1.size()+1, vector<int>(nums2.size()+1, 0));
-        for (int i = 0; i<nums1.size() ; i++) {
-            for (int j = 0; j<nums2.size(); j++) {
-                if (nums1[i] == nums2[j]) {
-                    memo[i][j] = (i-1 >= 0 && j-1 >= 0) ? memo[i-1][j-1] + 1 : 1;
-                    if (ans < memo[i][j]) ans = memo[i][j];
-                }
-            } 
+    int findLength(vector<int>& A, vector<int>& B) {
+        int result = 0;
+        for (int i = 0; i < A.size() + B.size() - 1; ++i) {
+            // The current overlapping window is A[aStart, Math.min(A.length, B.length)] and B[bStart, Math.min(A.length, B.length)].
+            int aStart = max(0, (int)(A.size() - 1 - i));  
+            int bStart = max(0, (int)(i - (A.size() - 1)));
+            int numConsecutiveMatches = 0;
+            for (int aIdx = aStart, bIdx = bStart; aIdx < A.size() && bIdx < B.size(); ++aIdx, ++bIdx) {
+                // Maintain number of equal consecutive elements in the current window (overlap) and the max number ever computed.
+                numConsecutiveMatches = A[aIdx] == B[bIdx] ? numConsecutiveMatches + 1 : 0;
+                result = max(result, numConsecutiveMatches);
+            }
         }
-        
-        return ans;
+        return result;
     }
 };
+
