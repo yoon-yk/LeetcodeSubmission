@@ -10,19 +10,18 @@ public:
     
     void backtrack(int idx, vector<int>& nums, vector<int>& curPath, vector<vector<int>>& ans) {
         
-        ans.push_back(curPath);
+        ans.emplace_back(curPath);
         
         int n = nums.size();
-        if (idx == n) {
+        if (idx == n) 
             return;
-        }
         
         vector<bool> visited(20, false);
         
         for (int i=idx; i<n; i++) {
             if (visited[nums[i]+10]) continue;
             visited[nums[i]+10] = true;
-            curPath.push_back(nums[i]);
+            curPath.emplace_back(nums[i]);
             backtrack(i+1, nums, curPath, ans);
             curPath.pop_back();
         }
