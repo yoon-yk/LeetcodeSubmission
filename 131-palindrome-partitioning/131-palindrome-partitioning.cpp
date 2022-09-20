@@ -1,13 +1,15 @@
 class Solution {
 public:
 
-    bool isPalindrome(string& s, int front, int back) {
+    bool isPalindrome(string& s, int front, int back, vector<vector<int>>& dp) {
         
-        while (front < back) {
-            if (s[front] != s[back]) return false;
-            front++, back--;
-        }
-        return true;
+        if (dp[front][back] != -1) 
+            return dp[front][back];
+        
+        if (s[front] == s[back] && (back-front<=2 || dp[front+1][back-1])) 
+            return dp[front][back] = true;
+        
+        return dp[front][back] = false;
     }
     
     vector<vector<string>> partition(string &s) {
@@ -30,9 +32,7 @@ public:
         }
         
         for (int end = start; end < n; end++) {
-            if (dp[start][end] == -1)
-                dp[start][end] = isPalindrome(s, start, end);
-            if (dp[start][end] == 1) {
+            if (isPalindrome(s, start, end, dp)) {
                 curPath.push_back(s.substr(start, end-start+1));
                 dfs(end+1, s, dp, curPath, ans);
                 curPath.pop_back();
