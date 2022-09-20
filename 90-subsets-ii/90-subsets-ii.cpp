@@ -16,11 +16,12 @@ public:
         if (idx == n) 
             return;
         
-        vector<bool> visited(20, false);
+        // vector<bool> visited(20, false);
         
         for (int i=idx; i<n; i++) {
-            if (visited[nums[i]+10]) continue;
-            visited[nums[i]+10] = true;
+            // if (visited[nums[i]+10]) continue;
+            if (i > idx && nums[i-1] == nums[i]) continue;
+            // visited[nums[i]+10] = true;
             curPath.emplace_back(nums[i]);
             backtrack(i+1, nums, curPath, ans);
             curPath.pop_back();
