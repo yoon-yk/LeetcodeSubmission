@@ -1,19 +1,28 @@
 class Solution {
 public:
     vector<vector<int>> subsets(vector<int>& nums) {
-        vector<vector<int>> ans = {{}};
         
-        for (int& n : nums) {
-            vector<vector<int>> newSubsets;
-            for (vector<int> curr : ans) {
-                curr.push_back(n);
-                newSubsets.push_back(curr);
-            }
-            for (vector<int>& curr : newSubsets)
-                ans.push_back(curr);
-        }
-        
+        vector<int> curPath;
+        vector<vector<int>> ans;
+        backtrack(0, nums, curPath, ans);
         return ans;
     }
+    
+    void backtrack(int idx, vector<int>& nums, vector<int>& curPath, vector<vector<int>>& ans) {
+        
+        ans.push_back(curPath);
 
+        int n = nums.size();
+
+        if (idx == n) {
+            return;
+        }
+        
+        
+        for (int i=idx; i<n; i++) {
+            curPath.push_back(nums[i]);
+            backtrack(i+1, nums, curPath, ans);
+            curPath.pop_back();
+        }
+    }
 };
