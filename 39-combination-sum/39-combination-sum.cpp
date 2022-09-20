@@ -2,28 +2,31 @@ class Solution {
 public:
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
         
-        vector<int> cur;
+        int curSum = 0;
+        vector<int> curPath;
         vector<vector<int>> ans;
-        
-        backtrack(candidates, 0, target, cur, ans);
-        
+        backtrack(0, candidates, target, curPath, curSum, ans);
         return ans;
     }
     
-    void backtrack(vector<int>& candidates, int idx, int curSum, vector<int>& cur, vector<vector<int>>& ans) {
+    void backtrack(int idx, vector<int>& candidates, int target, vector<int>& curPath, int &curSum, vector<vector<int>>& ans) {
+        int n = candidates.size();
         
-        if (idx == candidates.size() || curSum < 0)
-            return;
-        else if (curSum == 0) {
-            ans.push_back(cur);
+        if (curSum == target) {
+            ans.push_back(curPath);
             return;
         }
-        else {
-            backtrack(candidates, idx+1, curSum, cur, ans); // exculde
-            cur.push_back(candidates[idx]);
-            backtrack(candidates, idx, curSum-candidates[idx], cur, ans); // include 
-            cur.pop_back();
+        
+        if (curSum > target) {
+            return;
+        }
+        
+        for (int i=idx; i<n; i++) {
+            curSum += candidates[i];
+            curPath.push_back(candidates[i]);
+            backtrack(i, candidates, target, curPath, curSum, ans);
+            curPath.pop_back();
+            curSum -= candidates[i];
         }
     }
-    
 };
