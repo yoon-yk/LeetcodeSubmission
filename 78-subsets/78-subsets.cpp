@@ -10,7 +10,7 @@ public:
     
     void backtrack(int idx, vector<int>& nums, vector<int>& curPath, vector<vector<int>>& ans) {
         
-        ans.push_back(curPath);
+        ans.emplace_back(curPath);
 
         int n = nums.size();
 
@@ -20,7 +20,7 @@ public:
         
         
         for (int i=idx; i<n; i++) {
-            curPath.push_back(nums[i]);
+            curPath.emplace_back(nums[i]);
             backtrack(i+1, nums, curPath, ans);
             curPath.pop_back();
         }
