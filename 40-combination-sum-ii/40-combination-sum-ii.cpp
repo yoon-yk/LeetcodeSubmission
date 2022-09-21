@@ -20,7 +20,7 @@ public:
 
         for (int i=idx; i<candidates.size(); i++) {
             if (i > idx && (candidates[i-1] == candidates[i])) continue;
-            if (curSum + candidates[i] > target) continue;
+            if (curSum + candidates[i] > target) break;
             curPath.emplace_back(candidates[i]);
             curSum += candidates[i];
             backtrack(i+1, candidates, target, curSum, curPath, ans);
