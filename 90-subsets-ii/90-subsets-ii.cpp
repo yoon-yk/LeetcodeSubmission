@@ -5,6 +5,8 @@ public:
         int n = nums.size(), p = 1 << n;
         vector<vector<int>> subs(p);
         unordered_set<string> seen;
+        vector<vector<int>> ans;
+
         for (int i = 0; i < p; i++) {
             string curBit;
             for (int j = 0; j < n; j++) {
@@ -16,17 +18,14 @@ public:
             }
             // cout << curBit << endl;
             if (seen.count(curBit))
-                subs[i].push_back(-11);
-            else seen.insert(curBit);
-        }
-        
-        vector<vector<int>> ans;
-        
-        for (auto& s : subs) {
-            if (s.size() > 0 && s.back()==-11)   
                 continue;
-            ans.push_back(s);
+            else {
+                seen.insert(curBit);
+                ans.push_back(subs[i]);
+            }
         }
+        
+
         
         return ans;
     }
