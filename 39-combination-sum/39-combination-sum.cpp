@@ -17,11 +17,9 @@ public:
             return;
         }
         
-        if (curSum > target) {
-            return;
-        }
         
         for (int i=idx; i<n; i++) {
+            if (candidates[i] + curSum > target) continue;
             curSum += candidates[i];
             curPath.push_back(candidates[i]);
             backtrack(i, candidates, target, curPath, curSum, ans);
