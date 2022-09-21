@@ -11,7 +11,7 @@ public:
             string curBit;
             for (int j = 0; j < n; j++) {
                 if ((i >> j) & 1) {
-                    subs[i].push_back(nums[j]);
+                    subs[i].emplace_back(nums[j]);
                     curBit += (nums[j]+'0');
                     curBit += ',';
                 }
@@ -19,7 +19,7 @@ public:
             // cout << curBit << endl;
             if (!seen.count(curBit)) {
                 seen.insert(curBit);
-                ans.push_back(subs[i]);
+                ans.emplace_back(subs[i]);
             }
         }
         
