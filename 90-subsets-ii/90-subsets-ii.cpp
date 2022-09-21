@@ -17,9 +17,7 @@ public:
                 }
             }
             // cout << curBit << endl;
-            if (seen.count(curBit))
-                continue;
-            else {
+            if (!seen.count(curBit)) {
                 seen.insert(curBit);
                 ans.push_back(subs[i]);
             }
