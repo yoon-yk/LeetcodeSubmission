@@ -1,6 +1,6 @@
 class Solution {
 public:
-    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int& target) {
         sort(candidates.begin(), candidates.end());
         int curSum = 0;
         vector<int> curPath;
@@ -11,7 +11,7 @@ public:
         
     }
     
-    void backtrack(int idx, vector<int>& candidates, int target, int &curSum, vector<int>& curPath, vector<vector<int>>& ans) {
+    void backtrack(int idx, vector<int>& candidates, int& target, int &curSum, vector<int>& curPath, vector<vector<int>>& ans) {
         // base case
         if (curSum == target){ 
             ans.emplace_back(curPath);
