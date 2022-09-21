@@ -15,7 +15,7 @@ public:
         // base case
         
         if (curSum == n && curPath.size() == k) {
-            ans.push_back(curPath);
+            ans.emplace_back(curPath);
             return;
         }
         
@@ -25,7 +25,7 @@ public:
         
         // dfs
         for (int i=idx; i<10; i++){
-            curPath.push_back(i);
+            curPath.emplace_back(i);
             curSum += i;
             backtrack(i+1, k, n, curSum, curPath, ans);
             curSum -= i;
