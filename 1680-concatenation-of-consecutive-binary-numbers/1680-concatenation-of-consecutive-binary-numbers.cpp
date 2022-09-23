@@ -8,10 +8,10 @@ public:
         int length = 0;
 
         for (int i=1; i<=n; i++) {
-            if (ceil(log2(i)) == floor(log2(i)))
+            if ((i & (i-1)) == 0)
                 length++;
             
-            result = ((result * (int)pow(2, length)) + i) % MOD;
+            result = ((result << length) | i) % MOD;
         }
         return result;
     }
