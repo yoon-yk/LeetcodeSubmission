@@ -1,6 +1,6 @@
 class Solution {
 public:
-    vector<string> generatePalindromes(string s) {
+    vector<string> generatePalindromes(string &s) {
         vector<string> ans;
         
         vector<int> hashM(26, 0);
