@@ -17,7 +17,7 @@ public:
         int n= s.length(); 
         for (int i=n-1; i>=0; i--) 
             for (int j=0; i+j<n; j++) 
-                if (isPalindrome(s, j, j+i, dp)) 
+                if (s[j] == s[j+i] && isPalindrome(s, j, j+i, dp)) 
                     return s.substr(j, i+1);
 
         return "";
