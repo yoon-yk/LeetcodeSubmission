@@ -1,15 +1,15 @@
 class Solution {
 public:
     bool isPalindrome(string& s, int start, int end, vector<vector<int>>& dp) {
-        if (dp[start][end] != -1) return dp[start][end];
+        if (dp[start][end] != -1) 
+            return dp[start][end];
         
-        if (start >= end) {
+        if (start >= end)
             return dp[start][end] = true;
-        }
         
-        else if (s[start] == s[end] && (isPalindrome(s, start+1, end-1, dp))) {
+        if (s[start] == s[end] && (isPalindrome(s, start+1, end-1, dp)))
             return dp[start][end] = true;
-        } 
+
         return dp[start][end] = false;
     }
     
