@@ -1,8 +1,8 @@
 class Solution {
 public:
     vector<string> generatePalindromes(string &s) {
+       
         vector<string> ans;
-        
         vector<int> hashM(26, 0);
         for (int i=0; i<s.length(); i++)
             hashM[s[i]-'a']++;
@@ -11,25 +11,22 @@ public:
         for (int i=0; i<26; i++)
             if (hashM[i] % 2) {
                 if (++oddCnt > 1)
-                    break;
+                    return ans;
                 oddChar = i;
             }
         
-        if (oddCnt > 1) return ans;
-
         string firstHalf;
         for (int i=0; i<26; i++) 
             if (hashM[i] > 0)  // for even numbers
                 for (int j=0; j < ((hashM[i])>>1); j++) 
                     firstHalf += (i + 'a');
-            
         
-        backtrack(0, firstHalf, oddChar, ans);
+        permute(0, firstHalf, oddChar, ans);
 
         return ans;
     }
     
-    void backtrack(int idx, string& s, int oddChar, vector<string>& ans){ 
+    void permute(int idx, string& s, int oddChar, vector<string>& ans){ 
 
         int n = s.length();
         
@@ -47,7 +44,7 @@ public:
             if (seen[s[i]-'a']) continue;
             seen[s[i]-'a'] = true;
             swap(s[i], s[idx]);
-            backtrack(idx+1, s, oddChar, ans);
+            permute(idx+1, s, oddChar, ans);
             swap(s[i], s[idx]);
         } 
     }
