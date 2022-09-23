@@ -34,7 +34,6 @@ public:
         int n = s.length();
         
         if (idx == n) {
-            cout << s << endl;
             string secondHalf = s;
             if (oddChar != -1) 
                 secondHalf += oddChar + 'a';
