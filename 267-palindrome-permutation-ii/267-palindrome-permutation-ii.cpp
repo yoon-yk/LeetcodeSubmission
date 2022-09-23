@@ -7,20 +7,19 @@ public:
         for (int i=0; i<s.length(); i++)
             hashM[s[i]-'a']++;
         
+        string firstHalf;
         int oddCnt = 0, oddChar = -1, oddCharFreq = 0; 
-        for (int i=0; i<26; i++)
+        for (int i=0; i<26; i++) {
+            if (hashM[i] < 1) continue;
             if (hashM[i] % 2) {
                 if (++oddCnt > 1)
                     return ans;
                 oddChar = i;
             }
-        
-        string firstHalf;
-        for (int i=0; i<26; i++) 
-            if (hashM[i] > 0)  // for even numbers
-                for (int j=0; j < ((hashM[i])>>1); j++) 
-                    firstHalf += (i + 'a');
-        
+            for (int j=0; j < ((hashM[i])>>1); j++) 
+                firstHalf += (i + 'a');
+        }
+ 
         permute(0, firstHalf, oddChar, ans);
 
         return ans;
