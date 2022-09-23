@@ -4,7 +4,8 @@ public:
         if (dp[start][end] != -1) 
             return dp[start][end];
 
-        if (s[start] == s[end] && (end-start <= 1 || isPalindrome(s, start+1, end-1, dp)))
+        if (s[start] == s[end] && 
+            (end-start <= 1 || isPalindrome(s, start+1, end-1, dp)))
             return dp[start][end] = true;
 
         return dp[start][end] = false;
@@ -19,7 +20,6 @@ public:
                 if (isPalindrome(s, j, j+i, dp)) 
                     return s.substr(j, i+1);
 
-        
         return "";
     }
                     
