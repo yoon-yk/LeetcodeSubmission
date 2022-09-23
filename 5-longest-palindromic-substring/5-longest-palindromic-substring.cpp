@@ -1,26 +1,25 @@
 class Solution {
 public:
-    bool isPalindrome(string& s, int start, int end, vector<vector<int>>& dp) {
-        if (dp[start][end] != -1) 
-            return dp[start][end];
-
-        if (s[start] == s[end] && 
-            (end-start <= 1 || isPalindrome(s, start+1, end-1, dp)))
-            return dp[start][end] = true;
-
-        return dp[start][end] = false;
+    string longestPalindrome(string &s) {
+        int maxLen = 0, maxStrB, maxStrE;
+        for (int i=0; i<s.length(); i++) {
+            int oddLen = expandAroundCenter(s, i, i);
+            int evenLen = expandAroundCenter(s, i, i+1);
+            int localMax = max(oddLen, evenLen);
+            if (maxLen < localMax) {
+                maxStrB = i - ((localMax - 1) >> 1);
+                maxStrE = i + (localMax >> 1);
+                maxLen = maxStrE-maxStrB+1;
+            }
+        }
+        
+        return s.substr(maxStrB, maxLen);
     }
     
-    string longestPalindrome(string &s) {
-        vector<vector<int>> dp(s.length(), vector<int>(s.length(), -1));
+    int expandAroundCenter(string &s, int l, int r) {
+        while (l>=0 && r < s.length() && s[l]==s[r]) 
+            l--, r++;
         
-        int n= s.length(); 
-        for (int i=n-1; i>=0; i--) 
-            for (int j=0; i+j<n; j++) 
-                if (s[j] == s[j+i] && isPalindrome(s, j, j+i, dp)) 
-                    return s.substr(j, i+1);
-
-        return "";
+        return r-l-1;
     }
-                    
 };
