@@ -11,12 +11,9 @@ public:
         for (int i=0; i<26; i++) {
             if (freq[i]%2 == 1) { // odd
                 oddCnt ++;
-            } else {
-                evenCnt ++;
             }
         }
         
-        if (oddCnt > 1) return false;
-        return true;
+        return (oddCnt < 2);
     }
 };
