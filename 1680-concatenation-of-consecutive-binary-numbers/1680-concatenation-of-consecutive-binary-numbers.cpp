@@ -11,7 +11,7 @@ public:
             if ((i & (i-1)) == 0)
                 length++;
             
-            result = ((result << length) | i) % MOD;
+            result = ((result << length) + i) % MOD;
         }
         return result;
     }
