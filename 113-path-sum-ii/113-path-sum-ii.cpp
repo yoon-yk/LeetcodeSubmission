@@ -11,31 +11,46 @@
  */
 class Solution {
 public:
-    vector<vector<int>> ans;
-    
     vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
+        int curSum = 0;
+        vector<int> curPath;
+        vector<vector<int>> ans;
         
-        vector<int> path;
-        helper(root, targetSum, path);
+        if (!root) return {};
+        
+        curSum += root->val;
+        curPath.push_back(root->val);
+        backtrack(root, curSum, targetSum, curPath, ans);
+        
         return ans;
     }
     
-    void helper(TreeNode* root, int targetSum, vector<int> &path) {
-        if (root == NULL) return;
-
-        path.push_back(root->val);
-
-        // leaf 에 도착하면 terminate
-        if (root->left == NULL && root->right == NULL && targetSum == root->val) {
-            ans.push_back(path);
+    void backtrack(TreeNode* root, int &curSum, const int targetSum, vector<int>& curPath, vector<vector<int>>& ans) {
+        
+        if (!root) return;
+                
+        // base case 
+        if (!root->left && !root->right && curSum == targetSum) { 
+            ans.push_back(curPath);
+            return;
         }
         
-        // exploration
-        else {
-            helper(root->left, targetSum-root->val, path);
-            helper(root->right, targetSum-root->val, path);
+        // children 
+        if (root->left) {
+            curSum += root->left->val;
+            curPath.push_back(root->left->val);
+            backtrack(root->left, curSum, targetSum, curPath, ans);
+            curPath.pop_back();
+            curSum -= root->left->val;
         }
-
-        path.pop_back();
+        
+        if (root->right) {
+            curSum += root->right->val;
+            curPath.push_back(root->right->val);
+            backtrack(root->right, curSum, targetSum, curPath, ans);
+            curPath.pop_back();
+            curSum -= root->right->val;
+        }
+        
     }
 };
