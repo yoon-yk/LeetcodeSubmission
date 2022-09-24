@@ -11,7 +11,7 @@
  */
 class Solution {
 public:
-    vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
+    vector<vector<int>> pathSum(TreeNode*& root, int targetSum) {
         int curSum = 0;
         vector<int> curPath;
         vector<vector<int>> ans;
@@ -25,7 +25,7 @@ public:
         return ans;
     }
     
-    void backtrack(TreeNode* root, int &curSum, const int targetSum, vector<int>& curPath, vector<vector<int>>& ans) {
+    void backtrack(TreeNode*& root, int &curSum, const int targetSum, vector<int>& curPath, vector<vector<int>>& ans) {
         
         if (!root) return;
                 
