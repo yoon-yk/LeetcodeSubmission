@@ -1,39 +1,47 @@
 class MyCircularQueue {
 private:
-    list<int> mList;
-    int k;
+    vector<int> data;
+    int head = 0;
+    int tail = 0;
+    int size = 0;
+    
 public:
     MyCircularQueue(int k) {
-        this->k = k;
+        data.resize(k);
     }
     
     bool enQueue(int value) {
-        if (mList.size() >= k) return false;
-        mList.push_back(value);
+        if (isFull()) return false;
+        
+        tail = tail + 1 < data.size() ? tail + 1 : 0;
+        if (size == 0) head = tail;
+        size++;
+        data[tail] = value;
         return true;
     }
     
     bool deQueue() {
-        if (mList.empty()) return false;
-        mList.pop_front();
+        if (isEmpty()) return false;
+        
+        size--;
+        head = head + 1 < data.size() ? head + 1 : 0;
+        
         return true;
     }
     
     int Front() {
-        if (mList.empty()) return -1;
-        return mList.front();
+        return (isEmpty() ? -1 : data[head]);
     }
     
     int Rear() {
-        if (mList.empty()) return -1;
-        return mList.back();
+        return (isEmpty() ? -1 : data[tail]);
     }
     
     bool isEmpty() {
-        return mList.empty();
+        return size == 0;
     }
     
     bool isFull() {
-        return mList.size() == k;
+        return size == data.size();
     }
 };
