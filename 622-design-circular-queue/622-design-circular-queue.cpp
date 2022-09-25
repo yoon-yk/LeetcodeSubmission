@@ -4,16 +4,18 @@ private:
     int head = 0;
     int tail = 0;
     int size = 0;
+    int cap = 0;
     
 public:
     MyCircularQueue(int k) {
         data.resize(k);
+        cap = k;
     }
     
     bool enQueue(int value) {
         if (isFull()) return false;
         
-        tail = tail + 1 < data.size() ? tail + 1 : 0;
+        tail = (tail + 1) % cap;
         if (size == 0) head = tail;
         size++;
         data[tail] = value;
@@ -24,7 +26,7 @@ public:
         if (isEmpty()) return false;
         
         size--;
-        head = head + 1 < data.size() ? head + 1 : 0;
+        head = (head + 1) % cap;
         
         return true;
     }
