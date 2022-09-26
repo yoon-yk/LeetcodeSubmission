@@ -1,14 +1,14 @@
 class Solution {
 public:
     
-    vector<int> parent;
+    vector<short int> parent;
     
-    int findd (int x) {
+    int findd (short int x) {
         if (x == parent[x]) return x;
         return findd(parent[x]);
     }
     
-    void unionn (int x, int y) {
+    void unionn (short int x, short int y) {
         int xP = findd(x);
         int yP = findd(y);
         parent[xP] = yP;
