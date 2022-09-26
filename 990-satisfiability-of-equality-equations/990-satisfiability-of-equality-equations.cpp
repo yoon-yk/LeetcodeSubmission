@@ -20,7 +20,7 @@ public:
         for (int i=0; i<26; i++) 
             parent[i] = i;
             
-        char x, y, e;
+        char x, y;
         int xP, yP;
         for (auto & eq : equations) {
             if (eq[1] == '=') {
