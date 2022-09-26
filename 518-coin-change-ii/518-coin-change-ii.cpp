@@ -11,9 +11,6 @@ public:
             }
         }
         
-        for (int i=0; i<=amount; i++) 
-            cout << dp[i] << " ";
-        cout << endl;
         
         return dp[amount];
     }
