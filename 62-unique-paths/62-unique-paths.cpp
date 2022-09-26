@@ -1,25 +1,16 @@
 class Solution {
-public:    
+public:
     int uniquePaths(int m, int n) {
-        vector<vector<int>> map (m, vector<int>(n));
+        vector<vector<int>> memo(m, vector<int>(n, 0));
+        memo[0][0] = 1;
         
-        map[0][0] = 1;
-        
-        // first column
-        for (int i=1; i<m; i++)
-            map[i][0] = 1;
-        
-        // first row
-        for (int i=1; i<n; i++)
-            map[0][i] = 1;
-        
-        // rest cell
-        for (int i=1; i<m; i++) { // row
-            for (int j=1; j<n; j++) { // col
-                map[i][j] = map[i-1][j] + map[i][j-1];
+        for (int i=0; i<m; i++) {
+            for (int j=0; j<n; j++) {
+                if (i>0) memo[i][j] += memo[i-1][j];
+                if (j>0) memo[i][j] += memo[i][j-1]; 
             }
         }
         
-        return map[m-1][n-1];
+        return memo[m-1][n-1];
     }
 };
