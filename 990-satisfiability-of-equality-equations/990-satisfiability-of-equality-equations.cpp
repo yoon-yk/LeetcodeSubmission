@@ -34,36 +34,26 @@ public:
     
     bool equationsPossible(vector<string>& equations) {
         parent.resize(26);
-        vector<vector<bool>> neq(26, vector<bool>(26, 0));
         
-        for (int i=0; i<26; i++) {
+        for (int i=0; i<26; i++) 
             parent[i] = i;
-        }
             
         char x, y, e;
         int xP, yP;
         for (auto & eq : equations) {
-            x = eq[0] - 'a', y = eq[3] - 'a';
-            e = eq[1];
-            
-            xP = findd(x), yP = findd(y);
-
-            if (e == '=')  // can't be the same
-                unionn(xP, yP);
+            if (eq[1] == '=') {
+                x = eq[0] - 'a', y = eq[3] - 'a';
+                unionn(findd(x), findd(y));
+            } 
             
         }
         
         for (auto & eq : equations) {
-            x = eq[0] - 'a', y = eq[3] - 'a';
-            e = eq[1];
-            
-            xP = findd(x), yP = findd(y);
-            
-            if (e == '!')  // can't be the same
-                if (xP == yP)  return false;
+            if (eq[1] == '!') {
+                x = eq[0] - 'a', y = eq[3] - 'a';
+                if (findd(x) == findd(y))  return false;
+            } 
         }
-        
-        
         
         return true;
     }
