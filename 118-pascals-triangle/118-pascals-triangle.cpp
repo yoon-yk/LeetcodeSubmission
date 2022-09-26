@@ -3,7 +3,6 @@ public:
     vector<vector<int>> generate(int numRows) {
         
         vector<vector<int>> dp(numRows);
-        // dp[0].push_back(1);
         
         int curN;
         for (int i=0; i<numRows; i++) {
