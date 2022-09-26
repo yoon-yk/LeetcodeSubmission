@@ -1,23 +1,5 @@
 class Solution {
 public:
-    /*
-    a==b / b!=a 
-    
-    if '==', check if it is not confirmed to be different
-    if '!=', check if it is not confirmed to be the same
-    
-    matrix 
-        a  b  c  d 
-     a -1 -1 -1 -1
-     b 
-     c
-     d
-    
-    -1 => no link 
-     0 => can't be the same
-     1 => should be the same
-    
-    */
     
     vector<int> parent;
     
