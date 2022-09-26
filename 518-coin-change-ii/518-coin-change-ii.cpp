@@ -7,9 +7,7 @@ public:
         
         for (auto & coin : coins) {
             for (int i=coin; i<=amount; i++) {
-
-                // cout << i- coin << endl;
-                    dp[i] += (dp[i-coin]);
+                dp[i] += (dp[i-coin]);
             }
         }
         
