@@ -1,27 +1,22 @@
 class Solution {
 public:
     int change(int amount, vector<int>& coins) {
-        vector<vector<int>> memo (coins.size(), vector<int>(amount+1, -1));
-        return backtrack(0, amount, coins, memo);
-    }
-    
-    int backtrack(int idx, int amount, vector<int>& coins, vector<vector<int>>& memo) {
         
-        if (memo[idx][amount]!= -1)
-            return memo[idx][amount];
+        int coinCnt = coins.size();
+        vector<vector<int>> memo (coinCnt, vector<int>(amount+1, 0));
         
-        if (amount == 0) 
-            return memo[idx][amount] = 1;
-        
-        int ans = 0;
-        int n = coins.size();
-        for (int i=idx; i<n; i++) {
-            if (amount - coins[i] < 0) continue;
-            amount -= coins[i];
-            ans += backtrack(i, amount, coins, memo) ;
-            amount += coins[i];
+        for (int i=0; i<coinCnt; i++) { // coin 
+            memo[i][0] = 1;
+            for (int j=1; j<=amount; j++) { // amount 
+                if (i > 0) memo[i][j] = memo[i-1][j];
+                
+                if (j-coins[i] < 0) continue;
+                memo[i][j] += memo[i][j-coins[i]];
+
+            }
         }
         
-        return memo[idx][amount] = ans;
+        return memo[coinCnt-1][amount];
     }
+
 };
