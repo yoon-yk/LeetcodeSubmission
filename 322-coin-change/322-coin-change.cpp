@@ -1,15 +1,21 @@
 class Solution {
-public:
-    int coinChange(vector<int>& coins, int amount) {
-        vector<int> dp(amount+1, INT_MAX);
-        dp[0] = 0;
-        for (int i=1; i<=amount; i++) {
-            for (auto & coin : coins) {
-                if (i-coin >= 0 && dp[i-coin] < INT_MAX) 
-                    dp[i] = min(dp[i-coin] + 1, dp[i]);
-            }
-        }
+  public:
+    int helper(vector < int > & coins, int amount, int n, vector < vector < int >> & h) {
+      if (amount == 0) return 0;
+      if (n < 0 || amount < 0) return INT_MAX - 1;
+      if (h[n][amount] != -1) return h[n][amount];
         
-        return (dp[amount] == INT_MAX)? -1 : dp[amount];
+      h[n][amount] = min(helper(coins, amount, n - 1, h), 
+                        helper(coins, amount - coins[n], n, h) + 1);
+        
+      return h[n][amount];
     }
+
+  int coinChange(vector < int > & coins, int amount) {
+    vector<vector<int>> h (coins.size() + 1, vector <int>(amount + 1, -1));
+      
+    int ans = helper(coins, amount, coins.size() - 1, h);
+      
+    return (ans < INT_MAX - 1) ? ans : -1;
+  }
 };
