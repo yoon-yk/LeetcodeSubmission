@@ -9,7 +9,6 @@ public:
             for (int i=coin; i<=amount; i++) {
 
                 // cout << i- coin << endl;
-                if (i-coin >= 0 && dp[i-coin] > 0)
                     dp[i] += (dp[i-coin]);
             }
         }
