@@ -10,7 +10,7 @@ public:
                 dist = 0;
             else if (dist != INT_MAX) 
                 dist++;
-            arr[i] = min(arr[i], dist);
+            arr[i] = dist;
         }
         
         dist = INT_MAX;
