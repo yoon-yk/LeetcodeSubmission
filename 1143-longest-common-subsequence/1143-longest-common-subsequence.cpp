@@ -2,7 +2,7 @@ class Solution {
 public:
     int longestCommonSubsequence(string text1, string text2) {
         int n = text1.size(), m = text2.size();
-        vector<vector<int>> memo(n+1, vector<int> (m+1, 0));
+        vector<vector<int>> memo(n+1, vector<int> (m+1));
         
         for (int c = m-1; c >= 0; c--) {
             for (int r = n-1; r >= 0; r--) {
