@@ -1,6 +1,6 @@
 class Solution {
 public:
-   string pushDominoes(string s){
+   string pushDominoes(string &s){
         int n = s.length();
         vector<int> l(n), r(n); // each value represents the distance from the affecting root 
        
