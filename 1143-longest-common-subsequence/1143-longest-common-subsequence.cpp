@@ -9,7 +9,7 @@ public:
     int dpSolve(string & text1, string & text2, int p1, int p2, vector<vector<int>>& memo) {
         
         if (p1 == text1.size() || p2 == text2.size()) 
-            return 0;        
+            return memo[p1][p2] = 0;        
 
         if (memo[p1][p2] != -1) 
             return memo[p1][p2];
