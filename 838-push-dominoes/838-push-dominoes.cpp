@@ -3,7 +3,7 @@ public:
     string pushDominoes(string dominoes) {
         // bfs
         int n = dominoes.size();
-        vector<int> currStatus(n, -1), nextStatus(n, -1);
+        queue<int> q;
 
         /*
         status :   -1 = undecided,
@@ -27,47 +27,36 @@ public:
         
         int prevCnt = 0, curCnt = 0;
         for (int i = 0; i<n; i++) {
-            if (dominoes[i] == '.') continue;
-            if (dominoes[i] == 'L') {
-                currStatus[i] = 1;
-            } else if (dominoes[i] == 'R') {
-                currStatus[i] = 2;
-            }
+            if (dominoes[i] == '.')
+                q.push(i);
         }
-        
-        bool isChanged = true;
-        nextStatus = currStatus;
 
-        while (isChanged) { // TODO : if no change in one loop = end of the loop
-            isChanged = false;
+        int i, size;
+        string cur = dominoes, next = dominoes; 
+        while (!q.empty()) { // TODO : if no change in one loop = end of the loop
+
+            size = q.size();
+            while (size--) {
+                i = q.front(); q.pop();
             
-            for (int i=0; i<n; i++) {
                 // left most , right most handling
-                if (currStatus[i] != -1) continue;
-                if (i > 0 && i < n-1 && currStatus[i-1] == 2 && currStatus[i+1] == 1) {
-                    nextStatus[i] = 0;
-                    isChanged = true;
+                if (i > 0 && i < n-1 && cur[i-1] == 'R' && cur[i+1] == 'L') {
+                    continue;
                 }
-                else if (i < n-1 && currStatus[i+1] == 1) { // righthand side pushed left
-                    nextStatus[i] = 1;
-                    isChanged = true;
+                else if (i < n-1 && cur[i+1] == 'L') { // righthand side pushed left
+                    next[i] = 'L';
+                    if (i > 0 && cur[i-1] == '.') q.push(i-1);
                 }
-                else if (i > 0 && currStatus[i-1] == 2) { // // lefthand side pushed left
-                    nextStatus[i] = 2;
-                    isChanged = true;
+                else if (i > 0 && cur[i-1] == 'R') { // // lefthand side pushed left
+                    next[i] = 'R';
+                    if (i < n-1 && cur[i+1] == '.') q.push(i+1);
                 }
             }
-            currStatus = nextStatus;
+            
+            cur = next;
+
         }
-        
-        for (int i=0; i<n; i++) {
-            if (dominoes[i]!= 'L' && currStatus[i] == 1) {
-                dominoes[i]= 'L';
-            } else if (dominoes[i]!= 'R' && currStatus[i] == 2) {
-                dominoes[i]= 'R';
-            } 
-        }
-        
-        return dominoes;
+    
+        return cur;
     }
 };
