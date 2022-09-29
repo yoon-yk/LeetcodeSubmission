@@ -1,45 +1,36 @@
 class Solution {
 public:
     vector<int> findClosestElements(vector<int>& arr, int k, int x) {
-    
-        // cout << " ******" << endl;
-        int n = arr.size();
+            int n = arr.size();
         vector<int> ans;
 
-        priority_queue<int> maxHeap;
-        priority_queue<int, vector<int>, greater<int>> minHeap;
-
-        int leftBound = lower_bound(arr.begin(), arr.end(), x) - arr.begin();
-        
-        for (int i=0; i<leftBound; i++) 
-            maxHeap.push(arr[i]);
-        
-        for (int i=leftBound; i<n; i++)
-            minHeap.push(arr[i]);
+        int lowerBound = lower_bound(arr.begin(), arr.end(), x) - arr.begin();
+        int leftPtr = lowerBound-1, rightPtr = lowerBound;
+        // cout << arr[leftPtr] << " " << arr[rightPtr] << endl;
 
         while (ans.size() < k) {
-
-            if (!maxHeap.empty() && !minHeap.empty()) {
+            // cout << arr[leftPtr] << " " << arr[rightPtr] << endl;
+            if (leftPtr > -1 && rightPtr < n) {
                 
-                int left = maxHeap.top();
-                int right = minHeap.top();
+                int left = arr[leftPtr];
+                int right = arr[rightPtr];
                 
-                if (abs(left-x) <= abs(right-x)) {
-                    ans.emplace_back(left);
-                    maxHeap.pop();
-                } else {
+                if (abs(left-x) > abs(right-x)) {
                     ans.emplace_back(right);
-                    minHeap.pop();
+                    rightPtr++;
+                } else {
+                    ans.emplace_back(left);
+                    leftPtr--;
                 }
             } 
 
-            else if (!maxHeap.empty()) {
-                ans.emplace_back(maxHeap.top());
-                maxHeap.pop();
+            else if (rightPtr >= n) {
+                ans.emplace_back(arr[leftPtr]);
+                leftPtr--;
             }
-            else if (!minHeap.empty()) {
-                ans.emplace_back(minHeap.top());
-                minHeap.pop();
+            else if (leftPtr < 0) {
+                ans.emplace_back(arr[rightPtr]);
+                rightPtr++;
             }
                
         }
