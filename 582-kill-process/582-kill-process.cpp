@@ -12,7 +12,7 @@ public:
         
         unordered_map<int, vector<int>> children;
         
-        for (int i=0; i<ppid.size(); i++) {
+        for (int i=0; i<ppid.size(); i++) { // O(n) , n = number of nodes 
             children[ppid[i]].push_back(pid[i]);
         }
         
@@ -23,19 +23,10 @@ public:
         5 --> 10
         */
         
-        int root = children[0][0];
         
         queue<int> q;
-        
-        while (root!=kill) {
-            for (int & child : children[root])
-                q.push(child);
-            root = q.front(); q.pop();
-        }
-
         vector<int> ans;
-        while (!q.empty()) q.pop();
-        
+        int root = kill;
         q.push(root);
         
         while (!q.empty()) {
