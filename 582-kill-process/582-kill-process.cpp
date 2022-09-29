@@ -10,11 +10,12 @@ public:
         
         // recursively find the all process that will be klled 
         
+        vector<int> ans;
+        queue<int> q;
         unordered_map<int, vector<int>> children;
         
-        for (int i=0; i<ppid.size(); i++) { // O(n) , n = number of nodes 
+        for (int i=0; i<ppid.size(); i++) // O(n) , n = number of nodes 
             children[ppid[i]].push_back(pid[i]);
-        }
         
         /*
         children
@@ -23,13 +24,10 @@ public:
         5 --> 10
         */
         
-        
-        queue<int> q;
-        vector<int> ans;
         int root = kill;
         q.push(root);
         
-        while (!q.empty()) {
+        while (!q.empty()) { // O(log n)
             root = q.front(); q.pop();
             ans.push_back(root);
             for (int & child : children[root])
