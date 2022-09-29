@@ -1,41 +1,14 @@
 class Solution {
 public:
-    vector<int> findClosestElements(vector<int>& arr, int k, int x) {
-        int n = arr.size();
-        vector<int> ans;
-
-        int lowerBound = lower_bound(arr.begin(), arr.end(), x) - arr.begin();
-        int leftPtr = lowerBound-1, rightPtr = lowerBound;
-
-        int cnt = 0;
-        while (cnt < k) {
-            if (leftPtr > -1 && rightPtr < n) {
-                
-                int left = arr[leftPtr];
-                int right = arr[rightPtr];
-                
-                if (abs(left-x) > abs(right-x)) {
-                    rightPtr++;
-                } else {
-                    leftPtr--;
-                }
-            } 
-
-            else if (rightPtr >= n) 
-                leftPtr--;
-            
-            else if (leftPtr < 0) 
-                rightPtr++;
-            
-            cnt++;
+    vector<int> findClosestElements(vector<int>& A, int k, int x) {
+        int left = 0, right = A.size() - k;
+        while (left < right) {
+            int mid = (left + right) / 2;
+            if (x - A[mid] > A[mid + k] - x)
+                left = mid + 1;
+            else
+                right = mid;
         }
-        
-        // cout << leftPtr <<" " << rightPtr << endl;
-        for (int i=max(0, leftPtr+1); i<min(rightPtr, n); i++) {
-            ans.push_back(arr[i]);
-        }
-        
-        return ans;
-
+        return vector<int>(A.begin() + left, A.begin() + left + k);
     }
 };
