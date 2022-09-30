@@ -6,11 +6,11 @@ public:
         
         sort(intervals.begin(), intervals.end());
         
-        int maxEnd = 0;
+        int prevEnd = 0;
         for (auto & interval : intervals) {
-            if (interval[0] < maxEnd)
+            if (interval[0] < prevEnd)
                 return false;
-            maxEnd = interval[1];
+            prevEnd = interval[1];
         }
         
         return true;
