@@ -14,11 +14,11 @@ public:
         vector<vector<int>> res;
         if (intervals.size() == 0) return {newInterval};
         
-        int idx = 0, end = 0;
+        int idx = 0;
         int rangeL = newInterval[0], rangeR = newInterval[1];
         
         while (idx < intervals.size() && intervals[idx][1] < newInterval[0])
-            res.push_back(intervals[idx++]);
+            res.emplace_back(intervals[idx++]);
         
         while (idx < intervals.size() && newInterval[1] >= intervals[idx][0]){
             rangeL = min(rangeL, intervals[idx][0]);
@@ -29,7 +29,7 @@ public:
         res.push_back({rangeL, rangeR});
 
         while (idx < intervals.size())
-            res.push_back(intervals[idx++]);
+            res.emplace_back(intervals[idx++]);
 
         return res;
     }
