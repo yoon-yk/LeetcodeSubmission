@@ -2,23 +2,29 @@ class Solution {
 public:
     int eraseOverlapIntervals(vector<vector<int>>& intervals) {
         
+        sort(intervals.begin(), intervals.end());
+        
         int n = intervals.size();
-        
-        auto compare = [] (vector<int>& a, vector<int>& b) {
-            return a[1] < b[1];
-        };
-        
-        sort(intervals.begin(), intervals.end(), compare);
-        
         int end = intervals[0][1];
-        int count = 1;        
+        int count = 0;        
 
-        for (auto & interval : intervals) {
-            if (interval[0] >= end) {
-                end = interval[1];
+        /*
+        [1,5],[1,7],[2,3],[3,4]
+        
+        [1,5]
+        case1) [5,8] // non-overlap - no need to delete
+        case2) [1,6] // overlap - discard the new one and keep the one with the smaller end
+        case3) [2,3] // overlap - discard the current one and keep 
+        */
+        
+        for (int i=1; i<n; i++) {
+            if (intervals[i][0] < end) {
                 count++;
+                end = min(end, intervals[i][1]);
+            } else {
+                end = intervals[i][1];
             }
         }
-        return n - count;
+        return count;
     }
 };
