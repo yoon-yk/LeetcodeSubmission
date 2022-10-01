@@ -19,21 +19,18 @@ public:
         
         */
         sort(points.begin(), points.end());
-        
-        vector<int> curInterval(2);
-        curInterval[0] = points[0][0], curInterval[1] = points[0][1];
+
+        int curOverlapEnd = points[0][1];
         int cnt = 1;
         
         int n = points.size();
         for (auto& point : points) {
-            if (point[0] <= curInterval[1]) {
-                curInterval[0] = max(point[0], curInterval[0]);
-                curInterval[1] = min(point[1], curInterval[1]); 
+            if (point[0] <= curOverlapEnd) {
+                curOverlapEnd = min(point[1], curOverlapEnd); 
             }
             
             else {
-                curInterval[0] = point[0];
-                curInterval[1] = point[1];
+                curOverlapEnd = point[1];
                 cnt++;
             }
         }
