@@ -12,7 +12,6 @@ public:
         priority_queue<int, vector<int>, greater<int>> rooms;
         sort(intervals.begin(), intervals.end());
         
-        int top = INT_MAX;
         for (auto& interval : intervals) {
             if (!rooms.empty() && rooms.top() <= interval[0])
                 rooms.pop();
