@@ -2,22 +2,29 @@ class Solution {
 public:
     int minMeetingRooms(vector<vector<int>>& intervals) {
         
-        /*
+        int n = intervals.size();
+        vector<int> startTime(n), endTime(n);
         
-        [[7,10],[2,4],[5,8]]
-        => [[2,4],[5,8],[7,10]]
-        [2,4]
-        */
-        
-        priority_queue<int, vector<int>, greater<int>> rooms;
-        sort(intervals.begin(), intervals.end());
-        
-        for (auto& interval : intervals) {
-            if (!rooms.empty() && rooms.top() <= interval[0])
-                rooms.pop();
-            rooms.push(interval[1]);
+        for (int i=0; i<n; i++) {
+            startTime[i] = intervals[i][0];
+            endTime[i] = intervals[i][1];
         }
         
-        return rooms.size();
+        sort(startTime.begin(), startTime.end());
+        sort(endTime.begin(), endTime.end());
+
+        int startPtr = 0, endPtr = 0;
+        
+        int cnt = 0;
+        while (startPtr < n) {
+            if (startTime[startPtr] >= endTime[endPtr]) {
+                endPtr++;
+            } else {
+                cnt++;
+            }
+            startPtr ++;
+        }
+        
+        return cnt;
     }
 };
