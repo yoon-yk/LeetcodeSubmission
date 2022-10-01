@@ -14,10 +14,8 @@ public:
         
         int top = INT_MAX;
         for (auto& interval : intervals) {
-            if (!rooms.empty()) top = rooms.top();
-            if (top <= interval[0]) {
+            if (!rooms.empty() && rooms.top() <= interval[0])
                 rooms.pop();
-            }
             rooms.push(interval[1]);
         }
         
