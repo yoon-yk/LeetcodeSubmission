@@ -25,15 +25,15 @@ public:
         int cnt = 1;
         
         int n = points.size();
-        for (int i=1; i<n; i++) {
-            if (points[i][0] <= curInterval[1]) {
-                curInterval[0] = min(points[i][0], curInterval[0]);
-                curInterval[1] = min(points[i][1], curInterval[1]); 
+        for (auto& point : points) {
+            if (point[0] <= curInterval[1]) {
+                curInterval[0] = max(point[0], curInterval[0]);
+                curInterval[1] = min(point[1], curInterval[1]); 
             }
             
             else {
-                curInterval[0] = points[i][0];
-                curInterval[1] = points[i][1];
+                curInterval[0] = point[0];
+                curInterval[1] = point[1];
                 cnt++;
             }
         }
