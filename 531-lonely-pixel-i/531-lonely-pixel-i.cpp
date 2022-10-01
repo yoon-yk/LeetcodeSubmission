@@ -10,12 +10,13 @@ public:
         
         int n = picture.size(), m = picture[0].size();
         vector<int> rowValid(n, -1), colValid(m, -1);
-                
+        vector<vector<int>> bList;
+        
         for (int i=0; i<n; i++){
             for (int j=0; j<m; j++) {
                                 
                 if (picture[i][j] == 'B') {
-                    
+                    bList.push_back({i, j});
                     if (rowValid[i] != -1) {
                         rowValid[i] = 0;
                     } else rowValid[i] = 1;
@@ -28,13 +29,9 @@ public:
         }
         
         int cnt = 0;
-        
-        for (int i=0; i<n; i++){
-            for (int j=0; j<m; j++) {
-                if (picture[i][j] == 'B' && rowValid[i] && colValid[j]) {
-                    cnt++;
-                }
-            }
+        for (auto& b : bList) {
+            if (rowValid[b[0]] && colValid[b[1]])
+                cnt++;
         }
         
         return cnt;
