@@ -17,11 +17,9 @@ public:
         
         int cnt = 0;
         while (startPtr < n) {
-            if (startTime[startPtr] >= endTime[endPtr]) {
+            if (startTime[startPtr] >= endTime[endPtr])
                 endPtr++;
-            } else {
-                cnt++;
-            }
+            else cnt++;
             startPtr ++;
         }
         
