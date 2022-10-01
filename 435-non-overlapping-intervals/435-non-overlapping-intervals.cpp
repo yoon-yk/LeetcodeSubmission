@@ -14,9 +14,9 @@ public:
         int end = intervals[0][1];
         int count = 1;        
 
-        for (int i = 1; i < n; i++) {
-            if (intervals[i][0] >= end) {
-                end = intervals[i][1];
+        for (auto interval : intervals) {
+            if (interval[0] >= end) {
+                end = interval[1];
                 count++;
             }
         }
