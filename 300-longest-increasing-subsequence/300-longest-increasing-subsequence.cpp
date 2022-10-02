@@ -15,8 +15,6 @@ public:
                 int ans;
                 if (j == 0) // 그 전 원소가 없을 때 
                     ans = 1;
-                else if (j==i)
-                    ans = rowMax;
                 else if (nums[i-1] > nums[j-1]) // 그 전 원소보다 클 때 
                     ans = dp[j] + 1; // j가 cur 일 때의 최대값 
                 else // 그 전 원소보다 작거나 같을 때 
