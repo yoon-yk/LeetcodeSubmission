@@ -9,7 +9,8 @@ public:
         // memory optimization 
         
         int MOD = 1e9+7;
-        vector<vector<int>> dp (n+1, vector<int>(target+1, 0));
+        vector<int> prevRow(target+1, 0), curRow(target+1, 0);
+        
         /*
         n = 2, k = 6, target = 7
         
@@ -24,14 +25,19 @@ public:
         
         */
         
-        dp[0][0] = 1;
-        for (int i=1; i<=n; i++) 
-            for (int j=1; j<=target; j++) 
-                for (int x=1; x<=k; x++) 
-                    if (j-x >= 0) 
-                        dp[i][j] = (dp[i][j] + dp[i-1][j-x]) % MOD;
-
+        prevRow[0] = 1;
         
-        return dp[n][target];
+        for (int i=1; i<=n; i++) {
+            for (int j=1; j<=target; j++) {
+                curRow[j] = 0;
+                for (int x=1; x<=k; x++) 
+                    if (j-x >= 0) {
+                        curRow[j] = (curRow[j] + prevRow[j-x]) % MOD;
+                    }
+            }
+            prevRow = curRow;
+        }
+        
+        return curRow[target];
     }
 };
