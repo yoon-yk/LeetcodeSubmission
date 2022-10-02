@@ -3,23 +3,28 @@ public:
     int lengthOfLIS(vector<int>& nums) {
         
         int n = nums.size();
-        vector<vector<int>> dp(n+1, vector<int>(n+1, 0)); // dp[curIdx][prevIdx] = curCnt
+        vector<int> dp(n+1, 0); // dp[curIdx] = maxCnt
         
         int curMax = 0;
-        for (int i=1; i<=n; i++) {
+        dp[0] = 1;
+        
+        int i, j;
+        for (i=1; i<=n; i++) {
             int rowMax = 0;
-            for (int j=0; j<=i; j++) {
+            for (j=0; j<=i; j++) {
+                int ans;
                 if (j == 0) // 그 전 원소가 없을 때 
-                    dp[i][j] = 1;
+                    ans = 1;
                 else if (j==i)
-                    dp[i][j] = rowMax;
+                    ans = rowMax;
                 else if (nums[i-1] > nums[j-1]) // 그 전 원소보다 클 때 
-                    dp[i][j] = dp[j][j] + 1; // j가 cur 일 때의 최대값 
+                    ans = dp[j] + 1; // j가 cur 일 때의 최대값 
                 else // 그 전 원소보다 작거나 같을 때 
-                    dp[i][j] = 1; // 그 전 원소 안넣는 걸로
-                rowMax = max(rowMax, dp[i][j]);
+                    ans = 1; // 그 전 원소 안넣는 걸로
+                rowMax = max(rowMax, ans);
             }
-            curMax = max(curMax, rowMax);
+            dp[j-1] = rowMax; 
+            curMax = max(rowMax, curMax);
         }
         
         return curMax;
