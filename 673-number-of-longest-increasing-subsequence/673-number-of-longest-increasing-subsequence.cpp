@@ -2,7 +2,7 @@ class Solution {
 public:
 
      int findNumberOfLIS(vector<int>& nums) {
-        int n = nums.size(), res = 0, max_len = 0;
+        int n = nums.size(), res = 0, maxLen = 0;
         vector<int> len(n, 1), cnt(n, 1);
          //dp[i]: {length, number of LIS which ends with nums[i]}
          
@@ -19,10 +19,10 @@ public:
                 }
             }
             
-            if (max_len == len[i])
+            if (maxLen == len[i])
                 res += cnt[i];
-            else if (max_len < len[i]){
-                max_len = len[i];
+            else if (maxLen < len[i]){
+                maxLen = len[i];
                 res = cnt[i];
             }
         }
