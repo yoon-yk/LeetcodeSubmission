@@ -14,35 +14,36 @@ public:
     int maxVal = 0;
     
     int longestConsecutive(TreeNode* root) {
-        longestPath(root);
+        vector<int> res = {0, 0};
+        longestPath(root, res);
         return maxVal;
     }
     
-    vector<int> longestPath (TreeNode* root) {
+    void longestPath (TreeNode* root, vector<int>& res) {
         if (root == NULL) 
-            return {0, 0};
+            return;
         
         int inr = 1, dcr = 1;
         if (root->left) {
-            vector<int> left = longestPath(root->left);
+            longestPath(root->left, res);
             if (root->val == root->left->val + 1) {
-                dcr = left[1] + 1;
+                dcr = res[1] + 1;
             } else if (root->val == root->left->val -1) {
-                inr = left[0] + 1;
+                inr = res[0] + 1;
             }
         }
         
         if (root->right) {
-            vector<int> right = longestPath(root->right);
+            longestPath(root->right, res);
             if (root->val == root->right->val + 1) {
-                dcr = max(right[1] + 1, dcr);
+                dcr = max(res[1] + 1, dcr);
             } else if (root->val == root->right->val -1) {
-                inr = max(right[0] + 1, inr);
+                inr = max(res[0] + 1, inr);
             }
         }
         
         maxVal = max(maxVal, dcr+inr-1);
-        return {inr, dcr};
+        res[0] = inr, res[1] = dcr;
         
     }
 };
