@@ -8,17 +8,18 @@ public:
         int maxSize = 0, maxIdx = 0;
 
         for (int i=0; i<n; i++) {
-            
-            vector<int> maxSubset;
+            int maxSubsetIdx = -1;
             
             for (int k=0; k<i; k++) {
                 if (nums[i] % nums[k] == 0 && 
-                    maxSubset.size() < EDS[k].size())
-                    maxSubset = EDS[k];
+            ((maxSubsetIdx == -1) || EDS[maxSubsetIdx].size() < EDS[k].size()))
+                    maxSubsetIdx = k;
             }
             
-            maxSubset.push_back(nums[i]);
-            EDS[i] = maxSubset;
+            if (maxSubsetIdx > -1) 
+                EDS[i] = EDS[maxSubsetIdx];
+            EDS[i].push_back(nums[i]);
+
             
             if (maxSize < EDS[i].size()) {
                 maxSize = EDS[i].size();
