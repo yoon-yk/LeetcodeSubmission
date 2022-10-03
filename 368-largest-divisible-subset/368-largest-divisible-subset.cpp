@@ -5,7 +5,8 @@ public:
         
         int n = nums.size();
         vector<vector<int>> EDS(n);
-        
+        int maxSize = 0, maxIdx = 0;
+
         for (int i=0; i<n; i++) {
             
             vector<int> maxSubset;
@@ -18,14 +19,12 @@ public:
             
             maxSubset.push_back(nums[i]);
             EDS[i] = maxSubset;
-        }
-        
-        int maxSize = EDS[0].size(), maxIdx = 0;
-        for (int i=0; i<n; i++)
+            
             if (maxSize < EDS[i].size()) {
                 maxSize = EDS[i].size();
                 maxIdx = i;
             }
+        }
         
         return EDS[maxIdx];
     }
