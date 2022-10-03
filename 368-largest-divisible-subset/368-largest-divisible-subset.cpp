@@ -20,10 +20,13 @@ public:
             EDS[i] = maxSubset;
         }
         
-        vector<int> ret;
+        int maxSize = EDS[0].size(), maxIdx = 0;
         for (int i=0; i<n; i++)
-            if (ret.size() < EDS[i].size())
-                ret = EDS[i];
-        return ret;
+            if (maxSize < EDS[i].size()) {
+                maxSize = EDS[i].size();
+                maxIdx = i;
+            }
+        
+        return EDS[maxIdx];
     }
 };
