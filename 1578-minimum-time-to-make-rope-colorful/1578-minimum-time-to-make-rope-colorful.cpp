@@ -1,45 +1,27 @@
 class Solution {
 public:
-    int minCost(string colors, vector<int>& neededTime) {
-        /*
-        Input: colors = "abaac", neededTime = [1,2,3,4,5]
+    int minCost(string colors, vector<int>& time) {
+        // Initalize two pointers i, j.
+        int totalTime = 0;
+        int i = 0, j = 0;
         
-        
-        "a - a a a"
-        [4,2,5,4,3]
-
-        */
-        
-        int n = colors.size(), j;
-        int ans = 0;
-        priority_queue<int, vector<int>, greater<int>> pq;
-        for (int i=0; i<n-1; i++) {
+        while (i < time.size() && j < time.size()) {
+            int currTotal = 0, currMax = 0;
             
-            if (colors[i] == colors[i+1]) {
-
-                j = i;
-                pq.push(neededTime[j]);
-                
+            // Find all the balloons having the same color as the 
+            // balloon indexed at i, record the total removal time 
+            // and the maximum removal time.
+            while (j < time.size() && colors[i] == colors[j]) {
+                currTotal += time[j];
+                currMax = max(currMax, time[j]);
                 j++;
-                while (j>0 && j <= n-1 && colors[j-1] == colors[j]) {
-                    pq.push(neededTime[j]);
-                    j++;
-                }
-                
-                while (pq.size() > 1) {
-                    auto top = pq.top();
-                    pq.pop();
-                    ans += top;
-                    // cout << top[0] << endl; 
-                }
-                
-                while (!pq.empty()) pq.pop();
-                
-                i = j-1;
             }
             
+            // Once we reach the end of the current group, add the cost of 
+            // this group to total_time, and reset two pointers.
+            totalTime += currTotal - currMax;
+            i = j;
         }
-        
-        return ans;
+        return totalTime;
     }
 };
