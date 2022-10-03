@@ -14,36 +14,34 @@ public:
     int maxVal = 0;
     
     int longestConsecutive(TreeNode* root) {
-        vector<int> res = {0, 0};
-        longestPath(root, res);
+        int curInc = 0, curDec = 0;
+        longestPath(root, curInc, curDec);
         return maxVal;
     }
     
-    void longestPath (TreeNode* root, vector<int>& res) {
+    void longestPath (TreeNode* root, int& curInc, int& curDec) {
         if (root == NULL) 
             return;
         
-        int inr = 1, dcr = 1;
+        int inc = 1, dec = 1;
         if (root->left) {
-            longestPath(root->left, res);
-            if (root->val == root->left->val + 1) {
-                dcr = res[1] + 1;
-            } else if (root->val == root->left->val -1) {
-                inr = res[0] + 1;
-            }
+            longestPath(root->left, curInc, curDec);
+            if (root->val == root->left->val + 1)
+                dec = curDec + 1;
+            else if (root->val == root->left->val -1)
+                inc = curInc + 1;
+            
         }
         
         if (root->right) {
-            longestPath(root->right, res);
-            if (root->val == root->right->val + 1) {
-                dcr = max(res[1] + 1, dcr);
-            } else if (root->val == root->right->val -1) {
-                inr = max(res[0] + 1, inr);
-            }
+            longestPath(root->right, curInc, curDec);
+            if (root->val == root->right->val + 1)
+                dec = max(curDec + 1, dec);
+            else if (root->val == root->right->val -1)
+                inc = max(curInc + 1, inc);
         }
         
-        maxVal = max(maxVal, dcr+inr-1);
-        res[0] = inr, res[1] = dcr;
-        
+        maxVal = max(maxVal, dec+inc-1);
+        curInc = inc, curDec = dec;
     }
 };
