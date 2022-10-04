@@ -4,29 +4,45 @@ public:
         sort(nums.begin(), nums.end());
         
         int n = nums.size();
-        vector<vector<int>> EDS(n);
+        
+        vector<int> EDS(n, 0);
+        vector<int> prev(n);
+        
         int maxSize = 0, maxIdx = 0;
-
+        int maxSubsetIdx;
+        
         for (int i=0; i<n; i++) {
-            int maxSubsetIdx = -1;
+            
+            maxSubsetIdx = i;
+            prev[i] = i;
+            EDS[i] = 0;
             
             for (int k=0; k<i; k++) {
                 if (nums[i] % nums[k] == 0 && 
-            ((maxSubsetIdx == -1) || EDS[maxSubsetIdx].size() < EDS[k].size()))
-                    maxSubsetIdx = k;
+                    EDS[maxSubsetIdx] < EDS[k]) {
+                        maxSubsetIdx = k;
+                }
             }
             
-            if (maxSubsetIdx > -1) 
-                EDS[i] = EDS[maxSubsetIdx];
-            EDS[i].push_back(nums[i]);
-
-            
-            if (maxSize < EDS[i].size()) {
-                maxSize = EDS[i].size();
+            EDS[i] = EDS[maxSubsetIdx] + 1;
+            prev[i] = maxSubsetIdx;
+                        
+            if (maxSize < EDS[i]) {
+                maxSize = EDS[i];
                 maxIdx = i;
             }
         }
         
-        return EDS[maxIdx];
+        vector<int> res(maxSize);
+        int resIdx = maxSize-1;
+        int prevIdx = maxIdx;
+        
+        while (resIdx > -1) {
+            res[resIdx] = nums[prevIdx];
+            prevIdx = prev[prevIdx];
+            resIdx--;
+        }
+        
+        return res;
     }
 };
