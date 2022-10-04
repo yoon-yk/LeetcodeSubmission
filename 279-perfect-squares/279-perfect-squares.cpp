@@ -15,7 +15,6 @@ public:
     }
     
     int numSquares(int n) {
-        sqrNums.clear();
         
         for (int i=1; i*i <= n; i++)
             sqrNums.insert(i*i);
