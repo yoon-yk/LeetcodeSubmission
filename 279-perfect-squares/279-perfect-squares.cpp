@@ -1,22 +1,32 @@
-class Solution 
-{
+class Solution {
 public:
-    int numSquares(int n) 
-    {
-        if (n <= 0)
-            return 0;
-
-        static vector<int> cntPerfectSquares({0});
+    int numSquares(int n) {
+        /*
         
-        while (cntPerfectSquares.size() <= n)
-        {
-            int m = cntPerfectSquares.size();
-            int cntSquares = INT_MAX;
-            for (int i = 1; i <= sqrt(m); i++)
-                cntSquares = min(cntSquares, cntPerfectSquares[m - i*i] + 1);
-            cntPerfectSquares.push_back(cntSquares);
+        0 1 2 3 4 5 6 7 8 9 10 11 12 13
+        1 1 2 3 1 2 3 4 2 2  3  4 
+        1 1     1
+        
+        */
+        
+        vector<int> minSqs(n+1, 100000);
+        minSqs[0] = 0;
+        
+        vector<int> curSquares;
+        for (int i=0; i<=sqrt(n); i++) {
+            curSquares.push_back(pow(i, 2));
         }
         
-        return cntPerfectSquares[n];
+        
+        for (int i=0; i<=n; i++) {
+            for (int & curS : curSquares) {
+                if (i-curS >= 0) {
+                    minSqs[i] = min(minSqs[i], minSqs[i-curS] + 1);
+                }
+            }
+            
+        }
+        
+        return minSqs[n];
     }
 };
