@@ -16,14 +16,12 @@ public:
         for (int i=0; i<=sqrt(n); i++) 
             curSquares.push_back(pow(i, 2));
         
-        for (int i=0; i<=n; i++) {
+        for (int i=0; i<=n; i++)
             for (int & curS : curSquares) {
                 if (i-curS >= 0) {
                     dp[i] = min(dp[i], dp[i-curS] + 1);
                 } else break;
             }
-            
-        }
         
         return dp[n];
     }
