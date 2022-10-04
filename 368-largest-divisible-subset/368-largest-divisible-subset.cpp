@@ -5,7 +5,7 @@ public:
         
         int n = nums.size();
         
-        vector<int> EDS(n, 0);
+        vector<int> maxLen(n, 0);
         vector<int> prev(n);
         
         int maxSize = 0, maxIdx = 0;
@@ -15,20 +15,20 @@ public:
             
             maxSubsetIdx = i;
             prev[i] = i;
-            EDS[i] = 0;
+            maxLen[i] = 0;
             
             for (int k=0; k<i; k++) {
                 if (nums[i] % nums[k] == 0 && 
-                    EDS[maxSubsetIdx] < EDS[k]) {
+                    maxLen[maxSubsetIdx] < maxLen[k]) {
                         maxSubsetIdx = k;
                 }
             }
             
-            EDS[i] = EDS[maxSubsetIdx] + 1;
+            maxLen[i] = maxLen[maxSubsetIdx] + 1;
             prev[i] = maxSubsetIdx;
                         
-            if (maxSize < EDS[i]) {
-                maxSize = EDS[i];
+            if (maxSize < maxLen[i]) {
+                maxSize = maxLen[i];
                 maxIdx = i;
             }
         }
