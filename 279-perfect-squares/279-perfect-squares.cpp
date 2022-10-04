@@ -22,7 +22,7 @@ public:
             for (int & curS : curSquares) {
                 if (i-curS >= 0) {
                     minSqs[i] = min(minSqs[i], minSqs[i-curS] + 1);
-                }
+                } else break;
             }
             
         }
