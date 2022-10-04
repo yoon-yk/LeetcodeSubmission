@@ -10,35 +10,18 @@
  * };
  */
 class Solution {
-public:    
+public:
     bool hasPathSum(TreeNode* root, int targetSum) {
-        if (root==NULL) return false;
+
+        if (!root) return false;
         
-        stack<TreeNode*> st;
-        st.push(root);
+        if ((!(root->left) && !(root->right)) && targetSum == root->val) 
+            return true;
         
-        TreeNode* cur;
-        while (!st.empty()) {
-            cur = st.top();
-            st.pop();
-            
-            if (!cur->left && !cur->right && cur->val == targetSum) {
-                return true;
-            }
-            
-            if (cur->left) {
-                cur->left->val += cur->val;
-                st.push(cur->left);
-            }
-            
-            if (cur->right) {
-                cur->right->val += cur->val;
-                st.push(cur->right);
-            }
-            
-        }
+        if ((!(root->left) && !(root->right)))
+            return false;
         
-        return false;
+        return hasPathSum(root->left, targetSum-root->val) || 
+            hasPathSum(root->right, targetSum-root->val);
     }
-    
 };
