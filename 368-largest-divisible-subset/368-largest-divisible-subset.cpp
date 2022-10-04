@@ -14,8 +14,6 @@ public:
         for (int i=0; i<n; i++) {
             
             maxSubsetIdx = i;
-            prev[i] = i;
-            maxLen[i] = 0;
             
             for (int k=0; k<i; k++) {
                 if (nums[i] % nums[k] == 0 && 
