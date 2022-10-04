@@ -9,24 +9,22 @@ public:
         
         */
         
-        vector<int> minSqs(n+1, 100000);
-        minSqs[0] = 0;
+        vector<int> dp(n+1, 100000);
+        dp[0] = 0;
         
         vector<int> curSquares;
-        for (int i=0; i<=sqrt(n); i++) {
+        for (int i=0; i<=sqrt(n); i++) 
             curSquares.push_back(pow(i, 2));
-        }
-        
         
         for (int i=0; i<=n; i++) {
             for (int & curS : curSquares) {
                 if (i-curS >= 0) {
-                    minSqs[i] = min(minSqs[i], minSqs[i-curS] + 1);
+                    dp[i] = min(dp[i], dp[i-curS] + 1);
                 } else break;
             }
             
         }
         
-        return minSqs[n];
+        return dp[n];
     }
 };
