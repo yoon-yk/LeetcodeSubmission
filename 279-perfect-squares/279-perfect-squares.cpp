@@ -23,7 +23,7 @@ public:
                         return level;
                     } else if (curN > sqr) {
                         q.push(curN - sqr);
-                    }
+                    } else break;
                 }
             }
             
