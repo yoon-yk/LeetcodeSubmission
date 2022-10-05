@@ -13,9 +13,7 @@ public:
     }
     
     int bruteForce(vector<int>& nums, int l, int r, vector<vector<int>>& dp) {
-        
-        if (r < l) return 0;
-        
+                
         if (dp[l][r] != -1)
             return dp[l][r];
             
