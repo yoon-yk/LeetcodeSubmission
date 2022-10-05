@@ -1,7 +1,6 @@
 class Solution {
 public:
 
-    
     int maxCoins(vector<int>& nums) {
         
         nums.insert(nums.begin(), 1);
@@ -24,8 +23,8 @@ public:
         int remainingLeft, remainingRight, gain;
         for (int i=l; i<=r; i++) {
             gain = nums[l - 1] * nums[i] * nums[r + 1];
-            remainingLeft = bruteForce(nums, l, i-1, dp);
-            remainingRight = bruteForce(nums, i+1, r, dp); 
+            remainingLeft = (i-1 >= l) ? bruteForce(nums, l, i-1, dp) : 0;
+            remainingRight = (i+1 <= r) ? bruteForce(nums, i+1, r, dp) : 0; 
             maxSum = max(remainingLeft+remainingRight+gain, maxSum);
         }
         
