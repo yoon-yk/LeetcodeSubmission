@@ -10,15 +10,16 @@ public:
     bool book(int start, int end) {
         
         int cur = 0;
-        if (!mp.count(start)) mp[start] = 0;
+        mp[start]++, mp[end]--;
         for (auto & [idx, cnt] : mp) {
             cur += cnt;
             if (idx >= start && idx < end) {
-                if (cur >= 2)
+                if (cur >= 3) {
+                    mp[start]--, mp[end]++;
                     return false;
+                }
             }
         }
-        mp[start]++, mp[end]--;
         return true;
     }
 };
