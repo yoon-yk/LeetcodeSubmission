@@ -13,11 +13,9 @@ public:
         mp[start]++, mp[end]--;
         for (auto & [idx, cnt] : mp) {
             cur += cnt;
-            if (idx >= start && idx < end) {
-                if (cur >= 3) {
-                    mp[start]--, mp[end]++;
-                    return false;
-                }
+            if (cur >= 3) {
+                mp[start]--, mp[end]++;
+                return false;
             }
         }
         return true;
