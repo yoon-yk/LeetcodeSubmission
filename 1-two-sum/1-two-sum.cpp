@@ -4,15 +4,13 @@ public:
         
         int n = nums.size();
         
-        unordered_map<int, vector<int>> hashM; 
-        for (int i=0; i<n; i++) hashM[nums[i]].push_back(i);
+        unordered_map<int, int> hashM; 
         
         for (int idx=0; idx<n; idx++) {
             if (hashM.count(target-nums[idx])) {
-                for (int num : hashM[target-nums[idx]])
-                    if (num!= idx)
-                        return {idx, num};
+                return {idx, hashM[target-nums[idx]]};
             }
+            hashM[nums[idx]] = idx;
         }
         return {-1, -1};
     }
