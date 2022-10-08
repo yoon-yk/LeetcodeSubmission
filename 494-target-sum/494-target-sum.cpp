@@ -21,19 +21,23 @@ public:
         
         
         ***/
-        vector<vector<int>> dp(n+1, vector<int> ((sum<<1)+1, 0));
-    
-        dp[0][sum] = 1;
+        // vector<vector<int>> dp(n+1, vector<int> ((sum<<1)+1, 0));
+        vector<int> prev((sum<<1)+1, 0);
+        vector<int> curr((sum<<1)+1, 0);
+
+        // dp[0][sum] = 1;
+        prev[sum] = 1;
         for (int i=1; i<=n; i++) {
             for (int j=-sum; j<=sum; j++) {
+                curr[j+sum] = 0;
                 if (j+sum - nums[i-1] >= 0)
-                    dp[i][(j+sum)] += dp[i-1][(j+sum)-nums[i-1]]; // minus
+                    curr[(j+sum)] += prev[(j+sum)-nums[i-1]]; // minus
                 if (j+sum + nums[i-1] <= (sum << 1))
-                    dp[i][(j+sum)] += dp[i-1][(j+sum)+nums[i-1]]; // plus
-
+                    curr[(j+sum)] += prev[(j+sum)+nums[i-1]]; // plus
             }
+            prev = curr;
         }
-        return dp[n][sum+target];
+        return curr[sum+target];
     }
     
 };
