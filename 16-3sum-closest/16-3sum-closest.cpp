@@ -5,28 +5,25 @@ public:
         sort(nums.begin(), nums.end());
 
         int ans = 100000, minDiff = 100000;
-        for (int a = 0; a < n-2; a++) {
-            twoSum(nums, a, target-nums[a], ans, minDiff);
-        }
+        for (int a = 0; a < n-2; a++) 
+            twoSum(nums, a, target, ans, minDiff);
         return ans;
     }
     
-    void twoSum(vector<int>& nums, int idx, int targetSum, int& ans, int& minDiff) {
+    void twoSum(vector<int>& nums, int idx, int target, int& ans, int& minDiff) {
         int begin = idx+1, end = nums.size()-1;
         int curSum;
         
         while (begin < end) {
-            curSum = nums[begin] + nums[end];
-            if (ans > 10000 || 
-                abs(targetSum-curSum) < minDiff) {
-                ans = curSum + nums[idx];
-                minDiff = abs(targetSum-curSum);
+            curSum = nums[begin] + nums[end] + nums[idx];
+            if (abs(target-curSum) < minDiff) {
+                ans = curSum;
+                minDiff = abs(target-curSum);
             }
-            if (nums[begin] + nums[end] < targetSum) {
+            if (curSum < target)
                 begin ++;
-            } else {
+            else
                 end --;
-            }
         }
     }
 };
