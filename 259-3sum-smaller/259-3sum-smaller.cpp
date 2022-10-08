@@ -14,7 +14,8 @@ public:
         for (int i=0; i<n-2; i++) {
             begin = i+1, end = n-1;
             while (begin < end) {
-                if (nums[i] + nums[begin] + nums[end] < target) {
+                curSum = nums[i] + nums[begin] + nums[end];
+                if (curSum < target) {
                     cnt += end-begin;
                     begin++;
                 } else {
