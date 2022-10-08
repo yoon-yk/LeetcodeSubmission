@@ -7,9 +7,8 @@ public:
         unordered_map<int, int> hashM; 
         
         for (int idx=0; idx<n; idx++) {
-            if (hashM.count(target-nums[idx])) {
+            if (hashM.count(target-nums[idx])) 
                 return {idx, hashM[target-nums[idx]]};
-            }
             hashM[nums[idx]] = idx;
         }
         return {-1, -1};
