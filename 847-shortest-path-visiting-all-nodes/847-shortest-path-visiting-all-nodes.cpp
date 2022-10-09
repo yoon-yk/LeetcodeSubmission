@@ -16,7 +16,7 @@ public:
         
         int steps = 0, size;
         while (!q.empty()) {
-            queue<vector<int>> nextQ;
+            // queue<vector<int>> nextQ;
             size = q.size();
             while (size--) {
                 vector<int> currPair = q.front(); q.pop();
@@ -30,13 +30,13 @@ public:
                     
                     if (!seen[neighbor][nextMask]) {
                         seen[neighbor][nextMask] = true;
-                        nextQ.push({neighbor, nextMask});
+                        q.push({neighbor, nextMask});
                     }
                 }
             }
             
             steps++;
-            q = nextQ;
+            // q = nextQ;
         }
         
         return -1;
