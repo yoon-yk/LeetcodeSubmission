@@ -20,7 +20,7 @@ public:
         int x = 0, len = 1;
         for (int i=1; i<=n; i++) {
             if (i == (len<<1)) len <<=1;
-            if (i-len>=0) ans[i] = ans[i-len]+1;
+            ans[i] = ans[i-len]+1;
         }
         
         return ans;
