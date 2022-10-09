@@ -17,10 +17,10 @@ public:
         // 12 -> 
         
         vector<int> ans(n+1, 0);
-        int x = 0, uBound = 1;
+        int x = 0, len = 1;
         for (int i=1; i<=n; i++) {
-            if (i == (uBound<<1)) uBound <<=1;
-            if (i-uBound>=0) ans[i] = ans[i-uBound]+1;
+            if (i == (len<<1)) len <<=1;
+            if (i-len>=0) ans[i] = ans[i-len]+1;
         }
         
         return ans;
