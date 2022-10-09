@@ -28,9 +28,8 @@ public:
         
         board[i][j] = '.';
         
-        int dir[5] = {-1, 0, 1, 0, -1};
-        for (int d=0; d<4; d++) {
-            dfs(board, i+dir[d], j+dir[d+1]);
-        }
+        dfs(board, i+1, j);
+        dfs(board, i, j+1);
+
     }
 };
