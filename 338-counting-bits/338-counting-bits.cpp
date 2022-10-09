@@ -20,7 +20,8 @@ public:
         int len = 0, cnt;
         for (int i=0; i<=n; i++) {
             cnt = 0;
-            for (int j=0; j<floor(log2(i))+1; j++) {
+            if (floor(log2(i)) == ceil(log2(i))) len ++;
+            for (int j=0; j<=len; j++) {
                 if (i & (1 << j)) cnt++;
             }
             ans[i] = cnt;
