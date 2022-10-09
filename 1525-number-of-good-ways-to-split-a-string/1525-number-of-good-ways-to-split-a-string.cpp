@@ -2,7 +2,7 @@ class Solution {
 public:
     int numSplits(string s) {
         int n = s.size();
-        vector<int> startingFrom(n+1), endingAt(n+1);
+        vector<int> startingFrom(n), endingAt(n);
         
         unordered_set<int> seen;
         for (int i=0; i<n; i++) {
