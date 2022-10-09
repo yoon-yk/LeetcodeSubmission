@@ -17,15 +17,19 @@ public:
         // 12 -> 
         
         vector<int> ans(n+1, 0);
-        int len = 0, cnt;
-        for (int i=0; i<=n; i++) {
-            cnt = 0;
-            if (floor(log2(i)) == ceil(log2(i))) len ++;
-            for (int j=0; j<=len; j++) {
-                if (i & (1 << j)) cnt++;
+        int x = 0, uBound = 1;
+        
+        // [0, b) is calculated
+        while (uBound<=n) {
+            // generate [b, min(2b, n)) from [0, b)
+            while (x+uBound <=n) {
+                ans[x+uBound] = ans[x]+1;
+                ++x;
             }
-            ans[i] = cnt;
+            x = 0;
+            uBound <<= 1; // b *= 2;
         }
+        
         return ans;
     }
 };
