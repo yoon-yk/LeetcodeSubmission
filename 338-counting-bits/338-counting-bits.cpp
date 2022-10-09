@@ -18,16 +18,9 @@ public:
         
         vector<int> ans(n+1, 0);
         int x = 0, uBound = 1;
-        
-        // [0, b) is calculated
-        while (uBound<=n) {
-            // generate [b, min(2b, n)) from [0, b)
-            while (x+uBound <=n) {
-                ans[x+uBound] = ans[x]+1;
-                ++x;
-            }
-            x = 0;
-            uBound <<= 1; // b *= 2;
+        for (int i=1; i<=n; i++) {
+            if (i == (uBound<<1)) uBound <<=1;
+            if (i-uBound>=0) ans[i] = ans[i-uBound]+1;
         }
         
         return ans;
