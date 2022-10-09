@@ -5,20 +5,20 @@ public:
     
     int dp(int node, int mask, vector<vector<int>>& graph) {
     
+        //First, check if this state has already been visited. If it has, return the cached result.
         if (cache[node][mask] != 0)
             return cache[node][mask];
     
-        // cout << node << " " << mask << endl;
-        if ((mask & (mask-1)) == 0) {
-            // Base case - mask only has a single "1", which means
-            // that only one node has been visited (the current node)
+
+        // Base case - mask only has a single "1", which means
+        // that only one node has been visited (the current node)
+        if ((mask & (mask-1)) == 0)
             return cache[node][mask] = 0;
-        }
             
         
         cache[node][mask] = INT_MAX-1; // Avoid infinite loop in recursion
         
-        for (int neighbor : graph[node]) {
+        for (int& neighbor : graph[node]) {
             if ((mask & (1<<neighbor)) != 0) {
                 int alreadyVisited = dp(neighbor, mask, graph);
                 int notVisited = dp(neighbor, mask ^ (1 << node), graph);
@@ -32,12 +32,20 @@ public:
     
     int shortestPathLength(vector<vector<int>>& graph) {    
         int n = graph.size();
-        endingMask = (1<<n) -1;
+        endingMask = (1<<n) -1; // a bitmask that represents all nodes being visited.
         cache.resize(n+1, vector<int>(endingMask+1, 0));
         
         int best = INT_MAX;
         for (int node = 0; node <n; node++)
             best = min(best, dp(node, endingMask, graph));
+        
+        
+        // for (int i=0; i<=n; i++) {
+        //     for (int j=0; j<=endingMask; j++) {
+        //         cout << cache[i][j] << " ";
+        //     }
+            // cout << endl;
+        // }
         
         return best;
         
