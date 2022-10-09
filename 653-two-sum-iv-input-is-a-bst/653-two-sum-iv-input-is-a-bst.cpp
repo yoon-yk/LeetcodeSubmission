@@ -16,14 +16,12 @@ public:
     bool findTarget(TreeNode* root, int k) {
         if (!root) return false;
         
-        int ans = false;
-        if (root->left) 
-            ans |= findTarget(root->left, k);
-        
         if (seen.count(k-root->val))
             return true;
+        
         seen.insert(root->val);
-
+        int ans = false;
+        if (root->left) ans |= findTarget(root->left, k);
         if (root->right) ans |= findTarget(root->right, k);
         return ans;
     }
