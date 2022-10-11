@@ -3,14 +3,15 @@ public:
     bool increasingTriplet(vector<int>& nums) {
         int n = nums.size();
         vector<int> numSeq;
+        int firstSmallest = INT_MAX, secondSmallest = INT_MAX;
         for (int i=0; i<n; i++) {
-            int idx = lower_bound(numSeq.begin(), numSeq.end(), nums[i]) - numSeq.begin();
-            if (numSeq.empty() || idx >= numSeq.size()) {
-                numSeq.push_back(nums[i]);
+            if (firstSmallest == INT_MAX || nums[i] <= nums[firstSmallest]) {
+                firstSmallest = i;
+            } else if (secondSmallest == INT_MAX || nums[i] <= nums[secondSmallest]) {
+                secondSmallest = i;
             } else {
-                numSeq[idx] = nums[i];
+                return true;
             }
-            if (numSeq.size() == 3) return true;
         }
         return false;
     }
