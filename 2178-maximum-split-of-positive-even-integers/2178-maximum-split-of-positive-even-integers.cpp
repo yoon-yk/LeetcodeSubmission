@@ -19,21 +19,19 @@ public:
                 [2, 12(2,2,2,2,2,2)] (2,2,2,2,2,2,2)
         */
         if (finalSum % 2) return {};
-        long long numOfTwo = finalSum>>1;
 
-        bool found = false;
-        vector<long long> path;
+        vector<long long> ans;
         
         long long nextNum = 2, curSum = 0;
         while ((curSum + nextNum)<=finalSum){
-            path.emplace_back(nextNum);
+            ans.emplace_back(nextNum);
             curSum += nextNum;
             nextNum += 2;
         }
         
         if (curSum < finalSum) 
-            path[path.size()-1] += (finalSum - curSum);
+            ans[ans.size()-1] += (finalSum - curSum);
 
-        return path;
+        return ans;
     }
 };
