@@ -8,7 +8,7 @@ public:
     
     */
     
-    string& interpretCode(string &ans, string &encodedText, int startingIdx, int gapSize) {
+    string& interpretCode(string &ans, string &encodedText, int startingIdx, int &gapSize) {
         int size = encodedText.size();
         while (startingIdx < size) {
             ans += encodedText[startingIdx];
@@ -20,7 +20,7 @@ public:
         return ans;
     }
     
-    string decodeCiphertext(string encodedText, int rows) {
+    string decodeCiphertext(string &encodedText, int rows) {
         /*
         00 01 02 03 04
         05 06 07 08 09
