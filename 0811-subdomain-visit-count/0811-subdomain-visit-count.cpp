@@ -46,19 +46,17 @@ public:
             int stringCnt = extractDomain(str, idx, stringVec);            
             string curDomain;
             for (int i=stringCnt-1; i>=0; i--) {
-                if (curDomain.size() == 0) {
+                if (curDomain.size() == 0) 
                     curDomain = stringVec[i];
-                } else {
+                else 
                     curDomain = stringVec[i] + '.' + curDomain;
-                }
                 hashM[curDomain] += frequency;
             }
         }
         
         vector<string> ans;
-        for (auto &pair : hashM) {
+        for (auto &pair : hashM) 
             ans.emplace_back((to_string(pair.second) + " " + pair.first));
-        }
         return ans;
         
     }
