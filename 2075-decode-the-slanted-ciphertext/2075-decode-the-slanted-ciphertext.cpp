@@ -33,9 +33,10 @@ public:
         int rowSize = totalLen / rows;
         int gapSize = rowSize + 1;
         
+        string newStr;
         for (int i=0; i<rowSize; i++) {
-            string newStr;
             ans += interpretCode(newStr, encodedText, i, gapSize);
+            newStr = "";
         }
 
         while (!ans.empty() && ans.back() == ' ')
