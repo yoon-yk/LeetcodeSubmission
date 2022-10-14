@@ -11,19 +11,29 @@
 class Solution {
 public:
     ListNode* deleteMiddle(ListNode* head) {
-        if (head == NULL || head->next == NULL) return NULL; // 노드가 0개거나 1개인 경우 
+        ListNode* dummyHead = new ListNode();
+        dummyHead->next = head;
         
-        ListNode *lead = head, *del = head, *pre_del = head;
-        while (lead!=NULL && lead->next!=NULL) {
-            lead = lead->next->next;
-            pre_del = del;
-            del = del->next;
+        ListNode* middle = dummyHead, *last = dummyHead, 
+        *preMiddle = dummyHead;
+        while (last && last->next){
+            preMiddle = middle;
+            middle = middle->next;
+            last = last->next->next;
         }
         
-        pre_del->next = del->next;
-        delete del;
+        if (last) {
+            preMiddle = middle;
+            middle = middle->next;
+        }
+        /*
         
-        return head;
-        
+        0 1 2 3
+            |   |
+        0 1 2 3 4 
+            |   |
+        */
+        preMiddle->next = middle->next;
+        return dummyHead->next;
     }
 };
