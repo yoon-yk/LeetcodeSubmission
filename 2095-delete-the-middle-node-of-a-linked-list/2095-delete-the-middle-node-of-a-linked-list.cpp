@@ -14,18 +14,20 @@ public:
         ListNode* dummyHead = new ListNode();
         dummyHead->next = head;
         
-        ListNode* middle = dummyHead, *last = dummyHead, 
-        *preMiddle = dummyHead;
+        ListNode* middle = dummyHead, *last = dummyHead,
+        *prevMiddle = dummyHead;
+        
         while (last && last->next){
-            preMiddle = middle;
+            prevMiddle = middle;
             middle = middle->next;
             last = last->next->next;
         }
         
         if (last) {
-            preMiddle = middle;
+            prevMiddle = prevMiddle->next;
             middle = middle->next;
         }
+        
         /*
         
         0 1 2 3
@@ -33,7 +35,7 @@ public:
         0 1 2 3 4 
             |   |
         */
-        preMiddle->next = middle->next;
+        prevMiddle->next = middle->next;
         return dummyHead->next;
     }
 };
