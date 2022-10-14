@@ -8,8 +8,7 @@ public:
     
     */
     
-    string interpretCode(string &encodedText, int startingIdx, int gapSize) {
-        string ans;
+    string& interpretCode(string &ans, string &encodedText, int startingIdx, int gapSize) {
         int size = encodedText.size();
         while (startingIdx < size) {
             ans += encodedText[startingIdx];
@@ -35,7 +34,8 @@ public:
         int gapSize = rowSize + 1;
         
         for (int i=0; i<rowSize; i++) {
-            ans += interpretCode(encodedText, i, gapSize);
+            string newStr;
+            ans += interpretCode(newStr, encodedText, i, gapSize);
         }
 
         while (!ans.empty() && ans.back() == ' ')
