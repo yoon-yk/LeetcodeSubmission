@@ -18,7 +18,8 @@ public:
             int nextIdx = lower_bound(points.begin(), points.end(), nextMin) - points.begin();
             for (int nextPtr=nextIdx; nextPtr < points.size(); nextPtr++) {
                 nextX = points[nextPtr][0], nextY = points[nextPtr][1];
-                if (curY == nextY || !pointsDict[curX].count(nextY) || 
+                if (curY == nextY) continue;
+                if (!pointsDict[curX].count(nextY) || 
                     !pointsDict[nextX].count(curY)) continue;
                 minSize = min(minSize, abs((nextX-curX)*(nextY-curY)));
             }
