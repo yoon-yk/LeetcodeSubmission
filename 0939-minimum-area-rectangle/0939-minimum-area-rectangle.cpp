@@ -11,9 +11,10 @@ public:
         for (auto& pt : points) // O(N)
             pointsDict[pt[0]].insert(pt[1]);
         
+        vector<int> nextMin;
         for (int curPtr=0; curPtr<points.size(); curPtr++) {
             int curX = points[curPtr][0], curY = points[curPtr][1];
-            vector<int> nextMin = {curX+1, 0};
+            nextMin = {curX+1, 0};
             int nextIdx = lower_bound(points.begin(), points.end(), nextMin) - points.begin();
             for (int nextPtr=nextIdx; nextPtr < points.size(); nextPtr++) {
                 int nextX = points[nextPtr][0], nextY = points[nextPtr][1];
