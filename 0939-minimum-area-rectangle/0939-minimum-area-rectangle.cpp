@@ -3,12 +3,12 @@ public:
     int minAreaRect(vector<vector<int>>& points) {
         
         int minSize = INT_MAX;
-        
-        sort(points.begin(), points.end());
-        unordered_map<int, unordered_set<int>> pointsDict;
 
+        unordered_map<int, unordered_set<int>> pointsDict;
         for (auto& pt : points) // O(N)
             pointsDict[pt[0]].insert(pt[1]);
+        
+        sort(points.begin(), points.end());
         
         int curX, curY, nextX, nextY;
         vector<int> nextMin;
@@ -18,8 +18,7 @@ public:
             int nextIdx = lower_bound(points.begin(), points.end(), nextMin) - points.begin();
             for (int nextPtr=nextIdx; nextPtr < points.size(); nextPtr++) {
                 nextX = points[nextPtr][0], nextY = points[nextPtr][1];
-                if (curY == nextY) continue;
-                if (!pointsDict[curX].count(nextY) || 
+                if (curY == nextY || !pointsDict[curX].count(nextY) || 
                     !pointsDict[nextX].count(curY)) continue;
                 minSize = min(minSize, abs((nextX-curX)*(nextY-curY)));
             }
