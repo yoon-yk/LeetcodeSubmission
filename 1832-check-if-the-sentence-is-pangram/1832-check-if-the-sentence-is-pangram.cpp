@@ -1,13 +1,13 @@
 class Solution {
 public:
     bool checkIfPangram(string sentence) {
-        vector<int> chars(26, 0);
-        int cnt = 0;
+        long long check = 0;
         for (auto &ch : sentence) {
-            if (chars[ch-'a'] == 0) cnt ++;
-            chars[ch-'a']++;
+            check |= (1 << (ch-'a'));
         }
-        
-        return (cnt == 26);
+        // cout << check << endl;
+        // cout << ((1<<26)-1) << endl;
+        // cout << (check == ((1<<26)-1)) << endl;
+        return (check == ((1<<26)-1));
     }
 };
