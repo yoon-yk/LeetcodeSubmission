@@ -4,9 +4,9 @@ public:
         
         if (n == 0) return "";
         
-        string curStr = "1", nextStr;
+        string curStr = "1";
         for (int i=2; i<=n; i++) {
-            nextStr = "";
+            string nextStr;
             int j, count, digit;
             for (int i=0; i<curStr.size();) {
                 j = i;
