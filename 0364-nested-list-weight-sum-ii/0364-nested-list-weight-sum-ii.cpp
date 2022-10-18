@@ -30,30 +30,30 @@
 class Solution {
 public:
     int depthSumInverse(vector<NestedInteger>& nestedList) {
-        int sum = 0;
-        int curLv = 1, maxLv = 0;
-        stack<pair<NestedInteger, int>> st;
-        vector<pair<int, int>> ints;
+        int depth = 1, maxDepth = 0, sumOfElems = 0, sumOfProd = 0;
+        dfs(nestedList, depth, maxDepth, sumOfElems, sumOfProd);
         
-        for (NestedInteger& elem : nestedList)
-            st.push({elem, 1});
+        return (maxDepth+1) * sumOfElems - sumOfProd;
+    }
+    
+    void dfs(vector<NestedInteger>& nestedList, int depth, int &maxDepth, int &sumOE, int &sumOP){
         
-        while (!st.empty()) {
-            auto curr = st.top(); st.pop();
-            NestedInteger curEl = curr.first;
-            int curLv = curr.second;
-            maxLv = max(maxLv, curLv);
-            if (curEl.isInteger())
-                ints.push_back({curEl.getInteger(), curLv});
+        int sumOfElems = 0, sumOfProd = 0;
+        for (NestedInteger & nested : nestedList) {
+            if (nested.isInteger()) {
+                sumOfElems += nested.getInteger();
+                sumOfProd += (depth * nested.getInteger());
+            }
             else {
-                for (NestedInteger& elem : curEl.getList()) 
-                    st.push({elem, curLv + 1});
+                int a, b;
+                if (nested.getList().empty()) continue;
+                dfs(nested.getList(), depth+1, maxDepth, a, b);
+                sumOfElems += a;
+                sumOfProd += b;
             }
         }
-        
-        for (auto & pair : ints)
-            sum += (pair.first) * (maxLv-pair.second+1);
-        
-        return sum;
+        maxDepth = max(maxDepth, depth);
+
+        sumOE = sumOfElems, sumOP = sumOfProd;
     }
 };
