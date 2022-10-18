@@ -1,10 +1,7 @@
 class Solution {
 public:
-    
-    int shareSameRowOrCol(vector<int>& a, vector<int>& b) {
-        return a[0] == b[0] || a[1] == b[1];
-    }
-    
+    const int K = 10001;
+
     int find (vector<int>& rep, int x) {
         if (x == rep[x])
             return x;
@@ -30,21 +27,27 @@ public:
     }
     
     int removeStones(vector<vector<int>>& stones) {
-     
-        vector<int> rep(stones.size());
-        vector<int> size(stones.size());
+        vector<int> rep(2*K + 1);
+        vector<int> size(2*K + 1);
         
-        for (int i=0; i<stones.size(); i++) {
+        for (int i=0; i< 2*K + 1; i++) {
             rep[i] = i, size[i] = 1;
         }
         
-        int componentCount = stones.size();
+        int componentCount = 0;
+        unordered_map<int, int> marked;
+        for (vector<int>& stone : stones) {
+            if (!marked.count(stone[0]))
+                componentCount++;
+            if (!marked.count(stone[1]+K))
+                componentCount++;
+            marked[stone[0]] = 1;
+            marked[stone[1]+K] = 1;
+        }
+        
         for (int i=0; i<stones.size(); i++) {
-            for (int j=i+1; j<stones.size(); j++) {
-                if (shareSameRowOrCol(stones[i], stones[j])) {
-                    componentCount -= performUnion(rep, size, i, j);
-                }
-            }
+            int x = stones[i][0], y = stones[i][1] + K;
+            componentCount -= performUnion(rep, size, x, y);
         }
         
         return stones.size() - componentCount;
