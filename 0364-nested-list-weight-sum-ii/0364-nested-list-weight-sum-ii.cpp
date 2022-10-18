@@ -44,14 +44,13 @@ public:
                 sumOfProd += (depth * nested.getInteger());
             }
             else {
-                int subSumOE, subSumOP;
                 if (nested.getList().empty()) continue;
+                int subSumOE, subSumOP;
                 dfs(nested.getList(), depth+1, maxDepth, subSumOE, subSumOP);
                 sumOfElems += subSumOE, sumOfProd += subSumOP;
             }
         }
         maxDepth = max(maxDepth, depth);
-
         sumOE = sumOfElems, sumOP = sumOfProd;
     }
 };
