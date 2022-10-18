@@ -32,7 +32,6 @@ public:
     int depthSumInverse(vector<NestedInteger>& nestedList) {
         int depth = 1, maxDepth = 0, sumOfElems = 0, sumOfProd = 0;
         dfs(nestedList, depth, maxDepth, sumOfElems, sumOfProd);
-        
         return (maxDepth+1) * sumOfElems - sumOfProd;
     }
     
@@ -45,11 +44,10 @@ public:
                 sumOfProd += (depth * nested.getInteger());
             }
             else {
-                int a, b;
+                int subSumOE, subSumOP;
                 if (nested.getList().empty()) continue;
-                dfs(nested.getList(), depth+1, maxDepth, a, b);
-                sumOfElems += a;
-                sumOfProd += b;
+                dfs(nested.getList(), depth+1, maxDepth, subSumOE, subSumOP);
+                sumOfElems += subSumOE, sumOfProd += subSumOP;
             }
         }
         maxDepth = max(maxDepth, depth);
