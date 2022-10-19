@@ -21,9 +21,11 @@ public:
         
         priority_queue<freqWord, vector<freqWord>, decltype(compare)> minHeap(compare);
         // push elem 
+        string word;
+        int freq; 
         for (auto & curElem : mp) {
-            string word = curElem.first;
-            int freq = curElem.second;
+            word = curElem.first;
+            freq = curElem.second;
             minHeap.push(freqWord(freq, word));
             
             if (minHeap.size() > k)
