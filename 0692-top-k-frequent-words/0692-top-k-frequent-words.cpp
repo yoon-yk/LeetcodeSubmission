@@ -20,9 +20,9 @@ public:
         };
         
         priority_queue<freqWord, vector<freqWord>, decltype(compare)> minHeap(compare);
+        
         // push elem 
-        string word;
-        int freq; 
+        string word; int freq; 
         for (auto & curElem : mp) {
             word = curElem.first;
             freq = curElem.second;
