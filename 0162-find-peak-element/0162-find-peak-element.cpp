@@ -1,8 +1,6 @@
 class Solution {
 public:
     bool isPeak(vector<int>& nums, int idx) {
-        // if (idx < 0 || idx >= nums.size())
-            // return false;
         if (((idx-1 < 0) || nums[idx-1] < nums[idx]) && (idx+1 >= nums.size() || nums[idx+1] < nums[idx]))
             return true;
         return false;
