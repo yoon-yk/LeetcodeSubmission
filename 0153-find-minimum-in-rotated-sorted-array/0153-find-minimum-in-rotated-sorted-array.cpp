@@ -10,6 +10,7 @@ public:
                 start = mid+1;
             else end = mid-1;
         }
-        return nums[start];
+        return -1;
+        // return nums[start];
     }
 };
