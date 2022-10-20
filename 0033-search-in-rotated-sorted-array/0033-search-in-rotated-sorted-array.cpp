@@ -11,7 +11,7 @@ public:
                 end = mid-1;
             else start = mid+1;
         }
-        return start;
+        return end;
     }
     
     int search(vector<int>& nums, int target) {
