@@ -1,29 +1,32 @@
 class Solution {
 public:
-    void dfs(int curN, vector<vector<int>>& adj, vector<bool>& visited) {
-        visited[curN] = true;
-        
-        for (auto& nei : adj[curN]) {
-            if (!visited[nei]) 
-                dfs(nei, adj, visited);
-        }
+    vector<int> parent;
+    
+    int findd (int idx) {
+        if (parent[idx] == idx)
+            return idx;
+        return parent[idx] = findd(parent[idx]);
     }
+    
+    bool isNewlyUnited(int n1, int n2) {
+        int p1 = findd(n1);
+        int p2 = findd(n2);
+        parent[p1] = p2;
+        return (p1 != p2);
+    }
+    
     int countComponents(int n, vector<vector<int>>& edges) {
+    
+        parent.resize(n);
+        for (int i=0; i<n; i++)
+            parent[i] = i;
         
-        vector<vector<int>> adj(n);
+        int cnt = n;
         for (auto & e : edges) {
-            adj[e[0]].push_back(e[1]);
-            adj[e[1]].push_back(e[0]);
+            if (isNewlyUnited(e[0], e[1]))
+                cnt --;
         }
         
-        int cnt = 0;
-        vector<bool> visited(n, false);
-        for (int i=0; i<n; i++) {
-            if (!visited[i]) {
-                cnt ++;
-                dfs(i, adj, visited);
-            }
-        }
         return cnt;
     }
 };
