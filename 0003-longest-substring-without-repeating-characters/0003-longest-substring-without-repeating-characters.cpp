@@ -7,7 +7,7 @@ public:
         
         int start = 0;
         for (int end=0; end<n; end++) {
-            if (mp[s[end]] > 0)
+            if (mp.count(s[end]))
                 start = max(mp[s[end]], start);
             res = max(res, end-start+1);
             mp[s[end]] = end + 1; 
