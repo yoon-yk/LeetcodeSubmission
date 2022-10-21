@@ -2,33 +2,35 @@ class Solution {
 public:
     bool validTree(int n, vector<vector<int>>& edges) {
         
-        stack<int> st;
+        stack<pair<int, int>> st;
         vector<vector<int>> adjList(n);
-        vector<int> visited(n, false);
+        vector<bool> visited(n, false);
         
         for (auto& e : edges){
             adjList[e[0]].push_back(e[1]);
             adjList[e[1]].push_back(e[0]);
         }
         
-        int cnt = 0;
-        return dfs (0, -1, adjList, visited, cnt) && (cnt == n);
-    }
-    
-    bool dfs(int node, int parent, vector<vector<int>>& adjList, vector<int>& visited, int& cnt) {
+        int cnt = n;
+        st.push({0, -1});
+        visited[0] = true;
         
-        if (visited[node]) return false;
-        visited[node] = true;
-        cnt ++;
-        
-        for (int & nei : adjList[node]) {
-            if (parent == nei) continue;
-            if (!dfs(nei, node, adjList, visited, cnt)) return false;
+        while (!st.empty()) {
+
+            auto cur = st.top(); st.pop();
+            cnt --;
+            int curNode = cur.first;
+            int parNode = cur.second;
+
+            for (int& nei : adjList[curNode]) {
+                if (parNode == nei) continue;
+                if (visited[nei]) return false;
+                visited[nei] = true;
+                st.push({nei, curNode});
+            }
         }
         
-        return true;
-    }
-    
-    
+        return (cnt == 0);
+    }    
             
 };
