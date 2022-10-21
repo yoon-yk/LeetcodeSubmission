@@ -35,17 +35,16 @@ public:
         }
         
         int curNJob = 0;
-        int startTime = -1;
+        int startTime = INT_MAX;
         
         vector<Interval> ans;
         for (auto& curTime : mp) {
             curNJob += curTime.second;
             if (curNJob == 0) {
-                if (startTime == -1)
-                    startTime = curTime.first;
-            } else if (startTime!= -1) {
+                startTime = min(curTime.first, startTime);
+            } else if (startTime!= INT_MAX) {
                 ans.push_back(Interval(startTime, curTime.first));
-                startTime = -1;
+                startTime = INT_MAX;
             }
         }
         
