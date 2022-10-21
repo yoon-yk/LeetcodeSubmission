@@ -2,7 +2,9 @@ class Solution {
 public:
     bool validTree(int n, vector<vector<int>>& edges) {
         
-        stack<pair<int, int>> st;
+        if (edges.size() != (n-1)) return false;
+        
+        stack<int> st;
         vector<vector<int>> adjList(n);
         vector<bool> visited(n, false);
         
@@ -12,21 +14,18 @@ public:
         }
         
         int cnt = n;
-        st.push({0, -1});
+        st.push(0);
         visited[0] = true;
         
         while (!st.empty()) {
 
             auto cur = st.top(); st.pop();
             cnt --;
-            int curNode = cur.first;
-            int parNode = cur.second;
 
-            for (int& nei : adjList[curNode]) {
-                if (parNode == nei) continue;
-                if (visited[nei]) return false;
+            for (int& nei : adjList[cur]) {
+                if (visited[nei]) continue;
                 visited[nei] = true;
-                st.push({nei, curNode});
+                st.push(nei);
             }
         }
         
