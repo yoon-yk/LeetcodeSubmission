@@ -18,11 +18,11 @@ public:
         return false;
     }
     
-    bool isInRange(int idx, int i, int j, vector<vector<char>>& board, vector<vector<int>> &visited, string &word) {
+    inline bool isInRange(int idx, int i, int j, vector<vector<char>>& board, vector<vector<int>> &visited, string &word) {
         return (!(i < 0 || j < 0 || i >= board.size() || j >= board[0].size() || visited[i][j] || word[idx] != board[i][j]));
     }
     
-    bool backtrack(int idx, int i, int j, vector<vector<char>>& board, vector<vector<int>> &visited, string& word){
+    inline bool backtrack(int idx, int i, int j, vector<vector<char>>& board, vector<vector<int>> &visited, string& word){
         
         if (idx == word.size())
             return true;
