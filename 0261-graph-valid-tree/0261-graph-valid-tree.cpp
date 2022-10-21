@@ -1,35 +1,34 @@
 class Solution {
 public:
+    int find(int idx, vector<int> &parent){
+        if (parent[idx] == idx)
+            return idx;
+        return parent[idx] = find(parent[idx], parent);
+    }
+    
+    bool wasConnected (int n1, int n2, vector<int>& parent) {
+        int p1 = find(n1, parent);
+        int p2 = find(n2, parent);
+        parent[p1] = p2;
+        return (p1 == p2);
+    }
+    
     bool validTree(int n, vector<vector<int>>& edges) {
+        // no cycle
+        // just one component
         
         if (edges.size() != (n-1)) return false;
         
-        stack<int> st;
-        vector<vector<int>> adjList(n);
-        vector<bool> visited(n, false);
-        
-        for (auto& e : edges){
-            adjList[e[0]].push_back(e[1]);
-            adjList[e[1]].push_back(e[0]);
-        }
+        vector<int> parent (n);
+        for (int i=0; i<n; i++) 
+            parent[i] = i;
         
         int cnt = n;
-        st.push(0);
-        visited[0] = true;
-        
-        while (!st.empty()) {
-
-            auto cur = st.top(); st.pop();
-            cnt --;
-
-            for (int& nei : adjList[cur]) {
-                if (visited[nei]) continue;
-                visited[nei] = true;
-                st.push(nei);
-            }
+        for (auto & e : edges) {
+            if (wasConnected(e[0], e[1], parent))
+                return false;
         }
         
-        return (cnt == 0);
-    }    
-            
+        return true;
+    }
 };
