@@ -13,9 +13,6 @@ public:
             }
         }
         
-        for (int i=0; i<n; i++)
-            cout << bits[i] << endl;
-        
         vector<unordered_map<int, int>> dp(n);
         return backtrack(arr, bits, 0, 0, dp);
     }
