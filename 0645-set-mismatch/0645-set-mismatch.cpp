@@ -1,14 +1,15 @@
 class Solution {
 public:
 vector<int> findErrorNums(vector<int>& nums) {
-        for (int i = 0; i<nums.size(); i++){
-            while (nums[i] != nums[nums[i] - 1])
-                swap(nums[i], nums[nums[i] - 1]);
+        int n = nums.size();
+        vector<int> count(n);
+        vector<int> ans = {0,0};
+        for(int i = 0; i < n; i++) {
+            if (++count[nums[i]-1] == 2)
+                ans[0] = nums[i];
+            ans[1] ^= (i+1) ^ nums[i];
         }
-        for (int i = 0; i<nums.size() ; i++){
-            if (nums[i] != i + 1) 
-                return {nums[i], i + 1};
-        }
-        return {};
+        ans[1] ^= ans[0];
+        return ans;
     }
 };
