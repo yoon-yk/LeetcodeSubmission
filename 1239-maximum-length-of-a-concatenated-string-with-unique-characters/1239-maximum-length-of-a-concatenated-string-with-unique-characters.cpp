@@ -6,7 +6,7 @@ public:
         int best = 0;
         
         // Check each string in arr and find the best length
-        for (string word : arr) 
+        for (string& word : arr) 
             best = max(best, addWord(word, results));
         return best;
     }
