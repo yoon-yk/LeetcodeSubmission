@@ -8,7 +8,7 @@ public:
         string modified_str;
         for (int i=0; i<26; i++) {
             modified_str += to_string(cnt[i]);
-            modified_str += '/';
+            modified_str += ' ';
         }
         return modified_str;
     }
