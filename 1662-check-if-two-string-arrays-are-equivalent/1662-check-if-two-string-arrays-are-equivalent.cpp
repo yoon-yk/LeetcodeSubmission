@@ -23,8 +23,7 @@ public:
             
         }
         
-        if (w1Idx<word1.size() || w2Idx< word2.size() ||
-            c1Idx || c2Idx) return false;
+        if (w1Idx<word1.size() || w2Idx< word2.size()) return false;
         
         return true;
     }
