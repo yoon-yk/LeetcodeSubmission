@@ -5,7 +5,7 @@ public:
         int res = 0;
         for (auto& s : A) {
             bitset<26> a;
-            for (char c : s)
+            for (char &c : s)
                 a.set(c - 'a');
             int n = a.count();
             if (n < s.size()) continue;
