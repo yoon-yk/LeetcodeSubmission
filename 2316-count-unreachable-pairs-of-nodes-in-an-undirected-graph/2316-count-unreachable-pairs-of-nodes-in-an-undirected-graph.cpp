@@ -43,16 +43,8 @@ public:
         for (int i=0; i<n; i++) {
             if (size[i] == 0) continue;
             ans += (size[i] * (n-size[i]));
-            // n -= size[i];
         }
 
-        // for (int i=0; i<n; i++) {
-        //     for (int j=i; j<n; j++) {
-        //         if (find(i) != find(j))
-        //             ans++;
-        //     }
-        // }
-        
         return ans >> 1;
     }
 };
