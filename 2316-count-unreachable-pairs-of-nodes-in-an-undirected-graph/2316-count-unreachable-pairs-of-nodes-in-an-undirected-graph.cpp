@@ -1,47 +1,38 @@
 class Solution {
 public:
-    vector<int> arr;
-    vector<int> size;
-    
-    int find(int x) {
-        if (arr[x] == x)
-            return x;
-        return arr[x] = find(arr[x]);
-    }
-    
-    void unionn(int a, int b) {
-        int ap = find(a);
-        int bp = find(b);
-        
-        if (ap == bp) // already united
-            return;
-        
-        if (size[ap] < size[bp]) {
-            arr[ap] = bp;
-            size[bp] += size[ap];
-            size[ap] = 0;
-        } else {
-            arr[bp] = ap;
-            size[ap] += size[bp];
-            size[bp] = 0;
-        }
-    }
-    
     long long countPairs(int n, vector<vector<int>>& edges) {
-        arr.resize(n), size.resize(n, 1);
-        for (int i=0; i<n; i++) arr[i] = i;
-        
-        for (auto & e : edges) 
-            unionn(e[0], e[1]);
-        
-        long long ans = 0;
-        int rest = n;
-        for (int i=0; i<n; i++) {
-            if (size[i] == 0) continue;
-            rest -= size[i];
-            ans += ((long long)size[i] * rest);
+        vector<vector<int>> adjList(n);
+        for (auto & e : edges){
+            adjList[e[0]].push_back(e[1]);
+            adjList[e[1]].push_back(e[0]);
         }
-
+        
+        int rest = n;
+        long long ans;
+        queue<int> Q;
+        vector<bool> visited(n, false);
+        for (int i=0; i<n; i++) {
+            if (!visited[i]) {
+                Q.push(i);
+                int cnt = 0 ;
+                visited[i] = true;
+                
+                while (!Q.empty()) {
+                    int cur = Q.front(); Q.pop();
+                    cnt ++;
+                    for (auto & nei : adjList[cur]) {
+                        if (!visited[nei]) {
+                            Q.push(nei);
+                            visited[nei] = true;
+                        }
+                    }
+                }
+                
+                rest -= cnt;
+                ans += ((long long)cnt * rest);
+            }
+        }
+        
         return ans;
     }
 };
