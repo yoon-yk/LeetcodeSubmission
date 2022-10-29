@@ -1,23 +1,34 @@
 class Solution {
 public:
-      int largestOverlap(vector<vector<int>>& A, vector<vector<int>>& B) {
-        vector<int> LA, LB;
-        int N = A.size();
-        unordered_map<int, int> count;
-        for (int i = 0; i < N; ++i)
-            for (int j = 0; j<N; ++j){
-                if (A[i][j])
-                    LA.push_back(i*100+j); 
-                if (B[i][j])
-                    LB.push_back(i*100+j);
+    int shiftAndCount(int xShift, int yShift, vector<vector<int>>& M, vector<vector<int>>& R) {
+        int leftShiftCount = 0, rightShiftCount = 0;
+        int rRow = 0;
+        
+        for (int mRow = yShift; mRow < M.size(); ++mRow) {
+            int rCol = 0;
+            for (int mCol = xShift; mCol < M.size(); ++mCol) {
+                if (M[mRow][mCol] && (M[mRow][mCol] == R[rRow][rCol]))
+                    leftShiftCount += 1;
+                if (M[mRow][rCol] && (M[mRow][rCol] == R[rRow][mCol]))
+                    rightShiftCount += 1;
+                rCol += 1;
             }
-
-        for (int &i : LA) 
-            for (int &j : LB) 
-                count[i - j]++;
-        int res = 0;
-        for (auto &it : count) 
-            res = max(res, it.second);
-        return res;
+            rRow += 1;
+        }
+        return max(leftShiftCount, rightShiftCount);
+    }
+    
+    int largestOverlap(vector<vector<int>>& A, vector<vector<int>>& B) {
+        int maxOverlaps = 0;
+        
+        for (int yShift = 0; yShift < A.size(); ++yShift) {
+            for (int xShift = 0; xShift < A.size(); ++xShift) {
+                maxOverlaps = max(maxOverlaps, 
+                                  shiftAndCount(xShift, yShift, A, B));
+                maxOverlaps = max(maxOverlaps, 
+                                  shiftAndCount(xShift, yShift, B, A));
+            }  
+        }
+        return maxOverlaps;
     }
 };
