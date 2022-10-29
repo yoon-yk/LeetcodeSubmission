@@ -1,13 +1,12 @@
 class Solution {
 public:
     vector<int> arr;
-    vector<long long> size;
+    vector<int> size;
     
     int find(int x) {
         if (arr[x] == x)
             return x;
         return arr[x] = find(arr[x]);
-
     }
     
     void unionn(int a, int b) {
@@ -40,15 +39,9 @@ public:
         for (int i=0; i<n; i++) {
             if (size[i] == 0) continue;
             rest -= size[i];
-            ans += (size[i] * rest);
+            ans += ((long long)size[i] * rest);
         }
-        // 5+4+3+2+1 
-        
-        // 4 3 
-        // 2 1 
-        // 1*3 + 1*2 + 1*1  
-        return ans;
 
-        // return ans >> 1;
+        return ans;
     }
 };
