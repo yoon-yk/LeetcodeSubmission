@@ -10,12 +10,12 @@ public:
         return arr[x] = y;
     }
     
-    bool unionn(int a, int b) {
+    void unionn(int a, int b) {
         int ap = find(a);
         int bp = find(b);
         
         if (ap == bp) // already united
-            return false;
+            return;
         
         if (size[ap] < size[bp]) {
             arr[ap] = bp;
@@ -26,17 +26,14 @@ public:
             size[ap] += size[bp];
             size[bp] = 0;
         }
-        return true;
     }
     
     long long countPairs(int n, vector<vector<int>>& edges) {
         arr.resize(n), size.resize(n, 1);
         for (int i=0; i<n; i++) arr[i] = i;
         
-        int cnt = n;
         for (auto & e : edges) {
-            if (unionn(e[0], e[1]))
-                cnt--;
+            unionn(e[0], e[1]);
         }
         
         long long ans = 0;
