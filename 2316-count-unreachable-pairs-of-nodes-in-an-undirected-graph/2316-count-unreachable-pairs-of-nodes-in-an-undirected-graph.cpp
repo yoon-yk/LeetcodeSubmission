@@ -4,10 +4,10 @@ public:
     vector<long long> size;
     
     int find(int x) {
-        int y = arr[x];
-        if (y != x)
-            y = find(arr[x]);
-        return arr[x] = y;
+        if (arr[x] == x)
+            return x;
+        return arr[x] = find(arr[x]);
+
     }
     
     void unionn(int a, int b) {
@@ -32,9 +32,8 @@ public:
         arr.resize(n), size.resize(n, 1);
         for (int i=0; i<n; i++) arr[i] = i;
         
-        for (auto & e : edges) {
+        for (auto & e : edges) 
             unionn(e[0], e[1]);
-        }
         
         long long ans = 0;
         for (int i=0; i<n; i++) {
