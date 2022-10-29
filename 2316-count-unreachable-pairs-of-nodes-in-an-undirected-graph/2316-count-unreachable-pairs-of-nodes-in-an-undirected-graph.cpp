@@ -1,28 +1,54 @@
 class Solution {
 public:
-    typedef long long ll;
-    void dfs(int node, unordered_map<int,vector<int>>& m, ll& cnt, vector<int>& vis){
-        vis[node] = 1;
-        cnt++;
-        for(auto& i: m[node]){
-            if(vis[i]==0) dfs(i,m,cnt,vis);   
+    vector<int> arr;
+    vector<long long> size;
+    
+    int find(int x) {
+        if (arr[x] == x)
+            return x;
+        return arr[x] = find(arr[x]);
+
+    }
+    
+    void unionn(int a, int b) {
+        int ap = find(a);
+        int bp = find(b);
+        
+        if (ap == bp) // already united
+            return;
+        
+        if (size[ap] < size[bp]) {
+            arr[ap] = bp;
+            size[bp] += size[ap];
+            size[ap] = 0;
+        } else {
+            arr[bp] = ap;
+            size[ap] += size[bp];
+            size[bp] = 0;
         }
     }
+    
     long long countPairs(int n, vector<vector<int>>& edges) {
-        unordered_map<int,vector<int>> m; // making adjacency list
-        for(int i=0;i<edges.size();i++){
-            m[edges[i][0]].push_back(edges[i][1]);
-            m[edges[i][1]].push_back(edges[i][0]);
+        arr.resize(n), size.resize(n, 1);
+        for (int i=0; i<n; i++) arr[i] = i;
+        
+        for (auto & e : edges) 
+            unionn(e[0], e[1]);
+        
+        long long ans = 0;
+        int rest = n;
+        for (int i=0; i<n; i++) {
+            if (size[i] == 0) continue;
+            rest -= size[i];
+            ans += (size[i] * rest);
         }
-        ll ans = ((ll)n*(n-1))/2;
-        vector<int> vis(n,0);
-        for(int i=0;i<n;i++){
-            if(vis[i]==0){ // as node is not visited, we find the no. of nodes in current component.
-                ll cnt = 0;
-                dfs(i,m,cnt,vis);
-                ans -= (cnt*(cnt-1))/2;
-            }
-        }
+        // 5+4+3+2+1 
+        
+        // 4 3 
+        // 2 1 
+        // 1*3 + 1*2 + 1*1  
         return ans;
+
+        // return ans >> 1;
     }
 };
