@@ -1,21 +1,11 @@
 class Solution {
 public:
     bool isToeplitzMatrix(vector<vector<int>>& matrix) {
-        for (int c=0; c<matrix[0].size(); c++) {
-            int curC = c, curR=0;
-            while (curR<matrix.size() && curC<matrix[0].size() && 
-                   matrix[curR][curC] == matrix[0][c]){
-                curR++, curC++;
+        for (int r=0; r<matrix.size(); r++) {
+            for (int c=0; c<matrix[0].size(); c++) {
+                if (r>0 && c>0 && matrix[r-1][c-1] != matrix[r][c])
+                    return false;
             }
-            if (curR<matrix.size() && curC<matrix[0].size()) return false;
-        }
-        for (int r=1; r<matrix.size(); r++) {
-            int curC = 0, curR=r;
-            while (curR<matrix.size() && curC<matrix[0].size() && 
-                   matrix[curR][curC] == matrix[r][0]){
-                curR++, curC++;
-            }
-            if (curR<matrix.size() && curC<matrix[0].size()) return false;
         }
         return true;
     }
