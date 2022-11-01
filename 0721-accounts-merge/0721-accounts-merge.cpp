@@ -1,92 +1,59 @@
-class DSU {
-public:
-    vector<int> representative;
-    vector<int> size;
-    
-    DSU(int sz) : representative(sz), size(sz) {
-        for (int i = 0; i < sz; ++i) {
-            // Initially each group is its own representative
-            representative[i] = i;
-            // Intialize the size of all groups to 1
-            size[i] = 1;
-        }
-    }
-    
-    // Finds the representative of group x
-    int findRepresentative(int x) {
-        if (x == representative[x]) {
-            return x;
-        }
-        
-        // This is path compression
-        return representative[x] = findRepresentative(representative[x]);
-    }
-    
-    // Unite the group that contains "a" with the group that contains "b"
-    void unionBySize(int a, int b) {
-        int representativeA = findRepresentative(a);
-        int representativeB = findRepresentative(b);
-        
-        // If nodes a and b already belong to the same group, do nothing.
-        if (representativeA == representativeB) {
-            return;
-        }
-        
-        // Union by size: point the representative of the smaller
-        // group to the representative of the larger group.
-        if (size[representativeA] >= size[representativeB]) {
-            size[representativeA] += size[representativeB];
-            representative[representativeB] = representativeA;
-        } else {
-            size[representativeB] += size[representativeA];
-            representative[representativeA] = representativeB;
-        }
-    }
-};
-
 class Solution {
 public:
-    vector<vector<string>> accountsMerge(vector<vector<string>>& accountList) {
-        int accountListSize = accountList.size();
-        DSU dsu(accountListSize);
-        
-        // Maps email to their component index
-        unordered_map<string, int> emailGroup;
-        
-        for (int i = 0; i < accountListSize; i++) {
-            int accountSize = accountList[i].size();
-
-            for (int j = 1; j < accountSize; j++) {
-                string email = accountList[i][j];
-                string accountName = accountList[i][0];
-                
-                // If this is the first time seeing this email then
-                // assign component group as the account index
-                if (emailGroup.find(email) == emailGroup.end()) {
-                    emailGroup[email] = i;
-                } else {
-                    // If we have seen this email before then union this
-                    // group with the previous group of the email
-                    dsu.unionBySize(i, emailGroup[email]);
-                }
-            }
-        }
+    vector<int> size, parent;
     
-        // Store emails corresponding to the component's representative
-        unordered_map<int, vector<string>> components;
-        for (auto &[email, group] : emailGroup)
-            components[dsu.findRepresentative(group)].push_back(email);
+    int findd(int e) {
+        if (parent[e] == e) return e;
+        return parent[e] = findd(parent[e]);
+    }
+    
+    void unionn(int e1, int e2) {
+        cout << "e/" << e1 << " " << e2 << endl;
+        int p1 = findd(e1), p2 = findd(e2);
+        cout << "p/" << p1 << " " << p2 << endl;
 
-        // Sort the components and add the account name
-        vector<vector<string>> mergedAccounts;
-        for (auto& [group, emailList] : components) {
-            vector<string> component = {accountList[group][0]};
-            component.insert(component.end(), emailList.begin(), 
-                             emailList.end());
-            sort(component.begin() + 1, component.end());
-            mergedAccounts.push_back(component);
+        if (p1 == p2) return;
+        if (size[p1] > size[p2]) {
+            size[p1] += size[p2];
+            parent[p2] = p1;
+        } else {
+            size[p2] += size[p1];
+            parent[p1] = p2;   
         }
+    }
+    
+    vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) {
         
-        return mergedAccounts;
+        int n = accounts.size();
+        size.resize(n, 1);
+        parent.resize(n);
+        
+        for (int i=0; i<n; i++) parent[i] = i;
+        
+        int cnt = 0;
+        unordered_map<string, int> mp;
+        for (auto & acc : accounts) {
+            for (int j=1; j<acc.size(); j++) {
+                if (mp.count(acc[j])) 
+                    unionn(cnt, mp[acc[j]]);
+                else mp[acc[j]] = cnt;
+            }
+            cnt++;
+        }
+
+        
+        map<int, set<string>> sorted;
+        for (int i=0; i<accounts.size(); i++)
+            for (int j=1; j<accounts[i].size(); j++)
+                sorted[findd(parent[i])].insert(accounts[i][j]);
+        
+        vector<vector<string>> ans;
+        for (auto& [idx, sett] : sorted){
+            ans.push_back({accounts[idx][0]});
+            for (auto & mails : sett)
+                ans.back().push_back(mails);  
+        }
+
+        return ans;
     }
 };
