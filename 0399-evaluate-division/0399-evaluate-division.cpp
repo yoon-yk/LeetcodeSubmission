@@ -1,71 +1,51 @@
 class Solution {
 public:
     vector<double> calcEquation(vector<vector<string>>& equations, vector<double>& values, vector<vector<string>>& queries) {
-        unordered_map<string, pair<string, double>> gidWeight;
-        
-        int idx = 0;
-        string dividend, divisor, dividendGid, divisorGid;
-        double quotient, dividendWeight, divisorWeight;
-        for (auto &equation : equations) {
-            dividend = equation[0], divisor = equation[1];
-            quotient = values[idx];
-            unionn (gidWeight, dividend, divisor, quotient);
-            idx++;
+        unordered_map<string, vector<pair<string, double>>> m;
+        for (int i = 0; i < equations.size(); i++)
+        {
+            m[equations[i][0]].push_back(pair(equations[i][1], values[i]));
+            m[equations[i][1]].push_back(pair(equations[i][0], 1.0 / values[i]));
         }
-        
-        idx=0;
-        vector<double>results(queries.size());
-        for (auto& query : queries) {
-            dividend = query[0], divisor = query[1];
-            
-            if (!gidWeight.count(dividend) || !gidWeight.count(divisor)) {
-                results[idx] = -1.0;
-            } else {
-                auto dividendEntry = find(gidWeight, dividend);
-                auto divisorEntry = find(gidWeight, divisor);
-                
-                dividendGid = dividendEntry.first,
-                divisorGid = divisorEntry.first;
-                dividendWeight = dividendEntry.second,
-                divisorWeight = divisorEntry.second;
-                
-                if (dividendGid!=divisorGid) 
-                    results[idx] = -1;
-                else results[idx] = dividendWeight / divisorWeight;
-
+        vector<double> ret;
+        for (auto& q : queries)
+        {
+            if (m.find(q[0]) == m.end() || m.find(q[1]) == m.end())
+            {
+                ret.push_back(-1.0);
+                continue;
+            }
+            if (q[0] == q[1])
+            {
+                ret.push_back(1.0);
+                continue;
             }
             
-            idx++;
+            unordered_set<string> visited;
+            visited.insert(q[0]);
+            queue<pair<string, double>> Q;
+            Q.push(pair(q[0], 1.0));
+            bool found = false;
+            while (!Q.empty())
+            {
+                string curr = Q.front().first;
+                double ratio = Q.front().second;
+                if (curr == q[1])
+                {
+                    ret.push_back(ratio);
+                    found = true;
+                    break;
+                }
+                Q.pop();
+                for (auto& x : m[curr])
+                {
+                    if (visited.find(x.first) != visited.end()) continue;
+                    Q.push(pair(x.first, ratio * x.second));
+                    visited.insert(x.first);
+                }
+            }
+            if (found == false) ret.push_back(-1.0);
         }
-        
-        return results;
-    }
-    
-    pair<string, double> find(unordered_map<string, pair<string, double>>& gidWeight, string nodeId) {
-        if (!gidWeight.count(nodeId))
-            gidWeight[nodeId] = pair<string, double>{nodeId, 1.0};
-        
-        auto entry = gidWeight[nodeId];
-        
-        if (entry.first != nodeId) {
-            auto newEntry = find(gidWeight, entry.first);
-            gidWeight[nodeId] = {newEntry.first, entry.second * newEntry.second};
-        }
-        
-        return gidWeight[nodeId];
-    }
-    
-    void unionn(unordered_map<string, pair<string, double>>& gidWeight, string dividend, string divisor, double value) {
-        auto dividendEntry = find(gidWeight, dividend);
-        auto divisorEntry = find(gidWeight, divisor);
-        
-        string dividendGid, divisorGid;
-        double dividendWeight, divisorWeight;
-        
-        dividendGid = dividendEntry.first, divisorGid = divisorEntry.first;
-        dividendWeight = dividendEntry.second, divisorWeight = divisorEntry.second;
-        
-        if (dividendGid!=divisorGid) 
-            gidWeight[dividendGid] = {divisorGid, divisorWeight*value/dividendWeight};
+        return ret;
     }
 };
