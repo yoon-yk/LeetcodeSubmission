@@ -2,12 +2,12 @@ class Solution {
 public:
     vector<int> size, parent;
     
-    int findd(int e) {
+    inline int findd(int e) {
         if (parent[e] == e) return e;
         return parent[e] = findd(parent[e]);
     }
     
-    void unionn(int e1, int e2) {
+    inline void unionn(int e1, int e2) {
         int p1 = findd(e1), p2 = findd(e2);
         if (p1 == p2) return;
         if (size[p1] > size[p2]) {
@@ -37,7 +37,6 @@ public:
             }
             cnt++;
         }
-
         
         map<int, set<string>> sorted;
         for (int i=0; i<accounts.size(); i++)
