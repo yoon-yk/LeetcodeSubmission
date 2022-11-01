@@ -8,10 +8,7 @@ public:
     }
     
     void unionn(int e1, int e2) {
-        cout << "e/" << e1 << " " << e2 << endl;
         int p1 = findd(e1), p2 = findd(e2);
-        cout << "p/" << p1 << " " << p2 << endl;
-
         if (p1 == p2) return;
         if (size[p1] > size[p2]) {
             size[p1] += size[p2];
