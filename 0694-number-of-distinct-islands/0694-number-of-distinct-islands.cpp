@@ -18,13 +18,12 @@ public:
             for (int j=0; j<n; j++) {
                 if (!grid[i][j] || visited[i][j]) continue;
                 visited[i][j] = true;
-                string curPath = to_string(5);
+                string curPath;
                 dfs(grid, i, j, curPath, visited);
                 visitedSet.insert(curPath);
             }
         }
 
-        
         return visitedSet.size();
     }
     
