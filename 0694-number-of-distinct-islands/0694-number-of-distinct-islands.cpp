@@ -19,25 +19,30 @@ public:
                 if (!grid[i][j] || visited[i][j]) continue;
                 visited[i][j] = true;
                 string curPath;
-                dfs(grid, i, j, curPath, visited);
+                dfs(grid, i, j, i, j, curPath, visited);
                 visitedSet.insert(curPath);
             }
         }
 
+        for (auto & c : visitedSet)
+            cout << c << endl;
+        
         return visitedSet.size();
     }
     
-    void dfs(vector<vector<int>>& grid, int i, int j, string& curPath, vector<vector<bool>>& visited) {
+    void dfs(vector<vector<int>>& grid, int i, int j, int origI, int origJ, string& curPath, vector<vector<bool>>& visited) {
         
         for (int d=0; d<4; d++) {
             int newI = i+dir[d], newJ = j+dir[d+1];
             if (isInRange(newI, newJ, m, n) && grid[newI][newJ] && !visited[newI][newJ]) {
                 visited[newI][newJ] = true;
-                curPath += to_string(d);
-                dfs(grid, newI, newJ, curPath, visited);
+                curPath += '/';
+                curPath += to_string(newI-origI);
+                curPath += '.';
+                curPath += to_string(newJ-origJ);
+                dfs(grid, newI, newJ, origI, origJ, curPath, visited);
             }
         }
-        curPath += '.';
 
     }
 };
