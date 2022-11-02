@@ -23,15 +23,13 @@ public:
                 visitedSet.insert(curPath);
             }
         }
-        // for (auto c : visitedSet)
-            // cout << c << endl;
+
         
         return visitedSet.size();
     }
     
     void dfs(vector<vector<int>>& grid, int i, int j, string& curPath, vector<vector<bool>>& visited) {
         
-        curPath += '.';
         for (int d=0; d<4; d++) {
             int newI = i+dir[d], newJ = j+dir[d+1];
             if (isInRange(newI, newJ, m, n) && grid[newI][newJ] && !visited[newI][newJ]) {
