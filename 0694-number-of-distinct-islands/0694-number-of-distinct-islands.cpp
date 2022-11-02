@@ -36,13 +36,11 @@ public:
             int newI = i+dir[d], newJ = j+dir[d+1];
             if (isInRange(newI, newJ, m, n) && grid[newI][newJ] && !visited[newI][newJ]) {
                 visited[newI][newJ] = true;
-                curPath += '/';
-                curPath += to_string(newI-origI);
-                curPath += '.';
-                curPath += to_string(newJ-origJ);
+                curPath += to_string(((newI-origI)*100)+(newJ-origJ));
                 dfs(grid, newI, newJ, origI, origJ, curPath, visited);
             }
         }
-
+        
+        // curPath += '.';
     }
 };
