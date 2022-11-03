@@ -1,6 +1,7 @@
 class Trie {
 public :
     Trie* next[26] = {};
+    int wordIdx;
     bool isWord;
     bool isInserted;
     
@@ -9,7 +10,7 @@ public :
         isInserted = false;
     }
     
-    void insertWord(string &word) {
+    void insertWord(int idx, string &word) {
         int c;
         Trie* curNode = this;
         for (int i=0; i<word.size(); i++) {
@@ -18,6 +19,7 @@ public :
             curNode = curNode->next[c];
         }
         curNode->isWord = true;
+        curNode->wordIdx = idx;
     }
 };
 
@@ -30,8 +32,8 @@ public:
         Trie* root = new Trie();
         
         // Trie에 주어진 Words 다 추가해놓기 
-        for (string& word : words) {
-            root->insertWord(word);
+        for (int i=0; i<words.size(); i++) {
+            root->insertWord(i, words[i]);
         }
         
         vector<vector<bool>> visited(board.size(), vector<bool>(board[0].size(), false));
@@ -46,7 +48,7 @@ public:
                 curNode = root->next[board[r][c]-'a'];
                 curStr += board[r][c];
                 visited[r][c] = true;
-                explore (board, visited, r, c, curNode, curStr, ans);
+                explore (board, visited, words, r, c, curNode, curStr, ans);
                 visited[r][c] = false;
                 curStr.pop_back();
             }
@@ -63,11 +65,11 @@ public:
         return true;
     }
     
-    void explore (vector<vector<char>>& board, vector<vector<bool>>& visited, int r, int c, Trie* curNode, string& curStr, vector<string>& ans) {
+    void explore (vector<vector<char>>& board, vector<vector<bool>>& visited, vector<string>& words, int r, int c, Trie* curNode, string& curStr, vector<string>& ans) {
     
         Trie* root = curNode;
         if (root->isWord && !root->isInserted) {
-            ans.push_back(curStr);
+            ans.push_back(words[root->wordIdx]);
             root->isInserted = true;
         }
             
@@ -80,7 +82,7 @@ public:
             if (!visited[newR][newC] && nextRoot) {
                 visited[newR][newC] = true;
                 curStr += board[newR][newC];
-                explore (board, visited, newR, newC, nextRoot, curStr, ans);
+                explore (board, visited, words, newR, newC, nextRoot, curStr, ans);
                 curStr.pop_back();
                 visited[newR][newC] = false;
             }
