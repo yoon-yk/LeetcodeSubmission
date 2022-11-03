@@ -4,7 +4,7 @@ public:
 
     void insert(string word) {
         Trie* node = this;
-        for (char ch : word) {
+        for (char& ch : word) {
             ch -= 'a';
             if (!node->next[ch]) { node->next[ch] = new Trie(); }
             node = node->next[ch];
@@ -14,7 +14,7 @@ public:
 
     bool search(string word) {
         Trie* node = this;
-        for (char ch : word) {
+        for (char& ch : word) {
             ch -= 'a';
             if (!node->next[ch]) { return false; }
             node = node->next[ch];
@@ -24,7 +24,7 @@ public:
 
     bool startsWith(string prefix) {
         Trie* node = this;
-        for (char ch : prefix) {
+        for (char& ch : prefix) {
             ch -= 'a';
             if (!node->next[ch]) { return false; }
             node = node->next[ch];
