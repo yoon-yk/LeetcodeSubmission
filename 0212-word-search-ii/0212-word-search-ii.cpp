@@ -9,22 +9,6 @@ public :
         isInserted = false;
     }
     
-    void printWord(Trie* curNode, string& fullWord){
-        
-        Trie* root = curNode;
-        
-        if (root->isWord)
-            cout << fullWord << endl;
-        
-        for (int i=0; i<26; i++) {
-            if (root->next[i]) {
-                fullWord += (char)(i+'a');
-                printWord(root->next[i], fullWord);
-                fullWord.pop_back();
-            }
-        }
-    }
-    
     void insertWord(string &word) {
         int c;
         Trie* curNode = this;
