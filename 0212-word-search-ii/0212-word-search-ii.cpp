@@ -46,11 +46,9 @@ public:
             for (int c=0; c<m; c++) {
                 if (!root->next[board[r][c]-'a']) continue;
                 curNode = root->next[board[r][c]-'a'];
-                curStr += board[r][c];
                 visited[r][c] = true;
-                explore (board, visited, words, r, c, curNode, curStr, ans);
+                explore (board, visited, words, r, c, curNode, ans);
                 visited[r][c] = false;
-                curStr.pop_back();
             }
         }
         
@@ -65,7 +63,7 @@ public:
         return true;
     }
     
-    void explore (vector<vector<char>>& board, vector<vector<bool>>& visited, vector<string>& words, int r, int c, Trie* curNode, string& curStr, vector<string>& ans) {
+    void explore (vector<vector<char>>& board, vector<vector<bool>>& visited, vector<string>& words, int r, int c, Trie* curNode, vector<string>& ans) {
     
         Trie* root = curNode;
         if (root->isWord && !root->isInserted) {
@@ -81,9 +79,7 @@ public:
             nextRoot = root->next[board[newR][newC]-'a'];
             if (!visited[newR][newC] && nextRoot) {
                 visited[newR][newC] = true;
-                curStr += board[newR][newC];
-                explore (board, visited, words, newR, newC, nextRoot, curStr, ans);
-                curStr.pop_back();
+                explore (board, visited, words, newR, newC, nextRoot, ans);
                 visited[newR][newC] = false;
             }
         }
