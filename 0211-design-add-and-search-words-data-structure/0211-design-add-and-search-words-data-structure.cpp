@@ -1,72 +1,53 @@
-class Trie {
-private:
-    Trie* next[26] = {};
-    bool isWord;
-public :
-    Trie(){
-        isWord = false;
-    }
-    
-    void insertWord (string& word) {
-        Trie* curNode = this;
-        int c;
-        for (char & ch : word) {
-            c = ch-'a';
-            if (!curNode->next[c]) 
-                curNode->next[c] = new Trie();
-            curNode = curNode->next[c];
-        }
-        curNode->isWord = true;
-    }
-    
-    bool search(Trie* root, string& word, int idx) {
-        Trie* curNode = root;
-        int c;
-        bool ans = false;
-        
-        for (int i=idx; i<word.size(); i++) {
-            char ch = word[i];
-            
-            if (ch == '.') {
-                for (int j=0; j<26; j++)
-                    if (curNode->next[j] && search(curNode->next[j], word, i+1))
-                        return true;
-                return false;
-            } else {
-                c = ch-'a';
-                if (!curNode->next[c]) return false;
-                curNode = curNode->next[c];                
-            }
-        }
-        return curNode->isWord;
-    }
-    
-    
-    bool searchWord (string& word) {
-        return search(this, word, 0);
+class TrieNode {
+public:
+    bool word;
+    TrieNode* children[26];
+    TrieNode() {
+        word = false;
+        memset(children, NULL, sizeof(children));
     }
 };
 
 class WordDictionary {
-private:
-    Trie* root;
 public:
+    /** Initialize your data structure here. */
     WordDictionary() {
-        root = new Trie();
+        
     }
     
+    /** Adds a word into the data structure. */
     void addWord(string word) {
-        root->insertWord(word);
+        TrieNode* node = root;
+        for (char c : word) {
+            if (!node -> children[c - 'a']) {
+                node -> children[c - 'a'] = new TrieNode();
+            }
+            node = node -> children[c - 'a'];
+        }
+        node -> word = true;
     }
     
+    /** Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter. */
     bool search(string word) {
-        return root->searchWord(word);
+        return search(word.c_str(), root);
+    }
+private:
+    TrieNode* root = new TrieNode();
+    
+    bool search(const char* word, TrieNode* node) {
+        for (int i = 0; word[i] && node; i++) {
+            if (word[i] != '.') {
+                node = node -> children[word[i] - 'a'];
+            } else {
+                TrieNode* tmp = node;
+                for (int j = 0; j < 26; j++) {
+                    node = tmp -> children[j];
+                    if (search(word + i + 1, node)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return node && node -> word;
     }
 };
-
-/**
- * Your WordDictionary object will be instantiated and called as such:
- * WordDictionary* obj = new WordDictionary();
- * obj->addWord(word);
- * bool param_2 = obj->search(word);
- */
