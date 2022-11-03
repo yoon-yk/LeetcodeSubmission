@@ -10,19 +10,6 @@ public :
         isInserted = false;
     }
     
-    ~Trie() {
-        delTree(this);
-    }
-
-    void delTree( Trie *root )
-    {
-        for ( int i = 0; i < 26; ++i )
-            if (root->next[i]) 
-                delTree(root->next[i]);
-        free(root);
-    }
-    
-    
     void insertWord(int idx, string &word) {
         int c;
         Trie* curNode = this;
@@ -45,8 +32,9 @@ public:
         Trie* root = new Trie();
         
         // Trie에 주어진 Words 다 추가해놓기 
-        for (int i=0; i<words.size(); i++) {
-            root->insertWord(i, words[i]);
+        int idx = 0;
+        for (auto &word : words) {
+            root->insertWord(idx++, word);
         }
         
         vector<vector<bool>> visited(board.size(), vector<bool>(board[0].size(), false));
