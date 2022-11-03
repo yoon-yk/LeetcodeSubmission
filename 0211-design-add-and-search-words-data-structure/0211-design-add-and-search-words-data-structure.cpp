@@ -7,7 +7,7 @@ public :
         isWord = false;
     }
     
-    void insertWord (string word) {
+    void insertWord (string& word) {
         Trie* curNode = this;
         int c;
         for (char & ch : word) {
@@ -29,9 +29,8 @@ public :
             
             if (ch == '.') {
                 for (int j=0; !ans && j<26; j++) {
-                    if (curNode->next[j]) {
+                    if (curNode->next[j])
                         ans |= search(curNode->next[j], word, i+1);
-                    }
                 }
                 return ans;
             } else {
@@ -44,7 +43,7 @@ public :
     }
     
     
-    bool searchWord (string word) {
+    bool searchWord (string& word) {
         return search(this, word, 0);
     }
 };
