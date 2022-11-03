@@ -28,11 +28,10 @@ public :
             char ch = word[i];
             
             if (ch == '.') {
-                for (int j=0; !ans && j<26; j++) {
-                    if (curNode->next[j])
-                        ans |= search(curNode->next[j], word, i+1);
-                }
-                return ans;
+                for (int j=0; j<26; j++)
+                    if (curNode->next[j] && search(curNode->next[j], word, i+1))
+                        return true;
+                return false;
             } else {
                 c = ch-'a';
                 if (!curNode->next[c]) return false;
