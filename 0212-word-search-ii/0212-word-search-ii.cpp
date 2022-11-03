@@ -10,6 +10,19 @@ public :
         isInserted = false;
     }
     
+    ~Trie() {
+        delTree(this);
+    }
+
+    void delTree( Trie *root )
+    {
+        for ( int i = 0; i < 26; ++i )
+            if (root->next[i]) 
+                delTree(root->next[i]);
+        free(root);
+    }
+    
+    
     void insertWord(int idx, string &word) {
         int c;
         Trie* curNode = this;
