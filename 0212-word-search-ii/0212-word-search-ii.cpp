@@ -47,7 +47,7 @@ public:
                 if (!root->next[board[r][c]-'a']) continue;
                 curNode = root->next[board[r][c]-'a'];
                 visited[r][c] = true;
-                explore (board, visited, words, r, c, curNode, ans);
+                backtrack (board, visited, words, r, c, curNode, ans);
                 visited[r][c] = false;
             }
         }
@@ -63,7 +63,7 @@ public:
         return true;
     }
     
-    void explore (vector<vector<char>>& board, vector<vector<bool>>& visited, vector<string>& words, int r, int c, Trie* curNode, vector<string>& ans) {
+    void backtrack (vector<vector<char>>& board, vector<vector<bool>>& visited, vector<string>& words, int r, int c, Trie* curNode, vector<string>& ans) {
     
         Trie* root = curNode;
         if (root->isWord && !root->isInserted) {
@@ -75,11 +75,11 @@ public:
         Trie* nextRoot;
         for (int d=0; d<4; d++) {
             newR = r+dir[d], newC = c+dir[d+1];
-            if (!isRangeValid(board, newR, newC)) continue;
+            if (!isRangeValid(board, newR, newC) || visited[newR][newC]) continue;
             nextRoot = root->next[board[newR][newC]-'a'];
-            if (!visited[newR][newC] && nextRoot) {
+            if (nextRoot) {
                 visited[newR][newC] = true;
-                explore (board, visited, words, newR, newC, nextRoot, ans);
+                backtrack (board, visited, words, newR, newC, nextRoot, ans);
                 visited[newR][newC] = false;
             }
         }
