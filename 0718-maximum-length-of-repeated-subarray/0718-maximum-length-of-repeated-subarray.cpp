@@ -9,9 +9,8 @@ public:
             for (int j=len2-1; j>=0; j--) {
                 if (nums1[i] == nums2[j]) {
                     cur[j] = prev[j+1] + 1;
-                    if (maxVal < cur[j] ) {
+                    if (maxVal < cur[j] ) 
                         maxVal = cur[j];
-                    }
                 } else cur[j] = 0;
             }
             cur.swap(prev);
