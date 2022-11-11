@@ -25,7 +25,7 @@ public:
         
         int numE = connections.size();
         
-        if (n-1 > numE) return -1;
+        // if (n-1 > numE) return -1;
         
         int redundN = 0;
         int numOfComp = n;
@@ -33,14 +33,18 @@ public:
         for (int i=0; i<n; i++) parent[i] = i;
         
         for (auto & c : connections) {
-            int p1 = find(c[0]), p2 = find(c[1]);
-            if (p1 != p2) {
-                parent[p1] = p2;
+            if (find(c[0]) == find(c[1])) {
+                redundN ++;
+            } else {
+                unionn(c[0], c[1]);
                 numOfComp --;
             }
         }
-
-        return (numOfComp -1);
+        
+        // cout << redundN << " " << numOfComp << endl;
+        if (redundN < (numOfComp - 1))
+            return -1;
+        else return (numOfComp -1);
         
     }
 };
