@@ -33,17 +33,14 @@ public:
         for (int i=0; i<n; i++) parent[i] = i;
         
         for (auto & c : connections) {
-            if (find(c[0]) != find(c[1])) {
-                unionn(c[0], c[1]);
+            int p1 = find(c[0]), p2 = find(c[1]);
+            if (p1 != p2) {
+                parent[p1] = p2;
                 numOfComp --;
             }
         }
-        
-        // cout << redundN << " " << numOfComp << endl;
-        // if (redundN < (numOfComp - 1))
-        //     return -1;
-        // else 
-            return (numOfComp -1);
+
+        return (numOfComp -1);
         
     }
 };
