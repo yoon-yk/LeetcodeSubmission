@@ -14,7 +14,8 @@ public:
     */
     
     int stringToMiniutes(vector<string>& timePoints, int idx) {
-        return stoi(timePoints[idx].substr(0, 2)) * 60 + stoi(timePoints[idx].substr(3, 2));
+        // return stoi(timePoints[idx].substr(0, 2)) * 60 + stoi(timePoints[idx].substr(3, 2));
+        return timePoints[idx][0] * 600 + timePoints[idx][1] * 60 + timePoints[idx][3] * 10 + timePoints[idx][4];
     }
     
     int getTimeDifference(vector<string>& timePoints, int left, int right) {
