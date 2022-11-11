@@ -1,5 +1,4 @@
 class Solution {
-private:
     void crush(vector<vector<int>>& board) {
         int m = board.size();
         int n = board[0].size();
