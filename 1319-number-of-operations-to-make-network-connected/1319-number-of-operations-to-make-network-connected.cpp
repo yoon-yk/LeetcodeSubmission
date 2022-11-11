@@ -42,9 +42,10 @@ public:
         }
         
         // cout << redundN << " " << numOfComp << endl;
-        if (redundN < (numOfComp - 1))
-            return -1;
-        else return (numOfComp -1);
+        // if (redundN < (numOfComp - 1))
+        //     return -1;
+        // else 
+            return (numOfComp -1);
         
     }
 };
