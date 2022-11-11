@@ -1,23 +1,13 @@
 class Solution {
 public:
-    bool checkStraightLine(vector<vector<int>>& coordinates) {
-        sort(coordinates.begin(), coordinates.end());
-        int n = coordinates.size();
-        
-        if (coordinates[1][0]-coordinates[0][0] == 0) {
-            for (int i=1; i<n-1; i++) {
-                if ((coordinates[i+1][0]-coordinates[i][0]) != 0)
-                    return false;
-            }
-        } else {
-            int s = (coordinates[1][1]-coordinates[0][1]) / (coordinates[1][0]-coordinates[0][0]);
-        for (int i=1; i<n-1; i++) {
-            if ((coordinates[i+1][0]-coordinates[i][0]) == 0) return false;
-            if (((coordinates[i+1][1]-coordinates[i][1]) / (coordinates[i+1][0]-coordinates[i][0])) != s) return false;
-        }
-        }
+    bool checkStraightLine(vector<vector<int>>& coor) {
+        int x = coor[1][0]-coor[0][0],
+            y = coor[1][1]-coor[0][1];
 
-        
+        for(int i = 2; i < coor.size(); i++){
+            if((coor[i][0]-coor[0][0]) * y !=  (coor[i][1]-coor[0][1]) * x)
+                return false;
+        }
         return true;
     }
 };
