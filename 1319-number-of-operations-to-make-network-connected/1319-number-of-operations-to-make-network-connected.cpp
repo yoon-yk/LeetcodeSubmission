@@ -33,9 +33,7 @@ public:
         for (int i=0; i<n; i++) parent[i] = i;
         
         for (auto & c : connections) {
-            if (find(c[0]) == find(c[1])) {
-                redundN ++;
-            } else {
+            if (find(c[0]) != find(c[1])) {
                 unionn(c[0], c[1]);
                 numOfComp --;
             }
