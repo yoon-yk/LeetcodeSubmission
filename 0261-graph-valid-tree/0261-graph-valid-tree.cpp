@@ -23,18 +23,18 @@ public:
         int p1, p2;
         for (auto& e : edges) {
             p1 = find(e[0]), p2 = find(e[1]);
-            if (p1 != p2) {
+            if (p1 == p2) 
+                return false;
+        
+            if (size[p1] > size[p2]) {
+                parent[p2] = p1;
+                size[p1] += size[p2];
+            } else {
+                parent[p1] = p2;
+                size[p2] += size[p1];
+            }
+            compN--;
 
-                if (size[p1] > size[p2]) {
-                    parent[p2] = p1;
-                    size[p1] += size[p2];
-                } else {
-                    parent[p1] = p2;
-                    size[p2] += size[p1];
-                }
-                compN--;
-                
-            } 
         }
         
         return (compN==1);
