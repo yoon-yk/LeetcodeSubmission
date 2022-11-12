@@ -3,18 +3,18 @@ public:
     
     void findNeighbor(int curIdx, vector<string>& wordList, unordered_map<string, int>& dict, unordered_set<int>& visited, vector<int>& ans) {
         
-            string word = wordList[curIdx];
-            for (int i=0; i<word.size(); i++){
-                char curCh = word[i];
-                for (int k=0; k<26; k++) {
-                    if (curCh == k+'a') continue;
-                    word[i] = k+'a';
-                    if (dict.count(word) && !visited.count(dict[word])) {
-                        ans.push_back(dict[word]);
-                    }
+        string& word = wordList[curIdx];
+        for (int i=0; i<word.size(); i++){
+            char curCh = word[i];
+            for (int k=0; k<26; k++) {
+                if (curCh == k+'a') continue;
+                word[i] = k+'a';
+                if (dict.count(word) && !visited.count(dict[word])) {
+                    ans.push_back(dict[word]);
                 }
-                word[i] = curCh;
             }
+            word[i] = curCh;
+        }
     }
     
     int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
