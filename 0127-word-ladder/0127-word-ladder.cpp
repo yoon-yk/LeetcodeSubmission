@@ -1,5 +1,22 @@
 class Solution {
 public:
+    
+    void findNeighbor(int curIdx, vector<string>& wordList, unordered_map<string, int>& dict, unordered_set<int>& visited, vector<int>& ans) {
+        
+            string word = wordList[curIdx];
+            for (int i=0; i<word.size(); i++){
+                char curCh = word[i];
+                for (int k=0; k<26; k++) {
+                    if (curCh == k+'a') continue;
+                    word[i] = k+'a';
+                    if (dict.count(word) && !visited.count(dict[word])) {
+                        ans.push_back(dict[word]);
+                    }
+                }
+                word[i] = curCh;
+            }
+    }
+    
     int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
         /*
         
@@ -17,26 +34,13 @@ public:
             dict[word] = idx++;
         }
         if (!dict.count(endWord)) return 0;
-        if (!dict.count(beginWord)) dict[beginWord] = idx++;
-        
-        vector<vector<int>> adjList(dict.size());
-        
-        
-        for (auto & [word, idx] : dict) {
-            string curWord = word;
-            for (int i=0; i<word.size(); i++){
-                char curCh = word[i];
-                for (int k=0; k<26; k++) {
-                    if (curCh == k+'a') continue;
-                    curWord[i] = k+'a';
-                    if (dict.count(curWord)) {
-                        adjList[idx].push_back(dict[curWord]);
-                    }
-                }
-                curWord[i] = curCh;
-            }
+        if (!dict.count(beginWord)) {
+            wordList.push_back(beginWord);
+            dict[beginWord] = idx++;
         }
-    
+        
+        // vector<vector<int>> adjList(dict.size());
+        
         unordered_set<int> visited;
         visited.insert(dict[beginWord]);
         queue<int> Q;
@@ -49,8 +53,10 @@ public:
             while (size--) {
                 auto cur = Q.front(); Q.pop();
                 
-                for (auto & nei : adjList[cur]) {
-                    if (visited.count(nei)) continue;
+                vector<int> adjList;
+                findNeighbor(cur, wordList, dict, visited, adjList);
+                
+                for (auto & nei : adjList) {
                     if (nei == targetIdx) return level+1;
                     Q.push(nei);
                     visited.insert(nei);
