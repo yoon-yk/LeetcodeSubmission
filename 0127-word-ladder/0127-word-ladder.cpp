@@ -21,9 +21,10 @@ public:
         
         vector<vector<int>> adjList(dict.size());
         
+        
         for (auto & [word, idx] : dict) {
+            string curWord = word;
             for (int i=0; i<word.size(); i++){
-                string curWord = word;
                 char curCh = word[i];
                 for (int k=0; k<26; k++) {
                     if (curCh == k+'a') continue;
@@ -32,6 +33,7 @@ public:
                         adjList[idx].push_back(dict[curWord]);
                     }
                 }
+                curWord[i] = curCh;
             }
         }
     
