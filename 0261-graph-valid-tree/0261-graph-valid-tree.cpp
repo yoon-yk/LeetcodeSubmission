@@ -19,7 +19,6 @@ public:
         size.resize(n, 1);
         for (int i=0; i<n; i++) parent[i] = i;
         
-        int compN = n;
         int p1, p2;
         for (auto& e : edges) {
             p1 = find(e[0]), p2 = find(e[1]);
@@ -33,10 +32,9 @@ public:
                 parent[p1] = p2;
                 size[p2] += size[p1];
             }
-            compN--;
 
         }
         
-        return (compN==1);
+        return true;
     }
 };
