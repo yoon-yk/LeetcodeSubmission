@@ -20,16 +20,13 @@ public:
             string& word1 = words[w];
             string& word2 = words[w+1];
             
-            
             int ptr1 = 0, ptr2 = 0;
             while (ptr1<word1.size() && ptr2 < word2.size() && word1[ptr1] == word2[ptr2]){
-                int firstCh = word1[ptr1]-'a', secondCh = word2[ptr2]-'a';
-                exist[firstCh] = true, exist[secondCh] = true;
                 ptr1++, ptr2++;
             } 
             
             if (ptr1 != word1.size() && ptr2 == word2.size()) return "";
-            else if (ptr1 == word1.size() || ptr2 == word2.size()) continue;
+            else if (ptr1 == word1.size()) continue;
 
             int firstCh = word1[ptr1]-'a', secondCh = word2[ptr2]-'a';
         
@@ -40,8 +37,7 @@ public:
         
         queue<int> Q;
         for (int i=0; i<26; i++) {
-            if (exist[i] && indeg[i] == 0)
-                Q.push(i);
+            if (exist[i] && indeg[i] == 0) Q.push(i);
         }
         
         string ans;
