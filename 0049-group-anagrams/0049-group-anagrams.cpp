@@ -1,30 +1,24 @@
 class Solution {
 public:
-    void hashString(int idx, vector<string>& strs, unordered_map<string, vector<int>>& mp) {
-        vector<int> cnt(26, 0);
-        for (auto& ch : strs[idx])
-            cnt[ch-'a']++;
-        
-        string modified_str;
-        for (int i=0; i<26; i++) {
-            modified_str += cnt[i];
-            modified_str += ' ';
-        }
-        mp[modified_str].push_back(idx);
-    }
-    
     vector<vector<string>> groupAnagrams(vector<string>& strs) {
-        int n = strs.size();
-        unordered_map<string, vector<int>> mp;
-        for (int i=0; i<n; i++) {
-            hashString(i, strs, mp);
+        unordered_map<string, vector<int>> hashM;
+        
+        int idx = 0;
+        for (auto & str : strs) {
+            string dup = str;
+            sort(dup.begin(), dup.end());
+            hashM[dup].push_back(idx++);
         }
         
+        idx = 0;
         vector<vector<string>> ans;
-        for (auto& [_, idxes]: mp) {
+        for (auto &[_, vec] : hashM) {
             ans.push_back({});
-            for (auto & idx : idxes) 
-                ans.back().push_back(strs[idx]);
+            for (auto & i : vec) {
+                // cout << strs[i] << endl;
+                ans[idx].push_back(strs[i]);
+            }
+            idx++;
         }
         
         return ans;
