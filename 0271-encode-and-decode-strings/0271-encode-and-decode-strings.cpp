@@ -9,20 +9,16 @@ public:
         string ret, sizeInfo;
         
         sizeInfo = to_string(strs.size());
-        sizeInfoLen = (sizeInfo).size();
+        sizeInfoLen = sizeInfo.size();
         zeroCnt = (int)(INFOSIZE-sizeInfoLen);
-        ret += string(zeroCnt, '0');
-        ret += sizeInfo;
+        ret += (string(zeroCnt, '0') + sizeInfo);
         
         for (auto & str : strs) {
             sizeInfo = to_string(str.size());
             sizeInfoLen = (sizeInfo).size();
             zeroCnt = (int)(INFOSIZE-sizeInfoLen);
-            ret += string(zeroCnt, '0');
-            ret += sizeInfo;
-            ret += str;
+            ret += (string(zeroCnt, '0') + sizeInfo + str);
         }
-        // cout << ret << endl;
         return ret;
     }
 
