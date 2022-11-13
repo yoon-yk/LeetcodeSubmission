@@ -11,11 +11,9 @@ public:
         stack<pair<int, int>> st;
         st.push({temp[0], 0});
         for (int i=1; i<n; i++) {
-            int cnt = 1;
             while (!st.empty() && temp[i] > st.top().first) {
                 int idx = st.top().second;
                 arr[idx] = i-idx;
-                cnt++;
                 st.pop();
             }
             st.push({temp[i], i});
