@@ -1,6 +1,6 @@
 class Codec {
 public:
-    int INFOSIZE = 5;
+    int INFOSIZE = 4;
     
     string& getZeroSize(int size, string& res) {
         
@@ -15,14 +15,11 @@ public:
     // Encodes a list of strings to a single string.
     string encode(vector<string>& strs) {
         
-        string ret;
-        
-        string res;
+        string ret, res;
         ret += getZeroSize(strs.size(), res);
         
-        for (auto & str : strs) {
+        for (auto & str : strs) 
             ret += getZeroSize(str.size(), res) + str;
-        }
         return ret;
     }
 
