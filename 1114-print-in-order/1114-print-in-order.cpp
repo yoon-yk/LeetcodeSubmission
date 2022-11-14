@@ -1,32 +1,34 @@
-#include <semaphore.h>
-
 class Foo {
-protected:
-    sem_t firstJobDone;
-    sem_t secondJobDone;
-    
+protected :
+    int state = 0;
 public:
     Foo() {
-        sem_init(&firstJobDone, 0, 0);
-        sem_init(&secondJobDone, 0, 0);
+        state = 1;
     }
 
     void first(function<void()> printFirst) {
         
+        // printFirst() outputs "first". Do not change or remove this line.
         printFirst();
-        sem_post(&firstJobDone);
+        state = 2;
     }
 
     void second(function<void()> printSecond) {
         
-        sem_wait(&firstJobDone);
+        // printSecond() outputs "second". Do not change or remove this line.
+        while (state != 2) {
+             std::this_thread::yield();
+        }
         printSecond();
-        sem_post(&secondJobDone);
+        state = 3;
     }
 
     void third(function<void()> printThird) {
         
-        sem_wait(&secondJobDone);
+        // printThird() outputs "third". Do not change or remove this line.
+        while (state != 3) {
+             std::this_thread::yield();
+        }
         printThird();
     }
 };
