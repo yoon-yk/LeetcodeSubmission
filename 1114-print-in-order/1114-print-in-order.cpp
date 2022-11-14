@@ -1,7 +1,7 @@
 #include <semaphore.h>
 
 class Foo {
-// protected:
+protected:
     sem_t firstJobDone;
     sem_t secondJobDone;
     
