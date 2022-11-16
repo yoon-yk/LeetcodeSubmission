@@ -1,60 +1,92 @@
 class FizzBuzz {
 private:
     int n;
-    int count;
+    int curN;
     mutex m;
-    condition_variable cv;
+    bool done;
+    condition_variable_any cv;
 
 public:
+    
     FizzBuzz(int n) {
         this->n = n;
-        this->count = 1;
+        this->curN = 1;
+        this->done = false;
     }
 
+    // printFizz() outputs "fizz".
     void fizz(function<void()> printFizz) {
+
         while (true) {
-            unique_lock<mutex> lock(m);
-            while (count <= n && (count % 3 != 0 || count % 5 == 0))
-                cv.wait(lock);
-            if (count > n) return;
+            lock_guard<mutex> lg(m);
+            while (!((curN%3==0) && (curN%5!=0)) && !done) cv.wait(m);
+            if (curN > n || done) {
+                done = true;
+                break;
+            }
             printFizz();
-            ++count;
+            // cout << "FIZZ" << endl;
+            curN++;
             cv.notify_all();
         }
+        cv.notify_all();
+
+
     }
 
+    // printBuzz() outputs "buzz".
     void buzz(function<void()> printBuzz) {
-        while (true) {
-            unique_lock<mutex> lock(m);
-            while (count <= n && (count % 5 != 0 || count % 3 == 0))
-                cv.wait(lock);
-            if (count > n) return;
+        
+        while (true){
+            lock_guard<mutex> lg(m);
+            while (!((curN%3!=0) && (curN%5==0)) && !done) cv.wait(m);
+            if (curN > n || done) {
+                done = true;
+                break;
+            }
             printBuzz();
-            ++count;
-            cv.notify_all();
+            // cout << "BUZZ" << endl;
+            curN++;
+            cv.notify_all(); 
         }
+        cv.notify_all();
+
+
     }
 
+    // printFizzBuzz() outputs "fizzbuzz".
 	void fizzbuzz(function<void()> printFizzBuzz) {
         while (true) {
-            unique_lock<mutex> lock(m);
-            while (count <= n && (count % 5 != 0 || count % 3 != 0))
-                cv.wait(lock);
-            if (count > n) return;
+            lock_guard<mutex> lg(m);
+            while (!((curN%3==0) && (curN%5==0)) && !done) cv.wait(m);
+            if (curN > n || done) {
+                done = true;
+                break;
+            }
             printFizzBuzz();
-            ++count;
-            cv.notify_all();
+            // cout << "FIZZBUZZ" << endl;
+            curN++;
+            cv.notify_all();            
         }
+        cv.notify_all();
+
     }
 
+    // printNumber(x) outputs "x", where x is an integer.
     void number(function<void(int)> printNumber) {
         while (true) {
-            unique_lock<mutex> lock(m);
-            while (count <= n && (count % 5 == 0 || count % 3 == 0))
-                cv.wait(lock);
-            if (count > n) return;
-            printNumber(count++);
+            lock_guard<mutex> lg(m);
+            while (!((curN%3!=0) && (curN%5!=0)) && !done) cv.wait(m);
+            if (curN > n || done) {
+                done = true;
+                break;
+            }            
+            printNumber(curN);
+            // cout << curN << endl;
+            curN++;
             cv.notify_all();
         }
+        cv.notify_all();
+
     }
 };
