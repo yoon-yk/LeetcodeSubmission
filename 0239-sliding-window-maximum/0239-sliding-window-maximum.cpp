@@ -9,7 +9,7 @@ public:
         for (int i=0; i<nums.size(); i++) {
 
             curN = nums[i];
-            while (!dq.empty() && (i-dq.front()+1) > k)
+            if (!dq.empty() && (i-dq.front()+1) > k)
                 dq.pop_front();
             while (!dq.empty() && nums[dq.back()] < curN)
                 dq.pop_back();
