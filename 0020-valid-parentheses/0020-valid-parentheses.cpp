@@ -6,16 +6,17 @@ public:
             if (ch == '[' || ch == '(' || ch == '{')
                 st.push(ch);
             else {
+                if (st.empty()) return false;
                 if (ch == ']') {
-                    if (!st.empty() && st.top() == '[')
+                    if (st.top() == '[')
                         st.pop();
                     else return false;
                 } else if (ch == '}') {
-                    if (!st.empty() && st.top() == '{')
+                    if (st.top() == '{')
                         st.pop();
                     else return false;
                 } else if (ch == ')') {
-                    if (!st.empty() && st.top() == '(')
+                    if (st.top() == '(')
                         st.pop();
                     else return false;
                 }
