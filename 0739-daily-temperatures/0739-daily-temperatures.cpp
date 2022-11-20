@@ -7,16 +7,20 @@ public:
         
         */
         
-        int dist, tp, n = temp.size();
+        int dist, currTp, n = temp.size(), hottest = 0;
         stack<int> st;
         vector<int> ans(n, 0);
-        for (int i=0; i<n; i++) {
-            tp = temp[i];
-            while (!st.empty() && temp[st.top()] < tp) {
-                ans[st.top()] = i-st.top();
-                st.pop();
+        for (int currDay=n-1; currDay>=0; currDay--) {
+            currTp = temp[currDay];
+            if (currTp >= hottest) {
+                hottest = currTp;
+            } else {
+                int days = 1;
+                while (temp[currDay + days] <= currTp) {
+                    days += ans[currDay + days];
+                }
+                ans[currDay] = days;
             }
-            st.push(i);
         }
         return ans;
     }
