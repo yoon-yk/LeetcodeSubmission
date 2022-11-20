@@ -2,13 +2,12 @@ class Solution {
 public:
 
     vector<int> maxSlidingWindow(vector<int>& nums, int k) {
-        int curN;
         deque<int> dq;
         vector<int> ans;
         
         for (int i=0; i<nums.size(); i++) {
 
-            if (!dq.empty() && (i-dq.front()+1) > k)
+            if (!dq.empty() && (i-k == dq.front()))
                 dq.pop_front();
             while (!dq.empty() && nums[dq.back()] < nums[i])
                 dq.pop_back();
