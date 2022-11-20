@@ -7,8 +7,7 @@ public:
         
         */
         
-        int dist, currTp, n = temp.size(), hottest = 0;
-        stack<int> st;
+        int currTp, n = temp.size(), hottest = 0;
         vector<int> ans(n, 0);
         for (int currDay=n-1; currDay>=0; currDay--) {
             currTp = temp[currDay];
