@@ -10,7 +10,7 @@ public:
         stack<int> st;
         for (int i=0; i<n; i++) {
             while (!st.empty() && nums2[st.top()] < nums2[i]) {
-                ans[st.top()] = i;
+                ans[st.top()] = nums2[i];
                 st.pop();
             }
             st.push(i);
@@ -19,7 +19,7 @@ public:
         vector<int> ret;
         for (int i : nums1) {
             if (ans[dict2[i]] > -1)
-                ret.push_back(nums2[ans[dict2[i]]]);
+                ret.push_back(ans[dict2[i]]);
             else ret.push_back(-1);
         }
         
