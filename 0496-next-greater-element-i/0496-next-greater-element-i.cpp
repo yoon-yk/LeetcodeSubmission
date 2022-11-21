@@ -17,11 +17,8 @@ public:
         }
         
         vector<int> ret;
-        for (int i : nums1) {
-            if (ans[dict2[i]] > -1)
-                ret.push_back(ans[dict2[i]]);
-            else ret.push_back(-1);
-        }
+        for (int i : nums1) 
+            ret.push_back(ans[dict2[i]]);
         
         return ret;
     }
