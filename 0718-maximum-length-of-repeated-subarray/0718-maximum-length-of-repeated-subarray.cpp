@@ -6,11 +6,6 @@ public:
         
         int maxLen = 0;
         backtrack(0, 0, nums1, nums2, dp, maxLen);
-        // for (int i=0; i<=n1; i++) {
-        //     for (int j=0; j<=n2; j++) 
-        //         printf("%2d ", dp[i][j]);
-        //     cout << endl;
-        // }
         
         return maxLen;
     }
@@ -26,11 +21,12 @@ public:
         int ans = 0;
         
         if (nums1[idx1] == nums2[idx2])
-            ans = max(ans, 1 + backtrack(idx1+1, idx2+1, nums1, nums2, dp, maxLen));
+            ans = 1 + backtrack(idx1+1, idx2+1, nums1, nums2, dp, maxLen);
         
         int skip1 = backtrack(idx1+1, idx2, nums1, nums2, dp, maxLen);
         int skip2 = backtrack(idx1, idx2+1, nums1, nums2, dp, maxLen);
         
+        // ans = max(ans, max(skip1, skip2));
         maxLen = max(maxLen, ans);
         return dp[idx1][idx2] = ans;
     }
