@@ -6,7 +6,7 @@ public:
     int kthSmallest(vector<vector<int>>& matrix, int k) {
         int ans = 0;
         priority_queue<pop, vector<pop>, greater<pop>> pq; 
-        for (int i=0; i<matrix.size(); i++) {
+        for (int i=0; i<min(k, (int)matrix.size()); i++) {
             pq.push({matrix[i][0],{i, 0}});
         }
         
