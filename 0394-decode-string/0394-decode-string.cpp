@@ -14,22 +14,16 @@ public:
                     st.pop();
                 }
                 st.pop();
-                // cout << ans << endl;
                 int cnt = cntSt.top(); cntSt.pop();
-                // cout << cnt << endl;
-                for (int i=0; i<cnt; i++) {
+                for (int i=0; i<cnt; i++)
                     finalStr += ans;
-                }
-                // cout << finalStr << endl;
-                for (char c : finalStr) {
+                for (char& c : finalStr) 
                     st.push(c);
-                }
             } else if (isdigit(s[i])) {
                 int j = i;
                 string num;
-                while (isdigit(s[j])) {
+                while (isdigit(s[j])) 
                     num += s[j++];
-                }
                 i = j-1;
                 cntSt.push(stoi(num));
             } else {
