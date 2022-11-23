@@ -5,7 +5,7 @@ public:
         deque<int> maxN;
         vector<int> ans;
         for (int i=0; i<nums.size(); i++) {
-            if (!maxN.empty() && i-maxN.front()+1> k)
+            while (!maxN.empty() && i-maxN.front()+1> k)
                 maxN.pop_front();
             
             while (!maxN.empty() && nums[maxN.back()] < nums[i])
