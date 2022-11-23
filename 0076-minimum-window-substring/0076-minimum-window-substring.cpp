@@ -1,32 +1,33 @@
 class Solution {
 public:
     string minWindow(string s, string t) {
-        vector<int> dict(256);
-        for (char& ch : t) dict[ch]++;
+        if (s.size() < t.size()) return "";
         
-        char curCh;
-        int cnt = t.size();
-        int minLen = INT_MAX, minStart = 0, start = 0;
-        for (int end=0; end<s.size(); end++) {
-            curCh = s[end];
-            dict[curCh]--;
-            if (dict[curCh] >= 0)
-                cnt--;
-            
-            while (cnt == 0) {
-                if (end - start +1 < minLen) {
-                    minLen = end - start +1;
-                    minStart = start;
-                }
-                
-                if (dict[s[start]] == 0)
-                    cnt++;
-                dict[s[start]]++;
-                start ++;
-            }
+        int slen=s.size(), cnt = 0;
+        vector<int> tDict(58, 0);
+        for (auto & c : t) {
+            if (tDict[c-'A'] == 0) cnt++; 
+            tDict[c-'A']++;
         }
         
-        return (minLen == INT_MAX) ? "" : s.substr(minStart, minLen);
+        int start = 0, minStart = -1, minLen = s.size() + 1;
+        for (int end=0; end<slen; end++) {
+            int curCh = s[end]-'A';
+            if (tDict[curCh] == 1) cnt --;
+            tDict[curCh] --;
         
+            while (cnt == 0) {
+                if (end-start+1 < minLen) {
+                    minLen = end-start+1;
+                    minStart = start;
+                }
+                int leftCh = s[start]-'A';
+                if (tDict[leftCh] == 0) cnt++;
+                tDict[leftCh] ++;
+                start++;
+            }
+            
+        }
+        return (minStart < 0) ? "" : s.substr(minStart, minLen);
     }
 };
