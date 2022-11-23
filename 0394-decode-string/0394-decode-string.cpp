@@ -2,14 +2,14 @@ class Solution {
 public:
     string decodeString(string s) {
      
-        stack<char> st;
+        stack<string> st;
         stack<int> cntSt; 
         int n = s.size();
         for (int i=0; i<n; i++) {
             if (s[i] == ']') {
                 string ans;
                 string finalStr;
-                while (st.top() != '[') {
+                while (st.top() != "[") {
                     ans = st.top() + ans;
                     st.pop();
                 }
@@ -17,8 +17,7 @@ public:
                 int cnt = cntSt.top(); cntSt.pop();
                 for (int i=0; i<cnt; i++)
                     finalStr += ans;
-                for (char& c : finalStr) 
-                    st.push(c);
+                st.push(finalStr);
             } else if (isdigit(s[i])) {
                 int j = i;
                 string num;
@@ -27,7 +26,7 @@ public:
                 i = j-1;
                 cntSt.push(stoi(num));
             } else {
-                st.push(s[i]);
+                st.push(string(1, s[i]));
             }
         }
         
