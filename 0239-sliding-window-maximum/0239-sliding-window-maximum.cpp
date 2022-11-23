@@ -8,7 +8,7 @@ public:
             while (!maxN.empty() && nums[maxN.back()] < nums[i])
                 maxN.pop_back();
             
-            while (!maxN.empty() && i-maxN.front()+1> k)
+            if (!maxN.empty() && i-maxN.front()+1> k)
                 maxN.pop_front();
             
             maxN.push_back(i);
