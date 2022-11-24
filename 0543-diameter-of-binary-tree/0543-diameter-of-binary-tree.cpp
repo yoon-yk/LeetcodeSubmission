@@ -21,10 +21,10 @@ public:
     int getMaxDistance(TreeNode* root) {
         if (!root) return 0;
         
-        int leftD = getMaxDistance(root->left)+1;
-        int rightD = getMaxDistance(root->right)+1;
+        int leftD = getMaxDistance(root->left);
+        int rightD = getMaxDistance(root->right);
         
-        maxD = max(maxD, leftD + rightD - 2);
-        return max(leftD, rightD);
+        maxD = max(maxD, leftD + rightD);
+        return max(leftD, rightD) + 1;
     }
 };
