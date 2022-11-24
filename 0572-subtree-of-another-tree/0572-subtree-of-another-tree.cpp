@@ -11,8 +11,10 @@
  */
 class Solution {
 public:
+    TreeNode* sR;
     bool isSubtree(TreeNode* root, TreeNode* subRoot) {
 
+        sR = subRoot;
         queue<TreeNode*> Q;
         Q.push(root);
         while(!Q.empty()) {
@@ -34,6 +36,12 @@ public:
         
         bool isLeftSame = isSameTree(a->left, b->left);
         bool isRightSame = isSameTree(a->right, b->right);
+        
+        if (!sR && a->val == sR->val) {
+            TreeNode * temp = sR;
+            if (isSameTree(a, temp))
+                return true;
+        }
         
         return isLeftSame && isRightSame;
     }
