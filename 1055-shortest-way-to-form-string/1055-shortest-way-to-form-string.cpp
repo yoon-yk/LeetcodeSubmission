@@ -13,14 +13,6 @@ public:
             cntDict[source[i]]++;
         }
         
-        for (auto & [ch, v] : idxDict) {
-            cout << ch << "||";
-            for (auto idx : v) {
-                cout << idx << " ";
-            }
-            cout << endl;
-        }
-        
         int start = 0, curIdx = -1;
         int windowsCount = 1;
         
@@ -34,8 +26,6 @@ public:
 
             if (cntDict[curCh] == 0 
                 || findIdx == idxDict[curCh].end()) {
-                
-                cout << "new window" << endl;
                 windowsCount++;
                 while (start < end) {
                     cntDict[target[start]]++;
@@ -46,10 +36,7 @@ public:
                 curIdx = idxDict[curCh][findIdx - idxDict[curCh].begin()]; 
             }
             
-            cout << end << " "<< target[end];
-
             cntDict[target[end]]--;
-            cout << " curIdx : " << curIdx << endl;
         }
         
         return windowsCount;
