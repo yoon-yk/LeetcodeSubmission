@@ -24,9 +24,9 @@ public:
             if (findIdx == idxDict[curCh].end()){
                 windowsCount++;
                 curIdx = idxDict[curCh][0]; 
-            } else {
+            } else
                 curIdx = idxDict[curCh][findIdx - idxDict[curCh].begin()]; 
-            }
+            
             
         }
         
