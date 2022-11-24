@@ -24,9 +24,6 @@ public:
 
             if (findIdx == idxDict[curCh].end()){
                 windowsCount++;
-                while (start < end) {
-                    start++;
-                }
                 curIdx = idxDict[curCh][0]; 
             } else {
                 curIdx = idxDict[curCh][findIdx - idxDict[curCh].begin()]; 
