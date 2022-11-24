@@ -9,6 +9,10 @@ public:
         h=v=d=ad=0;
     }
     
+    void resetToZero() {
+        h=v=d=ad=0;
+    }
+    
     int getMax() {
         return max(h, max(v, max(d, ad)));
     }
@@ -30,21 +34,25 @@ public:
         */
         
         int n = mat.size(), m = mat[0].size();
-        vector<vector<Lengths>> lenMatrix(n, vector<Lengths>(m));
+        vector<Lengths> curLenMatrix (m), prevLenMatrix(m);
         int ans = 0;
         
         for (int i=0; i<n; i++) {
             for (int j=0; j<m; j++) {
-                if (mat[i][j] == 0) continue;
+                if (mat[i][j] == 0) {
+                    curLenMatrix[j].resetToZero();
+                    continue;
+                }
                 
-                lenMatrix[i][j].v = (i-1 >= 0) ? lenMatrix[i-1][j].v+1 : 1;
-                lenMatrix[i][j].h = (j-1 >= 0) ? lenMatrix[i][j-1].h+1 : 1;
+                curLenMatrix[j].v = prevLenMatrix[j].v+1;
+                curLenMatrix[j].h = (j-1 >= 0) ? curLenMatrix[j-1].h+1 : 1;
 
-                lenMatrix[i][j].d = (i-1 >= 0 && j-1 >= 0) ? lenMatrix[i-1][j-1].d+1 : 1;
-                lenMatrix[i][j].ad = (i-1 >= 0 && j+1 < m)? lenMatrix[i-1][j+1].ad+1 : 1;
-                ans = max(ans, lenMatrix[i][j].getMax());
+                curLenMatrix[j].d = (j-1 >= 0) ? prevLenMatrix[j-1].d+1 : 1;
+                curLenMatrix[j].ad = (j+1 < m)? prevLenMatrix[j+1].ad+1 : 1;
+                ans = max(ans, curLenMatrix[j].getMax());
 
             }
+            prevLenMatrix = curLenMatrix;
         }
         
         return ans;
