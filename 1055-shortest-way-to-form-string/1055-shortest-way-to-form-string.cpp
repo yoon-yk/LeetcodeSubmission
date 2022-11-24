@@ -6,11 +6,9 @@ public:
           1 1 2 2 3
         */
         
-        unordered_map<char, int> cntDict;
         unordered_map<char, vector<int>> idxDict;
         for (int i=0; i<source.size(); i++) {
             idxDict[source[i]].push_back(i);
-            // cntDict[source[i]]++;
         }
         
         int start = 0, curIdx = -1;
@@ -24,12 +22,9 @@ public:
             
             auto findIdx = upper_bound(idxDict[curCh].begin(), idxDict[curCh].end(), curIdx);
 
-            // if (cntDict[curCh] == 0 
-                // || findIdx == idxDict[curCh].end()) {
             if (findIdx == idxDict[curCh].end()){
                 windowsCount++;
                 while (start < end) {
-                    // cntDict[target[start]]++;
                     start++;
                 }
                 curIdx = idxDict[curCh][0]; 
@@ -37,7 +32,6 @@ public:
                 curIdx = idxDict[curCh][findIdx - idxDict[curCh].begin()]; 
             }
             
-            // cntDict[target[end]]--;
         }
         
         return windowsCount;
