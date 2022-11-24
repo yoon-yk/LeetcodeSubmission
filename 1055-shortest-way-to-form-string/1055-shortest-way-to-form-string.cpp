@@ -1,6 +1,6 @@
 class Solution {
 public:
-    int shortestWay(string &source, string& target) {
+    int shortestWay(string source, string target) {
         /*
           x z y x z
           1 1 2 2 3
@@ -27,7 +27,6 @@ public:
                 curIdx = idxDict[curCh][0]; 
             } else
                 curIdx = idxDict[curCh][findIdx - idxDict[curCh].begin()]; 
-            
             
         }
         
