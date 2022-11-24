@@ -23,12 +23,10 @@ public:
         int lHeight = calHeight(root->left);
         int rHeight = calHeight(root->right);
         
-        if (lHeight == -1 || rHeight == -1)
+        if (lHeight == -1 || rHeight == -1 || 
+            abs(lHeight-rHeight) > 1)
             return -1;
-        
-        if (abs(lHeight-rHeight) > 1)
-            return -1;
-        
+
         return max(lHeight, rHeight) + 1;
 
     }
