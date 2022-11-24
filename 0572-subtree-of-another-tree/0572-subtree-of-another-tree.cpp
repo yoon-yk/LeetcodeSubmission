@@ -34,14 +34,14 @@ public:
         else if (!a || !b) return false;
         else if (a->val != b->val) return false;
         
-        bool isLeftSame = isSameTree(a->left, b->left);
-        bool isRightSame = isSameTree(a->right, b->right);
-        
         if (!sR && a->val == sR->val) {
             TreeNode * temp = sR;
             if (isSameTree(a, temp))
                 return true;
         }
+        
+        bool isLeftSame = isSameTree(a->left, b->left);
+        bool isRightSame = isSameTree(a->right, b->right);
         
         return isLeftSame && isRightSame;
     }
