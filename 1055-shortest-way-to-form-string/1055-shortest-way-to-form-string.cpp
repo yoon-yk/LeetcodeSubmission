@@ -7,11 +7,10 @@ public:
         */
         
         unordered_map<char, vector<int>> idxDict;
-        for (int i=0; i<source.size(); i++) {
+        for (int i=0; i<source.size(); i++) 
             idxDict[source[i]].push_back(i);
-        }
         
-        int start = 0, curIdx = -1;
+        int curIdx = -1;
         int windowsCount = 1;
         
         for (int end=0; end<target.size(); end++) {
