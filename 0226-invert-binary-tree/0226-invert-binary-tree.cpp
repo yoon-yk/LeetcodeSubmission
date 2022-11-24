@@ -12,12 +12,20 @@
 class Solution {
 public:
     TreeNode* invertTree(TreeNode* root) {
-        if (!root) return NULL;
-        
-        TreeNode* leftT = invertTree(root->left);
-        TreeNode* rightT = invertTree(root->right);
-        
-        root->left = rightT, root->right = leftT;
+        queue<TreeNode*> Q;
+        if (root) Q.push(root);
+        while (!Q.empty()) {
+            auto cur = Q.front(); Q.pop();
+            
+            TreeNode* newL = cur->right;
+            TreeNode* newR = cur->left;
+            
+            cur->left = newL;
+            cur->right = newR;
+            
+            if (cur->left) Q.push(cur->left);
+            if (cur->right) Q.push(cur->right);
+        }
         
         return root;
     }
