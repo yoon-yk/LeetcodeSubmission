@@ -1,19 +1,31 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
 class Solution {
 public:
     bool isSubtree(TreeNode* root, TreeNode* subRoot) {
         if (!root && !subRoot) return true;
-        if (!root || !subRoot) return false;
+        else if (!root || !subRoot) return false;
         
-        return matchSubtree(root, subRoot) || isSubtree(root->left, subRoot) || isSubtree(root->right, subRoot);
+        return isSubtree(root->left, subRoot) || 
+            isSubtree(root->right, subRoot) || 
+            isSametree(root, subRoot); 
     }
     
-    bool matchSubtree(TreeNode* root, TreeNode* subRoot) {
-        if (!root && !subRoot) return true;
+    bool isSametree(TreeNode* a, TreeNode* b) {
+        if (!a && !b) return true;
+        else if (!a || !b) return false;
+        else if (a->val != b->val) return false;
         
-        if (!root|| !subRoot) return false;
-        
-        return root->val == subRoot->val &&
-            matchSubtree(root->left, subRoot->left) &&
-            matchSubtree(root->right, subRoot->right);
+        return isSametree(a->left, b->left) &&
+            isSametree(a->right, b->right);
     }
 };
