@@ -10,7 +10,6 @@ public:
         while (lo < hi) {
             int mid = lo + ((hi-lo) >> 1);
             if (nums[mid] == target) return mid;
-            
             if (nums[lo] > nums[hi]) {
                 if (nums[mid] > nums[hi]) lo = mid+1;
                 else hi = mid;
