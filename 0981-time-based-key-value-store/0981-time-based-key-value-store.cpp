@@ -21,7 +21,7 @@ public:
     string get(string key, int timestamp) {
         if (!mp.count(key)) return ""; 
         auto & vectorList = mp[key];
-        auto ptr = upper_bound(vectorList.begin(), vectorList.end(), pair<int, string>(timestamp+1,""));
+        auto ptr = lower_bound(vectorList.begin(), vectorList.end(), pair<int, string>(timestamp+1,""));
         if (ptr == vectorList.begin())
             return "";
         return mp[key][ptr-vectorList.begin()-1].second;
