@@ -26,17 +26,17 @@ public:
             }
         }
         
-        vector<vector<int>> res(n, vector<int>(m, 0));
+        // vector<vector<int>> res(n, vector<int>(m, 0));
 
         for (int i=0; i<n; i++) {
             for (int j=0; j<m; j++) {
                 int maxI = i+1+k, minI = i+1-k, maxJ = j+1+k, minJ = j+1-k;
-                res[i][j] = blockSum[min(maxI, n)][min(maxJ, m)]
+                mat[i][j] = blockSum[min(maxI, n)][min(maxJ, m)]
                     - blockSum[max(minI-1, 0)][min(maxJ, m)]
                     - blockSum[min(maxI, n)][max(minJ-1, 0)]
                     + blockSum[max(minI-1, 0)][max(minJ-1, 0)];
             }
         }
-        return res;
+        return mat;
     }
 };
