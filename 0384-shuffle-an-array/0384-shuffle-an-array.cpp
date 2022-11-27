@@ -12,12 +12,10 @@ public:
     }
     
     vector<int> shuffle() {
-        int rand = random() % 10;
-        int size = n.size(), idx1, idx2;
-        while (rand--) {
-            idx1 = random() % size;
-            idx2 = random() % size;
-            swap(n[idx1], n[idx2]);
+        int size = n.size(), idx;
+        for (int i=0; i<size; i++) {
+            idx = random() % size;
+            swap(n[i], n[idx]);
         }
         return n;
     }
