@@ -49,7 +49,6 @@ public:
         b ba bda bdca
         */
         int n = words.size();
-        unordered_map<string, int> map;
         
         TrieNode * root = new TrieNode();
         for (int i=0; i<n; i++) insert(root, words[i], i);
@@ -73,9 +72,8 @@ public:
         
         int maxLen = 1;
         
-        for (int & nei : adjList[curIdx]) {
+        for (int & nei : adjList[curIdx]) 
             maxLen = max(maxLen, dfs(nei, adjList, memo) + 1);
-        }
         
         return memo[curIdx] = maxLen;
     }
