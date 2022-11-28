@@ -2,20 +2,20 @@ class Solution {
 public:
     vector<int> n;
     vector<int> orig;
+    
     Solution(vector<int>& nums) {
         n = nums;
         orig = nums;
     }
     
     vector<int> reset() {
-        return orig;
+        n = orig;
+        return n;
     }
     
     vector<int> shuffle() {
-        int size = n.size(), idx;
-        for (int i=0; i<size; i++) {
-            idx = random() % size;
-            swap(n[i], n[idx]);
+        for (int i=0; i<n.size(); i++) {
+            swap(n[i], n[rand()%(n.size())]);
         }
         return n;
     }
