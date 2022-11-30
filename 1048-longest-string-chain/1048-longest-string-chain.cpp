@@ -1,29 +1,33 @@
 class Solution {
-public :
-
-    int longestStrChain(vector<string> &words) {
-        unordered_map<string, int> dp;
-
-        // Sorting the list in terms of the word length.
-        std::sort(words.begin(), words.end(), [](const std::string &word1, const std::string &word2) {
-            return word1.size() < word2.size();
+public:
+    int longestStrChain(vector<string>& words) {
+        
+        sort(begin(words), end(words), [](string& w1, string& w2) {
+            return w1.size() < w2.size();
         });
+        
+        int n = words.size();
+        unordered_map<string, int> mp;
+        vector<int> dp(n, 1);
+        
+        int idx = 0, ans = -1, maxLen;
+        for (auto & w : words) {
 
-        int longestWordSequenceLength = 1;
-
-        for (const string &word : words) {
-            int presentLength = 1;
-            // Find all possible predecessors for the current word by removing one letter at a time.
-            for (int i = 0; i < word.length(); i++) {
-                string predecessor = word.substr(0, i) + word.substr(i + 1, word.length() + 1);
-                if (dp.find(predecessor) != dp.end()) {
-                    int previousLength = dp[predecessor];
-                    presentLength = max(presentLength, previousLength + 1);
-                }
+            maxLen = 1;
+            for (int i=0; i<w.size(); i++) {
+                string combined = w.substr(0, i) + w.substr(i+1);
+                auto findPre = mp.find(combined);
+                if (findPre == mp.end()) continue;
+                int preIdx = findPre->second;
+                maxLen = max(dp[preIdx] + 1, maxLen);
             }
-            dp[word] = presentLength;
-            longestWordSequenceLength = max(longestWordSequenceLength, presentLength);
+            
+            mp[w] = idx;
+            dp[idx] = maxLen;
+            ans = max(ans, dp[idx]);
+            idx++;
         }
-        return longestWordSequenceLength;
+        
+        return ans;
     }
 };
