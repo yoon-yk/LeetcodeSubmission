@@ -7,18 +7,17 @@ public:
         });
         
         int n = words.size();
+        vector<int> dp(n);
         unordered_map<string, int> mp;
-        vector<int> dp(n, 1);
         
-        int idx = 0, ans = -1, maxLen;
+        int idx = 0, ans = -1, maxLen, preIdx;
         for (auto & w : words) {
-
             maxLen = 1;
             for (int i=0; i<w.size(); i++) {
                 string combined = w.substr(0, i) + w.substr(i+1);
                 auto findPre = mp.find(combined);
                 if (findPre == mp.end()) continue;
-                int preIdx = findPre->second;
+                preIdx = findPre->second;
                 maxLen = max(dp[preIdx] + 1, maxLen);
             }
             
