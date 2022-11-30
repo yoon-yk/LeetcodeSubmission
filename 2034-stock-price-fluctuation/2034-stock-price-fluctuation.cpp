@@ -1,58 +1,37 @@
 class StockPrice {
 public:
-    StockPrice() {
-        
-    }
-    /*
-    1 3
-    2 5
-    4 2
-    
-    pq - if not correct, pop
-    */
-    
+    StockPrice() {}
+
     // price - timestamp
-    multiset<pair<int, int>> pq;
+    multiset<int> pq;
     map<int, int> mp; // timestamp - price
     
     void update(int timestamp, int price) {
         // correcting the price 
         // if same time stamp - correction
-        if (mp.count(timestamp)) {
-            if (!pq.empty() && pq.begin()->second == timestamp) 
-                pq.erase(pq.begin());
-            if (!pq.empty() && (--pq.end())->second == timestamp)
-                pq.erase(--pq.end());
-        }
+        if (mp.count(timestamp)) 
+            pq.erase(pq.find(mp[timestamp]));
         // else - update
         mp[timestamp] = price;
-        pq.insert({price, timestamp});
+        pq.insert(price);
     }
     
     int current() {
         // latest 
         if (mp.empty()) return -1;
-        return (--mp.end())->second;
+        return (mp.rbegin())->second;
         // needs to be sorted?
     }
     
     int maximum() {
         // maximum 
-        
-        while (!pq.empty() && mp[(--pq.end())->second] != (--pq.end())->first) {
-            pq.erase((--pq.end()));
-        }
-        return (--pq.end())->first;
-
+        return *pq.rbegin();
         // what if it has been corrected afterward?
     }
     
     int minimum() {
         // minimum 
-        while (!pq.empty() && mp[pq.begin()->second] != pq.begin()->first) {
-            pq.erase(pq.begin());
-        }
-        return pq.begin()->first;
+        return *pq.begin();
     }
 };
 
