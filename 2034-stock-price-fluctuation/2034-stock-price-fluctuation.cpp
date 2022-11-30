@@ -3,8 +3,9 @@ public:
     StockPrice() {}
 
     // price - timestamp
+    int latestTime = -1;
     multiset<int> pq;
-    map<int, int> mp; // timestamp - price
+    unordered_map<int, int> mp; // timestamp - price
     
     void update(int timestamp, int price) {
         // correcting the price 
@@ -13,13 +14,15 @@ public:
             pq.erase(pq.find(mp[timestamp]));
         // else - update
         mp[timestamp] = price;
+        if (timestamp > latestTime)
+            latestTime = timestamp;
         pq.insert(price);
     }
     
     int current() {
         // latest 
         if (mp.empty()) return -1;
-        return (mp.rbegin())->second;
+        return mp[latestTime];
         // needs to be sorted?
     }
     
