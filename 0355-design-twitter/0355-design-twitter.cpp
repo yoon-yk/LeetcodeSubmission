@@ -1,70 +1,60 @@
-class Twitter
-{
-    struct Tweet
-    {
-        int time;
-        int id;
-        Tweet(int time, int id) : time(time), id(id) {}
-    };
-
-    std::unordered_map<int, std::vector<Tweet>> tweets; // [u] = array of tweets by u
-    std::unordered_map<int, std::unordered_set<int>> following; // [u] = array of users followed by u
-
-    int time;
-
+class Twitter {
 public:
-    Twitter() : time(0) {}
-
-    void postTweet(int userId, int tweetId)
-    {
-        tweets[userId].emplace_back(time++, tweetId);
+    
+    int time = 0;
+    typedef pair<int, int> Tweet;
+    
+    unordered_map<int, unordered_set<int>> following;
+    unordered_map<int, vector<Tweet>> tweets;
+    
+    Twitter() {
+        
     }
-
-    std::vector<int> getNewsFeed(int userId)
-    {
-        std::vector<std::pair<Tweet*, Tweet*>> h; // pair of pointers (begin, current)
-
-        for (auto& u: following[userId])
-        {
-            auto& t = tweets[u];
-            if (t.size() > 0)
-                h.emplace_back(t.data(), t.data() + t.size() - 1);
+    
+    void postTweet(int userId, int tweetId) {
+        Tweet nt(time++, tweetId);
+        tweets[userId].push_back(nt);
+    }
+    
+    vector<int> getNewsFeed(int userId) {
+        
+        priority_queue<Tweet, vector<Tweet>, greater<Tweet>> pq; // minheap
+        for (auto & tw : tweets[userId]) {
+            pq.push(tw);
+            if (pq.size() > 10) pq.pop();
         }
-        auto& t = tweets[userId]; // self
-        if (t.size() > 0)
-            h.emplace_back(t.data(), t.data() + t.size() - 1);
-
-        auto f = [](const std::pair<Tweet*, Tweet*>& x, const std::pair<Tweet*, Tweet*>& y) {
-            return x.second->time < y.second->time;
-        };
-        std::make_heap(h.begin(), h.end(), f);
-
-        const int n = 10;
-        std::vector<int> o;
-        o.reserve(n);
-        for (int i = 0; (i < n) && !h.empty(); ++i)
-        {
-            std::pop_heap(h.begin(), h.end(), f);
-
-            auto& hb = h.back();
-            o.push_back(hb.second->id);
-
-            if (hb.first == hb.second--)
-                h.pop_back();
-            else
-                std::push_heap(h.begin(), h.end(), f);
+        
+        for (auto& nei : following[userId]) {
+            for (auto& tw : tweets[nei]) {
+                pq.push(tw);
+                if (pq.size() > 10) pq.pop();
+            }
         }
-        return o;
+        
+        vector<int> ret;
+        while (!pq.empty()) {
+            ret.push_back(pq.top().second); // time 작은 것부터 빼기 
+            pq.pop();
+        }
+        reverse(ret.begin(), ret.end());
+        
+        return ret;
     }
-
-    void follow(int followerId, int followeeId)
-    {
-        if (followerId != followeeId)
-            following[followerId].insert(followeeId);
+    
+    void follow(int followerId, int followeeId) {
+        following[followerId].insert(followeeId);
     }
-
-    void unfollow(int followerId, int followeeId)
-    {
+    
+    void unfollow(int followerId, int followeeId) {
         following[followerId].erase(followeeId);
     }
 };
+
+/**
+ * Your Twitter object will be instantiated and called as such:
+ * Twitter* obj = new Twitter();
+ * obj->postTweet(userId,tweetId);
+ * vector<int> param_2 = obj->getNewsFeed(userId);
+ * obj->follow(followerId,followeeId);
+ * obj->unfollow(followerId,followeeId);
+ */
