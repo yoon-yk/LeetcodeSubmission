@@ -7,9 +7,8 @@ public:
         vector<int> change(s.size(), -1);
         int n = indices.size();
         for (int i=0; i<n; i++) {
-            if (s.substr(indices[i], sources[i].size()) == sources[i]) {
+            if (s.substr(indices[i], sources[i].size()) == sources[i]) 
                 change[indices[i]] = i;
-            }
         }
         
         string ans = "";
