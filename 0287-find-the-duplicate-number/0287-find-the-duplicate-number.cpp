@@ -4,11 +4,9 @@ public:
         
         int n = nums.size();
         vector<bool> visited(n, false);
-        int nextN = nums[0];
-        while (1) {
-            if (visited[nextN]) return nextN;
-            visited[nextN] = true;
-            nextN = nums[nextN];
+        for (int n : nums) {
+            if (visited[n]) return n;
+            visited[n] = true;
         }
         
         return -1;
