@@ -2,7 +2,7 @@ class Twitter {
 public:
     
     int time = 0;
-    typedef pair<int, int> Tweet;
+    typedef pair<int, int> Tweet; // time, tId
     
     unordered_map<int, unordered_set<int>> following;
     unordered_map<int, vector<Tweet>> tweets;
@@ -25,8 +25,9 @@ public:
         }
         
         for (auto& nei : following[userId]) {
-            for (auto& tw : tweets[nei]) {
-                pq.push(tw);
+            for (auto it = tweets[nei].rbegin(); it != tweets[nei].rend(); it++) {
+                if (pq.size() == 10 && it->first < pq.top().first) break;
+                pq.push(*it);
                 if (pq.size() > 10) pq.pop();
             }
         }
