@@ -13,7 +13,7 @@ public:
             waiting[c].clear();
             
             for (auto & w : ws) {
-                waiting[*(w+1)].push_back(w+1);
+                waiting[*(++w)].push_back(w);
             }
         }
         
