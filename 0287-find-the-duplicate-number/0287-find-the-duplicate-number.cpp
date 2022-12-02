@@ -3,12 +3,18 @@ public:
     int findDuplicate(vector<int>& nums) {
         
         int n = nums.size();
-        vector<bool> visited(n, false);
-        for (int n : nums) {
-            if (visited[n]) return n;
-            visited[n] = true;
+        int fastIdx = nums[0], slowIdx = nums[0];
+        do {
+            fastIdx = nums[nums[fastIdx]];
+            slowIdx = nums[slowIdx];
+        } while (fastIdx != slowIdx);
+        
+        slowIdx = nums[0];
+        while (fastIdx != slowIdx) {
+            fastIdx = nums[fastIdx];
+            slowIdx = nums[slowIdx];
         }
         
-        return -1;
+        return fastIdx;
     }
 };
