@@ -18,7 +18,7 @@ public:
             int cX = points[i][0], cY = points[i][1];
             
             for (auto &[x, ys] : mp) { // diagonal points
-                if (x == cX) continue;
+                if (x == cX || ys.size() < 2) continue;
                 for (auto & y : ys) {
                     // x, y
                     if (y == cY) continue;
