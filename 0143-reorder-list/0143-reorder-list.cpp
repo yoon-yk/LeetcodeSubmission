@@ -10,31 +10,28 @@
  */
 class Solution {
 public:
-    ListNode* getLastNode(ListNode* head) {
-                
-        ListNode* ptr = head, *ePtr = NULL;
-        while (ptr && ptr->next) {
-            ePtr = ptr;
-            ptr = ptr->next;
-        }
-        if (ePtr) ePtr->next = NULL;
-        return ptr;
-    }
-    
     void reorderList(ListNode* head) {
-       
-        ListNode* curFirst = head;
-        ListNode* globalPtr = curFirst;
-        ListNode* curLast = getLastNode(curFirst);
+        unordered_map<int, ListNode*> mp;
+        ListNode* ptr = head, *temp;
         
-        while (curFirst != curLast) {
-            curLast->next = curFirst->next;
-            curFirst->next = curLast;
-            curFirst = curFirst->next->next;
-            curLast = getLastNode(curFirst);
+        int idx=0;
+        for(; ptr; idx++) {
+            mp[idx] = ptr;
+            temp = ptr->next;
+            ptr->next = NULL;
+            ptr = temp;
         }
         
-        if (curFirst) curFirst->next = NULL;
+        ListNode* dHead = new ListNode();
+        ptr = dHead;
+        for (int i=0; i< (idx >> 1); i++) {
+            ptr->next = mp[i];
+            ptr->next->next = mp[idx-1-i];
+            ptr = ptr->next->next;
+        }
+        
+        if (idx % 2) 
+            ptr->next = mp[idx>>1];
         
     }
 };
