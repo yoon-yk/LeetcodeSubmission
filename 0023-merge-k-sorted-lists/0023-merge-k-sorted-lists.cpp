@@ -10,31 +10,34 @@
  */
 class Solution {
 public:
-ListNode *mergeKLists(vector<ListNode *> &lists) {
-    if(lists.empty()){
-        return nullptr;
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        
+        while (lists.size() > 1) {
+            ListNode* first = lists.back(); lists.pop_back();
+            ListNode* second = lists.back(); lists.pop_back();
+            lists.push_back(mergeTwoLists(first, second));
+        }
+        
+        return lists.size() > 0 ? lists[0] : NULL;
     }
-    while(lists.size() > 1){
-        lists.push_back(mergeTwoLists(lists[0], lists[1]));
-        lists.erase(lists.begin());
-        lists.erase(lists.begin());
+    
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+        ListNode* head = new ListNode();
+        ListNode* cPtr = head;
+        
+        while (l1 && l2) {
+            if (l1->val < l2->val) {
+                cPtr->next = l1;
+                l1 = l1->next;
+            } else {
+                cPtr->next = l2;
+                l2 = l2->next;
+            }
+            cPtr = cPtr->next;
+        }
+        if (l1) cPtr->next = l1;
+        else if (l2) cPtr->next = l2;
+        
+        return head->next;
     }
-    return lists.front();
-}
-ListNode *mergeTwoLists(ListNode *l1, ListNode *l2) {
-    if(l1 == nullptr){
-        return l2;
-    }
-    if(l2 == nullptr){
-        return l1;
-    }
-    if(l1->val <= l2->val){
-        l1->next = mergeTwoLists(l1->next, l2);
-        return l1;
-    }
-    else{
-        l2->next = mergeTwoLists(l1, l2->next);
-        return l2;
-    }
-}
 };
