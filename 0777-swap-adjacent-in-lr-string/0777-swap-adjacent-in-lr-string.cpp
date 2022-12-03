@@ -2,7 +2,7 @@ class Solution {
 public:
     bool canTransform(string start, string end) {
         int sIdx = 0, eIdx = 0;
-        while (sIdx < start.size() || eIdx < end.size()) {
+        while (1) {
                         
             while (sIdx < start.size() && start[sIdx] == 'X')
                 ++sIdx;
