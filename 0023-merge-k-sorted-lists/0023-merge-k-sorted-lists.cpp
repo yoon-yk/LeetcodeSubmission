@@ -11,16 +11,32 @@
 class Solution {
 public:
     ListNode* mergeKLists(vector<ListNode*>& lists) {
-        
-        while (lists.size() > 1) {
-            ListNode* first = lists.back(); lists.pop_back();
-            ListNode* second = lists.back(); lists.pop_back();
-            lists.push_back(mergeTwoLists(first, second));
-        }
-        
-        return lists.size() > 0 ? lists[0] : NULL;
+        return divide(lists, 0, lists.size()-1);
     }
     
+    ListNode* divide(vector<ListNode*>& lists, int l, int r) {
+        if (l==r)
+            return lists[l];
+        
+        if (l < r) {
+            int mid = l + ((r-l) >> 1);
+            ListNode* left = divide(lists, l, mid);
+            ListNode* right = divide(lists, mid+1, r);
+            return mergeTwoLists(left, right);
+        }
+        
+        return NULL;
+    }
+    
+    /*
+    ㅇ ㅇ ㅇ ㅇㅡㅇ
+    ㅇ ㅇ ㅇㅡㅇ
+    ㅇ ㅇㅡㅇ
+    ㅇㅡㅇ 
+    ㅇ     
+    (N-1)번 반복 * K
+    
+    */
     ListNode* mergeTwoLists(ListNode*& l1, ListNode*& l2) {
         ListNode* head = new ListNode();
         ListNode* cPtr = head;
