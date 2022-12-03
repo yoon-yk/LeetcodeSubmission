@@ -18,9 +18,10 @@ public:
             int cX = points[i][0], cY = points[i][1];
             
             for (auto &[x, ys] : mp) { // diagonal points
+                if (x == cX) continue;
                 for (auto & y : ys) {
                     // x, y
-                    
+                    if (y == cY) continue;
                     if (mp[cX].count(y) && mp[x].count(cY)) {
                         minArea = min(minArea, abs((cX-x) * (cY-y)));
                     }
