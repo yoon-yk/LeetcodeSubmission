@@ -21,7 +21,7 @@ public:
         return lists.size() > 0 ? lists[0] : NULL;
     }
     
-    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+    ListNode* mergeTwoLists(ListNode*& l1, ListNode*& l2) {
         ListNode* head = new ListNode();
         ListNode* cPtr = head;
         
