@@ -21,16 +21,16 @@ public:
         
         ListNode* first = head, *second = head, *third = NULL;
         ListNode* oHead = head;
-        int cnt = 0;
         
         ListNode* checkPtr = head;
         int checkCnt = 0;
         while (checkPtr && checkCnt < k) {
             checkPtr = checkPtr->next;
-            checkCnt ++;
+            ++ checkCnt;
         }
         if (checkCnt < k) return head;
         
+        int cnt = 0;
         while (first && cnt < k) {
             first = first->next;
             second->next = third;
