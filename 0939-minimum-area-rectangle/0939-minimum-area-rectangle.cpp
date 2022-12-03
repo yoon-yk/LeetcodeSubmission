@@ -2,28 +2,34 @@ class Solution {
 public:
     int minAreaRect(vector<vector<int>>& points) {
         
-        int minSize = INT_MAX;
-
-        unordered_map<int, unordered_set<int>> pointsDict;
-        for (auto& pt : points) // O(N)
-            pointsDict[pt[0]].insert(pt[1]);
+        unordered_map<int, unordered_set<int>> mp;
+        int n = points.size(); 
         
-        sort(points.begin(), points.end());
         
-        int curX, curY, nextX, nextY;
-        vector<int> nextMin;
-        for (int curPtr=0; curPtr<points.size(); curPtr++) {
-            curX = points[curPtr][0], curY = points[curPtr][1];
-            nextMin = {curX+1, 0};
-            int nextIdx = lower_bound(points.begin(), points.end(), nextMin) - points.begin();
-            for (int nextPtr=nextIdx; nextPtr < points.size(); nextPtr++) {
-                nextX = points[nextPtr][0], nextY = points[nextPtr][1];
-                if (curY >= nextY) continue;
-                if (!pointsDict[curX].count(nextY) || 
-                    !pointsDict[nextX].count(curY)) continue;
-                minSize = min(minSize, abs((nextX-curX)*(nextY-curY)));
+        /*
+        [x,  y] [cx,  y]
+            
+        [x, cy] [cx, cy]
+        
+        
+        */
+        int minArea = INT_MAX;
+        for (int i=0; i<n; i++) {
+            int cX = points[i][0], cY = points[i][1];
+            
+            for (auto &[x, ys] : mp) { // diagonal points
+                for (auto & y : ys) {
+                    // x, y
+                    
+                    if (mp[cX].count(y) && mp[x].count(cY)) {
+                        minArea = min(minArea, abs((cX-x) * (cY-y)));
+                    }
+                } 
             }
-        }      
-        return (minSize == INT_MAX)? 0 : minSize;
+            mp[cX].insert(cY);
+        }
+        
+        return minArea == INT_MAX ? 0 : minArea;
+        
     }
 };
