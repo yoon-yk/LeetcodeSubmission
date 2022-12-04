@@ -7,42 +7,30 @@ public:
             board.push_back(s);
         }
         
-        vector<bool> rowTaken(n, false);
+        vector<bool> rowTaken(n, false), dTaken(2*n, false), adTaken(2*n, false);
         vector<vector<string>> ans;
         
-        backtrack(0, board, rowTaken, ans);
+        backtrack(0, board, rowTaken, dTaken, adTaken, ans);
         
         return ans;
     }
     
-    bool isTaken(int idx, int row, vector<string>& board) {
-        
-        int curC = idx, curR = row;
-        while (curC >= 0 && curR < board.size()) {
-            if (board[curR][curC] == 'Q') return true;
-            curC--, curR++;
-        }
-        curC = idx, curR = row;
-        while (curC >= 0 && curR < board.size()) {
-            if (board[curR][curC] == 'Q') return true;
-            curC--, curR--;
-        }
-        return false;
-    }
     /*
     Q . . .
     . Q . .
     */
-    void backtrack(int idx, vector<string>& board, vector<bool>& rowTaken, vector<vector<string>>& ans) {
+    void backtrack(int idx, vector<string>& board, vector<bool>& rowTaken,
+                   vector<bool>& dTaken, vector<bool>& adTaken, vector<vector<string>>& ans) {
         if (idx == board.size())
             ans.push_back(board);
         
-        for (int r=0; r<board.size(); r++) {
-            if (rowTaken[r] || isTaken(idx, r, board)) continue;
+        int n = board.size();
+        for (int r=0; r<n; r++) {
+            if (rowTaken[r] || dTaken[r+idx] || adTaken[n+r-idx]) continue;
             board[r][idx] = 'Q';
-            rowTaken[r] = true;
-            backtrack(idx+1, board, rowTaken, ans);
-            rowTaken[r] = false;
+            rowTaken[r] = dTaken[r+idx] = adTaken[n+r-idx] = true;
+            backtrack(idx+1, board, rowTaken, dTaken, adTaken, ans);
+            rowTaken[r] = dTaken[r+idx] = adTaken[n+r-idx] = false;
             board[r][idx] = '.';
         }
     }
