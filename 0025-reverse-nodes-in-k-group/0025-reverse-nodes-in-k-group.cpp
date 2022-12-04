@@ -10,32 +10,46 @@
  */
 class Solution {
 public:
-    	ListNode* reverseKGroup(ListNode* head, int k) {
-        ListNode* dummy = new ListNode(0);
-        dummy->next = head;
-        ListNode* before = dummy;
-        ListNode* after = head;
-        ListNode* curr = nullptr;
-        ListNode* prev = nullptr;
-        ListNode* nxt = nullptr;
-        while(true){
-            ListNode* cursor = after;
-            for(int i = 0; i < k; i++){
-                if(cursor == nullptr) return dummy->next;
-                cursor = cursor->next;
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        
+        ListNode* dHead = new ListNode();
+        dHead->next = head;
+        
+        ListNode* first = head, *second = head, *third = NULL;
+        ListNode* oHead = head, *pLast = dHead;
+        ListNode* checkPtr = head;
+
+        int checkCnt, cnt;
+        
+        while (true) {
+
+            first = second = checkPtr = oHead;
+            third = NULL;
+            
+            checkCnt = 0;
+            while (checkPtr && checkCnt < k) {
+                checkPtr = checkPtr->next;
+                checkCnt ++;
             }
-            curr = after;
-            prev = before;
-            for(int i = 0; i < k; i++){
-                nxt = curr->next;
-                curr->next = prev;
-                prev = curr;
-                curr = nxt;
+            if (checkCnt < k) {
+                pLast->next = oHead;
+                return dHead->next;
             }
-            after->next = curr;
-            before->next = prev;
-            before = after;
-            after = curr;
+
+            cnt = 0;
+            while (first && cnt < k) {
+                first = first->next;
+                second->next = third;
+                third = second;
+                second = first;
+                cnt ++;
+            }
+
+            pLast->next = third;
+            pLast = oHead;
+            oHead = second;
         }
+    
     }
+    
 };
