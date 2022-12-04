@@ -14,12 +14,8 @@ public:
         
         for (int i=0; i<r; i++) {
             for (int j=0; j<c; j++) {
-                if (word[0] == board[i][j]) {
-                    visited[i][j] = true;
-                    if (backtrack(i, j, 0, visited, board, word))
-                        return true;
-                    visited[i][j] = false;
-                }
+                if (backtrack(i, j, 0, visited, board, word))
+                    return true;
             }
         }
         return false;
@@ -29,23 +25,24 @@ public:
     
     bool backtrack(int r, int c, int idx, vector<vector<bool>>& visited, vector<vector<char>>& board, string& word) {
 
-        if (idx == word.size() - 1 && word[idx] == board[r][c])
+        if (idx == word.size()) {
             return true;
-        
-        if (word[idx] != board[r][c])
-            return false; 
+        }
 
+        if (!isValidRange(r,c, board) || word[idx] != board[r][c] || visited[r][c])
+            return false;
+    
+        visited[r][c] = true;
+        
         bool ans = false;
         int nextR, nextC;
         for (int d=0; d<4; d++) {
             nextR = r+dir[d], nextC = c+dir[d+1];
-            if (!isValidRange(nextR, nextC, board) || 
-                visited[nextR][nextC]) continue;
-            visited[nextR][nextC] = true;
             ans |= backtrack(nextR, nextC, idx+1, visited, board, word);
-            visited[nextR][nextC] = false;
         }
         
+        visited[r][c] = false;
+            
         return ans; 
         
     }
