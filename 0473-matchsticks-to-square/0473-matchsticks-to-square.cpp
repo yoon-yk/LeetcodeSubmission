@@ -1,63 +1,36 @@
 class Solution {
-
-    public:
-    int side;
-
-    bool makesquare(vector<int>& nums) {
-        
-        
-        if (nums.size() == 0)
-            return false;
-        
-        int l = nums.size();
-        int perimeter = 0;
-        for (int i=0; i<l; i++)
-            perimeter += nums[i];
-        
-        if (perimeter % 4 != 0) return false;
-        side = (perimeter >> 2);
-        if (*max_element(nums.begin(), nums.end()) > side) return false;
-        
-        unordered_map<int, unordered_map<int, bool>> memo;
+public:
+    vector<int> nums;
+    vector<bool> visited;
     
-        return (recurse(nums, (1 << l)-1, 0, memo));
-    };
-    
-    bool recurse(vector<int>& nums, int mask, int sidesDone,unordered_map<int, unordered_map<int, bool>>& memo) {
-        int total = 0;
-        int l = nums.size();
-        
-        pair<int, int> memoKey = pair(mask, sidesDone);
-        
-        for (int i=l-1; i>=0; i--) {
-            if ((mask & (1 << i)) == 0)
-                total += nums[l-1-i];
-        }
-        
-        if (total > 0 && (total % side == 0))
-            sidesDone++;
-        
-        if (sidesDone == 3)
-            return true;
-        
-        if (memo[memoKey.first].count(memoKey.second))
-            return memo[memoKey.first][memoKey.second];
-        
-        bool ans = false;
-        int c = total/side;
-        int rem = side * (c+1) - total;
-        
-        for (int i=l-1; i>=0; i--) {
-            if (nums[l-1-i] <= rem && 
-               ((mask&(1 << i)) > 0)) {
-                if (recurse(nums, mask ^ (1<<i), sidesDone, memo)) {
-                    ans = true;
-                    break;
-                }
+    bool dfs(int start, int cur, int length, int cnt) {
+        if (cnt==3) return true;
+        if (cur==length) return dfs(0, 0, length, cnt+1);
+        for(int i=start; i<nums.size(); i++) {
+            if (visited[i]) continue;
+            if (cur + nums[i] <= length) {
+                visited[i] = true;
+                if (dfs(i + 1, cur + nums[i], length, cnt)) return true;
+                visited[i] = false;
             }
+            if(cur==0 || cur+nums[i]==length) return false;
+            while(i+1<nums.size() && nums[i+1]==nums[i]) i++;
         }
+        return false;
+    }
+    
+    bool makesquare(vector<int>& matchsticks) {
+        nums = matchsticks;
+        int n = matchsticks.size();
+        visited.resize(n);
         
-        memo[memoKey.first][memoKey.second] = ans;
-        return ans;
+        int sum = accumulate(nums.begin(), nums.end(), 0);
+        if (sum % 4!=0) return false;
+        sum /= 4;
+        if (*max_element(nums.begin(), nums.end()) > sum) return false;
+        
+        sort(nums.begin(), nums.end(), greater<int>());
+        
+        return dfs(0, 0, sum, 0);
     }
 };
