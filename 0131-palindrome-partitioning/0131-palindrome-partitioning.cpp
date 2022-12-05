@@ -10,11 +10,6 @@ public:
         vector<string> cur;
         vector<vector<string>> ans;
         vector<vector<bool>> dp(n, vector<bool>(n, false));
-   
-        // for (int i=0; i<n; i++) {
-        //     if (i>0) check(i-1, i, s, dp);
-        //     check(i, i, s, dp);
-        // }
         
         int end = 0;
         for (int l=1; l<=s.size(); l++) {
