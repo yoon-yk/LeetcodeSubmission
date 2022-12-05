@@ -26,7 +26,7 @@ public:
         for (int i=0; i<n; i++) {
             vector<int> visited(n, false);
             visited[i] = true;
-            curCnt = dfs(i, visited, adjList) + 1;
+            curCnt = dfs(i, visited, adjList);
             ans = max(ans, curCnt);
         }
         
@@ -40,9 +40,9 @@ public:
         for (int& nei : adjList[idx]) {
             if (visited[nei]) continue;
             visited[nei] = true;
-            ans += (dfs(nei, visited, adjList) + 1);
+            ans += dfs(nei, visited, adjList);
         }
 
-        return ans;
+        return ans + 1;
     }
 };
