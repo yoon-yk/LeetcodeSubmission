@@ -27,7 +27,7 @@
 
 class Solution {
 public:
-    vector<int> dir = {-1, 0, 1, 0, -1}; // down, left, top, right
+    vector<int> dir = {-1, 0, 1, 0, -1}; // up, left, down, right
 
     void cleanRoom(Robot& robot) {
         int curR = 0, curC = 0, curD = 0;
@@ -55,10 +55,10 @@ public:
         for (int i=0; i<4; i++) {
             newD = (d+i)%4;
             newR = r + dir[newD], newC = c + dir[newD+1];
-            canMove = robot.move();
-            if (!visited[newR].count(newC) && canMove)
+            if (!visited[newR].count(newC) && robot.move()) {
                 dfs(robot, newR, newC, newD, visited);
-            if (canMove) backToOriginalState(robot);
+                backToOriginalState(robot);
+            }
             robot.turnRight();
         }
         
