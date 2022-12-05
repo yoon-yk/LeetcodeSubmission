@@ -11,29 +11,24 @@ public:
         vector<vector<string>> ans;
         vector<vector<bool>> dp(n, vector<bool>(n, false));
    
-        for (int i=0; i<n; i++) {
-            if (i>0) check(i-1, i, s, dp);
-            check(i, i, s, dp);
-        }
-        
         // for (int i=0; i<n; i++) {
-        //     for (int j=0; j<n; j++) {
-        //         cout << dp[i][j] << " ";
-        //     }
-        //     cout << endl;
+        //     if (i>0) check(i-1, i, s, dp);
+        //     check(i, i, s, dp);
         // }
         
-        
+        int end = 0;
+        for (int l=1; l<=s.size(); l++) {
+            for (int b=0; b+l-1<s.size(); b++) {
+                end = b+l-1;
+                if (l==1) dp[b][end] = 1;
+                else if (l==2) dp[b][end] = (s[b] == s[end]);
+                else dp[b][end] = (s[b] == s[end] && dp[b+1][end-1]);
+            }
+        }
+
         backtrack(0, s, dp, cur, ans);
         
         return ans;
-    }
-    
-    void check(int sIdx, int eIdx, string & s, vector<vector<bool>>& dp) {
-        while (sIdx >= 0 && eIdx < s.size() && s[sIdx] == s[eIdx]) {
-            dp[sIdx][eIdx] = true;
-            sIdx--, eIdx++;
-        }
     }
     
     void backtrack(int idx, string& s, vector<vector<bool>>& dp, vector<string>& cur, vector<vector<string>>& ans) {
