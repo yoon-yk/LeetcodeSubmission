@@ -40,12 +40,10 @@ public:
     bool dfs(int i, int j, vector<vector<char>>& board, string& word, int idx, int dir) {
         
         if (idx == word.size()) {
-            bool ret;
             if (dir == T) 
-                ret = (i >= board.size() || board[i][j] == '#');
+                return (i >= board.size() || board[i][j] == '#');
             else 
-                ret = (j < 0 || board[i][j] == '#');
-            return ret;
+                return(j < 0 || board[i][j] == '#');
         }
         
         
