@@ -1,6 +1,6 @@
 class Solution {
 public:
-    enum dir{T, D, R, L};
+    enum dir{T, R};
     
     bool placeWordInCrossword(vector<vector<char>>& board, string word) {
         int r = board.size(), c = board[0].size();
@@ -12,20 +12,24 @@ public:
         
         // word를 모두 끝낸 다음에, 다음 cell에 빈칸이나 다른 알파벳이 있는지 확인하고 그렇다면 return false;
         
+        string rev = word;
+        reverse(rev.begin(), rev.end());
+        
         for (int i=0; i<r; i++) {
             for (int j=0; j<c; j++) {
-                if (i == 0 || board[i-1][j] == '#') // vertical (from top)
+                if (i == 0 || board[i-1][j] == '#') { // vertical
                     if (dfs(i, j, board, word, 0, T))
                         return true;
-                if (i == r-1 || board[i+1][j] == '#') // vertical (from down)
-                    if (dfs(i, j, board, word, 0, D))
+                    if (dfs(i, j, board, rev, 0, T))
                         return true;
-                if (j == c-1 || board[i][j+1] == '#') // vertical (from right)
+                }
+                if (j == c-1 || board[i][j+1] == '#') { // horizontal 
                     if (dfs(i, j, board, word, 0, R))
                         return true;
-                if (j == 0 || board[i][j-1] == '#') // horizontal (from left)
-                    if (dfs(i, j, board, word, 0, L))
+                    if (dfs(i, j, board, rev, 0, R))
                         return true;
+                } 
+
             }
         }
         
@@ -39,10 +43,6 @@ public:
             bool ret;
             if (dir == T) 
                 ret = (i >= board.size() || board[i][j] == '#');
-            else if (dir == D)
-                ret = (i < 0 || board[i][j] == '#');
-            else if (dir == L)
-                ret = (j >= board[0].size() || board[i][j] == '#');
             else 
                 ret = (j < 0 || board[i][j] == '#');
             return ret;
@@ -53,8 +53,6 @@ public:
             return false;
         
         if (dir == T) return dfs(i+1, j, board, word, idx+1, dir);
-        else if (dir == D) return dfs(i-1, j, board, word, idx+1, dir);
-        else if (dir == L) return dfs(i, j+1, board, word, idx+1, dir);
         else return dfs(i, j-1, board, word, idx+1, dir);
         
     }
