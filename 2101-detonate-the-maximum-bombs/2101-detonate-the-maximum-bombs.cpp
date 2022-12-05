@@ -19,24 +19,14 @@ public:
             }
         }
         
-        // int ii = 0;
-        // for (auto i : adjList) {
-        //     cout << "idx " << ii++ << " :: ";
-        //     for (auto v : i) {
-        //         cout << v << " ";
-        //     }
-        //     cout << endl;
-        // }
-        
         int ans = 0;
         // do dfs for every bombs
-        vector<int> dp(n, -1);
         
         int curCnt;
         for (int i=0; i<n; i++) {
             vector<int> visited(n, false);
             visited[i] = true;
-            curCnt = dfs(i, visited, adjList, dp) + 1;
+            curCnt = dfs(i, visited, adjList) + 1;
             ans = max(ans, curCnt);
         }
         
@@ -44,19 +34,15 @@ public:
         return ans;
     }
     
-    int dfs(int idx, vector<int> &visited, vector<vector<int>>& adjList, vector<int>& dp) {
+    int dfs(int idx, vector<int> &visited, vector<vector<int>>& adjList) {
 
-//         if (dp[idx]!= -1)
-//             return dp[idx];
-        
         int ans = 0;
         for (int& nei : adjList[idx]) {
             if (visited[nei]) continue;
             visited[nei] = true;
-            ans += (dfs(nei, visited, adjList, dp) + 1);
+            ans += (dfs(nei, visited, adjList) + 1);
         }
-        // cout << idx << ":: " << ans << endl;
 
-        return dp[idx] = ans;
+        return ans;
     }
 };
