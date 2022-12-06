@@ -4,19 +4,21 @@ public:
         
         int n = nums.size();
         if (n==1) return nums[0];
-        vector<vector<int>> dp(n+1, vector<int>(2)); // include/exclude
         
-        dp[0][0] = dp[0][1] = 0;
-        dp[1][0] = nums[0];
-        dp[1][1] = 0;
+        return max(rob_simple(nums, 0, n-1), rob_simple(nums, 1, n));
+    }
+    
+    int rob_simple(vector<int>& nums, int start, int end) {
         
-        for (int i=1; i<n; i++) {
-            for (int k=0; k<2; k++) {
-                dp[i+1][k] = max(dp[i-1][k] + nums[i], dp[i][k]);
-            }
+        if (end-start+1 == 2) return nums[start];
+
+        int prev_2 = 0, prev_1 = 0;
+        for (int i=start; i<end; i++) {
+            int curChoice = max(prev_2 + nums[i], prev_1);
+            prev_2 = prev_1;
+            prev_1 = curChoice;
         }
         
-        return max(dp[n-1][0], dp[n][1]);
-
+        return max(prev_2, prev_1);
     }
 };
