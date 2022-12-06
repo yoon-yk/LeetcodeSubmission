@@ -11,13 +11,13 @@ public:
         max 
         */
         
-        
-        int ans = nums[0];
-        minArr[0] = maxArr[0] = nums[0];
+        int curMinChain, curMaxChain, temp, ans;
+        curMinChain = curMaxChain = ans = nums[0];
         for (int i=1; i<n; i++) {
-            minArr[i] = min(nums[i], min(maxArr[i-1]*nums[i], minArr[i-1]*nums[i]));
-            maxArr[i] = max(nums[i], max(maxArr[i-1]*nums[i], minArr[i-1]*nums[i]));
-            ans = max(maxArr[i], ans);
+            temp = curMaxChain;
+            curMaxChain = max(nums[i], max(curMaxChain*nums[i], curMinChain*nums[i]));
+            curMinChain = min(nums[i], min(temp*nums[i], curMinChain*nums[i]));
+            ans = max(curMaxChain, ans);
         }
 
         return ans;
