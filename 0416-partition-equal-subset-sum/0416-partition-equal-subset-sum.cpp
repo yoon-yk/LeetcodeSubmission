@@ -7,17 +7,15 @@ public:
         if (*max_element(nums.begin(), nums.end()) > target) return false;
         
         int n = nums.size();
-        vector<bool> prev(target+1, false), cur(target+1, false);
+        vector<bool> dp(target+1, false);
         
-        prev[0] = true;
+        dp[0] = true;
         for (int i=0; i<n; ++i) {
-            for (int s=1; s<=target; ++s) {
-                if (s-nums[i] >= 0 && prev[s-nums[i]])
-                    cur[s] = true;
+            for (int s=target; s>=nums[i]; --s) {
+                if (dp[s-nums[i]]) dp[s] = true;
             }
-            prev = cur;
         }
                 
-        return cur[target];
+        return dp[target];
     }
 };
