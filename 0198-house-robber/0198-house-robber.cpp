@@ -2,24 +2,16 @@ class Solution {
 public:
     int rob(vector<int>& nums) {
         int n = nums.size();
-        vector<int> dp(n, -1);
-        return backtrack(0, nums, dp);
-    }
-    
-    int backtrack(int idx, vector<int>& nums, vector<int>& dp) {
+        if (n == 1) return nums[0];
         
-        if (idx >= nums.size())
-            return 0;
+        vector<int> dp(n, 0);
+        dp[0] = nums[0], dp[1] = nums[1];
+        for (int i=2; i<n; i++) {
+            for (int j=0; j<i-1; j++) {
+                dp[i] = max(dp[i], dp[j] + nums[i]);
+            }
+        }
         
-        if (dp[idx] != -1)
-            return dp[idx];
-        
-        // take the current and start from the next next one
-        int ch1 = backtrack(idx+2, nums, dp) + nums[idx];
-        
-        // skip this and start from the next one
-        int ch2 = backtrack(idx+1, nums, dp);
-        
-        return dp[idx] = max(ch1, ch2);
+        return max(dp[n-1], dp[n-2]);
     }
 };
