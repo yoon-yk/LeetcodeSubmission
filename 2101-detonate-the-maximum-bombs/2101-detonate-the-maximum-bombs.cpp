@@ -1,48 +1,58 @@
 class Solution {
 public:
     int maximumDetonation(vector<vector<int>>& bombs) {
-        // graph ?
-        // find adjacent list
-        int n = bombs.size(); 
-        int fX, fY, fR, sX, sY, sR;
+        
+        // make adjList
+            // if one can reach the other's center, 
+            // it's a neighbor to one 
+        
+        int n = bombs.size();
         vector<vector<int>> adjList(n);
         
-        for (int i=0; i<bombs.size(); i++) {
-            fX = bombs[i][0], fY = bombs[i][1], fR = bombs[i][2];
-            for (int j=i+1; j<bombs.size(); j++) {
-                sX = bombs[j][0], sY = bombs[j][1], sR = bombs[j][2];
-                double dist = sqrt(pow(fX-sX, 2)+pow(fY-sY, 2));
-                if (dist <= (double)(fR)) 
+        int cX, cY, nX, nY;
+        long dist, cR, nR;
+        for (int i=0; i<n; i++) {
+            cX = bombs[i][0], cY = bombs[i][1], cR = bombs[i][2];
+            
+            for (int j=i+1; j<n; j++) {
+                nX = bombs[j][0], nY = bombs[j][1], nR = bombs[j][2];
+                dist = pow(cX-nX, 2) + pow(cY-nY, 2);
+                if (dist <= cR*cR) 
                     adjList[i].push_back(j);
-                if (dist <= (double)(sR)) 
+                
+                if (dist <= nR*nR) 
                     adjList[j].push_back(i);
+            
             }
         }
         
-        int ans = 0;
-        // do dfs for every bombs
-        
-        int curCnt;
+        // do dfs
+        int ans = 1;
+        vector<bool> visited(n, false);
         for (int i=0; i<n; i++) {
-            vector<int> visited(n, false);
-            visited[i] = true;
-            curCnt = dfs(i, visited, adjList);
-            ans = max(ans, curCnt);
+            ans = max(ans, dfs(i, adjList, visited));
+            fill(visited.begin(), visited.end(), false);
         }
         
-        // and get the maximum result
+        // return maximum result
         return ans;
     }
     
-    int dfs(int idx, vector<int> &visited, vector<vector<int>>& adjList) {
-
-        int ans = 0;
+    int dfs(int idx, vector<vector<int>>& adjList,
+           vector<bool>& visited) {
+        
+        int ans = 1;
+        
+        visited[idx] = true;
+        
         for (int& nei : adjList[idx]) {
             if (visited[nei]) continue;
-            visited[nei] = true;
-            ans += dfs(nei, visited, adjList);
+            ans += dfs(nei, adjList, visited);
         }
-
-        return ans + 1;
+        
+        return ans;
     }
 };
+
+
+
