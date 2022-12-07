@@ -11,6 +11,7 @@ public:
                 else 
                     dp[end] |= dp[start-1] && dict.count(s.substr(start, end-start+1));
 
+                if (dp[end]) break;
             }
         }
 
