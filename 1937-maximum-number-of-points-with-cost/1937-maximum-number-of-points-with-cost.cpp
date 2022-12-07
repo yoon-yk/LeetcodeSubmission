@@ -3,36 +3,30 @@ public:
     long long maxPoints(vector<vector<int>>& points) {
         
         int r = points.size(), c = points[0].size();
-        vector<long long> dp(c, -1);
-        vector<long long> left(c, -1), right(c, -1);
+        int n = points.size();
         
-        for (int i = 0; i < c; ++i) dp[i] = points[0][i];       
+        vector<long long> dp(c, 0), left(c, 0), right(c, 0);
+        for (int i=0; i<c; ++i) dp[i] = points[0][i];
         
         for (int i=1; i<r; ++i) {
             
+            // left
             left[0] = dp[0];
-            for (int lptr=1; lptr<c; ++lptr) {
-                left[lptr] = max(left[lptr-1]-1, dp[lptr]);
+            for (int j=1; j<c; ++j) {
+                left[j] = max(left[j-1]-1, dp[j]);
             }
-                
+            // right
             right[c-1] = dp[c-1];
-            for (int rptr=c-2; rptr>=0; --rptr) {
-                right[rptr] = max(right[rptr+1]-1, dp[rptr]);
+            for (int j=c-2; j>=0; --j) {
+                right[j] = max(right[j+1]-1, dp[j]);
             }
             
-            // cout << "**Row**" << i << endl;
-            // for (int i=0; i<c; i++)
-            //     cout << left[i] << " ";
-            // cout << endl;
-            // for (int i=0; i<c; i++)
-            //     cout << right[i] << " ";
-            // cout << endl;
-            
-            for (int j=0; j<c; j++) {
-                dp[j] = max(left[j], right[j]) + points[i][j];        
+            for (int j=0; j<c; ++j) {
+                dp[j] = max(right[j], left[j]) + points[i][j];
             }
+            
         }
         
-        return *max_element(dp.begin(), dp.end());
+        return *(max_element(dp.begin(), dp.end()));
     }
 };
