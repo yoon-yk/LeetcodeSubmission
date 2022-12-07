@@ -11,15 +11,26 @@ public:
         for (int i=1; i<r; ++i) {
             
             left[0] = dp[0];
-            for (int lptr=1; lptr<c; ++lptr) 
-                left[lptr] = max(left[lptr-1], dp[lptr]+lptr);
+            for (int lptr=1; lptr<c; ++lptr) {
+                left[lptr] = max(left[lptr-1]-1, dp[lptr]);
+            }
+                
+            right[c-1] = dp[c-1];
+            for (int rptr=c-2; rptr>=0; --rptr) {
+                right[rptr] = max(right[rptr+1]-1, dp[rptr]);
+            }
             
-            right[c-1] = dp[c-1] - c + 1;
-            for (int rptr=c-2; rptr>=0; --rptr) 
-                right[rptr] = max(right[rptr+1], dp[rptr]-rptr);
+            // cout << "**Row**" << i << endl;
+            // for (int i=0; i<c; i++)
+            //     cout << left[i] << " ";
+            // cout << endl;
+            // for (int i=0; i<c; i++)
+            //     cout << right[i] << " ";
+            // cout << endl;
             
-            for (int j=0; j<c; j++) 
-                dp[j] = max(left[j]-j, right[j]+j) + points[i][j];
+            for (int j=0; j<c; j++) {
+                dp[j] = max(left[j], right[j]) + points[i][j];        
+            }
         }
         
         return *max_element(dp.begin(), dp.end());
