@@ -4,14 +4,11 @@ public:
         int n = nums.size();
         if (n == 1) return nums[0];
         
-        vector<int> dp(n, 0);
-        dp[0] = nums[0], dp[1] = nums[1];
+        int prevSec = nums[0], prevFirst = max(nums[0], nums[1]), cur = prevFirst;
         for (int i=2; i<n; i++) {
-            for (int j=0; j<i-1; j++) {
-                dp[i] = max(dp[i], dp[j] + nums[i]);
-            }
+            cur = max(prevSec + nums[i], prevFirst);
+            prevSec = prevFirst, prevFirst = cur;
         }
-        
-        return max(dp[n-1], dp[n-2]);
+        return cur;
     }
 };
