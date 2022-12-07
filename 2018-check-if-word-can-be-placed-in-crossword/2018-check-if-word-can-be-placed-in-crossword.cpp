@@ -25,38 +25,27 @@ public:
         }
         
         return false;
-    }
-    
-    /*
-    
-    # #
-    # #
-    # c
-    
-    */
-    
-    
+    }    
+
     bool dfs(int r, int c, vector<vector<char>>& board, int idx, string& word,  direction dir) {
                 
         // if reached the end, 
             // return true if no more space in the end
             // else return false;
+        
+        while (!(r >= board.size() || c >= board[0].size() || board[r][c] == '#' || 
+            idx >= word.size() || (board[r][c]!=' ' && board[r][c] != word[idx]))){
+            if (dir == H) c++;
+            else r++;
+            idx++;
+        }
+        
         if (idx == word.size()) {
             if (dir == H) 
                 return (c == board[0].size() || board[r][c] == '#');
             else 
                 return (r == board.size() || board[r][c] == '#');
         }
-        
-        // exit
-        // if out of range/ or different char exists or is blocked by the wall
-        if (r >= board.size() || c >= board[0].size() || board[r][c] == '#' || 
-            (board[r][c]!=' ' && board[r][c] != word[idx]))
-            return false;
-        
-        // keep exploring
-        if (dir == H) return dfs(r, c+1, board, idx+1, word, dir);
-        return dfs(r+1, c, board, idx+1, word, dir);
-        
+        return false;
     }
 };
