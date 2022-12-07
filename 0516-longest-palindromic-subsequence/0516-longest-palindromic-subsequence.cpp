@@ -2,25 +2,18 @@ class Solution {
 public:
     int longestPalindromeSubseq(string s) {
         int n = s.size();
-        vector<vector<int>> dp(n, vector<int>(n, -1));
-        return backtrack(s, 0, n-1, dp);
-    }
-    
-    int backtrack(string& s, int start, int end, vector<vector<int>>& dp) {
+        vector<vector<int>> dp(n, vector<int>(n, 0));
         
-        if (start > end) return 0;
-        if (start == end) return dp[start][end] = 1;
-        
-        if (dp[start][end] != -1) return dp[start][end];
-        
-        int ans = 0;
-        if (s[start] == s[end]) {
-            ans = backtrack(s, start+1, end-1, dp) + 2;
-        } else {
-            ans = backtrack(s, start+1, end, dp);
-            ans = max(ans, backtrack(s, start, end-1, dp));
+        for (int len=1; len<=n; ++len) {
+            for (int start=0, end; start+len-1<n; ++start) {
+                end = start + len-1;
+                if (len == 1) dp[start][end] = 1;
+                else if (s[start] == s[end]) dp[start][end] = dp[start+1][end-1] + 2;
+                else dp[start][end] = max(dp[start+1][end], dp[start][end-1]);
+            }
         }
-        return dp[start][end] = ans;
+
+        return dp[0][n-1];
     }
     
 };
