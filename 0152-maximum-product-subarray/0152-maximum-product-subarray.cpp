@@ -14,14 +14,15 @@ public:
         
         
         */
-        int n = nums.size();
-        vector<int> minArr(n, 1), maxArr(n, 1);
-        minArr[0] = maxArr[0] = nums[0];
+        int n = nums.size(), ans = nums[0], prevMaxChain, prevMinChain, minChain, maxChain;
+        minChain = maxChain = nums[0];
         for (int i=1; i<n; ++i) {
-            minArr[i] = min(nums[i], min(minArr[i-1] * nums[i], maxArr[i-1] * nums[i]));
-            maxArr[i] = max(nums[i], max(maxArr[i-1] * nums[i], minArr[i-1] * nums[i]));
+            prevMaxChain = maxChain, prevMinChain = minChain;
+            minChain = min(nums[i], min(prevMinChain * nums[i], prevMaxChain * nums[i]));
+            maxChain = max(nums[i], max(prevMaxChain * nums[i], prevMinChain * nums[i]));
+            ans = max(maxChain, ans);
         }
         
-        return *max_element(maxArr.begin(), maxArr.end());
+        return ans;
     }
 };
