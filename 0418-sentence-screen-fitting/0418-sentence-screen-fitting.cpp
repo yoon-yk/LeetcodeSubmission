@@ -26,7 +26,8 @@ public:
                 colsLeft -= (wordSize + space);
                 space = true;
             }
-            if (!cycle) ++currCnt;
+            if (cycle) break;
+            ++currCnt;
         }
 
         int idx = cycleStart;
