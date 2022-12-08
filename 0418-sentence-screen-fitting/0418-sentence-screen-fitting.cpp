@@ -6,36 +6,36 @@ public:
         vector<int> cycleNext(n, -1), cycleCnt(n, -1);
 
         bool cycle = false, space = false;
-        int startStr = 0, cnt = 0, set = 0;
+        int startStr = 0;
         int rowsLeft = rows-1, colsLeft = cols;
-        int cycleStart = -1, prevCnt = 0;
+        int cycleStart = -1, currCnt = 0, prevCnt = 0;
         while (!cycle) {
             for (int i=0; !cycle && i<n; i++){
                 int wordSize = sentence[i].size();
                 if (colsLeft < (wordSize + space)) {
-                    if (rowsLeft == 0) return set;
+                    if (rowsLeft == 0) return currCnt;
                     cycleNext[startStr] = i;
-                    cycleCnt[startStr] = set - prevCnt;
-                    prevCnt = set;
+                    cycleCnt[startStr] = currCnt - prevCnt;
                     if (cycleCnt[i]!= -1) { cycle = true, cycleStart = i; break;}
                     --rowsLeft;
                     colsLeft = cols;
                     space = false;
                     startStr = i;
+                    prevCnt = currCnt;
                 }
                 colsLeft -= (wordSize + space);
                 space = true;
             }
-            if (!cycle) ++set;
+            if (!cycle) ++currCnt;
         }
 
         int idx = cycleStart;
         while (rowsLeft--) {
-            set += cycleCnt[idx];
+            currCnt += cycleCnt[idx];
             idx = cycleNext[idx];
         }        
         
-        return set;
+        return currCnt;
         
     }
 };
