@@ -4,12 +4,10 @@ public:
       
         int n = nums.size();
         int sum = accumulate(nums.begin(), nums.end(), 0);
-        unordered_map<int, int> prev;
-        unordered_map<int, int> curr;
-        
-        
+        vector<int> prev((sum << 3) + 1, 0), curr((sum << 3) + 1, 0);
         /*
-          -5 -4 -3 -2 -1  0  1  2  3
+           0  1  2  3  4  5  6  7  8  9 10
+          -5 -4 -3 -2 -1  0  1  2  3  4  5
         0        0  0  0  1  0  0  0
         1        0  0  1  1  1  0  0
         2        0  1  1  3  1  1  0
@@ -19,16 +17,17 @@ public:
         
         
         */
-        prev[0] = 1;
+        int base = sum * 2;
+        prev[base] = 1;
         for (int i=0; i<n; ++i) {
-            curr.clear();
-            for (int s = -sum; s<=sum; ++s) {
-                curr[s] += prev[s-nums[i]];
-                curr[s] += prev[s+nums[i]];
+            for (int s = base - sum; s <= base + sum; ++s) {
+                curr[s] = 0;
+                curr[s] += prev[s - nums[i]];
+                curr[s] += prev[s + nums[i]];
             }
             prev = curr;
         }
         
-        return curr[target];
+        return curr[base + target];
     }
 };
