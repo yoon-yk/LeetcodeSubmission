@@ -4,7 +4,8 @@ public:
       
         int n = nums.size();
         int sum = accumulate(nums.begin(), nums.end(), 0);
-        vector<unordered_map<int, int>> dp(n+1);
+        unordered_map<int, int> prev;
+        unordered_map<int, int> curr;
         
         
         /*
@@ -18,14 +19,16 @@ public:
         
         
         */
-        dp[0][0] = 1;
-        for (int i=1; i<=n; ++i) {
+        prev[0] = 1;
+        for (int i=0; i<n; ++i) {
+            curr.clear();
             for (int s = -sum; s<=sum; ++s) {
-                dp[i][s] += dp[i-1][s-nums[i-1]];
-                dp[i][s] += dp[i-1][s+nums[i-1]];
+                curr[s] += prev[s-nums[i]];
+                curr[s] += prev[s+nums[i]];
             }
+            prev = curr;
         }
         
-        return dp[n][target];
+        return curr[target];
     }
 };
