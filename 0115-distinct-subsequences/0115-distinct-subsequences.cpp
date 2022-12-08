@@ -32,29 +32,24 @@ public:
 //     }
     
     int numDistinct(string s, string t) {
-        vector<vector<int>> dp(s.size(), vector<int>(t.size(), -1));
-        return backtrack(0, 0, s, t, dp);
-    }
-    
-    int backtrack(int idx1, int idx2, string& s, string& t, vector<vector<int>>& dp) {
+        int len1 = s.size(), len2 = t.size();
+        long long ret;
+        vector<vector<int>> dp(len1+1, vector<int>(len2+1, 0));
+        dp[len1][len2] = 1;
+        for (int i=len1; i>=0; --i) {
+            for (int j=len2; j>=0; --j) {
+                if (i==len1 || j == len2) {
+                    dp[i][j] = (j==len2);
+                    continue;
+                }
+                ret = 0;
+                if (s[i] == t[j]) ret += dp[i+1][j+1];
+                ret += dp[i+1][j]; 
+                dp[i][j] = ret;
+            }
+        } 
         
         
-        if (idx2 == t.size())
-            return 1;
-        if (idx1 == s.size())
-            return 0;
-        
-        if (dp[idx1][idx2] != -1)
-            return dp[idx1][idx2];
-        
-        int ans = 0;
-        
-        if (s[idx1] == t[idx2]) 
-            ans += backtrack(idx1+1, idx2+1, s, t, dp);
-        
-        ans += backtrack(idx1+1, idx2, s, t, dp);
-        
-        return dp[idx1][idx2] = ans;
-        
+        return dp[0][0];
     }
 };
