@@ -9,18 +9,14 @@ public:
         for (int i=len1; i>=0; --i) {
             for (int j=len2; j>=0; --j) {
                 int l3 = i+j;
-                
-                if (i == len1 && j == len2) {
+                if (i == len1 && j == len2) 
                     dp[i][j] = true;
-                } 
 
-                if (j < len2 && s3[l3] == s2[j]) {
+                if (j < len2 && s3[l3] == s2[j]) 
                     dp[i][j] |= dp[i][j+1];
-                }
                 
-                if (i < len1 && s3[l3] == s1[i]) {
+                if (i < len1 && s3[l3] == s1[i]) 
                     dp[i][j] |= dp[i+1][j];
-                }
             }
         }        
         
