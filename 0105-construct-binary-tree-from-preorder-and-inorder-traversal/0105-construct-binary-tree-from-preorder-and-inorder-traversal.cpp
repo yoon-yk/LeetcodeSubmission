@@ -29,20 +29,23 @@ public:
         
         int n = preorder.size();
         int idx = 0;
-        return getRoot(idx, 0, n-1, preorder, inorder);
+        unordered_map<int, int> inMap;
+        for (int i=0; i<preorder.size(); ++i) inMap[inorder[i]] = i;
+        
+        return getRoot(idx, 0, n-1, preorder, inMap);
         
     }
     
-    TreeNode* getRoot(int& idx, int start, int end, vector<int>& preorder, vector<int>& inorder) {
+    TreeNode* getRoot(int& idx, int start, int end, vector<int>& preorder, unordered_map<int, int>& inMap) {
         
         if (start > end || idx == preorder.size()) return NULL;
         
         int rootVal = preorder[idx++];
-        int rootIdx = find(inorder.begin()+start, inorder.end()+end, rootVal) - inorder.begin();
+        int rootIdx = inMap[rootVal];
         TreeNode* root = new TreeNode(rootVal);
         
-        root->left = getRoot(idx, start, rootIdx-1, preorder, inorder);
-        root->right = getRoot(idx, rootIdx+1, end, preorder, inorder);
+        root->left = getRoot(idx, start, rootIdx-1, preorder, inMap);
+        root->right = getRoot(idx, rootIdx+1, end, preorder, inMap);
         
         return root;
     }
