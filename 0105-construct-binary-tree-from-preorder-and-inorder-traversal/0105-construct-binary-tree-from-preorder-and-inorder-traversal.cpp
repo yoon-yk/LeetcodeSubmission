@@ -38,7 +38,7 @@ public:
         if (start > end || idx == preorder.size()) return NULL;
         
         int rootVal = preorder[idx++];
-        int rootIdx = find(inorder.begin(), inorder.end(), rootVal) - inorder.begin();
+        int rootIdx = find(inorder.begin()+start, inorder.end()+end, rootVal) - inorder.begin();
         TreeNode* root = new TreeNode(rootVal);
         
         root->left = getRoot(idx, start, rootIdx-1, preorder, inorder);
