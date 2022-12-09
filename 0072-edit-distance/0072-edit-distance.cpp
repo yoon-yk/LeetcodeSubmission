@@ -12,8 +12,11 @@ public:
                     continue;
                 }    
                 ret = len2+len1;
-                if (w1[idx1] == w2[idx2]) 
-                    ret = dp[idx1+1][idx2+1];
+                if (w1[idx1] == w2[idx2]) {
+                    dp[idx1][idx2] = dp[idx1+1][idx2+1];
+                    continue;
+                }
+                    
                 ret = min(ret, dp[idx1+1][idx2] + 1);
                 ret = min(ret, dp[idx1][idx2+1] + 1);
                 ret = min(ret, dp[idx1+1][idx2+1] + 1);
