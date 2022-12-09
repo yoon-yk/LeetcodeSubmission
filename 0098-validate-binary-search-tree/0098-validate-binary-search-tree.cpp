@@ -12,17 +12,17 @@
 class Solution {
 public:
     bool isValidBST(TreeNode* root) {
-        return isValid(root, (long)INT_MIN-1, (long)INT_MAX+1);
+        return isValid(root, (long long)INT_MIN-1, (long long)INT_MAX+1);
     }
     
-    bool isValid(TreeNode* root, long lb, long ub){
-        
+    bool isValid(TreeNode*root, long long minV, long long maxV) {
+    
         if (!root) return true;
         
-        bool cur = (lb < root->val && root->val<ub);
-        bool left = isValid(root->left, lb, root->val);
-        bool right = isValid(root->right, root->val, ub);
+        bool isRootValid = (root->val < maxV && minV < root->val);
+        bool isLeftValid = isValid(root->left, minV, root->val);
+        bool isRightValid = isValid(root->right, root->val, maxV);
         
-        return (cur && left && right);
+        return isRootValid && isLeftValid && isRightValid;
     }
 };
