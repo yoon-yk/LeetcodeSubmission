@@ -12,23 +12,20 @@
 class Solution {
 public:
     int goodNodes(TreeNode* root) {
-        int maxVal = INT_MIN;
-        return dfs(root, maxVal);
+       return isGoodNodes(root, -99999); 
     }
     
-    int dfs(TreeNode* root, int maxVal) {
+    int isGoodNodes(TreeNode* root, int maxElm) {
         
-        int cnt = 0;
-        if (!root) return cnt;
+        if (!root) return 0;
         
-        if (root->val >= maxVal) {
-            cnt ++;
-            maxVal = root->val;
-        }
+        int ans = (root->val >= maxElm);
+        maxElm = max(root->val, maxElm);
         
-        cnt += dfs(root->left, maxVal);
-        cnt += dfs(root->right, maxVal);
+        if (root->left) ans += isGoodNodes(root->left, maxElm);
+        if (root->right) ans += isGoodNodes(root->right, maxElm);
         
-        return cnt;
+        return ans;
+        
     }
 };
