@@ -12,14 +12,11 @@ public:
         */
         
         int n = nums.size();
-        int prefixSum = 0, minSum = 0;
-        int ans = nums[0];
-        for(int i=0; i<n; ++i) {
-            prefixSum += nums[i];
-            ans = max(ans, prefixSum-minSum);
-            minSum = min(minSum, prefixSum);
+        int curSum = nums[0], maxSum = nums[0];
+        for(int i=1; i<n; ++i) {
+            curSum = max(curSum + nums[i], nums[i]);
+            maxSum = max(maxSum, curSum);
         }
-        
-        return ans;
+        return maxSum;
     }
 };
