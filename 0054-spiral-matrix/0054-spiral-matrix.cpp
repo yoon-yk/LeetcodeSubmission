@@ -18,29 +18,29 @@ public:
         colBegin = 0, colEnd = matrix[0].size()-1;
         
         while (rowBegin <= rowEnd && colBegin <= rowEnd) {
+            if (colBegin > colEnd) break;
             for (int c=colBegin; c<=colEnd; ++c) {
                 ans.push_back(matrix[rowBegin][c]);
             }
             rowBegin++;
-            if (rowBegin > rowEnd) break;
             
+            if (rowBegin > rowEnd) break;
             for (int r=rowBegin; r<=rowEnd; ++r) {
                 ans.push_back(matrix[r][colEnd]);
             }
             colEnd--;
-            if (colBegin > colEnd) break;
 
+            if (rowBegin > rowEnd) break;
             for (int c=colEnd; c>=colBegin; --c) {
                 ans.push_back(matrix[rowEnd][c]);
             }
             rowEnd--;   
-            if (rowBegin > rowEnd) break;
 
+            if (colBegin > colEnd) break;
             for (int r=rowEnd; r>=rowBegin; --r) {
                 ans.push_back(matrix[r][colBegin]);
             }
             colBegin++;  
-            if (colBegin > colEnd) break;
 
             
         } 
