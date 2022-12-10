@@ -18,22 +18,26 @@ public:
         [0,0,2,0,4]
         [0,1,3,3,8]
         
+        <0 1 2>
+        [0,0,2]
+        [0,1,4]
+  
+        <0 1 2>
+        [0,8,0]
+        [0,9,0]
+        
+        
+        
         */
     bool canJump(vector<int>& nums) {
-        vector<int> dp(nums.size(), -1);
-        return backtrack(0, nums, dp);
-    }
-    bool backtrack(int idx, vector<int>& nums, vector<int>& dp) {
-        if (idx >= nums.size()-1)
-            return true;
         
-        if (dp[idx]!= -1) return dp[idx];
-        
-        for (int i=1; i<=nums[idx]; i++) {
-            if (backtrack(idx+i, nums, dp)) 
-                return nums[idx] = true;
+        int curMax = 0;
+        int n = nums.size();
+        for (int i=0; i<n-1; ++i) {
+            curMax = max(nums[i]+i, curMax);
+            if (curMax <= i) return false;
         }
-        
-        return nums[idx] = false;
+        return true;
     }
+
 };
