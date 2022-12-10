@@ -11,30 +11,32 @@
  */
 class Solution {
 public:
-    int maxSum = INT_MIN;
     
     int maxPathSum(TreeNode* root) {
-        getPathSum(root);
-        return maxSum;
+        
+        int globalMaxSum = INT_MIN;
+        pathSum(root, globalMaxSum);
+        
+        return globalMaxSum;
     }
     
-    int getPathSum(TreeNode* root) {
+    // root itself
+    // left to root
+    // right to root
+    // 
+    
+    int pathSum(TreeNode* root, int& globalMaxSum) {
+
         if (!root) return 0;
         
-        int left = 0, right = 0;
+        int rootVal = root->val;
+        int lMaxSum = pathSum(root->left, globalMaxSum);
+        int rMaxSum = pathSum(root->right, globalMaxSum);
+        int includeRoot = lMaxSum + rMaxSum + rootVal;
+        int ret = max(max(lMaxSum, rMaxSum) + rootVal, rootVal);
         
-        left = max(getPathSum(root->left), 0);
-        right = max(getPathSum(root->right), 0);
+        globalMaxSum = max(globalMaxSum, max(includeRoot, ret));
         
-        maxSum = max(maxSum, left + right + root->val);
-        
-        return max(left+root->val, right+root->val);
+        return ret;
     }
-
-    /*
-    root itself
-    left to root
-    right to root
-    left to right
-    */
 };
