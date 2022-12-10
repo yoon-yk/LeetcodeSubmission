@@ -28,8 +28,7 @@ public:
             if (++cnt == k)
                 return cur->val;
             
-            if (cur->right) cur = cur->right;
-            else cur = NULL;
+            cur = cur->right;
         }
         
         return -1;
