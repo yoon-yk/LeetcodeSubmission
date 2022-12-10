@@ -1,63 +1,75 @@
 class Solution {
 public:
-    string alienOrder(vector<string>& words) {
-        
-        vector<vector<int>> adjList(26, vector<int>(26, 0));
-        vector<int> indeg(26, 0);
-        vector<bool> exist(26, 0);
-        
-        int chCnt = 0;
-        for (auto & word : words) {
-            for (auto & c : word) {
-                if (exist[c-'a']) continue;
-                exist[c-'a'] = true; 
-                chCnt ++;
-            }
-        }
-                
-        int n = words.size(); 
-        for (int w=0; w<n-1; w++) {
-            string& word1 = words[w];
-            string& word2 = words[w+1];
-            
-            int ptr1 = 0, ptr2 = 0;
-            while (ptr1<word1.size() && ptr2 < word2.size() && word1[ptr1] == word2[ptr2]){
-                ptr1++, ptr2++;
-            } 
-            
-            if (ptr1 != word1.size() && ptr2 == word2.size()) return "";
-            else if (ptr1 == word1.size()) continue;
 
-            int firstCh = word1[ptr1]-'a', secondCh = word2[ptr2]-'a';
-        
-            if (adjList[firstCh][secondCh]) continue;
-            adjList[firstCh][secondCh] = true;
-            indeg[secondCh] ++;        
+    /* ONE COMPONENT WITH NO CYCLE */
+    
+    bool ERROR = false;
+    
+    int initIndegAndCountUniqueChars(vector<string>& words, vector<int>& indeg) {
+        int cnt = 0;
+        for (auto & word : words) {
+            for (auto & c : word){
+                if (indeg[c-'a'] != INT_MIN) continue;
+                cnt++;
+                indeg[c-'a'] = 0;
+            }   
         }
+        return cnt;
+    }
+    
+    void makeOrder(int c1, int c2, vector<int>& indeg, vector<vector<int>> &adjList) {
+        adjList[c1].push_back(c2);
+        indeg[c2]++;
+    }
+    
+    void findOrder(vector<string>& words, vector<int>& indeg, vector<vector<int>> &adjList) {
+        int n = words.size();
+        for (int i=0; i<n-1; i++) {
+            string& w1 = words[i]; string& w2 = words[i+1];
+            int idx1 = 0, idx2 = 0;
+            while (idx1 < w1.size() && idx2 < w2.size() && w1[idx1] == w2[idx2]) 
+                idx1++, idx2++;
+        
+            if (idx1 == w1.size()) continue;
+            else if (idx2 == w2.size()) {ERROR = true; return;}
+            
+            makeOrder(w1[idx1]-'a', w2[idx2]-'a', indeg, adjList);
+        }
+    }
+    
+    string alienOrder(vector<string>& words) {
+        // order
+        // only one pair each 
+        // skip until it has the same char
+        
+        
+        vector<vector<int>> adjList(26);
+        vector<int> indeg(26, INT_MIN);
+        int cnt = initIndegAndCountUniqueChars(words, indeg);
+        findOrder(words, indeg, adjList); // fill adjList;
+        if (ERROR) return "";        // starting from the letters with no indegree
         
         queue<int> Q;
-        for (int i=0; i<26; i++) {
-            if (exist[i] && indeg[i] == 0) Q.push(i);
-        }
+        for (int i=0; i<26; ++i)
+            if (indeg[i] == 0) { Q.push(i); }
+        // insert into Q
         
-        string ans;
+        // topological sort
+        string s;
         while (!Q.empty()) {
-            int size = Q.size();
-            while (size--) {
-                int cur = Q.front(); Q.pop();
-                ans += (cur+'a');
-                
-                for (int i=0; i<26; i++) {
-                    if (adjList[cur][i]) {
-                        indeg[i]--;
-                        if (indeg[i] == 0)
-                            Q.push(i);
-                    }
-                }
+            auto cur = Q.front(); Q.pop();
+            s += (char)(cur+'a');
+            
+            for (auto & nei : adjList[cur]) {
+                if (--indeg[nei] == 0)
+                    Q.push(nei);
             }
         }
         
-        return (ans.size() == chCnt) ? ans : "";
+        return (s.size() == cnt) ? s : "";
+        // if all chars were shown,
+        // return the output
+        // else return "";
         
     }
 };
