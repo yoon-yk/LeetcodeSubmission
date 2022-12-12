@@ -27,12 +27,11 @@ public:
         for (auto & w : words) insertWord(w);
         
         int n = board.size(), m = board[0].size();
-        vector<vector<bool>> visited(n, vector<bool>(m, false));
         vector<string> ans;
         for (int i=0; i<board.size(); ++i) {
             for (int j=0; j<board[0].size(); ++j) {
                 string curStr;
-                dfs(board, visited, i, j, curStr, root, ans);
+                dfs(board, i, j, curStr, root, ans);
             }
         }
         
@@ -41,22 +40,22 @@ public:
     
     vector<int> dir = {-1, 0, 1, 0, -1};
     
-    void dfs(vector<vector<char>>& board, vector<vector<bool>>& visited, int i, int j, string& curStr, TrieNode* cur, vector<string>& ans) {
+    void dfs(vector<vector<char>>& board, int i, int j, string& curStr, TrieNode* cur, vector<string>& ans) {
         
-        if (i<0 || j<0 || i>=board.size() || j>=board[0].size() || visited[i][j] || cur->children[board[i][j]-'a'] == NULL) return;
+        if (i<0 || j<0 || i>=board.size() || j>=board[0].size() || board[i][j] == '#' || cur->children[board[i][j]-'a'] == NULL) return;
         
-        cur = cur->children[board[i][j]-'a'];
-        curStr.push_back(board[i][j]);
+        char curCh = board[i][j];
+        cur = cur->children[curCh-'a'];
+        curStr.push_back(curCh);
+        board[i][j] = '#';
 
         if (cur->isWord) ans.push_back(curStr);
         cur->isWord = false;
-        visited[i][j] = true;
         
         for (int d=0; d<4; d++) 
-            dfs(board, visited, i + dir[d], j+dir[d+1], curStr, cur, ans);
+            dfs(board, i + dir[d], j+dir[d+1], curStr, cur, ans);
 
-        
-        visited[i][j] = false;
+        board[i][j] = curCh;
         curStr.pop_back();
     }
 };
