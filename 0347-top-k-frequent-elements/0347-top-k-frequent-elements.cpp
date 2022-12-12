@@ -1,60 +1,49 @@
 class Solution {
 public:
-    vector<int> unique;
-    unordered_map<int, int> count_map;
+    unordered_map<int, int> hashM;
+    
+    int partition(int start, int end, vector<int>& vals) {   
 
-    int partition(int left, int right, int pivot_index) {
-        int pivot_frequency = count_map[unique[pivot_index]];
-        
-        // 1. Move pivot to the end
-        swap(unique[pivot_index], unique[right]);
-        
-        // 2. Move all less frequent elements to the left
-        int store_index = left;
-        for (int i=left; i<=right; i++) {
-            if (count_map[unique[i]] < pivot_frequency) {
-                swap(unique[store_index], unique[i]);
-                store_index++;
-            }
+        int lo = start;
+        for (int i=start; i<end; i++) {
+            if (hashM[vals[i]] < hashM[vals[end]]) {
+                swap(vals[i], vals[lo]);
+                lo++;
+            } 
         }
         
-        // 3. move pivot to its final place
-        swap(unique[right], unique[store_index]);
+        swap(vals[lo], vals[end]);
         
-        return store_index;
+        return lo;
     }
+    
+    void quicksort(int start, int end, vector<int>& vals, int k) {
         
-    void quickselect(int left, int right, int k_smallest) {
-        
-        // base case : the list contains only one element
-        if (left == right) return;
-        int pivot_index = left + rand() % (right-left+1);
-        
-        // find the pivot position in a sorted list
-        pivot_index = partition(left, right, pivot_index);
-        
-        // if the pivot is in its final sorted position
-        if (k_smallest == pivot_index) {
-            return;
-        } else if(k_smallest < pivot_index) {
-            // go left
-            quickselect(left, pivot_index-1, k_smallest);
+        if (start == end) return;
+        int randIdx = start + (rand() % (end-start+1));
+        int partitionIdx = partition(start, end, vals);
+        if (partitionIdx == k) return;
+        else if (partitionIdx < k) {
+            quicksort(partitionIdx+1, end, vals, k);
         } else {
-            // go right
-            quickselect(pivot_index+1, right, k_smallest);
+            quicksort(start, partitionIdx-1, vals, k);
         }
     }
     
     vector<int> topKFrequent(vector<int>& nums, int k) {
-        for (int & n : nums) count_map[n] ++;
         
-        int n = count_map.size();
-        for (auto & [val, preq] : count_map)
-            unique.push_back(val);
+        for (auto & n : nums) hashM[n]++;
         
-        quickselect(0, n-1, n-k);
-        vector<int> top_k_frequent(k);
-        copy(unique.begin() + n-k, unique.end(), top_k_frequent.begin());
-        return top_k_frequent;
+        vector<int> values;
+        for (auto & [val, freq] : hashM)
+            values.push_back(val);
+        
+        int n = values.size();
+        // 0 1 2 3 4 5 6 7
+        quicksort(0, n-1, values, n-k);
+        
+        vector<int> ans(values.begin()+n-k, values.end());
+        return ans;
+        
     }
 };
