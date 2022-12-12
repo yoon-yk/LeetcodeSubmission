@@ -21,6 +21,8 @@ public:
         
         if (start == end) return;
         int randIdx = start + (rand() % (end-start+1));
+        swap(vals[randIdx], vals[end]);
+        
         int partitionIdx = partition(start, end, vals);
         if (partitionIdx == k) return;
         else if (partitionIdx < k) {
