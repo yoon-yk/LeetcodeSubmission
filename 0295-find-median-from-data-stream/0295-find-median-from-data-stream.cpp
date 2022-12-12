@@ -1,23 +1,45 @@
 class MedianFinder {
-    multiset<int> data;
-    multiset<int>::iterator mid;
-    
 public:
-    MedianFinder() 
-        : mid(data.end()) {}
+    priority_queue<int> lower; 
+    priority_queue<int, vector<int>, greater<int>> upper; 
+    int totalSize;
     
+    MedianFinder() {
+        totalSize = 0;
+    }
+    
+    /*
+    
+    1 3 4 | 5 6 7
+    
+    */
     void addNum(int num) {
-        const int n = data.size();
-        data.insert(num);
-        
-        if (!n) mid = data.begin();
-        else if (num < *mid) mid = (n & 1 ? mid : prev(mid)); 
-        else mid = (n & 1 ? next(mid) : mid);
+        if (totalSize == 0) lower.push(num);
+        else {
+            if (!lower.empty() && num < lower.top()) {
+                lower.push(num);
+                if (lower.size() > upper.size() + 1) {
+                    upper.push(lower.top());
+                    lower.pop();
+                }
+            } else {
+                upper.push(num);
+                if (upper.size() > lower.size()) {
+                    lower.push(upper.top());
+                    upper.pop();
+                }
+            }
+        }
+        totalSize++;
+
     }
     
     double findMedian() {
-        const int n = data.size();
-        return ((double) *mid + *next(mid, n % 2 - 1)) * 0.5;
+        if (totalSize == 0) return 0;
+        if (totalSize % 2)  // odd
+            return lower.top();
+        return (lower.top() + upper.top()) * 0.5;
+        
     }
 };
 
