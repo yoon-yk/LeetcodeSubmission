@@ -1,31 +1,38 @@
 class MedianFinder {
 public:
-    priority_queue<int> lower; 
-    priority_queue<int, vector<int>, greater<int>> upper; 
-    int totalSize;
+    multiset<int> m;
+    multiset<int>::iterator it;
     
     MedianFinder() {
-        totalSize = 0;
+        it = m.end();
     }
-
+    
+    // keep the pointer at the lower median
+    
+    /*  
+       3 5 
+         ^ 
+    */
     void addNum(int num) {
-        lower.push(num);
-        upper.push(lower.top());
-        lower.pop();
-
-        if (upper.size() > lower.size()) {
-            lower.push(upper.top());
-            upper.pop();
+        /*
+        
+        2 6 6 10
+          ^
+        */
+        int n = m.size();
+        m.insert(num);
+        if (m.size() == 1) it = m.begin();
+        else if (*it <= num) {
+            if (n % 2 == 0) it++;
+        } else {
+            if (n % 2 == 1) it--;
         }
-        totalSize++;
     }
     
     double findMedian() {
-        if (totalSize == 0) return 0;
-        if (totalSize % 2)  // odd
-            return lower.top();
-        return (lower.top() + upper.top()) * 0.5;
-        
+        if (m.size() % 2) // odd
+           return *it;
+        else return (*it + (*next(it))) * 0.5;
     }
 };
 
