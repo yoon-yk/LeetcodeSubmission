@@ -1,30 +1,37 @@
 class Solution {
 public:
-    using pPair = pair<int, int>;
-    
     int minCostConnectPoints(vector<vector<int>>& points) {
-        
-        priority_queue<pPair, vector<pPair>, greater<pPair>> pq;
-        pq.push(pair(0, 0));
-        
         int n = points.size();
-        vector<int> visited(n, false);
+        int mstCost = 0, edgesUsed = 0;
+        vector<bool> inMST(n);
+        vector<int> minDist(n, INT_MAX);
+        minDist[0] = 0;
         
-        int edge = 0, dist, ans = 0;
-        while (!pq.empty() && edge < n) {
-            auto cur = pq.top(); pq.pop();
-            int curIdx = cur.second, curDist = cur.first;
-            if (visited[curIdx]) continue;
-            visited[curIdx] = true;
-            edge++;
-            ans += curDist;
+        while (edgesUsed < n) {
+            int currMinEdge = INT_MAX;
+            int currNode = -1;
             
-            for (int nextIdx=0; nextIdx<n; ++nextIdx) {
-                if (visited[nextIdx]) continue;
-                dist = abs(points[curIdx][0]-points[nextIdx][0]) + abs(points[curIdx][1]-points[nextIdx][1]);
-                pq.push({dist, nextIdx});
+            for (int node = 0; node<n; ++node) {
+                if (!inMST[node] && currMinEdge > minDist[node]) {
+                    currMinEdge = minDist[node];
+                    currNode = node;
+                }
+            }
+            
+            mstCost += currMinEdge;
+            edgesUsed++;
+            inMST[currNode] = true;
+            
+            for (int nextNode = 0; nextNode<n; ++nextNode) {
+                if (inMST[nextNode]) continue;
+                int weight = abs(points[currNode][0] - points[nextNode][0]) +
+                    abs(points[currNode][1] - points[nextNode][1]);
+                if (minDist[nextNode] > weight) {
+                    minDist[nextNode] = weight;
+                }
             }
         }
-        return ans;
+        
+        return mstCost;
     }
 };
