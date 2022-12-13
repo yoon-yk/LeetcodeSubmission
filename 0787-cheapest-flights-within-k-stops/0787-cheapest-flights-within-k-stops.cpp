@@ -17,8 +17,9 @@ public:
         while (!Q.empty()) {
             int size = Q.size();
             while (size--) {
-                auto cur = Q.front(); Q.pop();
+                auto& cur = Q.front(); 
                 int curLoc = cur.first, curCost = cur.second;
+                Q.pop();
                 
                 if (curLoc == dst){
                     ans = min(ans, curCost);
