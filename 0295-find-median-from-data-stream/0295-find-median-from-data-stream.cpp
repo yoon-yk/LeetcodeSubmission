@@ -7,31 +7,17 @@ public:
     MedianFinder() {
         totalSize = 0;
     }
-    
-    /*
-    
-    1 3 4 | 5 6 7
-    
-    */
+
     void addNum(int num) {
-        if (totalSize == 0) lower.push(num);
-        else {
-            if (!lower.empty() && num < lower.top()) {
-                lower.push(num);
-                if (lower.size() > upper.size() + 1) {
-                    upper.push(lower.top());
-                    lower.pop();
-                }
-            } else {
-                upper.push(num);
-                if (upper.size() > lower.size()) {
-                    lower.push(upper.top());
-                    upper.pop();
-                }
-            }
+        lower.push(num);
+        upper.push(lower.top());
+        lower.pop();
+
+        if (upper.size() > lower.size()) {
+            lower.push(upper.top());
+            upper.pop();
         }
         totalSize++;
-
     }
     
     double findMedian() {
