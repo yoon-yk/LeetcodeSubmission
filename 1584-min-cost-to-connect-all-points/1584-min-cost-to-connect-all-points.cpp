@@ -1,48 +1,46 @@
-class Node {
-public :
-    int start;
-    int end;
-    int dist;
-    Node(int _start, int _end, int _dist) : start(_start), end(_end), dist(_dist) {};
-};
-
 class Solution {
 public:
-    
-    vector<int> parent;
-    vector<int> size;
-
-    int find (int idx) {
-        if (parent[idx] == idx) return idx;
-        return parent[idx] = find(parent[idx]);
-    }
-    
     int minCostConnectPoints(vector<vector<int>>& points) {
         int n = points.size();
-        parent.resize(n);
-        size.resize(n, 1);
-        for (int i=0; i<n; i++) parent[i] = i;
         
-        auto sort = [](Node*a, Node*b){return a->dist>b->dist;};
-        priority_queue<Node*, vector<Node*>, decltype(sort)> pq(sort);
-        for (int i=0; i<n; i++) {
-            for (int j=i+1; j<n; j++) {
-                pq.push(new Node(i, j, abs(points[i][0]-points[j][0]) + abs(points[i][1]-points[j][1])));
+        // Min-heap to store minimum weight edge at top.
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> heap;
+        
+        // Track nodes which are included in MST.
+        vector<bool> inMST(n);
+        
+        heap.push({ 0, 0 });
+        int mstCost = 0;
+        int edgesUsed = 0;
+        
+        while (edgesUsed < n) {
+            pair<int, int> topElement = heap.top();
+            heap.pop();
+            
+            int weight = topElement.first;
+            int currNode = topElement.second;
+            
+            // If node was already included in MST we will discard this edge.
+            if (inMST[currNode]) {
+                continue;
+            }
+            
+            inMST[currNode] = true;
+            mstCost += weight;
+            edgesUsed++;
+            
+            for (int nextNode = 0; nextNode < n; ++nextNode) {
+                // If next node is not in MST, then edge from curr node
+                // to next node can be pushed in the priority queue.
+                if (!inMST[nextNode]) {
+                    int nextWeight = abs(points[currNode][0] - points[nextNode][0]) + 
+                                     abs(points[currNode][1] - points[nextNode][1]);
+                    
+                    heap.push({ nextWeight, nextNode });
+                }
             }
         }
         
-        int ans = 0, cnt = n;
-        while (!pq.empty() && cnt > 1) {
-            auto cur = pq.top(); pq.pop();
-            int start = cur->start, end = cur->end, dist = cur->dist;
-            int par1 = find(start), par2 = find(end);
-            if (par1 == par2) continue;
-            ans += dist;
-            if (size[par2] > size[par1]) parent[par1] = par2, size[par2] += size[par1];
-            else parent[par2] = par1, size[par1] += size[par2];
-            cnt--;
-        }
-        
-        return ans;
+        return mstCost;
     }
 };
