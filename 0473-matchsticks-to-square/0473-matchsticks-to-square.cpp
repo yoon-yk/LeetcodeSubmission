@@ -12,14 +12,20 @@ public:
     }
     
     bool backtrack(vector<int>& matchsticks, vector<int>& len, int idx, int target) {
-                    // cout << len[0] << "/" << len[1] << "/" << len[2] << "/" << len[3] << endl;
 
         if (idx == matchsticks.size()) {
             return (len[0] == len[1]) && (len[2] == len[3]) && (len[0] == len[2]);
         }
-        
+
         for (int i=0; i<4; i++) {
-            if (len[i] + matchsticks[idx] > target) continue;
+            if (len[i] + matchsticks[idx] > target)
+                continue;
+            int j = i-1;
+            while (j >=0) {
+                if (len[i] == len[j]) break;
+                j--;
+            }
+            if (j != -1) continue;
             len[i] += matchsticks[idx];
             if (backtrack(matchsticks, len, idx+1, target)) return true;
             len[i] -= matchsticks[idx];
