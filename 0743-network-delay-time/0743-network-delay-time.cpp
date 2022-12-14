@@ -7,6 +7,7 @@ public:
         if (minCost[idx] <= curCost) return;
         minCost[idx] = curCost;
         
+        sort(adjList[idx].begin(), adjList[idx].end());
         for (auto & [next, cost] : adjList[idx]) {
             dfs(next, curCost+cost);
         }
