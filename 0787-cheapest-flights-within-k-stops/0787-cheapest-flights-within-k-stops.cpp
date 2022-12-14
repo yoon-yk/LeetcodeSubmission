@@ -13,18 +13,14 @@ public:
         int ans = INT_MAX, stops = 0;
         
         vector<int> minCost(n, INT_MAX);
+        minCost[src] = 0;
         
-        while (!Q.empty()) {
+        while (stops <= k && !Q.empty()) {
             int size = Q.size();
             while (size--) {
                 auto& cur = Q.front(); 
                 int curLoc = cur.first, curCost = cur.second;
                 Q.pop();
-                
-                if (curLoc == dst){
-                    ans = min(ans, curCost);
-                    continue;
-                }
 
                 for (auto & [nextDes,price] : adjList[curLoc]) {
                     if (minCost[nextDes] < curCost+price) continue;
@@ -33,9 +29,9 @@ public:
                 }
 
             }
-            if (stops++ > k) break;
+            stops++;
         }
         
-        return (ans == INT_MAX) ? -1 : ans;
+        return (minCost[dst] == INT_MAX) ? -1 : minCost[dst];
     }
 };
