@@ -1,37 +1,19 @@
 class Solution {
 public:
     int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
+        vector<int> dist(n, INT_MAX);
+        dist[src] = 0;
         
-        vector<vector<pair<int, int>>> adjList(n);
-        for (auto & f : flights) {
-            int from = f[0], to = f[1], price = f[2];
-            adjList[from].push_back(pair(to, price));
-        }
-        
-        queue<pair<int, int>> Q;
-        Q.push(pair(src, 0));
-        int ans = INT_MAX, stops = 0;
-        
-        vector<int> minCost(n, INT_MAX);
-        minCost[src] = 0;
-        
-        while (stops <= k && !Q.empty()) {
-            int size = Q.size();
-            while (size--) {
-                auto& cur = Q.front(); 
-                int curLoc = cur.first, curCost = cur.second;
-                Q.pop();
-
-                for (auto & [nextDes,price] : adjList[curLoc]) {
-                    if (minCost[nextDes] < curCost+price) continue;
-                    minCost[nextDes] = curCost+price;
-                    Q.push(pair(nextDes, curCost+price));
+        for (int i=0; i<=k; ++i) {
+            vector<int> temp(dist);
+            for (auto & flight : flights) {
+                if (dist[flight[0]] != INT_MAX) {
+                    temp[flight[1]] = min(temp[flight[1]], dist[flight[0]] + flight[2]);
                 }
-
             }
-            stops++;
+            dist = temp;
         }
         
-        return (minCost[dst] == INT_MAX) ? -1 : minCost[dst];
+        return dist[dst] == INT_MAX ? -1 : dist[dst];
     }
 };
