@@ -13,17 +13,9 @@ public:
     }
     
     void push(int val) {
-        if (minSt.empty() || minSt.back() >= val)
+        if (minSt.empty() || minSt.back() >= val) // duplicate allowed
             minSt.push_back(val);
         st.push_back(val);
-        
-//         cout << "minSt" << endl;
-//         for (auto & m : minSt) cout << m << " ";
-//         cout << endl;
-        
-//         cout << "st" << endl;
-//         for (auto & m : st) cout << m << " ";
-//         cout << endl;
     }
     
     void pop() {
