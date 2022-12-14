@@ -4,10 +4,10 @@ public:
     vector<vector<pair<int, int>>> adjList;
     
     void dfs(int idx, int curCost) {
-        if (minCost[idx] <= curCost) return;
-        minCost[idx] = curCost;
-        
         for (auto & [next, cost] : adjList[idx]) {
+            if (minCost[next] <= curCost + cost) 
+                continue;
+            minCost[next] = curCost + cost;
             dfs(next, curCost+cost);
         }
     }
@@ -25,6 +25,7 @@ public:
             sort(list.begin(), list.end());
         }
         
+        minCost[k] = 0;
         dfs(k, 0);
         
         int ans = *max_element(minCost.begin()+1, minCost.end());
