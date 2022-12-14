@@ -1,46 +1,37 @@
 class Solution {
 public:
-    void sort(int start, int mid, int end, vector<int>& nums) {
-        vector<int> temp;
-        int ptr1=start, ptr2=mid+1;
+    
+    int partition(vector<int>& nums, int start, int end) {
         
-        while (ptr1 <= mid && ptr2 <= end) {
-            if (nums[ptr1] < nums[ptr2]) {
-                temp.emplace_back(nums[ptr1]);
-                ptr1++;
-            } else {
-                temp.emplace_back(nums[ptr2]);
-                ptr2++;
+        int randIdx = start + rand() % (end-start+1);
+        swap(nums[end], nums[randIdx]);
+        
+        int part = start;
+        for (int i=start; i<end; ++i) {
+            if (nums[i] > nums[end]) {
+                swap(nums[part], nums[i]);
+                part++;
             }
         }
-        
-        while (ptr1 <= mid) {
-            temp.emplace_back(nums[ptr1]);
-            ptr1++;
-        }
-        
-        while (ptr2 <= end) {
-            temp.emplace_back(nums[ptr2]);
-            ptr2++;
-        }
-        
-        for (int i=0; i<temp.size(); i++)
-            nums[i+start] = temp[i];
+        swap(nums[part], nums[end]);
+        return part;
     }
     
-    void mergeSort(int start, int end, vector<int>& nums) {
-        if (start >= end) return;
-        int mid = start + ((end-start) >> 1);
+    void quicksort(vector<int>& nums, int start, int end, int k) {
+        if (start == end) return;
         
-        mergeSort(start, mid, nums);
-        mergeSort(mid+1, end, nums);
-        sort(start, mid, end, nums);
+        int idx = partition(nums, start, end);
+        if (idx == k) return;
+        if (idx < k) quicksort(nums, idx+1, end, k);
+        else quicksort(nums, start, idx-1, k);
     }
     
     int findKthLargest(vector<int>& nums, int k) {
-        int start = 0, end = nums.size()-1;
-        mergeSort(start, end, nums);
+        int n = nums.size();
+        quicksort(nums, 0, n-1, k-1);
         
-        return nums[nums.size()-k];
+        return nums[k-1];
     }
+    
+    
 };
