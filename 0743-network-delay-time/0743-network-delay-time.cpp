@@ -1,38 +1,40 @@
 class Solution {
 public:
-    vector<int> minCost;
-    vector<vector<pair<int, int>>> adjList;
+    using ppair = pair<int, int>;
+    vector<ppair> adj[101];
+    
+    void dijkstra(vector<int>& signalReceivedAt, int source, int n) {
+        priority_queue<ppair, vector<ppair>, greater<ppair>> pq;
+        pq.push({0, source});
+        
+        signalReceivedAt[source] = 0;
+        
+        while (!pq.empty()) {
+            int curNodeTime = pq.top().first;
+            int curNode = pq.top().second;
+            pq.pop();
 
-    int networkDelayTime(vector<vector<int>>& times, int n, int k) {
-        minCost.resize(n+1, INT_MAX);
-        adjList.resize(n+1);
-        
-        for (auto & time : times) {
-            int src = time[0], dst = time[1], cost = time[2];
-            adjList[src].push_back({cost, dst});
-        }
-        
-        for (auto & list : adjList) {
-            sort(list.begin(), list.end());
-        }
-        
-        minCost[k] = 0;
-        
-        queue<pair<int, int>> Q;
-        Q.push({0, k});
-        while (!Q.empty()) {
-            auto cur = Q.front(); Q.pop();
-            int curIdx = cur.second, curCost = cur.first;
-            for (auto & [cost, next] : adjList[curIdx]) {
-                if (minCost[next] <= curCost + cost) 
-                    continue;
-                minCost[next] = curCost + cost;
-                Q.push({curCost+cost, next});
-            }
+            if (curNodeTime > signalReceivedAt[curNode]) continue;
             
+            for (auto & [time, nei] : adj[curNode]) {
+                if (signalReceivedAt[nei] <= curNodeTime + time) continue;
+                signalReceivedAt[nei] = curNodeTime + time;
+                pq.push({signalReceivedAt[nei], nei});
+            }
+        }
+    }
+    
+    
+    int networkDelayTime(vector<vector<int>>& times, int n, int k) {
+        for (auto & time : times) {
+            int src = time[0], dst = time[1], travelTime = time[2];
+            adj[src].push_back({travelTime, dst});
         }
         
-        int ans = *max_element(minCost.begin()+1, minCost.end());
+        vector<int> signalReceivedAt(n+1, INT_MAX);
+        dijkstra(signalReceivedAt, k, n);
+        
+        int ans = *max_element(signalReceivedAt.begin()+1, signalReceivedAt.end());
         
         return (ans == INT_MAX) ? -1 : ans;
         
