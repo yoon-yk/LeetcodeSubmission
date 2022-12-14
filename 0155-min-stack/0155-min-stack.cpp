@@ -7,19 +7,25 @@ public:
     */
     
     vector<int> st;
-    vector<int> minSt;
+    vector<pair<int, int>> minSt;
     
     MinStack() {
     }
     
     void push(int val) {
-        if (minSt.empty() || minSt.back() >= val) // duplicate allowed
-            minSt.push_back(val);
+        if (minSt.empty() || minSt.back().first > val)
+            minSt.push_back({val, 1});
+        else if (minSt.back().first == val)
+            minSt.back().second++;
         st.push_back(val);
     }
     
     void pop() {
-        if (minSt.back() == st.back()) minSt.pop_back();
+        if (minSt.back().first == st.back()) {
+            if (minSt.back().second == 1)
+                minSt.pop_back();
+            else minSt.back().second--;
+        }
         st.pop_back();
     }
     
@@ -28,7 +34,7 @@ public:
     }
     
     int getMin() {
-        return minSt.back();
+        return minSt.back().first;
     }
 };
 
