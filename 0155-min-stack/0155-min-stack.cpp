@@ -6,37 +6,37 @@ public:
     -2 -2 -3
     */
     
-    vector<pair<int, int>> st;
-    int curMinV;
+    vector<int> st;
+    vector<int> minSt;
     
     MinStack() {
-        curMinV = INT_MAX;
     }
     
     void push(int val) {
-        curMinV = min(curMinV, val);
-        st.push_back({val, curMinV});
+        if (minSt.empty() || minSt.back() >= val)
+            minSt.push_back(val);
+        st.push_back(val);
         
-        // int cnt = 0;
-        // for (auto & [val, min] : st) {
-        //     cout << cnt++ << "/" << val << " (" << min << ")" << " ";
-        // }
-        // cout << endl;
+//         cout << "minSt" << endl;
+//         for (auto & m : minSt) cout << m << " ";
+//         cout << endl;
+        
+//         cout << "st" << endl;
+//         for (auto & m : st) cout << m << " ";
+//         cout << endl;
     }
     
     void pop() {
-        // cout << "pop " << endl;
+        if (minSt.back() == st.back()) minSt.pop_back();
         st.pop_back();
-        if (st.empty()) curMinV = INT_MAX;
-        else curMinV = st.back().second;
     }
     
     int top() {
-        return st.back().first;
+        return st.back();
     }
     
     int getMin() {
-        return st.back().second;
+        return minSt.back();
     }
 };
 
