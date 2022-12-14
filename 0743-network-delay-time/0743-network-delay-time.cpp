@@ -4,7 +4,7 @@ public:
     vector<vector<pair<int, int>>> adjList;
     
     void dfs(int idx, int curCost) {
-        for (auto & [next, cost] : adjList[idx]) {
+        for (auto & [cost, next] : adjList[idx]) {
             if (minCost[next] <= curCost + cost) 
                 continue;
             minCost[next] = curCost + cost;
@@ -18,7 +18,7 @@ public:
         
         for (auto & time : times) {
             int src = time[0], dst = time[1], cost = time[2];
-            adjList[src].push_back({dst, cost});
+            adjList[src].push_back({cost, dst});
         }
         
         for (auto & list : adjList) {
