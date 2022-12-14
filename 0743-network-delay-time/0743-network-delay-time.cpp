@@ -1,7 +1,7 @@
 class Solution {
 public:
     vector<int> minCost;
-    vector<set<pair<int, int>>> adjList;
+    vector<vector<pair<int, int>>> adjList;
     
     void dfs(int idx, int curCost) {
         if (minCost[idx] <= curCost) return;
@@ -18,7 +18,11 @@ public:
         
         for (auto & time : times) {
             int src = time[0], dst = time[1], cost = time[2];
-            adjList[src].insert({dst, cost});
+            adjList[src].push_back({dst, cost});
+        }
+        
+        for (auto & list : adjList) {
+            sort(list.begin(), list.end());
         }
         
         dfs(k, 0);
