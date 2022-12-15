@@ -1,51 +1,35 @@
 class Solution {
 public:
-    int INF = INT_MAX;
-    
     vector<int> dir = {-1, 0, 1, 0, -1};
-    
-    bool isInRange(vector<vector<int>>& rooms, int r, int c) {
-        if (r < 0 || r >= rooms.size() || c < 0 || c >= rooms[0].size() || rooms[r][c] != INF) return false; 
-        return true;
+    bool inRange(vector<vector<int>>& rooms, int i, int j) {
+        return (i>=0 && j>=0 && i<rooms.size() && j<rooms[0].size());
     }
-    
     void wallsAndGates(vector<vector<int>>& rooms) {
         
-        
-        // Q 
-        queue<pair<int, int>> Q;
-        // collect gate
-        int r = rooms.size(), c = rooms[0].size();
-        
-        for (int i=0; i<r; i++) {
-            for (int j=0; j<c; j++) {
-                if (rooms[i][j] == 0) {
+        queue<pair<int, int>>Q;
+        for (int i=0; i<rooms.size(); ++i) {
+            for (int j=0; j<rooms[0].size(); ++j) {
+                if (rooms[i][j] == 0)
                     Q.push({i, j});
-                }
             }
         }
         
-        // BFS 
-        int step = 0;
+        int curCost = 0, size;
         while (!Q.empty()) {
-            
-            for (int size=Q.size()-1; size>=0; size--) {
-                auto curPair = Q.front(); Q.pop();
-                int curR = curPair.first, curC = curPair.second;
-                for (int d=0; d<4; d++) {
-                    int neiR = curR+dir[d], neiC = curC+dir[d+1];
-                    if (isInRange(rooms, neiR, neiC)) {
-                        Q.push({neiR, neiC});
-                        rooms[neiR][neiC] = step+1;
+            size = Q.size();
+            for (int sz=0; sz<size; ++sz) {
+                auto [curR, curC] = Q.front(); Q.pop();
+
+                for (int d=0; d<4; ++d) {
+                    int nextR = curR+dir[d], nextC = curC+dir[d+1];
+                    if (inRange(rooms, nextR, nextC)  && rooms[nextR][nextC] > curCost+1) {
+                        rooms[nextR][nextC] = curCost+1;
+                        Q.push({nextR, nextC});
                     }
                 }
             }
-            
-            step++;
-                        
+                
+            ++curCost;
         }
-        // if cell is not -1, continue
-        // else if cell is empty, put current dist
-        
     }
 };
