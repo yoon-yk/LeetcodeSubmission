@@ -1,22 +1,17 @@
 class Solution {
 public:
     int jump(vector<int>& nums) {
-        /*
-        2,3,1,1,4
-        ---------
-        0 1 2 3 4
-        2 4 3 4 8
         
-        */
         int n = nums.size();
-        int idx = 0;
-        int nextMax = 0, cnt=0, curEnd = 0, maxReach = 0;
-        while (nextMax < n-1) {
-            for (; idx<=nextMax; idx++) 
-                maxReach = max(idx + nums[idx], maxReach);
-            nextMax = maxReach;
-            cnt++;
+        vector<int> dp(n, INT_MAX);
+        dp[0] = 0;
+        for (int i=0; i<n; ++i) {
+            for (int j=1; j<=nums[i]; ++j) {
+                if (i + j <= n-1)
+                    dp[i+j] = min(dp[i]+1, dp[i+j]);
+            }
         }
-        return cnt;
+        return dp[n-1];
+        
     }
 };
