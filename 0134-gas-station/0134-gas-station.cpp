@@ -1,22 +1,15 @@
 class Solution {
-  public:
-  int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
-    int n = gas.size();
-
-    int total_tank = 0;
-    int curr_tank = 0;
-    int starting_station = 0;
-    for (int i = 0; i < n; ++i) {
-      total_tank += gas[i] - cost[i];
-      curr_tank += gas[i] - cost[i];
-      // If one couldn't get here,
-      if (curr_tank < 0) {
-        // Pick up the next station as the starting one.
-        starting_station = i + 1;
-        // Start with an empty tank.
-        curr_tank = 0;
-      }
+public:
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        int n = gas.size();
+        int remaining = 0;
+        int minIdx = 0, minVal = INT_MAX;
+        for (int i=0; i<n; ++i) {
+            remaining += gas[i] - cost[i];
+            if (remaining < minVal) {
+                minIdx = i, minVal = remaining;
+            }
+        }
+        return (remaining < 0) ? -1 : (minIdx + 1) % n;
     }
-    return total_tank >= 0 ? starting_station : -1;
-  }
 };
