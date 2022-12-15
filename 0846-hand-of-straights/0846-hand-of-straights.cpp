@@ -18,17 +18,15 @@ public:
         
         map<int, int> hashM;
         for (auto & i : hand) ++hashM[i];
-        
-        for (auto & [val, freq] : hashM) {
 
-            for (int f=0; f < freq; ++f) {
-                int cur = val+1, cnt = 1;
-                while (hashM[cur] > 0 && cnt < k) {
-                    ++cnt, --hashM[cur];
-                    ++cur;
-                }
-                if (cnt != k) return false;
-            }
+        for (auto & [val, freq] : hashM) {
+            if (freq == 0) continue;
+            int curV = val, cnt = 1;
+            while (cnt < k) {
+                if ((hashM[++curV] -= freq) < 0)
+                    return false;
+                cnt++;
+            }            
         }
         return true;
     }
