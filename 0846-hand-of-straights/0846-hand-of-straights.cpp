@@ -1,20 +1,21 @@
 class Solution {
 public:
-    bool isNStraightHand(vector<int>& hand, int k) {
-        if (hand.size() % k ) return false;
-        
-        map<int, int> hashM;
-        for (auto & i : hand) ++hashM[i];
+    bool isNStraightHand(vector<int> hand, int W) {
+        map<int, int> c;
+        for (int i : hand) c[i]++;
+        queue<int> start;
+        int last_checked = -1, opened = 0;
+        for (auto & [val, freq] : c) {
+            if (opened > 0 && val > last_checked + 1 ||
+                opened > c[val]) return false;
 
-        for (auto & [val, freq] : hashM) {
-            if (freq == 0) continue;
-            int curV = val, cnt = 1;
-            while (cnt < k) {
-                if ((hashM[++curV] -= freq) < 0)
-                    return false;
-                cnt++;
-            }            
+            start.push(freq - opened);
+            last_checked = val, opened = freq;
+            if (start.size() == W) {
+                opened -= start.front();
+                start.pop();
+            }
         }
-        return true;
+        return opened == 0;
     }
 };
