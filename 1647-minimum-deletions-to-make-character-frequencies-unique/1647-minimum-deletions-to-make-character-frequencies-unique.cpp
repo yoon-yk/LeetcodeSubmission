@@ -15,19 +15,22 @@ public:
         vector<int> freq(26, 0);
         for (int i=0; i<s.size(); ++i)
             ++freq[s[i]-'a'];
-        sort(freq.begin(), freq.end(), greater());
         
-        int cnt = 0, j;
+        priority_queue<int> pq;
         for (int i=0; i<26; ++i) {
-            if (freq[i] == 0) break;
-            j = i+1;
-            while (j<26 && freq[i] == freq[j]) {
-                freq[j]--;
-                cnt++;
-                j++;
+            if (freq[i] > 0) pq.push(freq[i]);
+        }
+        
+        int del = 0;
+        while (pq.size() > 1) {
+            auto cur = pq.top(); pq.pop();
+            if (cur == pq.top()) {
+                if (cur-1 > 0)
+                    pq.push(cur-1);
+                ++del;
             }
         }
         
-        return cnt;
+        return del;
     }
 };
