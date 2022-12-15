@@ -1,5 +1,31 @@
 class Solution {
-public:
+public:   
+    unordered_map<int, int> steps;
+    
+    int partition(vector<int>&v, int start, int end) {
+        int rdIdx = start + rand() % (end-start+1);
+        swap(v[rdIdx], v[end]);
+        
+        int lo = start;
+        for (int i=start; i<end; ++i) {
+            if (steps[v[i]] < steps[v[end]] ||
+                (steps[v[i]] == steps[v[end]] && v[i] < v[end])) {
+                swap(v[lo], v[i]);
+                lo++;
+            }
+        }
+        swap(v[lo], v[end]);
+        return lo;
+    }
+    
+    void quicksort(vector<int>&v, int start, int end, int k) {
+        if (start >= end) return;
+        int idx = partition(v, start, end);
+        if (idx == k) return;
+        if (idx < k) quicksort(v, idx+1, end, k);
+        quicksort(v, start, idx-1, k);
+    }
+    
     int getKth(int lo, int hi, int k) {
         /*
         1 = 1 (0)
@@ -9,22 +35,19 @@ public:
         5 = 16 -> 8 -> ... 
         */
         
-        unordered_map<int, int> steps;
         steps[1] = 0;
-        priority_queue<pair<int, int>> pq;
-        for (int i=lo; i<=hi; ++i) {
-            pq.push(pair(getSteps(i, steps), i));
-            if (pq.size() == k+1) pq.pop();
-        }
+        vector<int> v;
+        for (int i=lo; i<=hi; ++i) {v.push_back(i); getSteps(i);}
+        quicksort(v, 0, v.size()-1, k-1);
         
-        return pq.top().second;
+        return v[k-1];
     }
     
-    int getSteps(int n, unordered_map<int, int>& steps) {
+    int getSteps(int n) {
         if (steps.count(n)) return steps[n];
 
-        if (n & 1) return steps[n] = getSteps(n*3+1, steps) + 1; // odd 
-        return steps[n] = getSteps(n >> 1, steps) + 1;
+        if (n & 1) return steps[n] = getSteps(n*3+1) + 1; // odd 
+        return steps[n] = getSteps(n >> 1) + 1;
     };
     
 };
