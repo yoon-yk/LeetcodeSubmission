@@ -1,22 +1,19 @@
 class HitCounter {
 public:
-    queue<int> Q;
+    queue<int> counter;
     
-    HitCounter() {
-        
-    }
+    HitCounter() {}
     
     void hit(int timestamp) {
-        while (!Q.empty() && Q.front()+300 <= timestamp)
-            Q.pop();
-        Q.push(timestamp);
+        while (!counter.empty() && timestamp-counter.front() >= 300) 
+            counter.pop();
+        counter.push(timestamp);
     }
     
     int getHits(int timestamp) {
-        while (!Q.empty() && Q.front()+300 <= timestamp)
-            Q.pop();
-        
-        return Q.size();
+        while (!counter.empty() && timestamp-counter.front() >= 300) 
+            counter.pop();
+        return counter.size();
     }
 };
 
