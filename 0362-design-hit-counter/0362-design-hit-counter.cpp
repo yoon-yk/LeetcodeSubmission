@@ -1,19 +1,28 @@
 class HitCounter {
 public:
-    queue<int> counter;
+    int size;
+    deque<pair<int, int>> counter;
     
-    HitCounter() {}
+    HitCounter() {size = 0;}
     
     void hit(int timestamp) {
-        while (!counter.empty() && timestamp-counter.front() >= 300) 
-            counter.pop();
-        counter.push(timestamp);
+        while (!counter.empty() && timestamp-counter.front().first >= 300) {
+            size -= counter.front().second;
+            counter.pop_front();
+        }
+        
+        if (!counter.empty() && counter.back().first == timestamp) 
+            ++counter.back().second;
+        else counter.push_back({timestamp, 1});
+        ++size;
     }
     
     int getHits(int timestamp) {
-        while (!counter.empty() && timestamp-counter.front() >= 300) 
-            counter.pop();
-        return counter.size();
+        while (!counter.empty() && timestamp-counter.front().first >= 300) {
+            size -= counter.front().second;
+            counter.pop_front();
+        }
+        return size;
     }
 };
 
