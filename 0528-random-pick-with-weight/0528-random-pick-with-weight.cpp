@@ -15,7 +15,7 @@ public:
     
     int pickIndex() {
         int left = 0, right = prefix.back();
-        float randVal = ((float)rand() / RAND_MAX) * right;
+        int randVal = rand() % (right-left) + 1;
         int randIdx = lower_bound(prefix.begin(), prefix.end(), randVal) - prefix.begin(); 
         return randIdx;
     }
