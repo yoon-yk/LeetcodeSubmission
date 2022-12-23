@@ -6,17 +6,10 @@ public:
         for (auto & c : s) ++freq[c-'a'];
         sort(freq.begin(), freq.end(), greater<>());
         
-        /*
-        3 3 2
-        3 2 1 
-        
-        5 4 1
-        5 5 1
-        */
-        
         int prev = freq[0] + 1;
         for (auto & cnt : freq) {
-            if (prev <= cnt) {
+            if (cnt == 0) break;
+            else if (prev <= cnt) {
                 ans += (cnt-(prev-1));
                 cnt = prev-1;
             } 
