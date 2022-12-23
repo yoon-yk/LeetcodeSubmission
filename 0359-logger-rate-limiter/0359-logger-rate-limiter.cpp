@@ -1,13 +1,18 @@
 class Logger {
 public:
     unordered_map<string, int> mp;
+    queue<string> Q;
     
     Logger() {}
     
     bool shouldPrintMessage(int timestamp, string message) {
-        if (mp.count(message) && timestamp-mp[message] < 10)
-            return false;
+        while (!Q.empty() && timestamp - mp[Q.front()] >= 10) {
+            mp.erase(Q.front());
+            Q.pop();
+        }
+        if (mp.count(message)) return false;
         mp[message] = timestamp;
+        Q.push(message);
         return true;
     }
 };
