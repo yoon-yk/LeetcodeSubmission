@@ -9,7 +9,7 @@ public:
         int prev = freq[0] + 1;
         for (auto & cnt : freq) {
             if (cnt == 0) break;
-            else if (prev <= cnt) {
+            if (prev <= cnt) {
                 ans += (cnt-(prev-1));
                 cnt = prev-1;
             } 
