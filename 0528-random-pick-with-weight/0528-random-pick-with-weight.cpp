@@ -1,23 +1,28 @@
 class Solution {
-    vector<int> prefixSums;
 public:
-    /*
-    1 5 7
-    1 6 13
-    */
+    vector<int> prefix;
     
-    Solution(vector<int> &w) {
-        for (auto n : w)
-            prefixSums.push_back(n + (prefixSums.empty() ? 
-                0 : prefixSums.back()));
+    /*
+    1 4
+    */
+    Solution(vector<int>& w) {
+        int sum = 0;
+        for (auto & i : w) {
+            sum += i;
+            prefix.push_back(sum);
+        }
     }
-
+    
     int pickIndex() {
-        // generate a random number in the range of [0, 1]
-        float randNum = (float) rand() / RAND_MAX;
-        float target =  randNum * prefixSums.back();
-
-        // run a linear search to find the target zone
-        return lower_bound(prefixSums.begin(), prefixSums.end(), target) - prefixSums.begin();
+        int left = 0, right = prefix.back();
+        float randVal = ((float)rand() / RAND_MAX) * right;
+        int randIdx = lower_bound(prefix.begin(), prefix.end(), randVal) - prefix.begin(); 
+        return randIdx;
     }
 };
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution* obj = new Solution(w);
+ * int param_1 = obj->pickIndex();
+ */
