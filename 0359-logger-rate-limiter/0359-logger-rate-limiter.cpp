@@ -4,7 +4,7 @@ public:
     
     Logger() {}
     
-    bool shouldPrintMessage(int timestamp, string message) {        
+    bool shouldPrintMessage(int timestamp, string message) {
         if (mp.count(message) && timestamp-mp[message] < 10)
             return false;
         mp[message] = timestamp;
