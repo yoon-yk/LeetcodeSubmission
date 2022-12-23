@@ -1,36 +1,28 @@
 class Solution {
 public:
-    /*
-    3 3
-    3 2 
-    3 2 1
-    3 2 1 0
-    2 2 1 0
-    1 1 1 0
-    3(4) 2(1) 1(1)
-    3(1) 2(1) 1(1)
-    */
-    
     int minDeletions(string s) {
+        int ans = 0;
         vector<int> freq(26, 0);
-        for (int i=0; i<s.size(); ++i)
-            ++freq[s[i]-'a'];
+        for (auto & c : s) ++freq[c-'a'];
+        sort(freq.begin(), freq.end(), greater<>());
         
-        priority_queue<int> pq;
-        for (int i=0; i<26; ++i) {
-            if (freq[i] > 0) pq.push(freq[i]);
+        /*
+        3 3 2
+        3 2 1 
+        
+        5 4 1
+        5 5 1
+        */
+        
+        int prev = freq[0] + 1;
+        for (auto & cnt : freq) {
+            if (prev <= cnt) {
+                ans += (cnt-(prev-1));
+                cnt = prev-1;
+            } 
+            prev = max(cnt, 1);
         }
         
-        int del = 0;
-        while (pq.size() > 1) {
-            auto cur = pq.top(); pq.pop();
-            if (cur == pq.top()) {
-                if (cur-1 > 0)
-                    pq.push(cur-1);
-                ++del;
-            }
-        }
-        
-        return del;
+        return ans;
     }
 };
