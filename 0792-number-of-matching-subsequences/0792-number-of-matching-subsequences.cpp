@@ -2,21 +2,21 @@ class Solution {
 public:
     int numMatchingSubseq(string s, vector<string>& words) {
         
-        int ans = 0;
-        vector<vector<const char*>> waiting(128);
-        for (auto & w : words) {
-            waiting[w[0]].push_back(w.c_str());
-        }
+        vector<vector<const char*>> alpha(26);
+        for (auto & word : words) alpha[word[0]-'a'].push_back(word.c_str());
         
-        for (auto &c : s) {
-            auto ws = waiting[c];
-            waiting[c].clear();
+        int ans = 0;
+        for (auto & c : s) {
+            auto collect = alpha[c-'a'];
+            alpha[c-'a'].clear();
             
-            for (auto & w : ws) {
-                waiting[*(++w)].push_back(w);
+            for (auto& cur : collect) {
+                if ((*(++cur)) == '\0') ++ans;
+                else alpha[(*cur)-'a'].push_back(cur);
             }
         }
         
-        return waiting[0].size();
+        return ans;
+        
     }
 };
