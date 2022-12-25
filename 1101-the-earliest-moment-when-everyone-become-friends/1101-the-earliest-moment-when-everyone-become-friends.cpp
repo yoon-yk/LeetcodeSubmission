@@ -1,37 +1,35 @@
 class Solution {
 public:
-    vector<int> group;
+    vector<int> parent, size;
     
-    int findParent(int idx) {
-        if (group[idx] == idx)
-            return idx;
-        return group[idx] = findParent(group[idx]);
+    int find(int v) {
+        if (parent[v] == v) return v;
+        return parent[v] = find(parent[v]);
     }
     
-    void unionG(int i1, int i2) {
-        int p1 = findParent(i1);
-        int p2 = findParent(i2);
-        group[p1] = p2;
+    void unionn(int v1, int v2) {
+        int p1 = find(v1), p2 = find(v2);
+        if (size[p1] < size[p2]) {
+            parent[p1] = parent[p2]; 
+            size[p2] += size[p1]; 
+        } else {
+            parent[p2] = parent[p1]; 
+            size[p1] += size[p2]; 
+        }
     }
     
     int earliestAcq(vector<vector<int>>& logs, int n) {
-        
-        int nComp = n;
+        parent.resize(n);
+        size.resize(n, 1);
+        for (int i=0; i<n; ++i) parent[i] = i;
         sort(logs.begin(), logs.end());
-        group.resize(n);
-        for (int i=0; i<n; i++)
-            group[i] = i;
         
-        for (auto& lg : logs) {
-            if (findParent(lg[1])!=findParent(lg[2])) {
-                unionG(lg[1], lg[2]);
-                nComp--;
-            }
-            if (nComp == 1)
-                return lg[0];
+        int p1, p2, nGroup = n;
+        for (auto & log : logs) {
+            p1 = find(log[1]), p2 = find(log[2]);
+            if (p1 != p2) {unionn(log[1], log[2]); --nGroup; }
+            if (nGroup == 1) return log[0];
         }
-        
         return -1;
-        
     }
 };
