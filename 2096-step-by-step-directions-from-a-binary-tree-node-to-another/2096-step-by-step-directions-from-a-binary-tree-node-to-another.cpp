@@ -11,36 +11,40 @@
  */
 class Solution {
 public:
-    string getDirections(TreeNode* root, int startValue, int destValue) {
-        
-        string s_path, d_path;
-        findPath(root, startValue, s_path);
-        findPath(root, destValue, d_path);
-        
-        while(!s_path.empty()&&!d_path.empty()
-            &&(s_path.back()==d_path.back())){
-            s_path.pop_back(); d_path.pop_back();
-        }
-        
-        return string(s_path.size(), 'U') + string(rbegin(d_path), rend(d_path)); 
+    string getDirections(TreeNode* root, int sV, int dV) {
+        TreeNode* lca = findLCA (root, sV, dV);
+        string pathToSrc, pathToDes;
+        findPath(lca, sV, pathToSrc);
+        findPath(lca, dV, pathToDes);
+        reverse(pathToDes.begin(), pathToDes.end());
+        return string(pathToSrc.size(), 'U') + pathToDes;
     }
     
-    bool findPath(TreeNode* root, int& target, string& path) {
+    bool findPath(TreeNode* root, int target, string& path) {
+        if (!root) return false;
+        if (root->val == target) return true;
         
-        bool isFound = false;
-        
-        if (!root) return isFound;
-        
-        if (root->val == target) 
-            return isFound = true;
-        
-        if (root->left && (isFound = findPath(root->left, target, path))) {
-            path.push_back('L');
+        bool ans = false;
+        if (findPath(root->left, target, path)) {
+            path += 'L';
+            ans = true;
         }
-        else if (root->right && (isFound = findPath(root->right, target, path))) {
-            path.push_back('R');
+        else if (findPath(root->right, target, path)) {
+            path += 'R';
+            ans = true;
         }
-        return isFound;
+        
+        return ans;
     }
     
+    TreeNode* findLCA (TreeNode* root, int srcV, int dstV) {
+        if (!root || root->val == srcV || root->val == dstV) return root;
+        
+        TreeNode* left = findLCA (root->left, srcV, dstV);
+        TreeNode* right = findLCA (root->right, srcV, dstV);
+        
+        if (left && right) return root;
+        else if (left) return left;
+        return right;
+    }
 };
