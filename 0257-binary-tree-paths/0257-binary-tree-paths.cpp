@@ -12,37 +12,25 @@
 class Solution {
 public:
     vector<string> binaryTreePaths(TreeNode* root) {
+        queue<pair<TreeNode*, string>> tnQ;
+        
+        if (root) tnQ.push({root, to_string(root->val)});
+        TreeNode* curTN;
         vector<string> ans;
-        if (!root) return ans;
-        
-        string curStr;
-        backtrack(root, curStr, ans);
+        while (!tnQ.empty()) {
+            auto cur = tnQ.front(); tnQ.pop();
+            curTN = cur.first;
+            string& curPath = cur.second;
+            
+            if (!curTN->left && !curTN->right) {
+                ans.push_back(curPath);
+            } else {
+                if (curTN->left)
+                    tnQ.push({curTN->left, curPath + "->" + to_string(curTN->left->val)});
+                if (curTN->right)
+                    tnQ.push({curTN->right, curPath + "->" + to_string(curTN->right->val)});
+            }
+        }
         return ans;
-    }
-    
-    void backtrack(TreeNode* root, string& curStr, vector<string>& ans) {
-        
-        curStr += to_string(root->val);
-        int origLen = curStr.size(), newLen;
-
-        if (!root->left && !root->right) {
-            ans.push_back(curStr);
-            return;
-        } 
-        
-        if (root->left) {
-            curStr += "->";
-            backtrack(root->left, curStr, ans);
-            newLen = curStr.size();
-            for (int i=0; i<newLen-origLen; ++i) curStr.pop_back();
-        }
-        
-        if (root->right) {
-            curStr += "->";
-            backtrack(root->right, curStr, ans);
-            newLen = curStr.size();
-            for (int i=0; i<newLen-origLen; ++i) curStr.pop_back();
-        }
-        
     }
 };
