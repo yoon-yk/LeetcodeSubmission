@@ -23,7 +23,7 @@ public:
     void backtrack(TreeNode* root, string& curStr, vector<string>& ans) {
         
         curStr += to_string(root->val);
-        string orig = curStr;
+        int origLen = curStr.size(), newLen;
 
         if (!root->left && !root->right) {
             ans.push_back(curStr);
@@ -33,13 +33,15 @@ public:
         if (root->left) {
             curStr += "->";
             backtrack(root->left, curStr, ans);
-            curStr = orig;
+            newLen = curStr.size();
+            for (int i=0; i<newLen-origLen; ++i) curStr.pop_back();
         }
         
         if (root->right) {
             curStr += "->";
             backtrack(root->right, curStr, ans);
-            curStr = orig;
+            newLen = curStr.size();
+            for (int i=0; i<newLen-origLen; ++i) curStr.pop_back();
         }
         
     }
