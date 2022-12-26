@@ -1,16 +1,10 @@
 class Solution {
 public:
     int prefixCount(vector<string>& words, string pref) {
+        int cnt = 0;
         vector<const char*> pool, nextPool;
-        for (auto & word : words) {
-            pool.push_back(word.c_str());
-        }
-        for (auto & c : pref) {
-            for (auto & cand : pool) 
-                if (c == *cand) nextPool.push_back(++cand);
-            pool.clear();
-            pool.swap(nextPool);
-        }
-        return pool.size();
+        for (auto & word : words) 
+            if (word.substr(0, pref.size()) == pref) ++cnt;
+        return cnt;
     }
 };
