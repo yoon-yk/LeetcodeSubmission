@@ -11,15 +11,18 @@
  */
 class Solution {
 public:
+    
+    // preorder 
     int rangeSumBST(TreeNode* root, int low, int high) {
         // preorder
         if (!root) return 0;
         
         int sum = 0;
-        if (low <= root->val && root->val <= high) sum += root->val;
+        if (low <= root->val && root->val <= high)
+            sum += root->val;
         
-        sum += rangeSumBST(root->left, low, high);
-        sum += rangeSumBST(root->right, low, high);
+        if (root->left) sum += rangeSumBST(root->left, low, high);
+        if (root->right) sum += rangeSumBST(root->right, low, high);
         
         return sum;
     }
