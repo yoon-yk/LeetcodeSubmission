@@ -18,12 +18,13 @@ public:
         if (!root) return 0;
         
         int sum = 0;
-        if (low <= root->val && root->val <= high)
+        if (root->left && low < root->val) sum += rangeSumBST(root->left, low, high);
+        
+        if (low <= root->val && root->val <= high) 
             sum += root->val;
         
-        if (root->left) sum += rangeSumBST(root->left, low, high);
-        if (root->right) sum += rangeSumBST(root->right, low, high);
-        
+        if (root->right && root->val < high) sum += rangeSumBST(root->right, low, high);
+            
         return sum;
     }
     
