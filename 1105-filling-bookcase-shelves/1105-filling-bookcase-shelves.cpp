@@ -3,42 +3,21 @@ public:
     int maxWidth;
     int minHeightShelves(vector<vector<int>>& books, int shelfWidth) {
         maxWidth = shelfWidth;
-        /**
-        
-        minimum possible height
-        = as many books as possible in one shelf 
-        .. screen fitting?
-        
-        1/23/4567
-        12/345/67
-        122
-        ... DP!
-        **/
-        int n = books.size();
-        vector<vector<int>> dp(n, vector<int>(shelfWidth+1, -1));
+        vector<vector<int>> dp(books.size(), vector<int>(shelfWidth+1, -1));
         return backtrack(books, 0, 0, 0, dp);
     }
     
-    int backtrack(vector<vector<int>>& b, int idx, int width, int height, vector<vector<int>>& dp) {
+    int backtrack(vector<vector<int>>& books, int idx, int curW, int curH, vector<vector<int>>& dp) {
+        if (idx == books.size()) 
+            return curH;
+        if (dp[idx][curW] != -1)
+            return dp[idx][curW];
         
-        if (idx == b.size()) 
-            return height;
+        int include = INT_MAX, exclude;
+        if (curW + books[idx][0] <= maxWidth) 
+            include = backtrack(books, idx+1, curW+books[idx][0], max(curH, books[idx][1]), dp);
+        exclude = curH + backtrack(books, idx+1, books[idx][0], books[idx][1], dp);
         
-        if (dp[idx][width] != -1) 
-            return dp[idx][width];
-        
-        int curW = b[idx][0], curH = b[idx][1];
-        
-        // try next shelf
-        int ans = height + backtrack(b, idx+1, curW, curH, dp);
-        
-        // push into curr shelf
-        if (width + curW <= maxWidth) {
-            ans = min(ans, backtrack(b, idx+1, width+curW, max(height, b[idx][1]), dp));
-        }
-
-        return dp[idx][width] = ans;
+        return dp[idx][curW] = min(include, exclude);
     }
-    
-    
 };
