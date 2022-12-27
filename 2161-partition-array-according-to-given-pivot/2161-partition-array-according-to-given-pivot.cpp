@@ -14,7 +14,6 @@ public:
             else if (nums[i] == pivot) ans[eIdx++] = nums[i];
             else ans[mIdx++] = nums[i];
         }
-        nums.swap(ans);
-        return nums;
+        return ans;
     }
 };
