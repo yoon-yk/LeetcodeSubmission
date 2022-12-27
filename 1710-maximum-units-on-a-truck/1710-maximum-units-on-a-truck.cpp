@@ -13,7 +13,6 @@ public:
                 cap -= b[0], ans += b[0]*b[1];
             } else {
                 ans += cap * b[1];
-                cap = 0;
                 break;
             }
         }
