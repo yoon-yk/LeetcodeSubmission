@@ -1,6 +1,6 @@
 class Solution {
 public:
-    void partition(vector<int>& nums, int pivot) {
+    vector<int> pivotArray(vector<int>& nums, int pivot) {
         int equal = 0, less = 0, more = 0;
         for (int i=0; i<nums.size(); ++i) {
             if (nums[i] < pivot) ++less;
@@ -15,9 +15,6 @@ public:
             else ans[mIdx++] = nums[i];
         }
         nums.swap(ans);
-    }
-    vector<int> pivotArray(vector<int>& nums, int pivot) {
-        partition(nums, pivot);
         return nums;
     }
 };
