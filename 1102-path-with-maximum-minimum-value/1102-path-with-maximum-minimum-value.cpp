@@ -1,17 +1,10 @@
-/*
-
-[5,0,3,5,4,1]
-[3,5,1,1,2,5]
-[3,5,5,5,4,0]
-[2,0,3,0,5,5]
-[1,4,5,0,0,5]
-
-*/
-
 class Solution {
 public:
+    int base;
     vector<int> parent, size;
-    int base = 1000;
+    vector<int> dir = {-1, 0, 1, 0, -1};
+    vector<vector<bool>> visited;
+
     int find(int v) {
         if (parent[v] == v) return v;
         return parent[v] = find(parent[v]);
@@ -36,35 +29,33 @@ public:
             return false;
         return true;
     }
-    
+
     int maximumMinimumPath(vector<vector<int>>& grid) {
-        parent.resize(100105);
-        size.resize(100105, 1);
+        
+        base = grid[0].size();
+        parent.resize(10005);
+        size.resize(10005, 1);
+        visited.resize(grid.size(), vector<bool>(grid[0].size(), false));
+        
         for (int i=0; i<parent.size(); ++i) parent[i] = i;
         
         priority_queue<pair<int, pair<int, int>>> pq;
-        for (int i=0; i<grid.size(); ++i) {
-            for (int j=0; j<grid[0].size(); ++j) {
+        for (int i=0; i<grid.size(); ++i)
+            for (int j=0; j<grid[0].size(); ++j)
                 pq.push({grid[i][j], {i, j}});
-            }
-        }
-        
+    
         int target = (grid.size()-1)*base + (grid[0].size()-1);
         
-        vector<vector<bool>> visited(grid.size(), vector<bool>(grid[0].size(), false));
-        
         int ans = INT_MAX;
-        vector<int> dir = {-1, 0, 1, 0, -1};
-        while (!pq.empty() && find(0) != find(target)) {
-            auto cur = pq.top().second; 
-            ans = pq.top().first;
-            // cout << pq.top().first << endl;
-            pq.pop();
-            visited[cur.first][cur.second] = true;
+        while (!pq.empty()) {
+            auto [r, c] = pq.top().second; 
+            ans = pq.top().first; pq.pop();
+            visited[r][c] = true;
             for (int d=0; d<4; ++d) {
-                int newI = cur.first+dir[d], newJ = cur.second+dir[d+1];
+                int newI = r+dir[d], newJ = c+dir[d+1];
                 if (isValid(grid, newI, newJ) && visited[newI][newJ]) {
-                    unionn(cur, {newI, newJ});
+                    unionn({r,c}, {newI, newJ});
+                    if (find(0) == find(target)) return ans;
                 }
             }
         }
