@@ -8,14 +8,12 @@ public:
         for (int i=0; i<guess.size(); ++i) {
             if (secret[i] == guess[i]) {
                 ++nB; --mp[guess[i]];
-                if (mp[guess[i]] == 0) mp.erase(guess[i]);
             }            
         }
         
         for (int i=0; i<guess.size(); ++i) {
-            if (secret[i] != guess[i] && mp.count(guess[i])) {
+            if (secret[i] != guess[i] && mp[guess[i]] > 0) {
                 ++nC; --mp[guess[i]];
-                if (mp[guess[i]] == 0) mp.erase(guess[i]);
             }
         }
         
