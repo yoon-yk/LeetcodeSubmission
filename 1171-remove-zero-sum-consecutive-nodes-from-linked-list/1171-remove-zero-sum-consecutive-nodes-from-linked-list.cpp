@@ -48,33 +48,18 @@ public:
         
         while (ptr) {
             prefix += ptr->val;
-            // cout << prefix << " " << ptr->val << endl;
-
-            if (mp.count(prefix)) {
-                ListNode* del =  mp[prefix]->next;
-                int p = prefix + del->val;
-                while (p != prefix) {
-                    mp.erase(p);
-                    del = del->next;
-                    p += del->val;
-                }
-                mp[prefix]->next = ptr->next;
-            }
-            else mp[prefix] = ptr;
+            mp[prefix] = ptr;
             ptr = ptr->next;
-            
-//             ListNode* pptr = dummyHead;
-//             cout << "**LL**" << endl;
-//             while (pptr) {
-//                 cout << pptr->val << " ";
-//                 pptr = pptr->next;
-//             }
-//             cout << endl;
-//             cout << "**MAP**" << endl;
-//             for (auto [i,_] : mp) cout << i << " ";
-//             cout << endl;
         }
         
+        ptr = dummyHead;
+        prefix = 0;
+        while (ptr) {
+            prefix += ptr->val;
+            if (mp.count(prefix))
+                ptr->next = mp[prefix]->next;
+            ptr = ptr->next;
+        }
 
         
         return dummyHead->next;
