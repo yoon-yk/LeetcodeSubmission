@@ -1,27 +1,18 @@
 class Solution {
 public:
-    bool canTransform(string start, string end) {
-        int sIdx = 0, eIdx = 0;
-        while (1) {
-                        
-            while (sIdx < start.size() && start[sIdx] == 'X')
-                ++sIdx;
-            while (eIdx < end.size() && end[eIdx] == 'X')
-                ++eIdx;
-            
-            if (sIdx == start.size() && eIdx == end.size())
-                return true;
-            else if (sIdx == start.size() || eIdx == end.size())
-                return false;
-            
-            if ((start[sIdx] != end[eIdx]) ||
-                (start[sIdx] == 'L' && sIdx < eIdx) ||
-                (end[eIdx] == 'R' && sIdx > eIdx)) return false;
-            
-            ++sIdx, ++eIdx;
+    bool canTransform(string start, string target) {
+        // l can go only lefter side, r can go only righter side
+        int p1 = 0, p2 = 0;
+        int n = start.size();
+        while (true) {
+            while (p1 < n && start[p1] == 'X') ++p1;
+            while (p2 < n && target[p2] == 'X') ++p2;
+            if (p1 == n || p2 == n) break;
+            if (start[p1] != target[p2]) return false;
+            if (start[p1] == 'L' && p1 < p2 || 
+                start[p1] == 'R' && p2 < p1) return false;
+            ++p1, ++p2;
         }
-
-        
-        return (sIdx == start.size()) && (eIdx == end.size());
+        return (p1 == n && p2 == n);
     }
 };
