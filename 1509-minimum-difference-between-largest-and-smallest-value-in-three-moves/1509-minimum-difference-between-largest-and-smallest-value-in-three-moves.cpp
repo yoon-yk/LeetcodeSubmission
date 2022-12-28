@@ -12,15 +12,13 @@ public:
         */
         
         if (nums.size() < 5) return 0;
-        int n = nums.size();
+        int n = nums.size(), ans = INT_MAX;
         sort(nums.begin(), nums.end());
         
-        int a = abs(nums[0]-nums[n-4]);
-        int b = abs(nums[1]-nums[n-3]);
-        int c = abs(nums[2]-nums[n-2]);
-        int d = abs(nums[3]-nums[n-1]);
+        for (int i=0; i<4; ++i) 
+            ans = min(ans, abs(nums[i]-nums[n-1-(3-i)]));
         
-        return min(min(a, b), min(c, d));
+        return ans;
 
     }
 };
