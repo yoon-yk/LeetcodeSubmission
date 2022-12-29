@@ -1,34 +1,40 @@
 class StockPrice {
 public:
-    unordered_map<int, int> timeStamps;
-    multiset<int> prices;
-    int latestTS;
+    
+    int cur = -1;
+    multiset<pair<int, int>> ms; // price : time
+    unordered_map<int, int> mp; // time : price
     
     StockPrice() {
-        latestTS = -1;
+        
     }
     
     void update(int timestamp, int price) {
-        
-        if (timeStamps.count(timestamp)) {
-            prices.erase(prices.find(timeStamps[timestamp]));
-        }
-        
-        latestTS = max(latestTS, timestamp);
-        timeStamps[timestamp] = price;
-        prices.insert(price);
+        // if exist, update
+        if (mp.count(timestamp)) {
+            ms.erase({mp[timestamp], timestamp});
+        } 
+        mp[timestamp] = price;
+        ms.insert({price, timestamp});
+        cur = max(timestamp, cur);
     }
     
     int current() {
-        return timeStamps[latestTS];
+        // latest 
+        if (cur == -1) return -1;
+        return mp[cur];
     }
     
     int maximum() {
-       return *prices.rbegin(); 
+        // maximum price
+        if (ms.empty()) return -1;
+        return ms.rbegin()->first;
     }
     
     int minimum() {
-        return *prices.begin();
+        // minimum price
+        if (ms.empty()) return -1;
+        return ms.begin()->first;
     }
 };
 
