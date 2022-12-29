@@ -11,11 +11,9 @@
  */
 class Solution {
 public:
-    vector<vector<int>> ans;
     vector<vector<int>> findLeaves(TreeNode* root) {
         vector<vector<int>> ans;
         dfs(root, ans);
-        
         return ans;
     }
     
