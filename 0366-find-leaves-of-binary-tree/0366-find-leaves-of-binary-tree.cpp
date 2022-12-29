@@ -11,24 +11,23 @@
  */
 class Solution {
 public:
+    vector<vector<int>> ans;
     vector<vector<int>> findLeaves(TreeNode* root) {
         vector<vector<int>> ans;
-        findLeaves(root, ans);
+        dfs(root, ans);
         
         return ans;
     }
     
-    int findLeaves(TreeNode* root, vector<vector<int>>& ans) {
-        if (!root) return 0;
+    int dfs(TreeNode* root, vector<vector<int>>& ans) {
+        if (!root) return -1;
         
-        int distToLeaves = findLeaves(root->left, ans);
-        distToLeaves = max(distToLeaves, findLeaves(root->right, ans));
+        int left = dfs(root->left, ans)+1;
+        int right = dfs(root->right, ans)+1;
         
-        if (ans.size() == distToLeaves) ans.push_back({});
-        ans[distToLeaves].push_back(root->val);
+        if (ans.size() == max(left, right)) ans.push_back({});
+        ans[max(left, right)].push_back(root->val);
         
-        return distToLeaves+1;
-        
+        return max(left, right);
     }
-    
 };
