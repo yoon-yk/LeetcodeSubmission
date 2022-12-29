@@ -19,11 +19,10 @@ public:
         int x = point[0], y = point[1];
         
         int i, j;
-        for (auto & [i, j] : pool) {
+        for (auto & [i, j] : pool)
             if (x!=i && y!=j && abs(x-i) == abs(y-j)) 
                 ans += mp[i][j] * mp[i][y] * mp[x][j];
-        }
-
+    
         return ans;
     }
 };
