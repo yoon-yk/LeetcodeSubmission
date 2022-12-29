@@ -1,50 +1,42 @@
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
 class Solution {
 public:
-    string getDirections(TreeNode* root, int sV, int dV) {
-        TreeNode* lca = findLCA (root, sV, dV);
-        string pathToSrc, pathToDes;
-        findPath(lca, sV, pathToSrc);
-        findPath(lca, dV, pathToDes);
-        reverse(pathToDes.begin(), pathToDes.end());
-        return string(pathToSrc.size(), 'U') + pathToDes;
+    string getDirections(TreeNode* root, int srcV, int dstV) {
+        // find the root
+        TreeNode* lca = getLCA(root, srcV, dstV);
+        string pathToP, pathToQ;
+        getPath(lca, srcV, pathToP);
+        getPath(lca, dstV, pathToQ);
+        reverse(pathToQ.begin(), pathToQ.end());
+        return string(pathToP.size(), 'U') + pathToQ;
     }
     
-    bool findPath(TreeNode* root, int target, string& path) {
-        if (!root) return false;
-        if (root->val == target) return true;
+    TreeNode* getLCA(TreeNode* root, int p, int q) {
+        if (!root || root->val == p || root->val == q) 
+            return root;
         
-        bool ans = false;
-        if (findPath(root->left, target, path)) {
-            path += 'L';
-            ans = true;
-        }
-        else if (findPath(root->right, target, path)) {
-            path += 'R';
-            ans = true;
-        }
-        
-        return ans;
-    }
-    
-    TreeNode* findLCA (TreeNode* root, int srcV, int dstV) {
-        if (!root || root->val == srcV || root->val == dstV) return root;
-        
-        TreeNode* left = findLCA (root->left, srcV, dstV);
-        TreeNode* right = findLCA (root->right, srcV, dstV);
+        TreeNode* left = getLCA(root->left, p, q);
+        TreeNode* right = getLCA(root->right, p, q);
         
         if (left && right) return root;
         else if (left) return left;
         return right;
+    }
+    
+    bool getPath(TreeNode* root, int target, string& path){
+        if (!root) return false;
+        
+        if (root->val == target) return true;
+        
+        bool left = false, right = false;
+        if (left = getPath(root->left, target, path)) {
+            path += 'L';
+        }
+        
+        if (right = getPath(root->right, target, path)) {
+            path += 'R';
+        }
+        
+        return (left | right);
+        
     }
 };
