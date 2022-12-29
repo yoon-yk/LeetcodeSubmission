@@ -4,10 +4,16 @@ public:
     
     MyCalendar() {}
     
+    /*
+    [20, 30]
+    
+    */
     bool book(int start, int end) {
-        auto lb = cal.lower_bound({start, end});
-        if (lb!=cal.begin() && prev(lb)->second > start) return false;
-        if (lb!=cal.end() && lb->first < end) return false;
+        auto it = cal.lower_bound({start, end});
+        if (it != cal.begin() && start < prev(it)->second)
+            return false;
+        if (it != cal.end() && it->first < end)
+            return false;
         cal.insert({start, end});
         return true;
     }
