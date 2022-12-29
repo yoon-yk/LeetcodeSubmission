@@ -7,29 +7,35 @@ public:
         return parent[v] = find(parent[v]);
     }
     
-    void unionn(int v1, int v2) {
+    bool unionn(int v1, int v2) {
         int p1 = find(v1), p2 = find(v2);
+        if (p1 == p2) return true;
         if (size[p1] < size[p2]) {
-            parent[p1] = parent[p2]; 
-            size[p2] += size[p1]; 
+            size[p2] += size[p1];
+            parent[p1] = p2;
         } else {
-            parent[p2] = parent[p1]; 
-            size[p1] += size[p2]; 
+            size[p1] += size[p2];
+            parent[p2] = p1;
         }
+        return false;
     }
     
     int earliestAcq(vector<vector<int>>& logs, int n) {
-        parent.resize(n);
+        parent.resize(n);       
         size.resize(n, 1);
-        for (int i=0; i<n; ++i) parent[i] = i;
+        for (int i=0; i<parent.size(); ++i) parent[i] = i;
+        
         sort(logs.begin(), logs.end());
         
-        int p1, p2, nGroup = n;
+        int cnt = n;
         for (auto & log : logs) {
-            p1 = find(log[1]), p2 = find(log[2]);
-            if (p1 != p2) {unionn(log[1], log[2]); --nGroup; }
-            if (nGroup == 1) return log[0];
+            if (!unionn(log[1], log[2])) {
+                --cnt;
+                if (cnt == 1) return log[0];
+            }
         }
+        
         return -1;
+        
     }
 };
