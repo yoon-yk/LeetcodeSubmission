@@ -21,6 +21,8 @@ public:
     }
     
     int earliestAcq(vector<vector<int>>& logs, int n) {
+        if (logs.size() < n-1) return -1;
+        
         parent.resize(n);       
         size.resize(n, 1);
         for (int i=0; i<parent.size(); ++i) parent[i] = i;
