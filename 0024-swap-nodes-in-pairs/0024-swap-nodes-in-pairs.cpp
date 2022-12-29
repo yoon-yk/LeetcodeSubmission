@@ -15,11 +15,12 @@ public:
         ListNode* dHead = new ListNode();
         dHead->next = head;
         ListNode* ptr = dHead->next, *prev = dHead;
+        ListNode* first, *second, *rest;
         
         while (ptr && ptr->next) {
-            ListNode* first = ptr;
-            ListNode* second = ptr->next;
-            ListNode* rest = second->next;
+            first = ptr;
+            second = ptr->next;
+            rest = second->next;
             
             first->next = rest;
             second->next = first;
