@@ -12,9 +12,9 @@
 class Solution {
 public:
     vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
-        vector<int> curPath;
         vector<vector<int>> ans;
         if (!root) return ans;
+        vector<int> curPath;
         curPath.push_back(root->val);
         traverse(root, targetSum-root->val, curPath, ans);
         return ans;
