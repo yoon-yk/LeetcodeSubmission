@@ -1,28 +1,21 @@
 class Solution {
 public:
-    int maxW;
-    int minHeightShelves(vector<vector<int>>& books, int shelfWidth) {
-        // 어쨌든 큰 애들은 우겨넣는게 최선, greedy는 안될걸?
-        int n = books.size();
-        maxW = shelfWidth;
-        vector<vector<int>> dp(n+1, vector<int>(shelfWidth+1, -1));
-        return backtrack(books, 0, 0, 0, dp);
-    }
-    
-    int backtrack(vector<vector<int>>& books, int idx, int curW, int curH, vector<vector<int>>& dp) {
+
+    int minHeightShelves(vector<vector<int>>& books, int maxW) {
+        int n = books.size(), j, sum, h;
+        vector<int> dp(n+1, INT_MAX);
+        dp[0] = 0;
         
-        if (idx == books.size()) 
-            return curH;
+        for (int i=1; i<=n; ++i) {
+            dp[i] = dp[i-1] + books[i-1][1];
+            
+            for (j=i, sum=0, h=0; j>0 && sum + books[j-1][0] <= maxW; --j) {
+                sum += books[j-1][0];
+                h = max(h, books[j-1][1]);
+                dp[i] = min(dp[i], dp[j-1] + h);
+            }        
+        }
         
-        if (dp[idx][curW]!=-1) return dp[idx][curW];
-        
-        int bw = books[idx][0], bh = books[idx][1];
-        
-        int ans = backtrack(books, idx+1, bw, bh, dp) + curH;
-        
-        if (curW + bw <= maxW)
-            ans = min(ans, backtrack(books, idx+1, curW+bw, max(curH, bh), dp));
-        
-        return dp[idx][curW] = ans;
+        return dp[n];
     }
 };
