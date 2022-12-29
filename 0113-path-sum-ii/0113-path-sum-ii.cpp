@@ -15,9 +15,8 @@ public:
         vector<int> curPath;
         vector<vector<int>> ans;
         if (!root) return ans;
-        targetSum -= root->val;
         curPath.push_back(root->val);
-        traverse(root, targetSum, curPath, ans);
+        traverse(root, targetSum-root->val, curPath, ans);
         return ans;
     }
     
@@ -30,17 +29,13 @@ public:
         } 
             
         if (root->left) {
-            target -= root->left->val;
             curPath.push_back(root->left->val);
-            traverse(root->left, target, curPath, ans);
-            target += root->left->val;
+            traverse(root->left, target - root->left->val, curPath, ans);
             curPath.pop_back();
         }
         if (root->right) {
-            target -= root->right->val;
             curPath.push_back(root->right->val);
-            traverse(root->right, target, curPath, ans);
-            target += root->right->val;
+            traverse(root->right, target - root->right->val, curPath, ans);
             curPath.pop_back();
         }
         
