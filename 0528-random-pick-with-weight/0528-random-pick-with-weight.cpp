@@ -1,23 +1,18 @@
 class Solution {
 public:
     vector<int> prefix;
-    
-    /*
-    1 4
-    */
     Solution(vector<int>& w) {
-        int sum = 0;
-        for (auto & i : w) {
-            sum += i;
-            prefix.push_back(sum);
+        int prefixS = 0;
+        for (int & ww : w) {
+            prefixS += ww;
+            prefix.push_back(prefixS);
         }
     }
     
     int pickIndex() {
-        int left = 0, right = prefix.back();
-        int randVal = rand() % (right-left) + 1;
-        int randIdx = lower_bound(prefix.begin(), prefix.end(), randVal) - prefix.begin(); 
-        return randIdx;
+        int random = 1 + (rand() % (prefix.back()));
+        auto it = lower_bound(prefix.begin(), prefix.end(), random);
+        return it - prefix.begin();
     }
 };
 
