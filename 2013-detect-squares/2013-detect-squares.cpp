@@ -1,11 +1,15 @@
 class DetectSquares {
 public:
+    int n = 1005;
     vector<vector<int>> mp;
+    vector<pair<int, int>> pool;
+    
     DetectSquares() {
-        mp.resize(1005, vector<int>(1005, 0));
+        mp.resize(n, vector<int>(n, 0));
     }
     
     void add(vector<int> point) {
+        if (mp[point[0]][point[1]] == 0) pool.push_back({point[0], point[1]});
         ++mp[point[0]][point[1]];
     }
     
@@ -13,16 +17,13 @@ public:
         
         int ans = 0;
         int x = point[0], y = point[1];
-        for (int i=1; i<=1000; ++i) {
-            if (x+i <= 1000) {
-                if (y+i <= 1000) ans += mp[x+i][y+i] * mp[x+i][y] * mp[x][y+i];
-                if (y-i >= 0) ans += mp[x+i][y-i] * mp[x+i][y] * mp[x][y-i];
-            }
-            if (x-i >= 0) {
-                if (y-i >= 0) ans += mp[x-i][y-i] * mp[x-i][y] * mp[x][y-i];
-                if (y+i <= 1000) ans += mp[x-i][y+i] * mp[x-i][y] * mp[x][y+i];
-            }
+        
+        int i, j;
+        for (auto & [i, j] : pool) {
+            if (x!=i && y!=j && abs(x-i) == abs(y-j)) 
+                ans += mp[i][j] * mp[i][y] * mp[x][j];
         }
+
         return ans;
     }
 };
