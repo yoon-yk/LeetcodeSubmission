@@ -8,13 +8,12 @@ public:
         for (int r=0; r<rows; ++r, cleft = cols) {
             if (dp[wid%n]!=-1) {
                 wid += dp[wid%n];
-                continue;
+            } else {
+                startIdx = wid;
+                while ((cleft-=words[wid%n].size()) >= 0)
+                    cleft -= 1, ++wid;
+                dp[startIdx%n] = wid-startIdx;   
             }
-            startIdx = wid;
-            while ((cleft-=words[wid%n].size()) >= 0) { 
-                cleft -= 1, ++wid;
-            }
-            dp[startIdx%n] = wid-startIdx;
         }
         
         return wid/n;
