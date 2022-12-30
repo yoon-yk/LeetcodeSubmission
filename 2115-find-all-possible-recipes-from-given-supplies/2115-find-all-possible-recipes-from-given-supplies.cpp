@@ -10,8 +10,8 @@ public:
         for (int i=0; i<recipes.size(); ++i) {
             for (int j=0; j<ingred[i].size(); ++j) {
                 adjList[ingred[i][j]].push_back(recipes[i]);
-                ++indegree[recipes[i]];
             }
+            indegree[recipes[i]] = ingred[i].size();
         }
         
         queue<string> Q;
