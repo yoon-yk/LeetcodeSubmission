@@ -22,11 +22,10 @@ public:
     unordered_map<int, int> mp;
     int getKth(int lo, int hi, int k) {
         mp[1] = 0;
-        vector<int> arr;
-        for (int i=lo; i<=hi; ++i) {
-            arr.push_back(i);
+        vector<int> arr(hi-lo+1);
+        iota(begin(arr), end(arr), lo);
+        for (int i=lo; i<=hi; ++i) 
             getPowerValue(i);
-        }
         
         quicksort(arr, 0, hi-lo, k-1);
         
