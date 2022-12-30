@@ -1,7 +1,8 @@
 class RLEIterator {
 public:
     long long  curIdx;
-    vector<long long> idx, val;
+    vector<long long> idx;
+    vector<int> val;
     RLEIterator(vector<int>& encoding) {
         curIdx = 0;
         long long prefix = 0;
