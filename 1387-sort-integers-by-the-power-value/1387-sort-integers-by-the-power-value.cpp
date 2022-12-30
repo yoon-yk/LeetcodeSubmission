@@ -1,53 +1,44 @@
 class Solution {
-public:   
-    unordered_map<int, int> steps;
-    
-    int partition(vector<int>&v, int start, int end) {
-        int rdIdx = start + rand() % (end-start+1);
-        swap(v[rdIdx], v[end]);
-        
+public:
+    int partition (vector<int>& arr, int start, int end){
+        swap(arr[start+rand()%(end-start+1)], arr[end]);
         int lo = start;
         for (int i=start; i<end; ++i) {
-            if (steps[v[i]] < steps[v[end]] ||
-                (steps[v[i]] == steps[v[end]] && v[i] < v[end])) {
-                swap(v[lo], v[i]);
-                lo++;
-            }
+            if (mp[arr[i]] < mp[arr[end]] || (mp[arr[i]] == mp[arr[end]]) && arr[i] < arr[end])
+                swap(arr[i], arr[lo++]);
         }
-        swap(v[lo], v[end]);
+        swap(arr[lo], arr[end]);
         return lo;
     }
     
-    void quicksort(vector<int>&v, int start, int end, int k) {
+    void quicksort(vector<int>& arr, int start, int end, int k) {
         if (start >= end) return;
-        int idx = partition(v, start, end);
+        int idx = partition(arr, start, end);
         if (idx == k) return;
-        if (idx < k) quicksort(v, idx+1, end, k);
-        quicksort(v, start, idx-1, k);
+        if (idx < k) quicksort(arr, idx+1, end, k);
+        else quicksort(arr, start, idx-1, k);
     }
     
+    unordered_map<int, int> mp;
     int getKth(int lo, int hi, int k) {
-        /*
-        1 = 1 (0)
-        2 = 1 (1)
-        3 = 10 -> 5 -> 16 -> 8 -> 4 -> 2 -> 1 (7)
-        4 = 12 -> 6 -> 3 -> 10 -> ... 
-        5 = 16 -> 8 -> ... 
-        */
+        mp[1] = 0;
+        vector<int> arr;
+        for (int i=lo; i<=hi; ++i) {
+            arr.push_back(i);
+            getPowerValue(i);
+        }
         
-        steps[1] = 0;
-        vector<int> v;
-        for (int i=lo; i<=hi; ++i) {v.push_back(i); getSteps(i);}
-        quicksort(v, 0, v.size()-1, k-1);
+        quicksort(arr, 0, hi-lo, k-1);
         
-        return v[k-1];
+        return arr[k-1];
     }
     
-    int getSteps(int n) {
-        if (steps.count(n)) return steps[n];
-
-        if (n & 1) return steps[n] = getSteps(n*3+1) + 1; // odd 
-        return steps[n] = getSteps(n >> 1) + 1;
-    };
-    
+    int getPowerValue(int i) {
+        if (mp.count(i)) return mp[i];
+        if (i&1) 
+            mp[i] = getPowerValue(i*3 + 1) + 1;
+        else 
+            mp[i] = getPowerValue(i >> 1) + 1;
+        return mp[i];
+    }
 };
