@@ -9,35 +9,19 @@ public:
         // for (auto & w : words) cout << w << endl;
         // if chain - put into adjList
         
-        int n = words.size();
+        int n = words.size(), ans;
         unordered_map<string, int> mp;
-        vector<vector<int>> adjList(n);
         for (int i=0; i<words.size(); ++i) {
+            mp[words[i]] = 1;
             for (int j=0; j<words[i].size(); ++j) {
                 string next = words[i].substr(0, j) + words[i].substr(j+1);
                 if (mp.count(next))
-                    adjList[i].push_back(mp[next]);
+                    mp[words[i]] = max(mp[words[i]], mp[next]+1);
             }
-            mp[words[i]] = i;
+            ans = max(ans, mp[words[i]]);
         }
-        int ans = 0;
-        
-        vector<int> dp(n, -1);
-        for (int i=0; i<n; ++i)
-            ans = max(ans, dfs(i, adjList, dp));
-        
+
         // dfs + dp
         return ans;
-    }
-    
-    int dfs(int cur, vector<vector<int>>& adjList, vector<int>& dp) {
-        
-        if (dp[cur]!=-1) return dp[cur];
-        
-        int ans = 1;
-        for (auto & nei : adjList[cur])
-            ans = max(ans, dfs(nei, adjList, dp)+1);
-        
-        return dp[cur] = ans;
     }
 };
