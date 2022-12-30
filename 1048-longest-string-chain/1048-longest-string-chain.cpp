@@ -6,9 +6,6 @@ public:
            return a.size() < b.size(); 
         });
         
-        // for (auto & w : words) cout << w << endl;
-        // if chain - put into adjList
-        
         int n = words.size(), ans;
         unordered_map<string, int> mp;
         for (int i=0; i<words.size(); ++i) {
