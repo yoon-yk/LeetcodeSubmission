@@ -11,23 +11,21 @@ public:
         
         queue<pair<int, int>> Q;
         
-        int r = click[0], c = click[1];
-        int res = mark(board, r, c);
+        int r = click[0], c = click[1], nr, nc, res;
+        res = mark(board, r, c);
         if (res > 0) {
             board[r][c] = (res + '0');
             return board;
-        } else {
-            board[r][c] = 'B';
         }
-        
+        board[r][c] = 'B';
         Q.push({click[0], click[1]});
-        int nr, nc;
+        
         while (!Q.empty()) {
             auto [r, c] = Q.front(); Q.pop();
             
             for (auto& [nr, nc] : dir) {
                 if (!isValidRange(board, r+nr, c+nc) || board[r+nr][c+nc] != 'E') continue;
-                int res = mark(board, r+nr, c+nc);
+                res = mark(board, r+nr, c+nc);
                 if (res > 0) {
                     board[r+nr][c+nc] = (res + '0');
                     continue;
