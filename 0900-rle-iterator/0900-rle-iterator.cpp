@@ -1,32 +1,23 @@
 class RLEIterator {
 public:
-    /*
-    3 0 2
-    3 3 5
-    
-    */    
-    unsigned long cnt;
-    vector<unsigned long> prefix;
-    vector<unsigned long> val;
-    
+    long long  curIdx;
+    vector<long long> idx, val;
     RLEIterator(vector<int>& encoding) {
-        cnt = 0;
-        unsigned long sum = 0;
-        for (int i=0; i<encoding.size(); i+= 2) {
-            sum += encoding[i];
-            prefix.push_back(sum);
-        }
-        for (int i=1; i<encoding.size(); i+= 2) {
-            val.push_back(encoding[i]);
+        curIdx = 0;
+        long long prefix = 0;
+        for (int i=0; i<encoding.size(); i+=2) {
+            if (encoding[i] == 0) continue;
+            prefix += encoding[i];
+            idx.push_back(prefix);
+            val.push_back(encoding[i+1]);
         }
     }
     
     int next(int n) {
-        
-        auto it = lower_bound(prefix.begin(), prefix.end(), n+cnt);
-        cnt+=n;
-        if (it == prefix.end()) return -1;
-        return val[it-prefix.begin()];
+        curIdx+=n;
+        auto it = lower_bound(idx.begin(), idx.end(), curIdx);
+        if (it == idx.end()) return -1;
+        return val[it-idx.begin()];
     }
 };
 
