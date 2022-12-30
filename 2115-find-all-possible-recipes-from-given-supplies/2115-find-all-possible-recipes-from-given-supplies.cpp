@@ -1,79 +1,37 @@
-// 17:21
-
 class Solution {
 public:
-    vector<string> findAllRecipes(vector<string>& recipes, vector<vector<string>>& ingredients, vector<string>& supplies) {
-        // recipes
-        // ingredients
-        // supplies
-        
+    vector<string> findAllRecipes(vector<string>& recipes, vector<vector<string>>& ingred, vector<string>& supplies) {
         // topological sort
-        // starting from supplies
+        vector<string> ans;
+        unordered_set<string> dict(recipes.begin(), recipes.end());
+        unordered_map<string, int> indegree;
+        unordered_map<string, vector<string>> adjList;
+        // indegree 
+        for (int i=0; i<recipes.size(); ++i) {
+            for (int j=0; j<ingred[i].size(); ++j) {
+                adjList[ingred[i][j]].push_back(recipes[i]);
+                ++indegree[recipes[i]];
+            }
+        }
         
-        // making graph
-        // yeast -> bread (indeg++)
-        // flour -> bread (indeg++)
-        // bread -> sandwich (indeg++)
-        // meat -> sandwich (indeg++)
+        queue<string> Q;
+        for (auto & s : supplies) Q.push(s);
         
-        // << BFS using Q >>
-        // starting from bread and sandwich
-        // for its next node, --indeg;
-        // if its next node's indeg == 0;
-        // push it to queue
-        
-        // everytime a node goes into Q, check if it's in a recipes. 
-        // If so, push it to answer
-        
-        
-        // bread = 0, sandwich = 1;
-        // yeast = 2, flour = 3
-        // meat = 4, 
-        
-        unordered_map<string, int> nodes; // name and node #;
-        unordered_map<int, vector<int>> adjList;
-        unordered_map<int, int> indeg;
-        
-        int idx = 0;
-        
-        for (; idx<recipes.size(); idx++)
-            nodes[recipes[idx]] = idx;
-        
-        int curNode;
-        for (int rec=0; rec<ingredients.size(); rec++) {
-            for (int j=0; j<ingredients[rec].size(); j++) {
-                if (nodes.count(ingredients[rec][j]))
-                    curNode = nodes[ingredients[rec][j]];
-                else {
-                    curNode = idx++;
-                    nodes[ingredients[rec][j]] = curNode;
-                }
+        int size;
+        while (!Q.empty()) {
+            size = Q.size();
+            while (size--) {
+                auto cur = Q.front(); Q.pop();
+                if (dict.count(cur)) ans.push_back(cur);
                 
-                adjList[curNode].push_back(rec);
-                indeg[rec]++;
+                for (auto& next : adjList[cur]) {
+                    if (--indegree[next] == 0) {
+                        Q.push(next);
+                    }
+                }
             }
         }
         
-        
-        queue<int> Q;
-        for (auto & sp : supplies) 
-            if (nodes.count(sp)) Q.push(nodes[sp]);
-        
-        
-        vector<string> ret;
-        while(!Q.empty()) {
-            int cur = Q.front(); Q.pop();
-            if (cur < recipes.size()) {
-                ret.push_back(recipes[cur]);
-            }
-            
-            for (auto & next : adjList[cur]){
-                if (--indeg[next] == 0)
-                    Q.push(next);
-            }
-        }
-        
-        return ret;
-        
+        return ans;
     }
 };
