@@ -2,17 +2,6 @@ class Solution {
 public:
     vector<int> dir = {-1, 0, 1, 0, -1};
 
-    void printGrid(vector<vector<int>>& grid, int i, int j) {
-        int n = grid.size(), m = grid[0].size();
-
-        cout << endl;
-        for (int i=0; i<n; ++i) {
-            for (int j=0; j<m; ++j) {
-                cout << grid[i][j] << " ";
-            }
-            cout << endl;
-        }
-    }
     int maxAreaOfIsland(vector<vector<int>>& grid) {
         int n = grid.size(), m = grid[0].size();
         int ans = 0;
