@@ -4,6 +4,7 @@ public:
         string ans;
         deque<int> nums;
         deque<string> msgs;
+        msgs.push_back("");
         string num, msg;
         int cnt;
         for (char & c : s) {
@@ -19,12 +20,12 @@ public:
                     cur = msgs.back() + cur;
                     msgs.pop_back();
                 }
-                msgs.pop_back();
+                msgs.pop_back(); // [
                 int cnt = nums.back(); nums.pop_back();
-                msgs.push_back(cur);
-                for (int i=0; i<cnt-1; ++i) {
-                    msgs.back() += cur;
-                }
+                string newStr;
+                for (int i=0; i<cnt; ++i) 
+                    newStr += cur;
+                msgs.push_back(newStr);
             } else {
                 if (c == '[') {
                     nums.push_back(stoi(num));
