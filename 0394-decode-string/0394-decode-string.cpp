@@ -1,43 +1,30 @@
 class Solution {
 public:
-    void getString(deque<int>& nums, deque<string>& msgs, string& newStr) {
-        string cur;
-        while (!msgs.empty() && msgs.back() != "[") {
-            cur = msgs.back() + cur;
-            msgs.pop_back();
-        }
-        msgs.pop_back(); // pop '['
-        int cnt = nums.back(); nums.pop_back();
-        for (int i=0; i<cnt; ++i) 
-            newStr += cur;
+    string decodeString(string& s) {
+        int idx = 0;
+        return dfs(s, idx);
     }
-    string& decodeString(string& s) {
-        string ans;
-        deque<int> nums;
-        deque<string> msgs;
-        string num;
+    
+    string dfs(string& s, int& idx) {
+        string ans, num, msg;
         int cnt;
-        for (char & c : s) {
+        for (; idx<s.size(); idx++) {
+            char& c = s[idx];
             if (isdigit(c)) {
                 num += c;
             } else if (c == ']') {
-                string newStr;
-                getString(nums, msgs, newStr);
-                msgs.push_back(newStr);
+                return ans;
+            } else if (c == '[') {
+                ++idx;
+                cnt = stoi(num);
+                num.clear();
+                string newStr = dfs(s, idx);
+                for (int i=0; i<cnt; ++i)
+                    ans += newStr;
             } else {
-                if (c == '[') {
-                    nums.push_back(stoi(num));
-                    num.clear();
-                }
-                msgs.push_back(string(1, c));
+                ans += c;
             }
         }
-        
-        s.clear();
-        while (!msgs.empty()) {
-            s += msgs.front();
-            msgs.pop_front();
-        }
-        return s;
+        return ans;
     }
 };
