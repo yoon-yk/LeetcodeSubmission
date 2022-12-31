@@ -8,7 +8,7 @@ public:
         if stack size == 1 - > pop
         else ans += 
         */
-        stack<int> st;
+        stack<char> st;
         string ans;
         for (int i=0; i<s.size(); ++i) {
             if (s[i] == '(') {
