@@ -1,35 +1,29 @@
 class Solution {
 public:
-    bool makesquare(vector<int>& matchsticks) {
-        
-        vector<int> len(4, 0);
-        int sum = accumulate(matchsticks.begin(), matchsticks.end(), 0);
-        if (sum % 4) return false;
-        if (*max_element(matchsticks.begin(), matchsticks.end()) > (sum >> 2)) return false;
-        int target = (sum >> 2);
-        sort(matchsticks.begin(), matchsticks.end(), greater<int>());
-        return backtrack(matchsticks, len, 0, target);
+    bool makesquare(vector<int>& ms) {
+        int sum = accumulate(ms.begin(), ms.end(), 0);
+        if (sum % 4 != 0) return false;
+        sort(ms.begin(), ms.end(), greater<>());
+        vector<int> curW(4, sum >> 2);
+        return backtrack(0, ms, curW, 4);
     }
     
-    bool backtrack(vector<int>& matchsticks, vector<int>& len, int idx, int target) {
+    bool backtrack(int i, vector<int>& ms, vector<int>& curW, int comp) {
 
-        if (idx == matchsticks.size()) {
-            return (len[0] == len[1]) && (len[2] == len[3]) && (len[0] == len[2]);
-        }
-
-        for (int i=0; i<4; i++) {
-            if (len[i] + matchsticks[idx] > target)
-                continue;
-            int j = i-1;
-            while (j >=0) {
-                if (len[i] == len[j]) break;
-                j--;
+        if (i == ms.size())
+            return (comp == 0);
+        
+        bool ret = false;
+        for (int d=0; d<4; ++d) {
+            if (curW[d] < ms[i]) continue;
+            curW[d] -= ms[i];
+            if (curW[d] == 0) {
+                if (backtrack(i+1, ms, curW, comp-1)) return true;
+            } else {
+                if (backtrack(i+1, ms, curW, comp)) return true;
             }
-            if (j != -1) continue;
-            len[i] += matchsticks[idx];
-            if (backtrack(matchsticks, len, idx+1, target)) return true;
-            len[i] -= matchsticks[idx];
+            curW[d] += ms[i];
         }
-        return false;
+        return ret;
     }
 };
