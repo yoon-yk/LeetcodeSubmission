@@ -11,7 +11,7 @@ public:
         for (int i=0; i<cnt; ++i) 
             newStr += cur;
     }
-    string decodeString(string s) {
+    string& decodeString(string& s) {
         string ans;
         deque<int> nums;
         deque<string> msgs;
@@ -33,11 +33,11 @@ public:
             }
         }
         
-        string ret;
+        s.clear();
         while (!msgs.empty()) {
-            ret += msgs.front();
+            s += msgs.front();
             msgs.pop_front();
         }
-        return ret;
+        return s;
     }
 };
