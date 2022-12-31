@@ -1,30 +1,29 @@
 class Solution {
 public:
+    string getString(deque<int>& nums, deque<string>& msgs, string& newStr) {
+        string cur;
+        while (!msgs.empty() && msgs.back() != "[") {
+            cur = msgs.back() + cur;
+            msgs.pop_back();
+        }
+        msgs.pop_back(); // [
+        int cnt = nums.back(); nums.pop_back();
+        for (int i=0; i<cnt; ++i) 
+            newStr += cur;
+        return newStr;
+    }
     string decodeString(string s) {
         string ans;
         deque<int> nums;
         deque<string> msgs;
-        msgs.push_back("");
-        string num, msg;
+        string num;
         int cnt;
         for (char & c : s) {
             if (isdigit(c)) {
-                if (!msg.empty()) {
-                    msgs.push_back(msg);
-                    msg.clear();
-                }
                 num += c;
             } else if (c == ']') {
-                string cur;
-                while (!msgs.empty() && msgs.back() != "[") {
-                    cur = msgs.back() + cur;
-                    msgs.pop_back();
-                }
-                msgs.pop_back(); // [
-                int cnt = nums.back(); nums.pop_back();
                 string newStr;
-                for (int i=0; i<cnt; ++i) 
-                    newStr += cur;
+                getString(nums, msgs, newStr);
                 msgs.push_back(newStr);
             } else {
                 if (c == '[') {
