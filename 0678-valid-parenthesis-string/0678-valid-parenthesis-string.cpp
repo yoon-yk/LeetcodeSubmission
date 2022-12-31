@@ -1,41 +1,29 @@
 class Solution {
 public:
-    /*
-    
-    (*
-    *)
-    *()
-    (*(
-    
-    */
     bool checkValidString(string s) {
-        vector<unordered_map<int, bool>> dp(s.size());
-        
-        return backtrack(s, 0, 0, dp);
+        vector<vector<int>> dp(s.size(), vector<int>(s.size(), -1));
+        return check(s, 0, 0, dp); 
     }
     
-    bool backtrack(string& s, int idx, int opened, vector<unordered_map<int, bool>>& dp) {
-        if (idx == s.size()) {
+    bool check(string &s, int idx, int opened, vector<vector<int>>& dp) {
+        if (idx == s.size()) 
             return (opened == 0);
-        }
         
-        if (dp[idx].count(opened))
+        if (dp[idx][opened] != -1)
             return dp[idx][opened];
+
+        bool ret = false;
+        if (s[idx] == ')' || s[idx] == '*') {
+            if (opened > 0)
+                ret |= check(s, idx+1, opened-1, dp);
+        } 
+
+        if (s[idx] == '(' || s[idx] == '*') 
+            ret |= check(s, idx+1, opened+1, dp);
         
-        if (s[idx] == '(') {
-            return backtrack(s, idx+1, opened+1, dp);
-        } else if (s[idx] == ')') {
-            return opened > 0 && backtrack(s, idx+1, opened-1, dp);
-        }
-        
-        // open
-        int op1 = backtrack(s, idx+1, opened+1, dp);
-        // closed
-        int op2 = opened > 0 && backtrack(s, idx+1, opened-1, dp);
-        // blank
-        int op3 = backtrack(s, idx+1, opened, dp);
-        
-        return dp[idx][opened] = (op1 | op2 | op3);
+        if (s[idx] == '*') 
+            ret |= check(s, idx+1, opened, dp);
+            
+        return dp[idx][opened] = ret;
     }
-    
 };
