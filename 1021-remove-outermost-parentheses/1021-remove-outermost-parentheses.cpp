@@ -16,7 +16,7 @@ public:
                     ans += s[i];
                 st.push('(');
             } else {                
-                if (st.size() > 1 && st.top() == '(')
+                if (st.size() > 1)
                     ans += s[i];   
                 st.pop();
             }
