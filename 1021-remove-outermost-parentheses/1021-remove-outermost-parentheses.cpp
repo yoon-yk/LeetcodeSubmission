@@ -12,7 +12,7 @@ public:
         string ans;
         for (int i=0; i<s.size(); ++i) {
             if (s[i] == '(') {
-                if (st.size() >= 1)
+                if (st.size() > 0)
                     ans += s[i];
                 st.push('(');
             } else {                
