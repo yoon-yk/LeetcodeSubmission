@@ -15,13 +15,10 @@ public:
                 if (st.size() >= 1)
                     ans += s[i];
                 st.push('(');
-            } else {
-                if (!st.empty() && st.top() == '(') {
-                    if (st.size() > 1) {
-                        st.pop();
-                        ans += s[i];   
-                    } else st.pop();
-                }
+            } else {                
+                if (st.size() > 1 && st.top() == '(')
+                    ans += s[i];   
+                st.pop();
             }
         }
         
