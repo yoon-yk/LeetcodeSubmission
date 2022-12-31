@@ -7,7 +7,9 @@ public:
 
     */
     int mySqrt(int x) {
-        int left = 0, right = x;
+        if (x < 2) return x;
+        
+        int left = 0, right = x>>1;
         double mid, midSqr;
         int midPower;
         while (left < right) {
