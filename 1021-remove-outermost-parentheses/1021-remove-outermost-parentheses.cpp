@@ -1,29 +1,30 @@
 class Solution {
 public:
     string removeOuterParentheses(string s) {
-        deque<int> st;
-        
         /*
-        (()())(())
+        case 1 : (
+        push to the stack
+        case 2 : )
+        if stack size == 1 - > pop
+        else ans += 
         */
-        int open = 0;
+        stack<int> st;
         string ans;
-        for (char & c : s) {
-            if (c == '(') {
-                ++open;
-            } else if (c == ')') {
-                --open;
-            }
-            st.push_back(c);
-            if (open == 0) {
-                st.pop_front();
-                while (st.size() > 1) {
-                    ans.push_back(st.front());
-                    st.pop_front();
+        for (int i=0; i<s.size(); ++i) {
+            if (s[i] == '(') {
+                if (st.size() >= 1)
+                    ans += s[i];
+                st.push('(');
+            } else {
+                if (!st.empty() && st.top() == '(') {
+                    if (st.size() > 1) {
+                        st.pop();
+                        ans += s[i];   
+                    } else st.pop();
                 }
-                st.pop_back();
             }
         }
+        
         return ans;
     }
 };
