@@ -10,11 +10,12 @@ public:
         if (x < 2) return x;
         
         int left = 0, right = x>>1;
-        double mid, midSqr;
+        int mid;
+        long long midSqr;
         int midPower;
         while (left < right) {
             mid = left + (right-left)/2 + 1;
-            midSqr = mid*mid;
+            midSqr = (long)mid*mid;
             if (x < midSqr) right = mid-1;
             else left = mid;
         }
