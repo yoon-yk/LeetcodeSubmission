@@ -1,16 +1,15 @@
 class Solution {
 public:
-    string getString(deque<int>& nums, deque<string>& msgs, string& newStr) {
+    void getString(deque<int>& nums, deque<string>& msgs, string& newStr) {
         string cur;
         while (!msgs.empty() && msgs.back() != "[") {
             cur = msgs.back() + cur;
             msgs.pop_back();
         }
-        msgs.pop_back(); // [
+        msgs.pop_back(); // pop '['
         int cnt = nums.back(); nums.pop_back();
         for (int i=0; i<cnt; ++i) 
             newStr += cur;
-        return newStr;
     }
     string decodeString(string s) {
         string ans;
