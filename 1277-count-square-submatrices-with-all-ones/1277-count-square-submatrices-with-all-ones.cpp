@@ -13,27 +13,21 @@ public:
         int m = matrix.size(), n = matrix[0].size();
         int maxi = min(m, n);
         int ans = 0;
-        vector<vector<int>> prev = matrix;
-        vector<vector<int>> cur(m, vector<int> (n));
+        // vector<vector<vector<int>>> dp(m, vector<vector<int>>(n, vector<int>(3, 0)));
+        
+        vector<vector<int>> dp(m, vector<int>(n, 0));
         
         for (int i=0; i<m; ++i) {
             for (int j=0; j<n; ++j) {
-                ans += matrix[i][j];
+                if (matrix[i][j]) {
+                    if (i-1 >= 0 && j-1 >= 0) 
+                        dp[i][j] = min(dp[i-1][j], min(dp[i][j-1], dp[i-1][j-1])) + 1;
+                    else dp[i][j] = 1;
+                } 
+                ans += dp[i][j];
             }
-        }
-        
-        for (int sz=2; sz<=maxi; ++sz) {
-            for (int i=sz-1; i<m; ++i) {
-                for (int j=sz-1; j<n; ++j) {
-                    cur[i][j] = false;
-                    if (prev[i-1][j] && prev[i][j-1] && prev[i-1][j-1] && prev[i][j]) {
-                        cur[i][j] = true;
-                        ++ans;
-                    }
-                }
-            }
-            prev.swap(cur);
-        }
+            
+        }        
         
         return ans;
     }
