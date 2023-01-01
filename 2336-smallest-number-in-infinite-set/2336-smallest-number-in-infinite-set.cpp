@@ -2,17 +2,13 @@ class SmallestInfiniteSet {
 public:
     // priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
     multiset<int> ms;
-    multiset<int>::iterator sm, cur;
     
     SmallestInfiniteSet() {
-        // cur = 1;
         ms.insert(1);
     }
     
     int popSmallest() {
-        // return 1;
         if (ms.empty()) return -1;
-        
         int ret = *ms.begin();
         if (ms.size() == 1) 
             ms.insert(ret+1);
