@@ -1,27 +1,23 @@
 class Solution {
 public:
-    string findReplaceString(string s, vector<int>& indices, vector<string>& sources, vector<string>& targets) {
-     // a b c d
-     // 0 -1 1 -1
-        
+    string findReplaceString(string s, vector<int>& indices, vector<string>& src, vector<string>& targets) {
+        int len;
         vector<int> change(s.size(), -1);
-        int n = indices.size();
-        for (int i=0; i<n; i++) {
-            if (s.substr(indices[i], sources[i].size()) == sources[i]) 
+        for (int i=0; i<indices.size(); ++i) {
+            len = src[i].size();
+            if (s.substr(indices[i], len) == src[i])
                 change[indices[i]] = i;
         }
         
-        string ans = "";
-        for (int i=0; i<s.size();) {
-            if (change[i] > -1) {
+        string ans;
+        for (int i=0; i<change.size(); ++i) {
+            if (change[i] == -1) ans += s[i];
+            else {
                 ans += targets[change[i]];
-                i += sources[change[i]].size();
-            } else {
-                ans += s[i];
-                i++;
+                i += src[change[i]].size()-1;
             }
         }
-        
         return ans;
+        
     }
 };
