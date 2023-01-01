@@ -1,32 +1,36 @@
 class SnapshotArray {
 public:
     
-    int curTime = 0;
-    
     /*
-    curTime = 1
-    0 : {-1, 5} {0, 6} {0,8}
-    1 : 
-    2 :
-    3 : 
+    0 1 2 3
+  ---------
+  1     4 
+  2   4
     */
-    vector<map<int, int>> idxM;
+    
+    int snapID;
+    vector<vector<pair<int, int>>> arr;
     SnapshotArray(int length) {
-        idxM.resize(length);
+        snapID = 0;
+        arr.resize(length);
     }
     
     void set(int index, int val) {
-        idxM[index][curTime] = val;
+        if (!arr[index].empty() && 
+            arr[index].back().first == snapID)
+            arr[index].back().second = val;
+        else arr[index].push_back({snapID, val});
     }
     
     int snap() {
-        return curTime++;
+        return snapID++;
     }
     
     int get(int index, int snap_id) {
-        auto find = idxM[index].upper_bound(snap_id);
-        if (find == idxM[index].begin()) return 0;
-        return prev(find)->second;
+        auto it = upper_bound(arr[index].begin(), 
+                        arr[index].end(), pair(snap_id, INT_MAX));
+        if (it == arr[index].begin()) return 0;
+        return arr[index][prev(it)-arr[index].begin()].second;
     }
 };
 
