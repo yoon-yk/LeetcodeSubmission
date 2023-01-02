@@ -1,12 +1,22 @@
 class Solution {
 public:
+    /*
+    [0,0,1,1,0,1,0,0,1,0]
+    [1,1,0,1,1,0,1,1,1,0]
+    [1,0,1,1,1,0,0,1,1,0]
+    [0,1,1,0,0,0,0,1,0,1]
+    [0,0,0,0,0,0,1,1,1,0]
+    [0,1,0,1,0,1,0,1,1,1]
+    [1,0,1,0,1,1,0,0,0,1]
+    [1,1,1,1,1,1,0,0,0,0]
+    [1,1,1,0,0,1,0,1,0,1]
+    [1,1,1,0,1,1,0,1,1,0]]
+    */
     int closedIsland(vector<vector<int>>& grid) {
         int ans = 0;
-        for (int i=0; i<grid.size(); ++i) {
-            for (int j=0; j<grid[0].size(); ++j) {
+        for (int i=0; i<grid.size(); ++i) 
+            for (int j=0; j<grid[0].size(); ++j) 
                 if (grid[i][j] == 0) ans += dfs(i, j, grid);
-            }
-        }
         return ans;
     }
     
@@ -20,7 +30,7 @@ public:
         
         if (i == 0 || j == 0 || i == grid.size()-1 || j == grid[0].size()-1) return false;
         
-        grid[i][j] = -1;
+        grid[i][j] = 1;
         int nr, nc;
         
         bool ans = true;
