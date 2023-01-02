@@ -1,31 +1,16 @@
 class Solution {
 public:
-    /*
-    [0,0,0]
-    [0,1,0]
-    [0,1,0]
-    [1,1,1]
-    [1,1,0]
-    
-    */
-    
-    int countSquares(vector<vector<int>>& matrix) {
-        int m = matrix.size(), n = matrix[0].size();
-        int ans = 0;        
-        vector<vector<int>> dp(m, vector<int>(n, 0));
-        
-        for (int i=0; i<m; ++i) {
-            for (int j=0; j<n; ++j) {
-                if (matrix[i][j]) {
-                    if (i-1 >= 0 && j-1 >= 0) 
-                        dp[i][j] = min(dp[i-1][j], min(dp[i][j-1], dp[i-1][j-1])) + 1;
-                    else dp[i][j] = 1;
-                } 
-                ans += dp[i][j];
+    int countSquares(vector<vector<int>>& mat) {
+        int n = mat.size(), m = mat[0].size(), ans = 0;
+        for (int i=0; i<n; ++i) {
+            for (int j=0; j<m; ++j) {
+                if (!mat[i][j]) continue;
+                if (i > 0 && j > 0) {
+                    mat[i][j] = min(mat[i-1][j-1], min(mat[i-1][j], mat[i][j-1])) + 1;
+                } else mat[i][j] = 1;
+                ans += mat[i][j];
             }
-            
-        }        
-        
+        }
         return ans;
     }
 };
