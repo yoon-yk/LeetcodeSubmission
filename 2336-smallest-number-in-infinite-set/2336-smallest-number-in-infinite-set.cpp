@@ -10,8 +10,8 @@ public:
     int popSmallest() {
         int ret = *ms.begin();
         if (ms.size() == 1) 
-            ms.insert(ret+1);
-        ms.erase(ms.find(ret));
+            ms.insert(*ms.begin()+1);
+        ms.erase(ms.begin());
 
         return ret;
     }
