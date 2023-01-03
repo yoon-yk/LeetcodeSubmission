@@ -21,18 +21,15 @@ public:
 class Solution {
 public:
     Node* findRoot(vector<Node*> tree) {
-        unordered_map<Node*, Node*> parent;
-        
-        int valueSum = 0;
-        for (auto& nd : tree) {
-            valueSum ^= nd->val;
-            for (auto& ch : nd->children)
-                valueSum ^= ch->val;
+        unordered_map<Node*, Node*> par;
+        for (auto & n : tree) {
+            for (auto child : n->children)
+                par[child] = n;
         }
         
-        for (auto& nd : tree) 
-            if (nd->val == valueSum)
-                return nd;
+        for (auto & n : tree) {
+            if (!par.count(n)) return n;
+        }
         
         return NULL;
     }
