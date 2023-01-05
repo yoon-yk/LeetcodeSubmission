@@ -25,10 +25,9 @@ public:
                   vector<string>& ans) {
         
         if (root->isWord) ans.push_back(curStr);
-        for (int i=0; i<26; ++i) {
+        for (int i=0; i<26 && ans.size() < 3; ++i) {
             if (!root->children[i]) continue;
             curStr.push_back(i+'a');
-            if (ans.size() < 3) 
             getWords(root->children[i], curStr, ans);
             curStr.pop_back();
         }
