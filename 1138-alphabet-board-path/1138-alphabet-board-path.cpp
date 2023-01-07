@@ -1,28 +1,30 @@
 class Solution {
 public:
+    int kRowSize=5;
     vector<string> board = {"abcde", "fghij", "klmno", "pqrst", "uvwxy", "z"};
     
+    inline int getIndex(int r, int c) {
+        return r*kRowSize + c;
+    }
     
     string alphabetBoardPath(string target) {
         
-        int kRow=5;
         string ans;
-        char curTarget;
+        int curTarget;
         int r = 0, c = 0, idx = 0;
         while (idx < target.size()) {
-            curTarget = target[idx];
-            while (board[r][c] != curTarget) {
-                if (board[r][c] < curTarget) {
-                    if (curTarget == 'z' && c > 0) {
+            curTarget = target[idx]-'a';
+            while (getIndex(r, c) != curTarget) {
+                if (getIndex(r, c) < curTarget) {
+                    if (curTarget == 25 && c > 0) {
                         --c, ans += 'L';
                     } else {
-                        if ((curTarget-'a') % kRow <= c) {
+                        if (curTarget% kRowSize <= c) {
                             ++r, ans += 'D'; // z?
                         } else ++c, ans += 'R';                        
                     }
-
                 } else {
-                    if (((curTarget-'a')/kRow) == r) {
+                    if ((curTarget/kRowSize) == r) {
                         --c, ans += 'L'; // z?
                     } else --r, ans+= 'U';
                 }
