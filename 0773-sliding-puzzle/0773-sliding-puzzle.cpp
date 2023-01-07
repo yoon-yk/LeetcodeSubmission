@@ -8,6 +8,7 @@ public:
         string target = "123450";
         string init;
         for (int i=0; i<2; ++i) for (int j=0; j<3; ++j) init += (board[i][j] + '0');
+        if (init == target) return 0;
         
         queue<string> Q;
         unordered_set<string> visited;
@@ -17,7 +18,6 @@ public:
             size = Q.size();
             while (size--) {
                 auto cur = Q.front(); Q.pop();
-                if (cur == target) return moves;
                 zeroIdx = cur.find('0');
 
                 // slide
@@ -27,6 +27,7 @@ public:
                     swap(cur[d], cur[zeroIdx]);
 
                     if (!visited.count(cur)) {
+                        if (cur == target) return moves+1;
                         visited.insert(cur);
                         Q.push(cur);
                     }
