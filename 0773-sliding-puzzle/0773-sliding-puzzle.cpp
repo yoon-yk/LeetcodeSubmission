@@ -7,7 +7,7 @@ public:
         int zeroIdx, size, moves = 0;
         string target = "123450";
         string init;
-        for (int i=0; i<6; ++i) init += (board[i/kRowSize][i%kRowSize] + '0');
+        for (int i=0; i<2; ++i) for (int j=0; j<3; ++j) init += (board[i][j] + '0');
         
         queue<string> Q;
         unordered_set<string> visited;
