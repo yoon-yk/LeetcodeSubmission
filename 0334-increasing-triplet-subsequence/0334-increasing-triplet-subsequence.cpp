@@ -1,11 +1,11 @@
 class Solution {
 public:
     bool increasingTriplet(vector<int>& nums) {
-        set<int> v;
+        vector<int> v;
         for (int & n : nums) {
-            auto it = v.lower_bound(n);
-            if (it != v.end()) v.erase(it);
-            v.insert(n);
+            auto it = lower_bound(v.begin(), v.end(), n);
+            if (it != v.end()) *it = n;
+            else v.push_back(n);
             if (v.size() == 3) return true;
         }
         return false;
