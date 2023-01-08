@@ -1,25 +1,20 @@
 class Solution {
 public:
-    int minMeetingRooms(vector<vector<int>>& intervals) {
-        priority_queue<int, vector<int>, greater<int>> startTimes, endTimes;
-        for (auto & in : intervals) {
-            startTimes.push(in[0]);
-            endTimes.push(in[1]);
+    using ppair = pair<int, int>;
+    int minMeetingRooms(vector<vector<int>>& ins) {
+        priority_queue<int, vector<int>, greater<int>> starts, ends;
+        
+        for (auto & in : ins) {
+            starts.push(in[0]), ends.push(in[1]);
         }
         
-        /*
-        0  5  15
-        10 20 30
-        */
-        int usedRooms = 0;
-        while (!startTimes.empty()) {
-            if (startTimes.top() >= endTimes.top()) {
-                usedRooms --;
-                endTimes.pop();
-            }
-            usedRooms ++;
-            startTimes.pop();
+        int ans = 0;
+        while (!starts.empty()) {
+            auto cur = starts.top(); starts.pop();
+            if (ends.top() > cur) ++ans;
+            else ends.pop();
         }
-        return usedRooms;
+     
+        return ans;
     }
 };
