@@ -2,19 +2,17 @@ class Solution {
 public:
     using ppair = pair<int, int>;
     int minMeetingRooms(vector<vector<int>>& ins) {
-        priority_queue<int, vector<int>, greater<int>> starts, ends;
-        
+        map<int, int> mp;
         for (auto & in : ins) {
-            starts.push(in[0]), ends.push(in[1]);
+            ++mp[in[0]], --mp[in[1]];
         }
         
-        int ans = 0;
-        while (!starts.empty()) {
-            auto cur = starts.top(); starts.pop();
-            if (ends.top() > cur) ++ans;
-            else ends.pop();
+        int max = 0, cur = 0;
+        for (auto &[v, f] : mp) {
+            cur += f;
+            if (max < cur) max = cur;
         }
      
-        return ans;
+        return max;
     }
 };
