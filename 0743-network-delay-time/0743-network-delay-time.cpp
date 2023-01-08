@@ -1,42 +1,27 @@
 class Solution {
 public:
-    using ppair = pair<int, int>;
-    vector<ppair> adj[101];
-    
-    void dijkstra(vector<int>& signalReceivedAt, int source, int n) {
-        priority_queue<ppair, vector<ppair>, greater<ppair>> pq;
-        pq.push({0, source});
+    int networkDelayTime(vector<vector<int>>& times, int n, int k) {
+        int ans = 0;
         
-        signalReceivedAt[source] = 0;
+        vector<set<pair<int, int>>> adjList(n+1);
+        for (auto & time : times) {
+            adjList[time[0]].insert({time[2], time[1]});
+        }
         
-        while (!pq.empty()) {
-            int curNodeTime = pq.top().first;
-            int curNode = pq.top().second;
-            pq.pop();
-
-            if (curNodeTime > signalReceivedAt[curNode]) continue;
+        queue<pair<int, int>> Q;
+        Q.push({k, 0});
+        vector<int> minTime(n+1, INT_MAX);
+        minTime[k] = minTime[0] = 0;
+        while (!Q.empty()) {
+            auto [v, t] = Q.front(); Q.pop();
             
-            for (auto & [time, nei] : adj[curNode]) {
-                if (signalReceivedAt[nei] <= curNodeTime + time) continue;
-                signalReceivedAt[nei] = curNodeTime + time;
-                pq.push({signalReceivedAt[nei], nei});
+            for (auto & [cost, nv] : adjList[v]) {
+                if (t+cost >= minTime[nv]) continue;
+                minTime[nv] = t+cost;
+                Q.push({nv, minTime[nv]});
             }
         }
-    }
-    
-    
-    int networkDelayTime(vector<vector<int>>& times, int n, int k) {
-        for (auto & time : times) {
-            int src = time[0], dst = time[1], travelTime = time[2];
-            adj[src].push_back({travelTime, dst});
-        }
-        
-        vector<int> signalReceivedAt(n+1, INT_MAX);
-        dijkstra(signalReceivedAt, k, n);
-        
-        int ans = *max_element(signalReceivedAt.begin()+1, signalReceivedAt.end());
-        
-        return (ans == INT_MAX) ? -1 : ans;
-        
+        ans = *max_element(minTime.begin()+1, minTime.end());
+        return ans == INT_MAX ? -1 : ans;
     }
 };
