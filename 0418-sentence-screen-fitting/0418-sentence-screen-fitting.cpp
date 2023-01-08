@@ -1,21 +1,17 @@
 class Solution {
 public:
-    int wordsTyping(vector<string>& words, int rows, int cols) {
-
-        int n = words.size();
-        int wid = 0, cleft = cols, startIdx;
-        vector<int> dp(n, -1);
-        for (int r=0; r<rows; ++r, cleft = cols) {
-            if (dp[wid%n]!=-1) {
-                wid += dp[wid%n];
-            } else {
-                startIdx = wid;
-                while ((cleft-=words[wid%n].size()) >= 0)
-                    cleft -= 1, ++wid;
-                dp[startIdx%n] = wid-startIdx;   
+    int wordsTyping(vector<string>& sentence, int rows, int cols) {
+        int c = cols, i=0, n = sentence.size(), pre;
+        vector<int> arr(n, -1);
+        for (int r=0; r<rows; ++r){
+            if (arr[i%n] != -1) i += arr[i%n];
+            else {
+                pre = i;
+                while ((c -= sentence[i%n].size()) >= 0) ++i, --c;
+                c = cols;
+                arr[pre%n] = i-pre;
             }
         }
-        
-        return wid/n;
+        return i/n;
     }
 };
