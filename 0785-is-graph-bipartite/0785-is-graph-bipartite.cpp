@@ -1,39 +1,28 @@
 class Solution {
 public:
+    int red = 1, blue = 0;
     bool isBipartite(vector<vector<int>>& graph) {
-        
-        queue<int> Q;
-        
-        int size;
         int n = graph.size();
-        int cnt = 0;
-        int color = 1;
-        vector<int> colored(n, -1);
-        
-        for (int i=0; i<n; i++) {
-            if (colored[i] != -1) continue;
-            cnt++;
-
+        queue<int> Q;
+        vector<int> colors(n, -1);
+        for (int i=0; i<n; ++i) {
             Q.push(i);
-            colored[i] = color;
-
+            if (colors[i] == -1) colors[i] = red;
+            
             while (!Q.empty()) {
-                size = Q.size();
-                while (size--) {
-                    int cur = Q.front(); Q.pop();
-
-                    for (int & nei : graph[cur]) {
-                        if (colored[nei] == color) return false;
-                        else if (colored[nei] != -1) continue;
-                        colored[nei] = !color;
+                auto cur = Q.front(); Q.pop();
+            
+                for (int & nei : graph[cur]) {
+                    if (colors[cur] == colors[nei]) 
+                        return false;
+                    if (colors[nei] == -1) {
+                        colors[nei] = !colors[cur];
                         Q.push(nei);
                     }
-
                 }
-                color = !color;
-            }   
+            }
+            
         }
-        
         return true;
     }
 };
