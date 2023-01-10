@@ -1,9 +1,5 @@
 class Solution {
 public:
-    void print(vector<int>& arr) {
-    for (int i=0; i<10; ++i) cout << arr[i] << " ";
-        cout << endl;
-    }
     vector<int> amountPainted(vector<vector<int>>& paint) {
         vector<int> arr(50001, -1), ans;
         int sum, maxEnd;
@@ -19,7 +15,6 @@ public:
                 } 
             }
             arr[p[0]] = maxEnd;
-            // print(arr);
             ans.push_back(sum);
         }
         
