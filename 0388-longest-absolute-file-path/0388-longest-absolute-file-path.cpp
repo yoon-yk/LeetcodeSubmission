@@ -14,11 +14,10 @@ public:
                     if (st.size() == tabCnt) st.push_back(0);
                     st[tabCnt] = st[tabCnt-1] + 1 + curLen;
                 }
-                name = "";
+                name.clear();
                 curLen = 0, tabCnt = 1;
             } else if (s[i] == '\t') { // count tab size
-                while (i < s.size() && s[i] == '\t') ++i, ++tabCnt;
-                --i;
+                ++tabCnt;
             } else { // collect name
                 ++curLen;
                 name += s[i];
