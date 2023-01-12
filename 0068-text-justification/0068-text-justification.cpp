@@ -1,6 +1,6 @@
 class Solution {
 public:    
-    vector<string> fullJustify(vector<string> words, int l) {
+    vector<string> fullJustify(vector<string>& words, int l) {
         int idx=0, bIdx, eIdx; 
         int curWordsCnt, gapSize, spaceLeft;
         vector<string> ans;
