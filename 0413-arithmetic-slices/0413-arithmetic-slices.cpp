@@ -8,13 +8,8 @@ public:
                 int end = start+sz-1;
                 diff = dp[start][end-1];
                 if (sz == 2 || nums[end]-nums[end-1] == diff) {
-                    // for (int a=start; a<=end; ++a) {
-                    //     cout << nums[a] << " ";
-                    // }cout << endl;
                     dp[start][end] = nums[end]-nums[end-1];
                     if (sz > 2) ++ans;
-                } else {
-                    dp[start][end] = 5000;
                 }
             }
         }
