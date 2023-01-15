@@ -21,7 +21,7 @@ public:
             visited[cur.pos].insert(cur.speed);
             
             ap = cur.pos+cur.speed, as = cur.speed*2;
-            if (0 < ap) Q.push(info(ap, as, cur.len+1));
+            if (0 < ap && ap < target*2) Q.push(info(ap, as, cur.len+1));
             
             if ((cur.pos+cur.speed > target && cur.speed > 0) ||
                  (cur.pos+cur.speed < target && cur.speed < 0)) {
