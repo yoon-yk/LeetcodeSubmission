@@ -1,14 +1,13 @@
 class Solution {
 public:
     long long getDescentPeriods(vector<int>& prices) {
-        int n = prices.size();
+        int n = prices.size(), len = 1;
         long long ans = 0;
-        vector<int> dp(n, 1);
         for (int i=0; i<n; ++i) {
             if (i>0 && prices[i-1]-1==prices[i]) {
-                dp[i] = dp[i-1] + 1;
-            } else dp[i] = 1;
-            ans += dp[i];
+                ++len;
+            } else len = 1;
+            ans += len;
         }
 
         /*
