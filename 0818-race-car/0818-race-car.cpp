@@ -39,16 +39,15 @@ public:
         while (!Q.empty()) {
             auto cur = Q.front(); Q.pop();
             if (cur.pos == target) return cur.len;
-            // cout << cur.pos << "/" << cur.speed << "/" << cur.len << endl;
             
             ap = cur.pos+cur.speed, as = cur.speed*2;
-            if (!visited[ap].count(as) && 0 < ap && ap < (target << 1)) {
+            if (!visited[ap].count(as) && 0 < ap ) {
                 Q.push(info(ap, as, cur.len+1));
                 visited[ap].insert(as);
             }
             
             rp = cur.pos, rs = cur.speed > 0 ? -1 : 1;
-            if (!visited[rp].count(rs) && 0 < rp && rp < (target << 1)) {
+            if (!visited[rp].count(rs) && 0 < rp) {
                 Q.push(info(rp, rs, cur.len+1));
                 visited[rp].insert(rs);
             }
