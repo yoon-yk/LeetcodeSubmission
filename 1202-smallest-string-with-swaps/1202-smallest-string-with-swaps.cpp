@@ -25,12 +25,10 @@ public:
         size.resize(n, 1);
         iota(parent.begin(), parent.end(), 0);
         
-        for (auto & p : pairs) {
-            unionn(p[0], p[1]);
-        }
+        for (auto & p : pairs) unionn(p[0], p[1]);
         
         unordered_map<int, set<int>> mp;
-        unordered_map<int, priority_queue<char, vector<char>, greater<char>>> cmp;
+        unordered_map<int, priority_queue<int, vector<int>, greater<int>>> cmp;
         for (int i=0, grp; i<n; ++i) {
             grp = findd(i);
             mp[grp].insert(i);
