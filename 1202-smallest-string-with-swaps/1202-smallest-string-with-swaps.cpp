@@ -1,6 +1,6 @@
 class Solution {
 public:
-    vector<int> parent;
+    vector<int> parent, size;
 
     int findd(int v) {
         if (parent[v] == v) return v;
@@ -10,12 +10,19 @@ public:
     void unionn(int v1, int v2) {
         int p1 = findd(v1), p2 = findd(v2);
         if (p1 == p2) return;
-        parent[p1] = p2;
+        if (size[p2] > size[p1]) {
+            parent[p1] = p2;   
+            size[p2] += size[p1];
+        } else {
+            parent[p2] = p1;   
+            size[p1] += size[p2];
+        }
     }
     
     string smallestStringWithSwaps(string s, vector<vector<int>>& pairs) {
         int n = s.size();
         parent.resize(n);
+        size.resize(n, 1);
         iota(parent.begin(), parent.end(), 0);
         
         for (auto & p : pairs) {
