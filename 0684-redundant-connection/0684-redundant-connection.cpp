@@ -1,35 +1,28 @@
 class Solution {
 public:
     vector<int> parent;
-    vector<int> size;
-    int find (int idx) {
-        if (parent[idx] == idx) return idx;
-        return parent[idx] = find(parent[idx]);
+    int find(int v) {
+        if (parent[v] == v) return v;
+        return parent[v] = find(parent[v]);
     }
     
-    void unionn (int idx1, int idx2) {
-        int p1 = find(idx1), p2 = find(idx2);
-        if (size[p1] > size[p2]) {
-            parent[p2] = p1;
-            size[p1] += size[p2];
-        } else {
-            parent[p1] = p2;
-            size[p2] += size[p1];
-        }
+    bool unionn(int v1, int v2) {
+        int p1 = find(v1), p2 = find(v2);
+        if (p1 == p2) return false;
+        parent[p1] = p2;
+        return true;
     }
     
     vector<int> findRedundantConnection(vector<vector<int>>& edges) {
-        
-        parent.resize(1001);
-        size.resize(1001, 1);
-        for (int i=0; i<=1000; ++i) parent[i] = i;
-        
-        for (auto & e : edges) {
-            int p1 = find(e[0]), p2 = find(e[1]);
-            if (p1 == p2) return e;
-            unionn(e[0], e[1]);
+        int n = edges.size(), v1, v2;
+        parent.resize(n+1);
+        iota(parent.begin(), parent.end(), 0);
+        vector<vector<int>> adjList(n+1);
+        for (auto & v : edges) {
+            v1 = v[0], v2 = v[1];
+            if (!unionn(v1, v2))
+                return v;
         }
-        
         return {};
     }
 };
