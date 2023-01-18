@@ -1,12 +1,14 @@
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
-        vector<int> m(256, -1);
-        int curCh, start = 0, ans = 0;
-        for (int end=0; end<s.size(); ++end) {
-            curCh = s[end];
-            if (m[curCh] >= start) start = m[curCh]+1;
-            m[curCh] = end;
+        int n = s.size(), ans = 0, start = 0;
+        vector<int> freq(256, 0);
+        for (int end=0; end<n; ++end) {
+            ++freq[s[end]];
+            while (freq[s[end]] > 1) {
+                --freq[s[start]];
+                ++start;
+            }
             ans = max(ans, end-start+1);
         }
         return ans;
