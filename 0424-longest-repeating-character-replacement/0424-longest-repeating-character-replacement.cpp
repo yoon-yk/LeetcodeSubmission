@@ -6,10 +6,8 @@ public:
         for (int end=0; end<n; ++end) {
             ++freq[s[end]];
             maxFreq = max(maxFreq, freq[s[end]]);
-
-            while (end-start+1-maxFreq > k) {
-                --freq[s[start]];
-                ++start;
+            if ((end-start+1)-maxFreq > k) {
+                --freq[s[start]], ++start;
             }
             ans = max(ans, end-start+1);
         }
