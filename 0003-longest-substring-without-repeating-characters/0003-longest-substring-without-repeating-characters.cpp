@@ -1,18 +1,15 @@
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
-        int start = 0, end = 0, ans = 0;
-        int n = s.size();
-        unordered_map<char, int> dict;
-        for (; end<n; end++) {
-            dict[s[end]]++;
-            
-            while (dict[s[end]] > 1) {
-                dict[s[start]] --;
-                start ++;
-            }
-            // cout << start << " " << end << endl;
-            ans = max(end-start+1, ans);
+        vector<int> m(267, -1);
+        int curCh, start = 0, ans = 0;
+        
+        for (int end=0; end<s.size(); ++end) {
+            curCh = s[end];
+            if (m[curCh] >= start)
+                start = m[curCh]+1;
+            m[curCh] = end;
+            ans = max(ans, end-start+1);
         }
         return ans;
     }
