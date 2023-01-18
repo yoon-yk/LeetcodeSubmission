@@ -1,23 +1,18 @@
 class Solution {
 public:
     int characterReplacement(string s, int k) {
-        
-        int n = s.size(), curCh, left = 0, right = 0;
-        int ans = 0, maxCount = 0;
-        vector<int> dict(26, 0);
-        for (;right<n; right++) {
-            curCh = s[right]-'A';
-            dict[curCh]++;
-            maxCount = max(maxCount, dict[curCh]);
-            
-            if ((right-left+1) - maxCount > k) {
-                dict[s[left]-'A']--;
-                // maxCount = max(maxCount, dict[s[left]-'A']);
-                left++;
-            } 
-            ans = max(ans, right-left+1);
+        int n = s.size(), ans = 0, start = 0, maxFreq = 0;
+        vector<int> freq(256, 0);
+        for (int end=0; end<n; ++end) {
+            ++freq[s[end]];
+            maxFreq = max(maxFreq, freq[s[end]]);
+
+            while (end-start+1-maxFreq > k) {
+                --freq[s[start]];
+                ++start;
+            }
+            ans = max(ans, end-start+1);
         }
-        
         return ans;
     }
 };
