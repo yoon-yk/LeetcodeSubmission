@@ -14,25 +14,16 @@ public:
         
         for (int i=0; i<n; ++i) {
             if (nums[i] >= target) return 1;
-
             sum += nums[i];
-
             tt = sum-target;
-            // cout << target << " " << sum << " " << tt << endl;
-
             psum.push_back(sum);
+            
             auto it = upper_bound(psum.begin(), psum.end(), tt);
             if (it == psum.begin() || *prev(it) > tt) continue;
             idx = it-psum.begin()-1;
-            if (ans > i-idx+1) {
-                ans = i-idx+1;
-                // cout << idx << " " << i << endl;
-            }
+            if (ans > i-idx+1) ans = i-idx+1;
             
         }
-        // for (auto & p : psum)
-        //     cout << p << " ";
-        // cout << endl;
         return ans == n+1 ? 0 : ans;
     }
 };
