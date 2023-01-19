@@ -8,7 +8,6 @@ public:
             maxFreq = *max_element(freq.begin(), freq.end());
             while ((end-start+1)-maxFreq > k) {
                 --freq[s[start]], ++start;
-                maxFreq = *max_element(freq.begin(), freq.end());
             }
             // cout << s.substr(start, end-start+1) << " " << maxFreq << endl;
             ans = max(ans, end-start+1);
