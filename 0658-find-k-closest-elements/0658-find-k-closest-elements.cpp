@@ -1,15 +1,23 @@
 class Solution {
 public:
     vector<int> findClosestElements(vector<int>& arr, int k, int x) {
-        int left = 0, right = arr.size()-k, ld, rd;
-        // left bound
-        while (left < right) {
-            int mid = left + ((right-left) >> 1);
-            ld = x-arr[mid], rd = arr[mid+k]-x;
-            if (ld > rd) left = mid+1;
-            else right = mid;
+        auto hi = lower_bound(arr.begin(), arr.end(), x); // equal or bigger thaan x
+        
+        auto lo = upper_bound(arr.begin(), arr.end(), x);
+        if (lo != arr.begin()) --lo;
+                
+        while (hi-arr.begin() - (lo-arr.begin()) <= k) {
+            if (lo != prev(arr.begin()) && hi != arr.end()) {
+                if (abs((*lo)-x) > abs((*hi)-x)) ++hi;
+                else --lo;
+            } else if (lo != prev(arr.begin())) {
+                -- lo;
+            } else {
+                ++ hi;
+            }
         }
         
-        return vector<int> (arr.begin()+left, arr.begin()+left+k);
+        
+        return vector<int>(lo+1, hi);
     }
 };
