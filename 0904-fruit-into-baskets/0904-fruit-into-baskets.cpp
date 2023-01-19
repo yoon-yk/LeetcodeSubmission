@@ -7,7 +7,7 @@ public:
         for (int end=0; end<n; ++end) {
             ++mp[f[end]];
             
-            while (mp.size() > 2) {
+            if (mp.size() > 2) {
                 --mp[f[start]];
                 if (mp[f[start]] == 0) mp.erase(f[start]);
                 ++start;
