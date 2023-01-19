@@ -1,36 +1,20 @@
 class Solution {
 public:
     bool checkInclusion(string s1, string s2) {
+        if (s1.size() > s2.size()) return false;
+        vector<int> s1Freq(26);
+        for (char & c : s1) ++s1Freq[c-'a'];
         
-        if (s2.size() < s1.size()) return false;
-        
-        // fixed size sliding window
-        int s2Len = s2.size();
-        vector<int> dict(26, 0);
-        int cnt = 0, found = 1;
-        for (int i=0; i<s1.size(); i++) {
-            if (dict[s1[i]-'a'] == 0) cnt++;
-            dict[s1[i]-'a']++;
-            
-            if (dict[s2[i]-'a'] == 1) cnt--;
-            dict[s2[i]-'a']--;
+        for (int i=0, j; i<s2.size(); ++i) {
+            vector<int> s2Freq(26);
+            for (j=0; i+j<s2.size(); ++j) {
+                char & c = s2[i+j];
+                ++s2Freq[c-'a'];
+                if (s2Freq[c-'a'] > s1Freq[c-'a'])
+                    break;
+            }
+            if (j == s1.size()) return true;
         }
-        
-        if (cnt == 0) return true;
-       
-        int start = 0;
-        for (int end=s1.size(); end<s2.size(); end++, start++) {
-            if (dict[s2[end]-'a'] == 1) cnt--;
-            dict[s2[end]-'a']--;
-            
-            if (dict[s2[start]-'a'] == 0) cnt++;
-            dict[s2[start]-'a']++;
-            
-            if (cnt == 0)
-                return true;
-        }
-        
-        
         return false;
     }
 };
