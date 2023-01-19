@@ -2,19 +2,37 @@ class Solution {
 public:
     bool checkInclusion(string s1, string s2) {
         if (s1.size() > s2.size()) return false;
-        vector<int> s1Freq(26);
-        for (char & c : s1) ++s1Freq[c-'a'];
         
-        for (int i=0, j; i<s2.size(); ++i) {
-            vector<int> s2Freq(26);
-            for (j=0; i+j<s2.size(); ++j) {
-                char & c = s2[i+j];
-                ++s2Freq[c-'a'];
-                if (s2Freq[c-'a'] > s1Freq[c-'a'])
-                    break;
+        int cnt = 0;
+        vector<int> freq1(26, 0), freq2(26, 0);
+        for (int i=0; i<s1.size(); ++i) ++freq1[s1[i]-'a'];
+        for (int i=0; i<s1.size(); ++i) ++freq2[s2[i]-'a'];
+        for (int i=0; i<26; ++i) {
+            if (freq1[i] == freq2[i]) ++cnt;
+        }
+        if (cnt == 26) return true;
+        
+        int l, r;
+        for (int i=s1.size(); i<s2.size(); ++i) {
+            l = s2[i-s1.size()]-'a', r = s2[i]-'a';
+
+            ++freq2[r];
+            if (freq2[r] == freq1[r]) { // now equal
+                ++cnt;
+            } else if (freq2[r] == freq1[r]+1) { // was equal
+                --cnt;
             }
-            if (j == s1.size()) return true;
+            
+            --freq2[l];
+            if (freq2[l] == freq1[l]) { // now equal
+                ++cnt;
+            } else if (freq2[l]+1 == freq1[l]) { // was equal
+                --cnt;
+            }
+
+            if (cnt == 26) return true;
         }
         return false;
+        
     }
 };
