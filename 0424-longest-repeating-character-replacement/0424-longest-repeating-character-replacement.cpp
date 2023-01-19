@@ -6,7 +6,7 @@ public:
         for (int end=0; end<n; ++end) {
             ++freq[s[end]];
             maxFreq = *max_element(freq.begin(), freq.end());
-            while ((end-start+1)-maxFreq > k) {
+            if ((end-start+1)-maxFreq > k) {
                 --freq[s[start]], ++start;
             }
             // cout << s.substr(start, end-start+1) << " " << maxFreq << endl;
