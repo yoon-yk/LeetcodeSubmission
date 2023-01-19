@@ -5,10 +5,12 @@ public:
         vector<int> freq(256, 0);
         for (int end=0; end<n; ++end) {
             ++freq[s[end]];
-            maxFreq = max(maxFreq, freq[s[end]]);
-            if ((end-start+1)-maxFreq > k) {
+            maxFreq = *max_element(freq.begin(), freq.end());
+            while ((end-start+1)-maxFreq > k) {
                 --freq[s[start]], ++start;
+                maxFreq = *max_element(freq.begin(), freq.end());
             }
+            // cout << s.substr(start, end-start+1) << " " << maxFreq << endl;
             ans = max(ans, end-start+1);
         }
         return ans;
