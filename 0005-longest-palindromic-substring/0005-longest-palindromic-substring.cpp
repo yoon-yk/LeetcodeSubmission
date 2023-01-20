@@ -1,19 +1,32 @@
 class Solution {
 public:
+    int checkLength(string &s, int l, int r) {
+        // odd len
+        int n = s.size(), ans;
+        while (0 <= l && r < n) {
+            if (s[l] == s[r]) --l, ++r;
+            else break;
+        }
+        ans = (r-1)-(l+1)+1;
+        return ans;
+    }
+    
     string longestPalindrome(string s) {
-        
-        int n = s.size(), end, ret, startIdx = -1, len;
-        vector<vector<int>> dp(n, vector<int>(n));
-        for (int l=1; l<=s.size(); ++l) {
-            for (int start=0; start+l-1<s.size(); ++start) {
-                end = start + l-1; 
-                if (l<= 2) ret = (s[start] == s[end]);
-                else ret = (s[start]==s[end] && dp[start+1][end-1]);
-                dp[start][end] = ret;
-                if (ret) startIdx = start, len = l;
+        int n = s.size(), len = 0, odd, even, startIdx;
+        for (int i=0; i<n; ++i) {
+            odd = checkLength(s, i-1, i+1); // odd
+            if (odd > len) {
+                len = odd;
+                startIdx = i-(odd>>1);
+
+            }
+            even = checkLength(s, i, i+1); // even
+            if (even > len) {
+                len = even;
+                startIdx = i-(even>>1)+1;
             }
         }
-        
-        return (startIdx == -1) ? "" : s.substr(startIdx, len);
+        return s.substr(startIdx, len);
     }
+    
 };
