@@ -11,11 +11,9 @@ public:
         for (int i=0; i<n; ++i) { // i = center
             --right[s[i]-'a'];
             for (int k=0; k<26; ++k) {
-                if (left[k] > 0 && right[k] > 0)  {
-                    if (!seen[s[i]-'a'][k]) {
-                        ++ans;
-                        seen[s[i]-'a'][k] = true;
-                    }
+                if (left[k] > 0 && right[k] > 0 && !seen[s[i]-'a'][k]) {
+                    ++ans;
+                    seen[s[i]-'a'][k] = true;
                 }
             }
             ++left[s[i]-'a'];
