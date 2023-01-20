@@ -3,13 +3,12 @@ public:
 
     bool checkSubarraySum(vector<int>& nums, int k) {
         unordered_set<int> st;
-        int ps = 0, cur, prev = 0;
+        int ps = 0, prev = 0;
         for (int i=0; i<nums.size(); ++i) {
-            ps += nums[i];
-            cur = ps % k;
-            if ((cur == 0 && i > 0) || st.count(cur)) return true;
+            ps = (ps + nums[i]) % k;
+            if ((ps == 0 && i > 0) || st.count(ps)) return true;
             st.insert(prev);
-            prev = cur;
+            prev = ps;
         }
         return false;
     }
