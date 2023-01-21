@@ -1,12 +1,12 @@
 class Solution {
 public:
     int minSwaps(string s) {
-        vector<int> opens;
+        int opens = 0;
         for (int i=0; i<s.size(); ++i) {
             if (s[i] == '[') {
-                opens.push_back(i);
+                ++opens;
             } else {
-                if (!opens.empty()) opens.pop_back();
+                if (opens > 0) --opens;
             }
             
             /*
@@ -14,6 +14,6 @@ public:
             */
         }
     
-        return (opens.size()+1) >> 1;
+        return (opens+1) >> 1;
     }
 };
