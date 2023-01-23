@@ -17,21 +17,28 @@ public:
         sort(meetings.begin(), meetings.end());
         int maxFreqIdx = 0;
         
-        priority_queue<ppair, vector<ppair>, greater<ppair>> pq;
+        priority_queue<int, vector<int>, greater<int>> avail;
+        priority_queue<ppair, vector<ppair>, greater<ppair>> busy;
 
-        for (int i=0; i<n; ++i) pq.push({-1, i});
+        for (int i=0; i<n; ++i) avail.push(i);
         
-        int idx = 0;
+        int room; long long endT, startT;
         for (auto & m : meetings) {
-            while (pq.top().first < m[0]) {
-                pq.push({m[0], pq.top().second});
-                pq.pop();
+            
+            while (!busy.empty() && busy.top().first <= m[0]) {
+                avail.push(busy.top().second);
+                busy.pop();
             } 
             
-            auto [startT, room] = pq.top(); pq.pop();
-            pq.push({startT+m[1]-m[0], room});
+            if (!avail.empty()) { 
+                room = avail.top(); avail.pop();
+                endT = m[1];
+            } else {
+                endT = busy.top().first + m[1]-m[0]; 
+                room = busy.top().second; busy.pop();
+            }
+            busy.push({endT, room});
             ++cnt[room];
-            
             if (cnt[room] > cnt[maxFreqIdx] ||
                (cnt[room] == cnt[maxFreqIdx] && (room < maxFreqIdx))) {
                 maxFreqIdx = room;
