@@ -11,18 +11,18 @@
  */
 class Solution {
 public:
-    int ans = 0;
     int countUnivalSubtrees(TreeNode* root) {
-        univalue(root);
+        int ans = 0;
+        univalue(root, ans);
         return ans;
     }
     
-    int univalue(TreeNode* root) {
+    int univalue(TreeNode* root, int& ans) {
         
         if (!root) return 2000;
         
-        int left = (root->left) ? univalue(root->left) : root->val;
-        int right = (root->right) ? univalue(root->right) : root->val;
+        int left = (root->left) ? univalue(root->left, ans) : root->val;
+        int right = (root->right) ? univalue(root->right, ans) : root->val;
         
         if (left == root->val && root->val == right) {
             ++ans;
