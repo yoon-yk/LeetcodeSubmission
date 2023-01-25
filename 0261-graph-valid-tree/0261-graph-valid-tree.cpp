@@ -18,7 +18,7 @@ public:
         
         for (auto & nei : adjList[cur]) {
             if (nei == par) continue;
-            if (v[nei] == visiting) return -1;
+            if (v[nei] != unvisited) return -1;
             nVisited += dfs(nei, cur, adjList, v);
         }
         v[cur] = visited;
