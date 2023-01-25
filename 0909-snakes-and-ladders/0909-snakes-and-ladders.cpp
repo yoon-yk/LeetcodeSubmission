@@ -23,10 +23,9 @@ public:
         return {(n-1)-r, c};
     }
     
-    pair<int, bool> getNextLoc(vector<vector<int>>& board, pair<int, bool> ret, int i) {
+    pair<int, bool>& getNextLoc(vector<vector<int>>& board, pair<int, bool> ret, int i) {
         auto & [loc, itemUsed] = ret;
         loc += i;
-        // cout << loc << ")";
         
         if (loc >= target) {
             loc = target;
@@ -35,7 +34,6 @@ public:
         
         auto [r, c] = getLoc(loc);
         
-        // cout << loc << " | " << r << " " << c << endl;
         if (board[r][c] != -1) 
             loc = board[r][c];
         
@@ -61,7 +59,7 @@ public:
                 if (loc == target) return level;
 
                 for (int i=1; i<=6; ++i) {
-                    auto [nextLoc, itemUsed] = getNextLoc(board, ret, i);
+                    auto& [nextLoc, itemUsed] = getNextLoc(board, ret, i);
                     if (visited[nextLoc]) continue;
                     visited[nextLoc] = true;
                     Q.push({nextLoc, itemUsed});
