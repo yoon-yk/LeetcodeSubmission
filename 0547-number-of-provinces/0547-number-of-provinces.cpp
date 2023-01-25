@@ -2,36 +2,32 @@ class Solution {
 public:
     vector<int> parent;
     
-    void initialize(int n) {
-        parent.resize(n);
-        for (int i=0; i<n; i++)
-            parent[i] = i;
+    int findd(int v) {
+        if (parent[v] == v) return v;
+        return parent[v] = findd(parent[v]);
     }
     
-    int find (int elm) {
-        if (parent[elm] == elm) return elm;
-        return parent[elm] = find(parent[elm]);
-    }
-    
-    void unionn(int e1, int e2) {
-        int par1 = find(e1), par2 = find(e2);
-        parent[par1] = par2;
+    bool unionn(int v1, int v2) {
+        int p1 = findd(v1), p2 = findd(v2);
+        if (p1 == p2) return true;
+        parent[p1] = p2;
+        return false;
     }
     
     int findCircleNum(vector<vector<int>>& isConnected) {
-        
         int n = isConnected.size();
-        initialize(n);
-        int cnt = n;
-
-        for (int i=0; i<n; i++) {
-            for (int j=i+1; j<n; j++) {
-                if (!isConnected[i][j] || find(i) == find(j)) continue;
-                unionn(i, j);
-                cnt--;
+        parent.resize(n);
+        iota(parent.begin(), parent.end(), 0);
+        
+        int nComp = n;
+        for (int i=0; i<n; ++i) {
+            for (int j=i+1; j<n; ++j) {
+                if (isConnected[i][j] && !unionn(i, j)) {
+                    --nComp;
+                }
             }
         }
+        return nComp;
         
-        return cnt;
     }
 };
