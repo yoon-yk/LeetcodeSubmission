@@ -9,7 +9,7 @@
  */
 class Solution {
 public:
-    int initializeAdjList(TreeNode* root, unordered_map<int, vector<int>>& adjList) {
+    int initializeAdjList(TreeNode* root, vector<vector<int>>& adjList) {
         
         int val;
         if (root->left) {
@@ -27,7 +27,7 @@ public:
         return root->val;
     }
     
-    void topo_traverse(int target, int k, unordered_map<int, vector<int>>& adjList, vector<int>& ans) {
+    void topo_traverse(int target, int k, vector<vector<int>>& adjList, vector<int>& ans) {
         unordered_set<int> visited;
         queue<int> Q;
         int size, level = 0;
@@ -55,7 +55,7 @@ public:
 
     
     vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
-        unordered_map<int, vector<int>> adjList;
+        vector<vector<int>> adjList(500);
         if (root) initializeAdjList(root, adjList);
         
         vector<int> ans;
