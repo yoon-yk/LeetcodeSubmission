@@ -1,24 +1,28 @@
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
-        vector<vector<int>> dp(prices.size(), vector<int>(2, -1)); // hold, not hold 
-        return maxProfits(0, false, prices, dp);
-    }
-    
-    int maxProfits(int day, bool hold, vector<int>& prices, vector<vector<int>>& dp) {
+        vector<vector<int>> dp(prices.size()+1, vector<int>(2)); // hold, not hold 
+        dp[1][1] = -prices[0]; // buy on the first day
+        dp[1][0] = 0; // not buy on the first day
         
-        if (day >= prices.size()) return 0;
-
-        if (dp[day][hold] != -1) return dp[day][hold];
-
-        // sell 
-        int sell = (hold) ? maxProfits(day+2, false, prices, dp) + prices[day] : INT_MIN;
+        int sell, buy, hold;
+        for (int i=2; i<=prices.size(); ++i) {
+            // sell
+            dp[i][false] = dp[i-1][true] + prices[i-1];
+            
+            // buy
+            if (i>1) dp[i][true] = dp[i-2][false] - prices[i-1];
+            
+            // hold
+            dp[i][false] = max(dp[i-1][false], dp[i][false]);
+            dp[i][true] = max(dp[i-1][true], dp[i][true]);
+        }
         
-        // buy
-        int buy = (!hold) ? maxProfits(day+1, true, prices, dp) - prices[day] : INT_MIN;
         
-        int skip = maxProfits(day+1, hold, prices, dp);
+//         for (int i=0; i<=prices.size(); ++i) {
+//             cout << dp[i][true] << " " << dp[i][false] << endl;
+//         }
         
-        return dp[day][hold] = max({sell, buy, skip});
+        return max(dp.back()[true], dp.back()[false]);
     }
 };
