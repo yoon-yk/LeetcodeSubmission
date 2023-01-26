@@ -28,27 +28,25 @@ public:
     }
     
     void topo_traverse(int target, int k, vector<vector<int>>& adjList, vector<int>& ans) {
-        unordered_set<int> visited;
-        queue<int> Q;
+        queue<pair<int, int>> Q;
         int size, level = 0;
         
-        Q.push(target);
+        Q.push({target, -1}); // cur, parent
         while (!Q.empty() && level < k) {
             size = Q.size();
             while (size--) {
-                auto cur = Q.front(); Q.pop();
-                visited.insert(cur);
+                auto [cur, par] = Q.front(); Q.pop();
                 
                 for (auto & nei : adjList[cur]) {
-                    if (visited.count(nei)) continue;
-                    Q.push(nei);
+                    if (nei == par) continue;
+                    Q.push({nei, cur});
                 }
             }
             ++level;
         }
         
         while (!Q.empty()) {
-            ans.push_back(Q.front()); Q.pop();
+            ans.push_back(Q.front().first); Q.pop();
         }
         
     }
