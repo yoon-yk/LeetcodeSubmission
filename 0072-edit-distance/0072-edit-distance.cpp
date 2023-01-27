@@ -17,10 +17,10 @@ public:
                         dp[i1][i2] = dp[i1+1][i2+1];
                     else {
                       dp[i1][i2] = min({
-                          dp[i1+1][i2] + 1, // delete word1[i1]
-                          dp[i1][i2+1] + 1, // insert word2[i2] to word1
-                          dp[i1+1][i2+1] + 1 // replace
-                      });
+                          dp[i1+1][i2], // delete word1[i1]
+                          dp[i1][i2+1], // insert word2[i2] to word1
+                          dp[i1+1][i2+1] // replace
+                      }) + 1;
                     }
                 }
             }
