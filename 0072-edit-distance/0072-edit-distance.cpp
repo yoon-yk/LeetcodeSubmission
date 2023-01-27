@@ -1,28 +1,37 @@
 class Solution {
 public:
-    int minDistance(string w1, string w2) {
-        int len1= w1.size(), len2 = w2.size();
-        vector<vector<int>> dp(len1+1, vector<int>(len2+1, 0));
-
-        int ret;
-        for (int idx1=len1; idx1>=0; --idx1) {
-            for (int idx2=len2; idx2>=0; --idx2) {
-                if (idx1 == len1 || idx2 == len2) {
-                    dp[idx1][idx2] = max(len2-idx2, len1-idx1);
-                    continue;
-                }    
-                ret = len2+len1;
-                if (w1[idx1] == w2[idx2]) {
-                    dp[idx1][idx2] = dp[idx1+1][idx2+1];
-                    continue;
+    int minDistance(string word1, string word2) {
+        if (word1.size() == 0 || word2.size() == 0) {
+            return max(word1.size(), word2.size());
+        }
+        
+        vector<vector<int>> dp
+            (word1.size()+1, vector<int>(word2.size()+1));
+        
+        for (int i1 = word1.size(); i1 >= 0; --i1) {
+            for (int i2=word2.size(); i2 >= 0; --i2) {
+                if (i1 == word1.size() || i2 == word2.size()) {
+                    dp[i1][i2] = max(word1.size()-i1, 
+                                     word2.size()-i2); // 이만큼 지워줘야 함 
+                }else {
+                    if (word1[i1] == word2[i2]) 
+                        dp[i1][i2] = dp[i1+1][i2+1];
+                    else {
+                      dp[i1][i2] = min({
+                          min(dp[i1+1][i2], dp[i1][i2+1]) + 1,// insert, delete
+                          dp[i1+1][i2+1] + 1 // replace
+                      });
+                    }
                 }
-                    
-                ret = min(ret, dp[idx1+1][idx2] + 1);
-                ret = min(ret, dp[idx1][idx2+1] + 1);
-                ret = min(ret, dp[idx1+1][idx2+1] + 1);
-                dp[idx1][idx2] = ret;
             }
         }
+        
+        for (int i1 = 0; i1 <= word1.size(); ++i1) {
+            for (int i2=0; i2<= word2.size(); ++i2) {
+                cout << dp[i1][i2] << " ";
+            }cout << endl;
+        }
+        
         
         return dp[0][0];
     }
