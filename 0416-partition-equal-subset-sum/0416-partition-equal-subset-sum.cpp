@@ -10,6 +10,7 @@ public:
     }
     
     bool subarraySumEqualKExist(vector<int>& nums, int target) {
+        
         vector<int> prev(target+1, 0), now(target+1);
         
         prev[0] = 1;
@@ -20,7 +21,7 @@ public:
                 if (s-nums[i-1] >= 0) 
                     now[s] = (prev[s-nums[i-1]] + now[s]) % mod;
             }
-            prev = now;
+            prev.swap(now);
         }
         
         
