@@ -14,13 +14,11 @@ public:
         prev[0] = 1, cur[0] = 1;
         for (int i=0; i<stones.size(); ++i) {
             for (int s=target; s>=0; --s) {
-                if (s-stones[i] >= 0) {
+                if (s-stones[i] >= 0)
                     cur[s] += prev[s-stones[i]];
-                } 
                 
-                if (i==stones.size()-1) {
-                    if (cur[s] > 0) return (sum-s*2);
-                }            
+                if ((i==stones.size()-1) && cur[s] > 0) 
+                    return (sum-s*2);         
             }
             prev = cur;
         }
