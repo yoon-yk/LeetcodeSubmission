@@ -5,7 +5,7 @@ public:
         
         int sid1 = 0, sid2 = 0;
         vector<int> ids1(26, -1), ids2(26, -1);
-        vector<int> parent1(str1.size(), -1), parent2(str1.size(), -1);
+        vector<int> parent1(str1.size());
         
         for (int i=0; i<str1.size(); ++i) {
             char & c = str1[i];
@@ -16,10 +16,9 @@ public:
         for (int i=0; i<str2.size(); ++i) {
             char & c = str2[i];
             if (ids2[c-'a'] == -1) ids2[c-'a'] = sid2++;
-            parent2[i] = ids2[c-'a'];
             
             if (sid2 == 26 ||
-                (parent1[i] != i && parent1[i] != parent2[i])) return false;
+                (parent1[i] != i && parent1[i] != ids2[c-'a'])) return false;
         }
 
         return true;
