@@ -17,15 +17,10 @@ public:
             char & c = str2[i];
             if (ids2[c-'a'] == -1) ids2[c-'a'] = sid2++;
             parent2[i] = ids2[c-'a'];
+            
+            if (sid2 == 26 ||
+                (parent1[i] != i && parent1[i] != parent2[i])) return false;
         }
-        
-        if (sid2 == 26) return false;
-
-        for (int i=0; i<str1.size(); ++i) {
-            if (parent1[i] != i && parent1[i] != parent2[i]) return false;
-        }
-        
-        // str2에 없는 str1의 idx chain 이 발견되면 아웃
 
         return true;
         
