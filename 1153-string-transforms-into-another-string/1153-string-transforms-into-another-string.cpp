@@ -1,0 +1,33 @@
+class Solution {
+public:    
+    bool canConvert(string str1, string str2) {
+        if (str1 == str2) return true;
+        
+        int sid1 = 0, sid2 = 0;
+        vector<int> ids1(26, -1), ids2(26, -1);
+        vector<int> parent1(str1.size(), -1), parent2(str1.size(), -1);
+        
+        for (int i=0; i<str1.size(); ++i) {
+            char & c = str1[i];
+            if (ids1[c-'a'] == -1) ids1[c-'a'] = sid1++;
+            parent1[i] = ids1[c-'a'];
+        }
+        
+        for (int i=0; i<str2.size(); ++i) {
+            char & c = str2[i];
+            if (ids2[c-'a'] == -1) ids2[c-'a'] = sid2++;
+            parent2[i] = ids2[c-'a'];
+        }
+        
+        if (sid2 == 26) return false;
+
+        for (int i=0; i<str1.size(); ++i) {
+            if (parent1[i] != i && parent1[i] != parent2[i]) return false;
+        }
+        
+        // str2에 없는 str1의 idx chain 이 발견되면 아웃
+
+        return true;
+        
+    }
+};
