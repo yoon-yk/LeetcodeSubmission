@@ -25,13 +25,7 @@ public:
                 }
             }
         }
-        
-        for (int i1 = 0; i1 <= word1.size(); ++i1) {
-            for (int i2=0; i2<= word2.size(); ++i2) {
-                cout << dp[i1][i2] << " ";
-            }cout << endl;
-        }
-        
+
         
         return dp[0][0];
     }
