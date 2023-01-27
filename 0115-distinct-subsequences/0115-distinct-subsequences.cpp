@@ -1,29 +1,20 @@
 class Solution {
 public:
     int numDistinct(string s, string t) {
-        vector<vector<int>> dp(s.size(), vector<int>(t.size(), -1));
-        
-        return backtrack(0, 0, s, t, dp);
+        int mod = 1e9+7;
+        vector<vector<int>> dp(s.size()+1, vector<int>(t.size()+1));
+        for (int sid = s.size(); sid >= 0; --sid) {
+            for (int tid = t.size(); tid >= 0; --tid) {
+                if (tid == t.size()) dp[sid][tid] = 1;
+                else if (sid == s.size()) dp[sid][tid] =  0;
+                else {
+                    dp[sid][tid] = 0;
+                    if (s[sid] == t[tid]) 
+                        dp[sid][tid] = (dp[sid][tid] + dp[sid+1][tid+1]) % mod;
+                    dp[sid][tid] = (dp[sid][tid] + dp[sid+1][tid]) % mod;
+                }
+            }            
+        } 
+        return dp[0][0];
     }
-    
-    int backtrack(int sid, int tid, string &s, string &t, 
-                  vector<vector<int>>& dp) {
-        
-        int ans = 0;
-        
-        // base case
-        if (tid == t.size()) return 1;
-        if (sid == s.size()) return 0;
-
-        if (dp[sid][tid] != -1) return dp[sid][tid];
-            
-        // recurrence relation
-        if (s[sid] == t[tid]) 
-            ans += backtrack(sid+1, tid+1, s, t, dp);
-        
-        ans += backtrack(sid+1, tid, s, t, dp);
-        
-        return dp[sid][tid] = ans;
-    }
-    
 };
