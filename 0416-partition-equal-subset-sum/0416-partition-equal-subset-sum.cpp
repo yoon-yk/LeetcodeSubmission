@@ -10,20 +10,20 @@ public:
     }
     
     bool subarraySumEqualKExist(vector<int>& nums, int target) {
-        vector<vector<int>> dp(nums.size()+1, 
-                               vector<int>(target+1, 0));
-        dp[0][0] = 1;
+        vector<int> prev(target+1, 0), now(target+1);
+        
+        prev[0] = 1;
         for (int i=1; i<=nums.size(); ++i) {
             if (nums[i-1] > target) continue;
             for (int s=0; s<=target; ++s) {
-                dp[i][s] = dp[i-1][s];
-                if (s-nums[i-1] >= 0) {
-                    dp[i][s] = (dp[i-1][s-nums[i-1]] + dp[i][s]) % mod;
-                }
+                now[s] = prev[s];
+                if (s-nums[i-1] >= 0) 
+                    now[s] = (prev[s-nums[i-1]] + now[s]) % mod;
             }
+            prev = now;
         }
         
         
-        return dp[nums.size()][target];
+        return now[target];
     }
 };
