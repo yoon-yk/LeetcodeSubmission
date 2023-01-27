@@ -10,13 +10,7 @@ public:
                     dp[j] = min(dp[j], dp[j-c] + 1);
             }
         }
-        
-        // for (int i=1; i<=coins.size(); ++i) {
-        //     for (int j=0; j<=amount; ++j) {
-        //         cout << dp[i][j] << " ";
-        //     }
-        //     cout << endl;
-        // }
+
         int ans = dp[amount];
         return ans > amount ? -1 : ans;
     }
