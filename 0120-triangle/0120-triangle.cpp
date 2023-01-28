@@ -12,18 +12,19 @@ public:
         */
         
         int n = triangle.size();
-        vector<vector<int>> dp(n, vector<int>(n));
+        vector<int> prev(n), now(n);
         
         int left, right;
-        dp[0][0] = triangle[0][0];
+        prev[0] = triangle[0][0];
         for (int i=1; i<n; ++i) {
             for (int j=0; j<=i; ++j) {
-                left = (j>0) ? dp[i-1][j-1] : INT_MAX;
-                right = (j<i) ? dp[i-1][j] : INT_MAX;
-                dp[i][j] = min(left, right) + triangle[i][j];
+                left = (j>0) ? prev[j-1] : INT_MAX;
+                right = (j<i) ? prev[j] : INT_MAX;
+                now[j] = min(left, right) + triangle[i][j];
             }
+            prev.swap(now);
         }
         
-        return *min_element(dp.back().begin(), dp.back().end());
+        return *min_element(prev.begin(), prev.end());
     }
 };
