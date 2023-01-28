@@ -1,40 +1,26 @@
 class Solution {
 public:
     int findMaxForm(vector<string>& strs, int m, int n) {
-        int sz = strs.size();
-        vector<int> oneCnts;
-        int oneCnt;
+        vector<vector<int>> dp(m+1, vector<int>(n+1, 0));
+        
+        int oneCnt, zeroCnt;
         for (int i=0; i<strs.size(); ++i) {
-            oneCnt = 0;
-            for (auto &c : strs[i]) {
-                if (c == '1') ++oneCnt;
+            oneCnt = countOnes(strs[i]), zeroCnt = strs[i].size()-oneCnt;
+            for (int zeroes = m; zeroes >= zeroCnt; --zeroes) {
+                for (int ones = n; ones >= oneCnt; --ones) {
+                    dp[zeroes][ones] = max(1 + dp[zeroes - zeroCnt][ones - oneCnt],
+                                          dp[zeroes][ones]);
+                }
             }
-            oneCnts.push_back(oneCnt);
         }
         
-        vector<vector<vector<int>>> dp(sz, vector<vector<int>>(m+1, vector<int>(n+1, -1)));
-        return backtrack(0, strs, oneCnts, dp, m, n);
+        return dp[m][n];
     }
     
-    int backtrack(int i, vector<string>& strs, vector<int> &oneCnts, vector<vector<vector<int>>>& dp, int m, int n) {
-        
-        if (i == strs.size())
-            return 0;
-
-        if (dp[i][m][n] != -1) return dp[i][m][n];
-        
-        // exclude
-        int ans = backtrack(i+1, strs, oneCnts, dp, m, n);
-        
-        // include 
-        int oneCnt = oneCnts[i], zeroCnt = strs[i].size() - oneCnt;
-        if (zeroCnt <= m && oneCnt <= n) {
-            ans = max(ans, backtrack(i+1, strs, oneCnts, dp, m-zeroCnt, n-oneCnt) + 1);
-        }
-        
-        return dp[i][m][n] = ans;
-
+    int countOnes(string & s) {
+        int ans = 0;
+        for (auto & c : s) 
+            ans += (c == '1');
+        return ans;
     }
-    
-    
 };
