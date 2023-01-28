@@ -7,8 +7,7 @@ public:
             curMin = min({prevMin*nums[i], prevMax*nums[i], nums[i]});
             curMax = max({prevMin*nums[i], prevMax*nums[i], nums[i]});
             ans = max(ans, curMax);
-            swap(curMin, prevMin);
-            swap(curMax, prevMax);
+            prevMin = curMin, prevMax = curMax;
         }
         return ans;
     }
