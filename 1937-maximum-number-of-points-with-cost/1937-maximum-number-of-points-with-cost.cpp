@@ -1,32 +1,31 @@
 class Solution {
 public:
     long long maxPoints(vector<vector<int>>& points) {
-        
-        int r = points.size(), c = points[0].size();
-        int n = points.size();
-        
-        vector<long long> dp(c, 0), left(c, 0), right(c, 0);
-        for (int i=0; i<c; ++i) dp[i] = points[0][i];
-        
-        for (int i=1; i<r; ++i) {
+        int m = points.size(), n = points[0].size(), maxPoint;
+        vector<long long> l(n), r(n), row(n);
+        for (int i=0; i<n; ++i) row[i] = points[0][i];
+
+        for (int i=1; i<m; ++i) {
             
             // left
-            left[0] = dp[0];
-            for (int j=1; j<c; ++j) {
-                left[j] = max(left[j-1]-1, dp[j]);
+            l[0] = row[0];
+            for (int j=1; j<n; ++j) {
+                l[j] = max(row[j], l[j-1]-1);
             }
+            
             // right
-            right[c-1] = dp[c-1];
-            for (int j=c-2; j>=0; --j) {
-                right[j] = max(right[j+1]-1, dp[j]);
+            r[n-1] = row[n-1];
+            for (int j=n-2; j>=0; --j) {
+                r[j] = max(row[j], r[j+1]-1);
             }
             
-            for (int j=0; j<c; ++j) {
-                dp[j] = max(right[j], left[j]) + points[i][j];
-            }
-            
+           for (int j=0; j<n; ++j) {
+               row[j] = max(l[j], r[j]) + points[i][j];
+           }
+
         }
         
-        return *(max_element(dp.begin(), dp.end()));
+        
+        return *max_element(row.begin(), row.end());
     }
 };
