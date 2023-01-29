@@ -2,7 +2,8 @@ class Solution {
 public:
     long long maxPoints(vector<vector<int>>& points) {
         int m = points.size(), n = points[0].size(), maxPoint;
-        vector<long long> l(n), r(n), row(n);
+        long long right;
+        vector<long long> l(n), row(n);
         for (int i=0; i<n; ++i) row[i] = points[0][i];
 
         for (int i=1; i<m; ++i) {
@@ -14,15 +15,11 @@ public:
             }
             
             // right
-            r[n-1] = row[n-1];
-            for (int j=n-2; j>=0; --j) {
-                r[j] = max(row[j], r[j+1]-1);
+            right = row[n-1];
+            for (int j=n-1; j>=0; --j) {
+                right = max(row[j], right-1);
+                row[j] = max(l[j], right) + points[i][j];
             }
-            
-           for (int j=0; j<n; ++j) {
-               row[j] = max(l[j], r[j]) + points[i][j];
-           }
-
         }
         
         
