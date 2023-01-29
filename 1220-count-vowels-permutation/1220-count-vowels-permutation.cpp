@@ -1,18 +1,18 @@
 class Solution {
 public:
-    #define a 0
-    #define e 1
-    #define i 2
-    #define o 3
-    #define u 4
+//     #define a 0
+//     #define e 1
+//     #define i 2
+//     #define o 3
+//     #define u 4
     
     int countVowelPermutation(int n) {
-        unordered_map<int, vector<int>> dict = {
-            {a, {e}},
-            {e, {a, i}},
-            {i, {a, e, o, u}}, 
-            {o, {i, u}},
-            {u, {a}}
+        vector<vector<int>> dict = {
+            {1},
+            {0, 2},
+            {0, 1, 3, 4}, 
+            {2, 4},
+            {0}
         };
         
         /*
@@ -35,20 +35,11 @@ public:
                 }
             }
             next = cur;
-
         }
         
-       // for (int idx=0; idx<=n; ++idx){
-       //      for (int v=0; v<kVowelCnt; ++v) {
-       //          cout << dp[idx][v] << " ";
-       //      }
-       //     cout << endl;
-       // }
-      
         int ans = 0;
-        for (int v=0; v<kVowelCnt; ++v) {
-            ans = (ans + next[v]) % mod;
-        }
+        for (int v=0; v<kVowelCnt; ++v) ans = (ans + next[v]) % mod;
+        
         return ans;
     }
 };
