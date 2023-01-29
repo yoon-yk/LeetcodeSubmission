@@ -1,50 +1,51 @@
 class Solution {
 public:
-    int MOD = 1e9 + 7;
-
-    int cal(vector<vector<long>>& dp, int n, int i) {
-        
-        if (n == 1) return dp[n][i] = 1;
-        if (dp[n][i]!= -1) return dp[n][i];
-        
-        int ans = 0;
-        
-        switch (i) {
-            case 0 : // a 
-                ans += cal(dp, n-1, 1), ans %= MOD;
-                ans += cal(dp, n-1, 2), ans %= MOD;
-                ans += cal(dp, n-1, 4), ans %= MOD;
-                break;
-            case 1 : // e 
-                ans += cal(dp, n-1, 0), ans %= MOD;
-                ans += cal(dp, n-1, 2), ans %= MOD;
-                break;
-            case 2 : // i
-                ans += cal(dp, n-1, 1), ans %= MOD;
-                ans += cal(dp, n-1, 3), ans %= MOD;
-                break;
-            case 3 : // o
-                ans += cal(dp, n-1, 2), ans %= MOD;
-                break;
-            case 4 : // u
-                ans += cal(dp, n-1, 2), ans %= MOD;
-                ans += cal(dp, n-1, 3), ans %= MOD;
-                break;   
-        }
-        
-        return dp[n][i] = ans;
-    }
-    
+    #define a 0
+    #define e 1
+    #define i 2
+    #define o 3
+    #define u 4
     
     int countVowelPermutation(int n) {
-        vector<vector<long>> dp(n+1, vector<long> (5, -1)); // row = len; col = char;
+        unordered_map<int, vector<int>> dict = {
+            {a, {e}},
+            {e, {a, i}},
+            {i, {a, e, o, u}}, 
+            {o, {i, u}},
+            {u, {a}}
+        };
         
-        int cnt = 0;
-        for(int i = 0; i < 5; i++) {
-            cnt += cal(dp, n, i);
-            cnt %= MOD;
+        /*
+        base case 
+        dp[n][every vowel] = 1
+        
+        recurrence relation
+        dp[i][j] = dp[i+1][followed vowel]
+        */
+        
+        int kVowelCnt = 5, mod = 1e9+7;
+        vector<vector<int>> dp (n+1, vector<int>(5));
+        for (int c=0; c<kVowelCnt; ++c) dp[n][c] = 1;
+        
+        for (int idx=n-1; idx>0; --idx){
+            for (int v=0; v<kVowelCnt; ++v) {
+                for (auto & followed : dict[v]) {
+                    dp[idx][v] = (dp[idx][v] + dp[idx+1][followed]) % mod;
+                }
+            }
         }
         
-        return cnt;
+       // for (int idx=0; idx<=n; ++idx){
+       //      for (int v=0; v<kVowelCnt; ++v) {
+       //          cout << dp[idx][v] << " ";
+       //      }
+       //     cout << endl;
+       // }
+      
+        int ans = 0;
+        for (int v=0; v<kVowelCnt; ++v) {
+            ans = (ans + dp[1][v]) % mod;
+        }
+        return ans;
     }
 };
