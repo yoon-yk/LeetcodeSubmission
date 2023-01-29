@@ -1,16 +1,13 @@
 class Solution {
 public:
     int maxProfit(vector<int>& prices, int fee) {
-        int sell, buy;
-        vector<vector<int>> dp(prices.size(), vector<int>(2));
-        dp[0][0] = 0, dp[0][1] = -prices[0];
+        int sell, buy, prevNotHold = 0, prevHold = -prices[0];
         for (int i=1; i<prices.size(); ++i) {
-            sell = dp[i-1][true] - fee + prices[i];
-            buy = dp[i-1][false] - prices[i];
-            dp[i][true] = max(dp[i-1][true], buy);
-            dp[i][false] = max(dp[i-1][false], sell);
+            sell = prevHold - fee + prices[i];
+            buy = prevNotHold - prices[i];
+            prevHold = max(prevHold, buy);
+            prevNotHold = max(prevNotHold, sell);
         }
-
-        return max(dp.back()[true], dp.back()[false]);
+        return max(prevHold, prevNotHold);
     }
 };
