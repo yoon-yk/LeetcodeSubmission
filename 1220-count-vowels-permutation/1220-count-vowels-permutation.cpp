@@ -24,15 +24,18 @@ public:
         */
         
         int kVowelCnt = 5, mod = 1e9+7;
-        vector<vector<int>> dp (n+1, vector<int>(5));
-        for (int c=0; c<kVowelCnt; ++c) dp[n][c] = 1;
+        vector<int> cur(5), next(5);
+        for (int c=0; c<kVowelCnt; ++c) next[c] = 1;
         
         for (int idx=n-1; idx>0; --idx){
             for (int v=0; v<kVowelCnt; ++v) {
+                cur[v] = 0;
                 for (auto & followed : dict[v]) {
-                    dp[idx][v] = (dp[idx][v] + dp[idx+1][followed]) % mod;
+                    cur[v] = (cur[v] + next[followed]) % mod;
                 }
             }
+            next = cur;
+
         }
         
        // for (int idx=0; idx<=n; ++idx){
@@ -44,7 +47,7 @@ public:
       
         int ans = 0;
         for (int v=0; v<kVowelCnt; ++v) {
-            ans = (ans + dp[1][v]) % mod;
+            ans = (ans + next[v]) % mod;
         }
         return ans;
     }
