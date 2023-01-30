@@ -55,20 +55,10 @@ public:
     
     void addAtHead(int val) {
         addNewNode(val, head, head->next);
-        print();
     }
     
     void addAtTail(int val) {
         addNewNode(val, tail->prev, tail);
-        print();
-    }
-    
-    void print() {
-        // Node* ptr = head;
-        // while (ptr) {
-        //     cout << ptr->val << " ";
-        //     ptr = ptr->next;
-        // }cout << endl;
     }
     
     void addNewNode(int val, Node* prevNode, Node* nextNode) {
@@ -84,7 +74,6 @@ public:
         Node* prevNode = getNodeBeforeKth(index);
         if (!prevNode) return;
         addNewNode(val, prevNode, prevNode->next);
-        print();
     }
     
     void deleteAtIndex(int index) {
@@ -95,7 +84,6 @@ public:
         delete prevNode->next;
         prevNode->next = nextNode;
         nextNode->prev = prevNode;
-        print();
         --size;
     }
 };
