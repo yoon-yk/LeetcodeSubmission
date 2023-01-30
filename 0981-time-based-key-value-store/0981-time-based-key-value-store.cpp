@@ -1,17 +1,9 @@
 class TimeMap {
 public:
-    /*
-    foo 
-    1 bar
-    3 bar2 ...
-    */
-    
     unordered_map<string, vector<pair<int, string>>> mp;
-    TimeMap() {    
-        // vector<string> v= {"a a"," a a", "", "a", "az"};
-        // sort(v.begin(), v.end());
-        // for (auto & s : v) cout << s << "/" ;
-        // cout << endl;
+    
+    TimeMap() {
+        
     }
     
     void set(string key, string value, int timestamp) {
@@ -19,11 +11,18 @@ public:
     }
     
     string get(string key, int timestamp) {
-        if (!mp.count(key)) return ""; 
-        auto & vectorList = mp[key];
-        auto ptr = lower_bound(vectorList.begin(), vectorList.end(), pair<int, string>(timestamp+1,""));
-        if (ptr == vectorList.begin())
-            return "";
-        return mp[key][ptr-vectorList.begin()-1].second;
+        // 같거나 작은 것 == 큰 것 이전의 것 
+        if (!mp.count(key)) return "";
+        pair<int, string> target = {timestamp+1, ""};
+        auto it = upper_bound(mp[key].begin(), mp[key].end(), target);
+        if (it == mp[key].begin()) return "";
+        return prev(it)->second;
     }
 };
+
+/**
+ * Your TimeMap object will be instantiated and called as such:
+ * TimeMap* obj = new TimeMap();
+ * obj->set(key,value,timestamp);
+ * string param_2 = obj->get(key,timestamp);
+ */
