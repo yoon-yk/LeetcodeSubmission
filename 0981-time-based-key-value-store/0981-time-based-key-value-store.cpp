@@ -14,7 +14,7 @@ public:
         // 같거나 작은 것 == 큰 것 이전의 것 
         if (!mp.count(key)) return "";
         pair<int, string> target = {timestamp+1, ""};
-        auto it = upper_bound(mp[key].begin(), mp[key].end(), target);
+        auto it = lower_bound(mp[key].begin(), mp[key].end(), target);
         if (it == mp[key].begin()) return "";
         return prev(it)->second;
     }
