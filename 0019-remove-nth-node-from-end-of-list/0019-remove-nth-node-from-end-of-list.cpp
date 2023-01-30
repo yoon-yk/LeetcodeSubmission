@@ -14,16 +14,13 @@ public:
         ListNode* dHead = new ListNode();
         dHead->next = head;
         ListNode* fast = dHead, *slow = dHead;
-        for (int i=0; i<n+1; i++)
+        while (fast && n--) fast = fast->next;
+        while (fast && fast->next) {
             fast = fast->next;
-            
-        while (fast) {
             slow = slow->next;
-            fast = fast->next;
         }
-        
-        slow->next = slow->next->next;
-        
+        if (slow->next) slow->next = slow->next->next;
         return dHead->next;
+        
     }
 };
