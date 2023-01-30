@@ -16,29 +16,43 @@ public:
 
 class Solution {
 public:
-    Node* copyRandomList(Node* head) {
-        
-        unordered_map<Node*, Node*> dup;
-        
-        // next
+    void duplicateNodes(Node* head) {
         Node* ptr = head;
-        if (ptr) dup[ptr] = new Node(ptr->val);
-        
-        while (ptr && ptr->next) {
-            dup[ptr->next] = new Node(ptr->next->val);
-            dup[ptr]->next = dup[ptr->next];
-            ptr = ptr->next;
-        }
-        
-        ptr = head;
         while (ptr) {
-            if (ptr->random) {
-               dup[ptr]->random = dup[ptr->random]; 
-            } 
-            ptr = ptr->next;
+            Node* dup = new Node(ptr->val);
+            dup->next = ptr->next;
+            ptr->next = dup;
+            ptr = dup->next;
         }
-        
-        // random
-        return dup[head];
+    }
+    
+    void adjustNextPtr(Node* head, Node* dHead) {
+        Node* oPtr = head, *dPtr = dHead;
+        while (oPtr && dPtr) {
+            oPtr->next = dPtr->next;
+            dPtr->next = (dPtr->next) ? dPtr->next->next : NULL;
+            oPtr = oPtr->next;
+            dPtr = dPtr->next;
+        }
+    }
+    
+    void adjustRandPtr(Node* head) {
+        Node* ptr = head, *dPtr;
+        while (ptr && ptr->next) {
+            dPtr = ptr->next;
+            if (ptr->random) dPtr->random = ptr->random->next;
+            ptr = ptr->next->next;
+        }
+    }
+    
+    Node* copyRandomList(Node* head) {
+        if (!head) return head;
+        // 각 node 에 next에 dup 만들어주기 
+        duplicateNodes(head);
+        adjustRandPtr(head);
+        Node* orig = head, *dup = head->next;
+        adjustNextPtr(orig, dup);
+
+        return dup;
     }
 };
