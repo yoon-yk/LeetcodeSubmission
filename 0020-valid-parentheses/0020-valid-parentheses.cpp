@@ -1,25 +1,20 @@
 class Solution {
 public:
+    unordered_set<char> opens = {'(', '[', '{'};
+    unordered_map<char, char> pairs = {
+        {')', '('},
+        {']', '['},
+        {'}', '{'}
+    };
+    
     bool isValid(string s) {
-        stack<char> st;
+        vector<char> st;
         for (auto & ch : s) {
-            if (ch == '[' || ch == '(' || ch == '{')
-                st.push(ch);
+            if (opens.count(ch)) st.push_back(ch);
             else {
                 if (st.empty()) return false;
-                if (ch == ']') {
-                    if (st.top() == '[')
-                        st.pop();
-                    else return false;
-                } else if (ch == '}') {
-                    if (st.top() == '{')
-                        st.pop();
-                    else return false;
-                } else if (ch == ')') {
-                    if (st.top() == '(')
-                        st.pop();
-                    else return false;
-                }
+                if (st.back() == pairs[ch]) st.pop_back();
+                else return false;
             }
         }
         return (st.empty());
