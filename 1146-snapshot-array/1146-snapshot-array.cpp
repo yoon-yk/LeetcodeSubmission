@@ -1,36 +1,27 @@
 class SnapshotArray {
 public:
-    
-    /*
-    0 1 2 3
-  ---------
-  1     4 
-  2   4
-    */
-    
-    int snapID;
-    vector<vector<pair<int, int>>> arr;
+    int id;
+    vector<vector<pair<int, int>>> mp;
     SnapshotArray(int length) {
-        snapID = 0;
-        arr.resize(length);
+        mp.resize(length);
+        id = 0;
     }
     
     void set(int index, int val) {
-        if (!arr[index].empty() && 
-            arr[index].back().first == snapID)
-            arr[index].back().second = val;
-        else arr[index].push_back({snapID, val});
+        if (!mp[index].empty() && mp[index].back().first == id) {
+            mp[index].back().second = val;
+        } else mp[index].push_back({id, val});
     }
     
     int snap() {
-        return snapID++;
+        return id++;
     }
     
     int get(int index, int snap_id) {
-        auto it = upper_bound(arr[index].begin(), 
-                        arr[index].end(), pair(snap_id, INT_MAX));
-        if (it == arr[index].begin()) return 0;
-        return arr[index][prev(it)-arr[index].begin()].second;
+        pair<int, int> target = {snap_id+1, -1};
+        auto it = upper_bound(mp[index].begin(), mp[index].end(), target);
+        if (it == mp[index].begin()) return 0;
+        return (*prev(it)).second;
     }
 };
 
