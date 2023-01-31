@@ -20,7 +20,7 @@ public:
         4 5 6
         7 8 9
         */
-        vector<vector<vector<int>>> dp(10, vector<vector<int>>(1<<10, vector<int>(10, -1)));
+        vector<vector<vector<int>>> dp(10, vector<vector<int>>(1<<10, vector<int>(n+1, -1)));
         return backtrack(0, visited, n, dp) - backtrack(0, visited, m-1, dp);
     }
     
