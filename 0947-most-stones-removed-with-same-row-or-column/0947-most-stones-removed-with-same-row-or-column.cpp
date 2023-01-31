@@ -1,33 +1,52 @@
 class Solution {
 public:
-    const int K = 10001;
-    void dfs (vector<vector<int>>& stones, vector<int> adj[], vector<int>& visited, int src) {
-        visited[src] = 1;
-        
-        for (int & adjc : adj[src]) {
-            if (visited[adjc] == 0)
-                dfs(stones, adj, visited, adjc);
+    unordered_map<int, int> par;
+    unordered_map<int, int> sz;
+
+    int find(int v) {
+        if (par[v] == v) return v;
+        return par[v] = find(par[v]);
+    }
+    
+    void unionn(int v1, int v2) {
+        int p1 = find(v1), p2 = find(v2);
+        if (p1 == p2) return;
+        if (par[p1] < par[p2]) {
+            par[p1] = p2;
+            sz[p2] += p1;
+            sz.erase(p1);
+        } else {
+            par[p2] = p1;
+            sz[p1] += p2;
+            sz.erase(p2);
         }
     }
     
     int removeStones(vector<vector<int>>& stones) {
+        /*
+          0 1 2 3
+        0 x x x
+        1   x
+        2       x
+        3   x
         
-        vector<int> adj[2 * K + 1];
-        for (int i=0; i < stones.size(); i++) {
-            int x = stones[i][0], y = stones[i][1] + K;
-            adj[x].push_back(y);
-            adj[y].push_back(x);
+        총 vertex의 개수 - component의 개수
+        
+        
+        */
+        
+        int kColBase = 10001; // row 0 = 0, col 0 = 10001
+        
+        int r, c;
+        for (auto & stone : stones) {
+            r = stone[0], c = stone[1] + kColBase;
+            if (!par.count(r)) {par[r] = r, sz[r] = 1;}
+            if (!par.count(c)) {par[c] = c, sz[c] = 1;}
+            unionn(r, c);
         }
         
-        vector<int> visited(2*K + 1, 0);
-        int componentCount = 0;
-        for (int i=0; i<2*K + 1; i++) {
-            if (visited[i] == 0 && adj[i].size() > 0) {
-                componentCount ++;
-                dfs (stones, adj, visited, i);
-            }
-        }
         
-        return stones.size() - componentCount;
+        return stones.size() - sz.size();
+        
     }
 };
