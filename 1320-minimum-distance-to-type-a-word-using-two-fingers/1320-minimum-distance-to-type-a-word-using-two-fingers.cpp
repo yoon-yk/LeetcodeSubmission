@@ -21,29 +21,28 @@ public:
         };
         
         priority_queue<vector<int>, vector<vector<int>>, decltype(compare)> pq(compare);
-        vector<vector<vector<bool>>> mp(word.size(), vector<vector<bool>>(27, vector<bool>(27, false)));
+        unordered_map<int, unordered_map<int, unordered_set<int>>> mp;
         
         int cost, fpos, spos, idx;
-        pq.push({0, 26, 26, 0});
+        pq.push({0, -1, -1, 0});
         while (!pq.empty()) {
             auto cur = pq.top(); pq.pop();
             cost = cur[0], fpos = cur[1], spos = cur[2], idx = cur[3];
+            if (mp[idx][fpos].count(spos)) continue;
+            mp[idx][fpos].insert(spos);
             if (idx == word.size()) return cost;
-            
-            if (mp[idx][fpos][spos]) continue;
-            mp[idx][fpos][spos] = true;
             
             // target 
             int target = word[idx]-'A';
             auto [targetX, targetY] = getPos(target);
             
             // fpos
-            if (fpos < 26) {
+            if (fpos != -1) {
                 pq.push({cost+getCost(fpos, target), target, spos, idx+1});
             } else pq.push({cost, target, spos, idx+1});
             
             // spos
-            if (spos < 26) {
+            if (spos != -1) {
                 pq.push({cost+getCost(spos, target), fpos, target, idx+1});
             } else pq.push({cost, fpos, target, idx+1});
         }
