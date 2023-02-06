@@ -1,21 +1,24 @@
 class Solution {
 public:
-
-    int minHeightShelves(vector<vector<int>>& books, int maxW) {
-        int n = books.size(), j, sum, h;
-        vector<int> dp(n+1, INT_MAX);
-        dp[0] = 0;
+    int minHeightShelves(vector<vector<int>>& books, int shelfWidth) {
         
-        for (int i=1; i<=n; ++i) {
-            dp[i] = dp[i-1] + books[i-1][1];
+        int n = books.size();
+        vector<int> minH(n+1);
+        minH[0] = 0, minH[1] = books[0][1];
+        
+        for (int i=2; i<=books.size(); ++i) {
             
-            for (j=i, sum=0, h=0; j>0 && sum + books[j-1][0] <= maxW; --j) {
-                sum += books[j-1][0];
-                h = max(h, books[j-1][1]);
-                dp[i] = min(dp[i], dp[j-1] + h);
-            }        
+            minH[i] = minH[i-1] + books[i-1][1]; // 새로운 층
+            
+            int j=i, curWidth = shelfWidth, curMaxH = books[i-1][1];
+            for (; j>0 && curWidth >= books[j-1][0]; --j) {
+                curWidth -= books[j-1][0];
+                curMaxH = max(books[j-1][1], curMaxH);
+                minH[i] = min(minH[j-1] + curMaxH, minH[i]); // 끼워넣기 
+            }       
         }
         
-        return dp[n];
+        return minH.back();
     }
+    
 };
