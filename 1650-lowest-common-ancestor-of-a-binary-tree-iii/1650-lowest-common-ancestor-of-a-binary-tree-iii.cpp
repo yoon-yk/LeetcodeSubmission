@@ -11,17 +11,21 @@ public:
 
 class Solution {
 public:
-    int getDepth(Node* node, Node* target) {
-        if (node == NULL) return -1;
-        if (node == target) return 0;
+    int getDepth(Node* root, Node* target) {
         
-        if (node->left) {
-            int leftD = getDepth(node->left, target);
-            if (leftD > -1) return leftD+1;
-        }
-        if (node->right) {
-            int rightD = getDepth(node->right, target);
-            if (rightD > -1) return rightD+1;
+        queue<Node*> Q;
+        Q.push(root);
+        
+        int dep = 0;
+        while (!Q.empty()) {
+            int size = Q.size();
+            while (size--) {
+                auto cur = Q.front(); Q.pop();
+                if (cur == target) return dep;
+                if (cur->left) Q.push(cur->left);
+                if (cur->right) Q.push(cur->right);
+            }
+            ++dep;
         }
         return -1;
     }
