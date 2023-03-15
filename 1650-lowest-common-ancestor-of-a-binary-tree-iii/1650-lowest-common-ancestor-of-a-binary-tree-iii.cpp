@@ -23,21 +23,19 @@ public:
     
     Node* lowestCommonAncestor(Node* p, Node * q) {
         
-        Node* root = p;
-        while (root->parent != NULL) root = root->parent;
-        
         int pDep = getDepth(p), qDep = getDepth(q);
         
-        while (p != root && pDep > qDep) {
+        while (p->parent && pDep > qDep) {
             p = p->parent;
             --pDep;
         }
-        while (q != root && pDep < qDep) {
+        while (q->parent && pDep < qDep) {
             q = q->parent;
             --qDep;
         }
         
-        if (p == root || q == root) return root;
+        if (!p->parent) return p;
+        else if (!q->parent) return q;
         
         while (p && q && p != q) {
             p = p->parent, q = q->parent;
