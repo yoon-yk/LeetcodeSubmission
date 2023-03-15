@@ -11,23 +11,14 @@ public:
 
 class Solution {
 public:
-    int getDepth(Node* root, Node* target) {
-        
-        queue<Node*> Q;
-        Q.push(root);
-        
+    int getDepth(Node* target) {
         int dep = 0;
-        while (!Q.empty()) {
-            int size = Q.size();
-            while (size--) {
-                auto cur = Q.front(); Q.pop();
-                if (cur == target) return dep;
-                if (cur->left) Q.push(cur->left);
-                if (cur->right) Q.push(cur->right);
-            }
+        while (target->parent != NULL) {
+            target = target->parent;
             ++dep;
         }
-        return -1;
+        
+        return dep;
     }
     
     Node* lowestCommonAncestor(Node* p, Node * q) {
@@ -35,7 +26,7 @@ public:
         Node* root = p;
         while (root->parent != NULL) root = root->parent;
         
-        int pDep = getDepth(root, p), qDep = getDepth(root, q);
+        int pDep = getDepth(p), qDep = getDepth(q);
         
         while (p != root && pDep > qDep) {
             p = p->parent;
