@@ -32,14 +32,22 @@ public:
     
     int dfs(int node, vector<bool>& visited, vector<vector<int>>& adjList) {
         
-        // cout << node << " ";
         int ans = 1;
-        for (auto & nei : adjList[node]) {
-            if (visited[nei]) continue;
-            visited[nei] = true;
-            ans += dfs(nei, visited, adjList);
-            visited[nei] = false;
+        stack<int> st;
+        st.push(node);
+        
+        while (!st.empty()) {
+            auto cur = st.top(); st.pop();
+
+            for (auto & nei : adjList[cur]) {
+                if (visited[nei]) continue;
+                ++ans;
+                visited[nei] = true;
+                st.push(nei);
+            }
         }
+        
+        fill(visited.begin(), visited.end(), false);
         return ans;
     }
     
@@ -47,13 +55,12 @@ public:
         vector<vector<int>> adjList(n+1);
         init(root, adjList);
         
-        int maxCount = 0;
+        int maxCount = 0, cnt;
         vector<bool> visited(n+1, false);
-        visited[x] = true;
         for (auto & nei : adjList[x]) {
-            visited[nei] = true;
-            maxCount = max(maxCount, dfs(nei, visited, adjList));
-            visited[nei] = false;
+            visited[x] = visited[nei] = true;
+            cnt = dfs(nei, visited, adjList);
+            maxCount = max(maxCount, cnt);
         }
         
         return maxCount > (n >> 1);
