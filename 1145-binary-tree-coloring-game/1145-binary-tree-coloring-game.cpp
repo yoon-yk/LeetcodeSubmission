@@ -11,57 +11,26 @@
  */
 class Solution {
 public:
-    
-    void init(TreeNode* root, vector<vector<int>> &adjList) {
-        stack<TreeNode*> st;
-        st.push(root);
-        while (!st.empty()) {
-            auto cur = st.top(); st.pop();
-            if (cur->left) {
-                adjList[cur->val].push_back(cur->left->val);
-                adjList[cur->left->val].push_back(cur->val);
-                st.push(cur->left);
-            }
-            if (cur->right) {
-                adjList[cur->val].push_back(cur->right->val);
-                adjList[cur->right->val].push_back(cur->val);
-                st.push(cur->right);
-            }
-        }
-    }
-    
-    int dfs(int node, vector<bool>& visited, vector<vector<int>>& adjList) {
-        
-        int ans = 1;
-        stack<int> st;
-        st.push(node);
-        
-        while (!st.empty()) {
-            auto cur = st.top(); st.pop();
+    int leftCnt, rightCnt;
 
-            for (auto & nei : adjList[cur]) {
-                if (visited[nei]) continue;
-                ++ans;
-                visited[nei] = true;
-                st.push(nei);
-            }
+    int dfs(TreeNode* root, int x) {
+        if (!root) return 0;
+        
+        int left = dfs(root->left, x);
+        int right = dfs(root->right, x);
+        
+        if (root->val == x) {
+            leftCnt = left, rightCnt = right;
         }
         
-        fill(visited.begin(), visited.end(), false);
-        return ans;
+        return left+right+1;
+        
     }
-    
     bool btreeGameWinningMove(TreeNode* root, int n, int x) {
-        vector<vector<int>> adjList(n+1);
-        init(root, adjList);
+        leftCnt = rightCnt = 0;
         
-        int maxCount = 0, cnt;
-        vector<bool> visited(n+1, false);
-        for (auto & nei : adjList[x]) {
-            visited[x] = visited[nei] = true;
-            cnt = dfs(nei, visited, adjList);
-            maxCount = max(maxCount, cnt);
-        }
+        dfs(root, x);
+        int maxCount = max({leftCnt, rightCnt, n-(leftCnt+rightCnt+1)});
         
         return maxCount > (n >> 1);
     }
