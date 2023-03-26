@@ -9,7 +9,7 @@ public:
             lps += nums[i];
             ls[i] = lps;
         }
-        long long lb, ub;
+        long long lb;
         long long left = 0, right = 0;
         vector<long long> ans;
         
