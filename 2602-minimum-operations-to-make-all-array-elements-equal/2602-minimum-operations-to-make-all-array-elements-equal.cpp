@@ -17,10 +17,9 @@ public:
         for (auto & q : queries) {
             q = (long long) q;
             lb = lower_bound(nums.begin(), nums.end(), q) - nums.begin();
-            ub = upper_bound(nums.begin(), nums.end(), q) - nums.begin();
             
             left = (lb > 0) ? (q * lb) - ls[lb-1] : 0;
-            right = (ub < nums.size()) ? rs[ub] - (q * (nums.size()-ub)) : 0;
+            right = (lb < nums.size()) ? rs[lb] - (q * (nums.size()-lb)) : 0;
             
             ans.push_back(left + right);
         }
