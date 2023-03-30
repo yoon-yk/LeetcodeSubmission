@@ -18,11 +18,8 @@ public:
         for (auto & q : queries) {
             q = (long long) q;
             idx = upper_bound(nums.begin(), nums.end(), q) - nums.begin();
-            ret = ((idx) * q);
-            if (idx > 0) ret -= ps[idx-1];
-            if (idx > 0) ret += (s - ps[idx-1]);
-            else ret += s;
-            ret -= ((nums.size()-idx) * q);
+            ret = (2 * idx * q) + s - (nums.size() * q);
+            if (idx > 0) ret -= 2 * ps[idx-1];
             ans.push_back(ret);
         }
         return ans;
