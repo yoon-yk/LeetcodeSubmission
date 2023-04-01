@@ -1,37 +1,49 @@
 class Solution {
 public:
+    vector<int> parent;
+    
+    int find(int x) {
+        if (parent[x] == x) return x;
+        return parent[x] = find(parent[x]);
+    }
+    
+    bool newlyUnited(int x, int y) {
+        int p1 = find(x), p2 = find(y);
+        if (p1 == p2) return false;
+        parent[p1] = p2;
+        return true;
+    }
+    
     int minCostConnectPoints(vector<vector<int>>& points) {
-        int n = points.size();
-        int mstCost = 0, edgesUsed = 0;
-        vector<bool> inMST(n);
-        vector<int> minDist(n, INT_MAX);
-        minDist[0] = 0;
+        parent.resize(points.size());
+        iota(parent.begin(), parent.end(), 0);
         
-        while (edgesUsed < n) {
-            int currMinEdge = INT_MAX;
-            int currNode = -1;
-            
-            for (int node = 0; node<n; ++node) {
-                if (!inMST[node] && currMinEdge > minDist[node]) {
-                    currMinEdge = minDist[node];
-                    currNode = node;
-                }
+        priority_queue<vector<int>, 
+        vector<vector<int>>, greater<vector<int>>> pq;
+        
+        int dist, x, y;
+        for (int i=0; i<points.size(); ++i) {
+            for (int j=0; j<i; ++j) {
+                pq.push({abs(points[i][0]-points[j][0]) +
+                              abs(points[i][1]-points[j][1]),
+                             i, j});
             }
+        }
+        
+        int comp = points.size(), sum = 0;
+        while (!pq.empty()) {
+            auto cur = pq.top(); pq.pop();
+            dist = cur[0], x = cur[1], y = cur[2];
             
-            mstCost += currMinEdge;
-            edgesUsed++;
-            inMST[currNode] = true;
-            
-            for (int nextNode = 0; nextNode<n; ++nextNode) {
-                if (inMST[nextNode]) continue;
-                int weight = abs(points[currNode][0] - points[nextNode][0]) +
-                    abs(points[currNode][1] - points[nextNode][1]);
-                if (minDist[nextNode] > weight) {
-                    minDist[nextNode] = weight;
+            if (newlyUnited(x, y)) {
+                sum += dist;
+                --comp;
+                if (comp == 1) {
+                    return sum;
                 }
             }
         }
         
-        return mstCost;
+        return 0;
     }
 };
