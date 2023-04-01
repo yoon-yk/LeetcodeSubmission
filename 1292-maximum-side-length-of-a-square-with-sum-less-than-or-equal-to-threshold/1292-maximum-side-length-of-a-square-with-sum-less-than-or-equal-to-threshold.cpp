@@ -33,9 +33,15 @@ public:
             }
         }
         int lenLim = min(mat.size(), mat[0].size()), ret;
-        for (int l=lenLim; l>0; --l) {
-            if (findAns(dp, threshold, l)) return l;
+        int lo = 0, hi = lenLim, mi;
+        while (lo < hi) {
+            mi = lo + ((hi-lo+1)>>1);
+            if (findAns(dp, threshold, mi)) {
+                lo = mi;
+            } else {
+                hi = mi-1;
+            }
         }
-        return 0;
+        return lo;
     }
 };
