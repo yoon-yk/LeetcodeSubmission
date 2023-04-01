@@ -1,6 +1,6 @@
 class Solution {
 public:
-    vector<int> parent;
+    vector<int> parent, size;
     
     int find(int x) {
         if (parent[x] == x) return x;
@@ -10,12 +10,20 @@ public:
     bool newlyUnited(int x, int y) {
         int p1 = find(x), p2 = find(y);
         if (p1 == p2) return false;
-        parent[p1] = p2;
+        
+        if (size[p1] > size[p2]) {
+            parent[p2] = p1;
+            size[p1] += size[p2];
+        } else {
+            parent[p1] = p2;
+            size[p2] += size[p1];
+        }
         return true;
     }
     
     int minCostConnectPoints(vector<vector<int>>& points) {
         parent.resize(points.size());
+        size.resize(points.size(), 1);
         iota(parent.begin(), parent.end(), 0);
         
         priority_queue<vector<int>, 
