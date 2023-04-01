@@ -1,5 +1,17 @@
 class Solution {
 public:
+    bool findAns(vector<vector<int>>& dp, int threshold, int l) {
+        int ret;
+        for (int i=l-1; i<dp.size(); ++i) {
+            for (int j=l-1; j<dp[0].size(); ++j) {
+                ret = getSum(dp, i, j, l);
+                if (ret <= threshold) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     int getSum (vector<vector<int>>& dp, int i, int j, int l) {
         int sum = dp[i][j];
         if (i-l>=0) sum -= dp[i-l][j];
@@ -22,14 +34,7 @@ public:
         }
         int lenLim = min(mat.size(), mat[0].size()), ret;
         for (int l=lenLim; l>0; --l) {
-            for (int i=l-1; i<mat.size(); ++i) {
-                for (int j=l-1; j<mat[0].size(); ++j) {
-                    ret = getSum(dp, i, j, l);
-                    if (ret <= threshold) {
-                        return l;
-                    }
-                }
-            }
+            if (findAns(dp, threshold, l)) return l;
         }
         return 0;
     }
