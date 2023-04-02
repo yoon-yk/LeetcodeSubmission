@@ -1,12 +1,10 @@
 class Solution {
 public:
     vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
-        vector<bool> isTerminal(graph.size(), false);
         vector<int> isSafe(graph.size(), -1);
         for (int i=0; i<graph.size(); ++i) {
             auto & elist = graph[i];
             if (elist.empty()) {
-                isTerminal[i] = true;
                 isSafe[i] = true;
             }
         }
