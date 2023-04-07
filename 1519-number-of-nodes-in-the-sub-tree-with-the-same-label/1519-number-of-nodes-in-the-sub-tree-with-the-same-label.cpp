@@ -1,26 +1,28 @@
 class Solution {
 public:
     vector<int> countSubTrees(int n, vector<vector<int>>& edges, string labels) {
-        vector<vector<int>> adj(n);
-        vector<int> nodeCounts(26), ans(n, 0);
+        vector<int> ans(n), freq(26, 0);
+        vector<vector<int>> adjList(n);
+        
         for (auto & e : edges) {
-            adj[e[0]].push_back(e[1]);
-            adj[e[1]].push_back(e[0]);
+            adjList[e[0]].push_back(e[1]);
+            adjList[e[1]].push_back(e[0]);
         }
-        dfs(0, -1, adj, labels, ans, nodeCounts);
+        
+        dfs(0, -1, labels, adjList, freq, ans);
         return ans;
     }
     
-    void dfs(int node, int parent, vector<vector<int>>& adj, string& labels, vector<int>& ans, vector<int>& nodeCounts) {
+    void dfs(int cur, int par, string & labels, vector<vector<int>>& adjList, vector<int>& freq, vector<int>& ans) {
         
-        int prev = nodeCounts[labels[node]-'a'];
-        ++nodeCounts[labels[node]-'a'];
+        int prev = freq[labels[cur]-'a'];
+        ++freq[labels[cur]-'a'];
         
-        for (auto & child : adj[node]) {
-            if (child == parent) 
-                continue;
-            dfs(child, node, adj, labels, ans, nodeCounts);
+        for (auto & nei : adjList[cur]) {
+            if (nei == par) continue;
+            dfs(nei, cur, labels, adjList, freq, ans);
         }
-        ans[node] = nodeCounts[labels[node]-'a'] - prev;
+        ans[cur] = freq[labels[cur]-'a'] - prev;
+        
     }
 };
