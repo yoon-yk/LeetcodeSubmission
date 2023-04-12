@@ -1,40 +1,41 @@
 class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& nums) {
-      sort(nums.begin(), nums.end()); // O(N log N)
-      // int hi = 
-      vector<vector<int>> ans;
-      for (int c=0; c<nums.size(); c++) { // c = 1
+        
+        vector<vector<int>> ans;
+        // 1. Sort - O(N log N)
+        sort(nums.begin(), nums.end());
 
-        if (c > 0 && nums[c] == nums[c-1]) continue;
-        // target = -1 * -1 = 1
-        int target = nums[c] * -1;
+        // 2. find the triplet
+        for (int i=0; i<nums.size(); ++i) { // O(N * N) = O(N^2)
+            if (i > 0 && nums[i] == nums[i-1]) continue;
 
-        twoSum(nums, c+1, nums.size()-1, target, ans); // lo : 2, hi = 5 
+            // 3. set the target
+            int target = nums[i] * -1;
+            int lo = i+1, hi = nums.size()-1;
+            while (lo < hi) { // terminate if the pointers are crossed // O(N)
+                int sum = nums[lo] + nums[hi];
 
-        // ans : [[2, 5, 0], ]
-      } 
-      return ans;
-    }
-    
-    
-    void twoSum(vector<int>& nums, int lo, int hi, int target, vector<vector<int>>& ans) { // O(len of array) = O(N)
-      while (lo < hi) { 
-        if (nums[lo] + nums[hi] == target) { 
+                if (sum == target) {
+                    // insert ans
+                    ans.push_back({nums[i], nums[lo], nums[hi]});
 
-          ans.push_back({nums[lo], nums[hi], -1 * target});
+                    // duplicate 
+                    int tmp = lo;
+                    while (tmp < nums.size() && nums[tmp] == nums[lo]) ++tmp;
+                    lo = tmp;
 
-          int tmp = hi;
-          while (0 <= tmp && nums[hi] == nums[tmp]) --tmp;
-          hi = tmp;
+                } else if (sum < target) {
+                    // lo ptr ++ 
+                    ++lo;
+                } else {
+                    // hi ptr --
+                    --hi;
+                }
 
-
-        } else if (nums[lo] + nums[hi] < target) {
-          ++lo;
-        } else {
-          --hi;
+            }
         }
-      }
-    }
 
+        return ans;
+    }
 };
