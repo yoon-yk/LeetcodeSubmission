@@ -13,12 +13,15 @@ public:
         }
         
         int answer = 0;
+        int left = 0, right = N-1;
         
-        for (int left = 0; left < N; ++left) {
-            int right = prev(upper_bound(nums.begin(), nums.end(), target-nums[left])) - nums.begin();
-            if (right >= left) {
+        while (left <= right) {
+            if (nums[left] + nums[right] <= target) {
                 answer += power[right-left];
                 answer %= MOD;
+                ++left;
+            } else {
+                --right;
             }
         }
         
