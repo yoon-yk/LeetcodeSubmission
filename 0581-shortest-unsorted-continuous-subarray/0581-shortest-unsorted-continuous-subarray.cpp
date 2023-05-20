@@ -13,8 +13,7 @@ public:
 
             if (nums[curMaxIdx] > nums[i]) {
                 end = i;
-            }
-            if (nums[curMaxIdx] < nums[i]) {
+            } else {
                 curMaxIdx = i;
             }
             st.push_back(i);
