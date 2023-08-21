@@ -18,6 +18,6 @@ public:
             if (c != ss[id % sz]) return false;
             ++id;
         }
-        return id % sz == 0;
+        return true;
     }
 };
