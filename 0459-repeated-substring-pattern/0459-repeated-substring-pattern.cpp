@@ -12,10 +12,9 @@ public:
     }
 
     bool possible(string& s, int i) {
-        string ss = s.substr(0,i);
-        int id = 0, sz = ss.size();
+        int id = 0;
         for (auto & c : s) {
-            if (c != ss[id % sz]) return false;
+            if (c != s[id % i]) return false;
             ++id;
         }
         return true;
