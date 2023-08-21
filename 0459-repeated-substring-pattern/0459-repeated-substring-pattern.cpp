@@ -1,0 +1,22 @@
+class Solution {
+public:
+    bool repeatedSubstringPattern(string s) {
+        for (int i=1; i<(s.size()+1/2); ++i) {
+            if (s.size() % i != 0) continue;
+            if (possible(s, s.substr(0,i))) return true;
+        }
+        return false;
+
+        // aaa bbb aaa bbb
+        // aaa bbb / aaa bbb 
+    }
+
+    bool possible(string& s, string ss) {
+        int id = 0, sz = ss.size();
+        for (auto & c : s) {
+            if (c != ss[id % sz]) return false;
+            ++id;
+        }
+        return id % sz == 0;
+    }
+};
