@@ -15,19 +15,13 @@ public:
 
         if (v[0].first > ((s.size()+1)/2)) return "";
 
-        queue<pair<int, int>> Q;
-        for (auto & [cnt, ch] : v) {
-            Q.push({ch, cnt});
-        }
-
         int idx = 0;
-        while (!Q.empty()) {
-          auto [ch, cnt] = Q.front(); Q.pop();
-          while (cnt--) {
-            s[idx] = ch + 'a';
-            idx = (idx + 2);
-            if (idx >= s.size()) idx = 1;
-          }
+        for (auto & [cnt, ch] : v){
+            while (cnt--) {
+                s[idx] = ch + 'a';
+                idx = (idx + 2);
+                if (idx >= s.size()) idx = 1;
+            }
         }
 
         return s;
