@@ -19,7 +19,7 @@ public:
         for (auto & [cnt, ch] : v){
             while (cnt--) {
                 s[idx] = ch + 'a';
-                idx = (idx + 2);
+                idx += 2;
                 if (idx >= s.size()) idx = 1;
             }
         }
