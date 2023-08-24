@@ -1,37 +1,51 @@
 class Solution {
-public:    
-    vector<string> fullJustify(vector<string>& words, int l) {
-        int idx=0, bIdx, eIdx; 
-        int curWordsCnt, gapSize, spaceLeft;
-        vector<string> ans;
-        for (int r=0, len=l; idx < words.size();++r, len=l) {
-            string curRow;
-            bIdx = idx, eIdx = idx;
-            for (; eIdx<words.size() && len-(int)words[eIdx].size()>=0; ++eIdx) {
-                len -= (int)words[eIdx].size() + 1;
-            }
-            ++len; // last word space
+public:
+    vector<string> fullJustify(vector<string>& words, int maxWidth) {
+        vector<string> ret;
+        int i = 0, n = words.size();
 
-            curWordsCnt = eIdx-bIdx;
-            if (curWordsCnt == 1 || eIdx == words.size()) { // left justification
-                for (int i=bIdx; i<eIdx; ++i) {
-                    curRow += words[i];
-                    if (i < eIdx-1) curRow += ' ';
+        while (i < n) {
+            int j = i, lineLen = 0;
+
+            // Decide how many words fit on this line
+            while (j < n && lineLen + words[j].size() + (j - i) <= maxWidth) {
+                lineLen += words[j].size();
+                j++;
+            }
+
+            int spaces = maxWidth - lineLen;
+            int wordsCount = j - i;
+            string cur;
+
+            // left-justify if it's a single word or the last line, 
+            if (wordsCount == 1 || j == n) {
+                for (int k = i; k < j; ++k) {
+                    cur += words[k];
+                    if (k < j - 1) cur += ' ';
+                    else cur += string(spaces, ' ');
+                    spaces--;
                 }
-                curRow += string(len, ' ');
             } else {
-                gapSize = len / (curWordsCnt-1);
-                spaceLeft = len % (curWordsCnt-1);
-                for (int i=bIdx; i<eIdx; ++i) {
-                    curRow += words[i];
-                    if (spaceLeft > 0) curRow += ' ', --spaceLeft;
-                    if (i < eIdx-1) curRow += string(gapSize + 1, ' ');
+                // Calculate spaces between words
+                int sp = spaces / (wordsCount - 1);
+                int extra = spaces % (wordsCount - 1);
+
+                for (int k = i; k < j; ++k) {
+                    cur += words[k];
+                    if (k < j - 1) {
+                        cur += string(sp, ' ');
+                        if (extra > 0) {
+                            cur += ' ';
+                            extra--;
+                        }
+                    }
                 }
             }
-            ans.push_back(curRow);
-            idx = eIdx;
-        }
-        return ans;
-    }
 
+            ret.push_back(cur);
+            i = j;  // Move to the next word
+        }
+
+        return ret;
+    }
 };
