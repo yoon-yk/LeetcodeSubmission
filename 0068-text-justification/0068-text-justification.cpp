@@ -7,8 +7,8 @@ public:
         while (i < n) {
             int j = i, lineLen = 0;
 
-            // Decide how many words fit on this line
-            while (j < n && lineLen + words[j].size() + (j - i) <= maxWidth) {
+            // Calculate how many words fit on this line
+            while (j < n && lineLen + words[j].size() + (j - i) /* inbetween */ <= maxWidth) {
                 lineLen += words[j].size();
                 j++;
             }
@@ -17,7 +17,7 @@ public:
             int wordsCount = j - i;
             string cur;
 
-            // left-justify if it's a single word or the last line, 
+            // 1. Left-justify if it's a single word or the last line
             if (wordsCount == 1 || j == n) {
                 for (int k = i; k < j; ++k) {
                     cur += words[k];
@@ -26,18 +26,22 @@ public:
                     spaces--;
                 }
             } else {
+                // 2. Greedy approach
+
+
                 // Calculate spaces between words
                 int sp = spaces / (wordsCount - 1);
                 int extra = spaces % (wordsCount - 1);
 
                 for (int k = i; k < j; ++k) {
                     cur += words[k];
-                    if (k < j - 1) {
-                        cur += string(sp, ' ');
-                        if (extra > 0) {
-                            cur += ' ';
-                            extra--;
-                        }
+
+                    // distribute spaces
+                    if (k >= j - 1) continue;
+                    cur += string(sp, ' ');
+                    if (extra) {
+                        cur += ' ';
+                        extra--;
                     }
                 }
             }
