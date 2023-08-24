@@ -1,55 +1,55 @@
 class Solution {
 public:
     vector<string> fullJustify(vector<string>& words, int maxWidth) {
-        vector<string> ret;
-        int i = 0, n = words.size();
+        vector<string> result;
+        int start = 0, n = words.size();
 
-        while (i < n) {
-            int j = i, lineLen = 0;
+        while (start < n) {
+            int end = start, lineLength = 0;
 
-            // Calculate how many words fit on this line
-            while (j < n && lineLen + words[j].size() + (j - i) /* inbetween */ <= maxWidth) {
-                lineLen += words[j].size();
-                j++;
+            // max words per line ?
+            while (end < n && lineLength + words[end].size() + (end - start) <= maxWidth) {
+                lineLength += words[end].size();
+                end++;
             }
 
-            int spaces = maxWidth - lineLen;
-            int wordsCount = j - i;
-            string cur;
+            int spacesRequired = maxWidth - lineLength;
+            int numOfWords = end - start;
+            string currentLine;
 
-            // 1. Left-justify if it's a single word or the last line
-            if (wordsCount == 1 || j == n) {
-                for (int k = i; k < j; ++k) {
-                    cur += words[k];
-                    if (k < j - 1) cur += ' ';
-                    else cur += string(spaces, ' ');
-                    spaces--;
+            // Case 1. Single word or last line: left-justify
+            if (numOfWords == 1 || end == n) {
+                for (int i = start; i < end; ++i) {
+                    currentLine += words[i];
+                    if (i < end - 1) {
+                        currentLine += ' ';
+                        spacesRequired--;
+                    }
                 }
+                currentLine += string(spacesRequired, ' '); // Fill remaining space, if any
             } else {
-                // 2. Greedy approach
+                // Case 2. Middle lines: distribute spaces between words
+                int spacesPerGap = spacesRequired / (numOfWords - 1);
+                int extraSpaces = spacesRequired % (numOfWords - 1);
 
+                for (int i = start; i < end; ++i) {
+                    currentLine += words[i];
+                    
+                    if (i == end - 1) continue;  // No spaces after the last word in the line
 
-                // Calculate spaces between words
-                int sp = spaces / (wordsCount - 1);
-                int extra = spaces % (wordsCount - 1);
+                    currentLine += string(spacesPerGap, ' ');
 
-                for (int k = i; k < j; ++k) {
-                    cur += words[k];
-
-                    // distribute spaces
-                    if (k >= j - 1) continue;
-                    cur += string(sp, ' ');
-                    if (extra) {
-                        cur += ' ';
-                        extra--;
+                    if (extraSpaces) {
+                        currentLine += ' ';
+                        extraSpaces--;
                     }
                 }
             }
 
-            ret.push_back(cur);
-            i = j;  // Move to the next word
+            result.push_back(currentLine);
+            start = end; // new line
         }
 
-        return ret;
+        return result;
     }
 };
