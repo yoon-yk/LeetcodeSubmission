@@ -3,6 +3,8 @@ public:
     bool isInterleave(string s1, string s2, string s3) {
                 
         int len1 = s1.size(), len2 = s2.size();
+        if (len1 + len2 != s3.size()) return false;
+        
         vector<vector<int>> dp(len1+1, vector<int>(len2+1, -1));
         return backtrack(s1, s2, s3, 0, 0, dp);
     }
