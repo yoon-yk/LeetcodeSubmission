@@ -7,10 +7,9 @@ public:
 
         int sum = 0;
         for (int i=n-1; i>=0; --i) {
-            missingCustomersAfter[i+1] = sum;
             sum += (c[i] == 'Y');
+            missingCustomersAfter[i] = sum;
         }
-        missingCustomersAfter[0] = sum;
 
         sum = 0;
         for (int i=1; i<=n; ++i) {
