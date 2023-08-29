@@ -5,16 +5,14 @@ public:
         vector<int> missingCustomersAfter(n+1),
                     penaltyFromNoCustomer(n+1);
 
-        int sum = 0;
         for (int i=n-1; i>=0; --i) {
-            sum += (c[i] == 'Y');
-            missingCustomersAfter[i] = sum;
+            missingCustomersAfter[i] = 
+                missingCustomersAfter[i+1] + (c[i] == 'Y');
         }
 
-        sum = 0;
         for (int i=1; i<=n; ++i) {
-            sum += (c[i-1] == 'N');
-            penaltyFromNoCustomer[i] = sum;
+            penaltyFromNoCustomer[i] = 
+                penaltyFromNoCustomer[i-1] + (c[i-1] == 'N');
         }
 
         int idxWminPen = 0;
