@@ -18,14 +18,6 @@ public:
             penaltyFromNoCustomer[i] = sum;
         }
 
-        // for (auto & i : missingCustomersAfter) {
-        //     cout << i << ' ';
-        // }cout << endl;
-
-        // for (auto & i : penaltyFromNoCustomer) {
-        //     cout << i << ' ';
-        // }cout << endl;
-
         int idxWminPen = 0;
         vector<int> pen(n+1);
         for (int i=0; i<=n; ++i) {
