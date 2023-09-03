@@ -1,18 +1,20 @@
 class Solution {
 public:
-    int uniquePaths(int m, int n) {
-        vector<int> row (n);
-        row[0] = 1;
+    int comb(int n, int k) {
+        long long result = 1;
         
-        int left, top;
-        for (int i=0; i<m; ++i) {
-            for (int j=0; j<n; ++j) {
-                if (i==0 && j==0) continue;
-                left = (j>0) ? row[j-1] : 0;
-                top = (i>0) ? row[j] : 0;
-                row[j] = left + top;
-            }
+        // k 만큼 곱하기
+        // 분자 (n, n-1, ..., n-k+1)
+        // 분모 (1, 2, ..., k) 
+        for (int i = 1; i <= k; ++i) {
+            result *= (n - i + 1);
+            result /= i;
         }
-        return row[n-1];
+        
+        return (int)result;
+    }
+
+    int uniquePaths(int m, int n) {
+        return comb(m-1+n-1, min(m-1, n-1));
     }
 };
