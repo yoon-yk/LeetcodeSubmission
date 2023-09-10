@@ -11,7 +11,7 @@ public:
         for (int i = 1; i <= n; ++i) {
             
             ans = ((ans * i) % MOD /* ((2*i)/2) == i */ 
-                    * ((2 * i) - 1) % MOD) % MOD;
+                    * ((2 * i) - 1)) % MOD;
         }
         return (int) ans;
     }
