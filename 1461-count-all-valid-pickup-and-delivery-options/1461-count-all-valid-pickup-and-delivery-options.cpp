@@ -9,9 +9,8 @@ public:
         (2 * n)! / (2^n)
         */
         for (int i = 1; i <= n; ++i) {
-            
             ans = ((ans * i) % MOD /* ((2*i)/2) == i */ 
-                    * ((2 * i) - 1)) % MOD;
+                    * ((i << 1) - 1)) % MOD;
         }
         return (int) ans;
     }
