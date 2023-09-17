@@ -20,7 +20,7 @@ public:
                 
                 if (state == target) return steps;
                 
-                for (const int& nei : graph[node]) {
+                for (const auto & nei : graph[node]) {
                     int newState = state | (1 << nei);
                     
                     if (!visited[nei][newState]) {
