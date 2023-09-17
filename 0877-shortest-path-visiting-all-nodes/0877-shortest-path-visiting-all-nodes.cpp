@@ -16,10 +16,8 @@ public:
             int qSize = Q.size();
             
             while (qSize--) {
-                auto [node, state] = Q.front();
-                Q.pop();
+                auto [node, state] = Q.front(); Q.pop();
                 
-                // If we visited all nodes, return steps
                 if (state == target) return steps;
                 
                 for (const int& nei : graph[node]) {
