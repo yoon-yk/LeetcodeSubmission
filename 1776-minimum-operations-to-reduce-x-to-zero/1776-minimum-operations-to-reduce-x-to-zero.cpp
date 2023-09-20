@@ -17,9 +17,10 @@ public:
         int rightSum = 0;
         for (int i=nums.size()-1; i>=0; --i) {
             rightSum += nums[i];
-            if (leftSums.count(x-rightSum)) {
-                if (leftSums[x-rightSum] >= i) continue;
-                ans = min(ans, (int)nums.size()-i + leftSums[x-rightSum] +  1);
+            int target = x-rightSum;
+            if (leftSums.count(target)) {
+                if (leftSums[target] >= i) continue;
+                ans = min(ans, (int)nums.size()-i + leftSums[target] + 1);
             }
         }
 
