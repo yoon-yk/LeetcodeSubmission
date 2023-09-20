@@ -9,7 +9,7 @@ public:
         int ans = INT_MAX, leftSum = 0;
         for (int i=0; i<nums.size(); ++i) {
             leftSum += nums[i];
-            if (x == leftSum) ans = min(ans, i+1);
+            if (x == leftSum && ans == INT_MAX) ans = i+1;
             if (leftSums.count(leftSum)) continue;
             leftSums[leftSum] = i;
         }
