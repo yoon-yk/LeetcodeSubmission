@@ -1,7 +1,7 @@
 class Solution {
 public:
     char findTheDifference(string s, string t) {
-        unordered_map<int, int> mp;
+        vector<int> mp(26, 0);
         for (int i=0; i<s.size(); ++i) {
             ++mp[s[i]-'a'];
         }
