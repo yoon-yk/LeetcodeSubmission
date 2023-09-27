@@ -27,16 +27,17 @@ public:
 
         for (int i=n-1; i>=0; --i) {
             char & ch = s[i];
+            k %= size;
             if (isdigit(ch)) {
                 // If you encounter a digit, divide the length by the digit and update k using modulo operation. 
                 size /= ch-'0';
             } else {
                 // If you encounter a letter and k equals 0 or length, return the letter.
-                if (k == 0 || k == size)
+                if (k == 0)
                     return string(1, ch);
                 --size;
             }
-                            k %= size;
+                            
 
         }
         return "";
