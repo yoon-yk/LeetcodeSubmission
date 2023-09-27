@@ -21,8 +21,6 @@ public:
 
         /*
         Reverse Traversal:
-
-        Start from the end of the string. 
         */
 
         for (int i=n-1; i>=0; --i) {
