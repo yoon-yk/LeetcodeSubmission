@@ -32,13 +32,11 @@ public:
                 // If you encounter a digit, divide the length by the digit and update k using modulo operation. 
                 size /= ch-'0';
             } else {
-                // If you encounter a letter and k equals 0 or length, return the letter.
+                // If you encounter a letter and k equals 0,return the letter.
                 if (k == 0)
                     return string(1, ch);
                 --size;
             }
-                            
-
         }
         return "";
     }
