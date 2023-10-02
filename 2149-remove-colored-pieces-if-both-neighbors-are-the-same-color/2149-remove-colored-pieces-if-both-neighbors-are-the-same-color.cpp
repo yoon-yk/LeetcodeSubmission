@@ -8,6 +8,6 @@ public:
             if (c[i] == 'A') ++a;
             else ++b;
         }
-        return a-b > 0;
+        return a > b;
     }
 };
