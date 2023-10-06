@@ -3,7 +3,6 @@ public:
     int f(int n, vector<int>& dp) {
 
         if (dp[n] != -1) return dp[n];
-        // cout << n << endl;
 
         int ans = n;
         for (int i=1; i<=(n+1)/2; ++i) {
@@ -13,8 +12,7 @@ public:
     }
 
     int integerBreak(int n) {
-        if (n == 2) return 1;
-        if (n == 3) return 2;
+        if (n < 4) return n-1;
         vector<int> dp(60, -1);
         dp[0] = 0, dp[1] = 1;
         return f(n, dp);
