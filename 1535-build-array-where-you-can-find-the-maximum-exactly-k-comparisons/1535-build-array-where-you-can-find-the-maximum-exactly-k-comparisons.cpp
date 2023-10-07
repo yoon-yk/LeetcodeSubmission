@@ -1,11 +1,9 @@
 class Solution {
 public:
-    int N, M, K;
+    int N, M;
     const int MOD = 1e9 + 7;
     int f(int idx, int localMax, int remaining, vector<vector<vector<int>>> &dp) {
-        if (idx == N) {
-            return !remaining;
-        }
+        if (idx == N) return !remaining;
 
         if (remaining < 0) return 0;
 
@@ -27,7 +25,7 @@ public:
 
     int numOfArrays(int n, int m, int k) {
         vector<vector<vector<int>>> dp(n, vector<vector<int>>(m+1, vector<int>(k+1, -1)));
-        N = n, M = m, K = k;
+        N = n, M = m;
         return f(0, 0, k, dp);
     }
 };
