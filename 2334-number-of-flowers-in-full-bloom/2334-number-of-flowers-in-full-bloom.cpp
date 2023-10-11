@@ -9,25 +9,24 @@ public:
         priority_queue<int, vector<int>, greater<int>> minHeap;
         
         int flowerIndex = 0;
-        for (int person : pp) {
-            // Add flowers that are in bloom for the current person to min heap
-            while (flowerIndex < flowers.size() && flowers[flowerIndex][0] <= person) {
+        for (auto & p : pp) {
+            // Add flowers that are in bloom for the current p to min heap
+            while (flowerIndex < flowers.size() && flowers[flowerIndex][0] <= p) {
                 minHeap.push(flowers[flowerIndex][1]);
                 ++flowerIndex;
             }
             
-            // Remove flowers that have withered away for the current person
-            while (!minHeap.empty() && minHeap.top() < person) {
+            // Remove flowers that have withered away for the current p
+            while (!minHeap.empty() && minHeap.top() < p) {
                 minHeap.pop();
             }
             
-            bloomCount[person] = minHeap.size();
+            bloomCount[p] = minHeap.size();
         }
         
-        // Reconstruct the answer based on the original order of 'people'
         vector<int> ans;
-        for (int person : people) {
-            ans.push_back(bloomCount[person]);
+        for (auto & p : people) {
+            ans.push_back(bloomCount[p]);
         }
         
         return ans;
