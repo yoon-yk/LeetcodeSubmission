@@ -1,32 +1,20 @@
 class Solution {
 public:
-    int checkLength(string &s, int l, int r) {
-        // odd len
-        int n = s.size(), ans;
-        while (0 <= l && r < n) {
-            if (s[l] == s[r]) --l, ++r;
-            else break;
-        }
-        ans = (r-1)-(l+1)+1;
-        return ans;
-    }
-    
     string longestPalindrome(string s) {
-        int n = s.size(), len = 0, odd, even, startIdx;
-        for (int i=0; i<n; ++i) {
-            odd = checkLength(s, i-1, i+1); // odd
-            if (odd > len) {
-                len = odd;
-                startIdx = i-(odd>>1);
-
-            }
-            even = checkLength(s, i, i+1); // even
-            if (even > len) {
-                len = even;
-                startIdx = i-(even>>1)+1;
+        int n = s.size(), end, ansStart, ansLen;
+        vector<vector<bool>> dp(n, vector<bool>(n, false));
+        for (int len = 1; len<=n; ++len) {
+            for (int start=0; start+len-1<n; ++start) {
+                end = start+len-1;
+                if (len == 1) dp[start][end] = true;
+                else if (len == 2) dp[start][end] = (s[start] == s[end]);
+                else dp[start][end] = (dp[start+1][end-1] && s[start]==s[end]);
+                
+                if (dp[start][end]) {
+                    ansStart = start, ansLen = end-start+1;
+                }
             }
         }
-        return s.substr(startIdx, len);
+        return s.substr(ansStart, ansLen);
     }
-    
 };
