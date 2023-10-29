@@ -1,6 +1,6 @@
 class Solution {
 public:
-    int poorPigs(int buckets, int minutesToDie, int minutesToTest) {
-        return ceil(log(buckets)/log(floor(minutesToTest/minutesToDie)+1)); // division Zero 
+    int poorPigs(int buckets, int timeDetect, int timeTest) {
+        return ceil(log2(buckets)/log2(int(timeTest/timeDetect)+1));
     }
 };
