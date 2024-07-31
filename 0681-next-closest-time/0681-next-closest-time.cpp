@@ -1,43 +1,40 @@
 class Solution {
 public:
-    bool isValid(string& time) {
+    bool isValid(const string& time) const {
         int hour = stoi(time.substr(0, 2));
         int min = stoi(time.substr(2, 2));
-
-        return 0 <= hour && hour < 24 && 0 <= min && min < 60;
+        return hour >= 0 && hour < 24 && min >= 0 && min < 60;
     }
 
-    void produce(string& digits, string& curTime, string& target, string& ans) {
-
+    void produce(const string& digits, string& curTime, const string& target, string& ans) {
         if (!ans.empty()) return;
 
         if (curTime.size() == 4) {
-            // cout << curTime << endl;
-
-            if (!isValid(curTime)) return;
-            if (stoi(target) < stoi(curTime)) {
-                // cout << target << " " << curTime << endl;
+            if (isValid(curTime) && (stoi(target) < stoi(curTime))) {
                 ans = curTime;
-                return;
             }
             return;
         }
 
-        for (int i=0; i<digits.size(); ++i) {
-            if (i > 0 && digits[i-1] == digits[i]) continue;
-            // cout << curTime << "**" << digits[i] << endl;
-            curTime.push_back(digits[i]);
+        for (char digit : digits) {
+            curTime.push_back(digit);
             produce(digits, curTime, target, ans);
             curTime.pop_back();
         }
-        return;
+        // for (int i=0; i<digits.size(); ++i) {
+        //     if (i > 0 && digits[i-1] == digits[i]) continue;
+        //     // cout << curTime << "**" << digits[i] << endl;
+        //     curTime.push_back(digits[i]);
+        //     produce(digits, curTime, target, ans);
+        //     curTime.pop_back();
+        // }
     }
 
-    inline string getForm(string ans) {
+    string getForm(const string& ans) const {
         return ans.substr(0, 2) + ":" + ans.substr(2, 2);
     }
 
-    inline string getSmallest(char &a) {
+    string getSmallest(char& a) const {
         return getForm(string(4, a));
     }
 
@@ -46,8 +43,7 @@ public:
         time = digits;
         sort(digits.begin(), digits.end());
 
-        string curTime, ans = "";
-        // cout << ans.empty() << endl;
+        string curTime, ans;
         produce(digits, curTime, time, ans);
 
         if (ans.empty()) return getSmallest(digits[0]);
