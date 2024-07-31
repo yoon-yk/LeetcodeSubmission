@@ -16,18 +16,13 @@ public:
             return;
         }
 
-        for (char digit : digits) {
-            curTime.push_back(digit);
+        for (int i=0; i<digits.size(); ++i) {
+            if (i > 0 && digits[i-1] == digits[i]) continue;
+            // cout << curTime << "**" << digits[i] << endl;
+            curTime.push_back(digits[i]);
             produce(digits, curTime, target, ans);
             curTime.pop_back();
         }
-        // for (int i=0; i<digits.size(); ++i) {
-        //     if (i > 0 && digits[i-1] == digits[i]) continue;
-        //     // cout << curTime << "**" << digits[i] << endl;
-        //     curTime.push_back(digits[i]);
-        //     produce(digits, curTime, target, ans);
-        //     curTime.pop_back();
-        // }
     }
 
     string getForm(const string& ans) const {
