@@ -1,49 +1,45 @@
 class Solution {
 public:
-    bool isValidTime(const std::string& time) const {
-        int hour = std::stoi(time.substr(0, 2));
-        int minute = std::stoi(time.substr(2, 2));
-        return hour >= 0 && hour < 24 && minute >= 0 && minute < 60;
+    bool isValidTime(const string& time) const {
+        int hour = stoi(time.substr(0, 2));
+        int min = stoi(time.substr(2, 2));
+        return hour >= 0 && hour < 24 && min >= 0 && min < 60;
     }
 
-    std::string getNextTime(const std::string& digits, const std::string& currentTime) {
-        std::string nextTime = currentTime;
-        while (true) {
-            incrementTime(nextTime);
-            if (isValidTime(nextTime) && isTimeComposedOfDigits(nextTime, digits)) {
-                return nextTime;
+    void generateNextTime(const string& digits, string& curTime, const string& targetTime, string& nextTime) {
+        if (curTime.size() == 4) {
+            if (isValidTime(curTime) && curTime > targetTime && (nextTime.empty() || curTime < nextTime)) {
+                nextTime = curTime;
             }
+            return;
+        }
+
+        for (char digit : digits) {
+            curTime.push_back(digit);
+            generateNextTime(digits, curTime, targetTime, nextTime);
+            curTime.pop_back();
         }
     }
 
-    void incrementTime(std::string& time) {
-        int hour = std::stoi(time.substr(0, 2));
-        int minute = std::stoi(time.substr(2, 2));
-        minute++;
-        if (minute == 60) {
-            minute = 0;
-            hour++;
-            if (hour == 24) {
-                hour = 0;
-            }
-        }
-        time = (hour < 10 ? "0" : "") + std::to_string(hour) + (minute < 10 ? "0" : "") + std::to_string(minute);
+    string formatTime(const string& time) const {
+        return time.substr(0, 2) + ":" + time.substr(2, 2);
     }
 
-    bool isTimeComposedOfDigits(const std::string& time, const std::string& digits) const {
-        for (char ch : time) {
-            if (digits.find(ch) == std::string::npos) {
-                return false;
-            }
-        }
-        return true;
-    }
+    string nextClosestTime(string time) {
+        string digits = time.substr(0, 2) + time.substr(3, 2);
+        string sortedDigits = digits;
+        sort(sortedDigits.begin(), sortedDigits.end());
 
-    std::string nextClosestTime(std::string time) {
-        std::string digits = time.substr(0, 2) + time.substr(3, 2);
-        std::sort(digits.begin(), digits.end());
-        std::string currentTime = time.substr(0, 2) + time.substr(3, 2);
-        std::string nextTime = getNextTime(digits, currentTime);
-        return nextTime.substr(0, 2) + ":" + nextTime.substr(2, 2);
+        string targetTime = digits;
+        string nextTime;
+
+        string curTime;
+        generateNextTime(sortedDigits, curTime, targetTime, nextTime);
+
+        if (nextTime.empty()) {
+            return string(1, sortedDigits[0]) + string(1, sortedDigits[0]) + ":" + string(1, sortedDigits[0]) + string(1, sortedDigits[0]);
+        }
+
+        return formatTime(nextTime);
     }
 };
