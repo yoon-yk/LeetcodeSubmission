@@ -19,4 +19,16 @@ Collection of LeetCode questions to ace the coding interview! - Created using [L
 |  |
 | ------- |
 | [0681-next-closest-time](https://github.com/yoon-yk/LeetcodeSubmission/tree/master/0681-next-closest-time) |
+## Array
+|  |
+| ------- |
+| [0158-read-n-characters-given-read4-ii-call-multiple-times](https://github.com/yoon-yk/LeetcodeSubmission/tree/master/0158-read-n-characters-given-read4-ii-call-multiple-times) |
+## Simulation
+|  |
+| ------- |
+| [0158-read-n-characters-given-read4-ii-call-multiple-times](https://github.com/yoon-yk/LeetcodeSubmission/tree/master/0158-read-n-characters-given-read4-ii-call-multiple-times) |
+## Interactive
+|  |
+| ------- |
+| [0158-read-n-characters-given-read4-ii-call-multiple-times](https://github.com/yoon-yk/LeetcodeSubmission/tree/master/0158-read-n-characters-given-read4-ii-call-multiple-times) |
 <!---LeetCode Topics End-->
